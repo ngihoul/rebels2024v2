@@ -1,0 +1,73 @@
+.menu {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: -100%;
+  width: 80%;
+  height: 100vh;
+  padding-top: 3.5rem;
+  background: $color-primary;
+  color: $color-background;
+  z-index: 9999;
+  transition: left 0.3s ease-in-out;
+  overflow-y: auto;
+}
+
+.menu-open {
+  left: 0;
+}
+
+.menu-closed {
+  left: -100%;
+}
+
+.close-icon {
+  background: none;
+  border: none;
+  position: absolute;
+  top: -0.8rem;
+  left: 0.3rem;
+  z-index: 1;
+  color: $color-background;
+  font-size: 1.5rem;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+ul .menu-item {
+  font-size: 1rem;
+  padding: 1rem 2rem;
+  text-transform: capitalize;
+  border-radius: 0.5rem;
+  transition: background-color 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+ul li:hover {
+  background-color: $color-primary-hover;
+  transition: background-color 0.3s ease-in-out;
+}
+
+@media screen and (min-width: $min-desktop) {
+  .menu {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    // width: 100%;
+    // width: 15vw;
+    min-width: 220px;
+    max-width: 220px;
+    box-shadow: none;
+    background-color: $color-primary;
+    padding: 0.8rem;
+    overflow-y: auto;
+  }
+
+  .close-icon {
+    display: none;
+  }
+}

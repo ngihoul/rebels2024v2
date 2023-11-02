@@ -1,0 +1,31 @@
+@media screen and (min-width: 992px) {
+  .dashboard {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+
+  .main-content {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+  }
+
+  .main-header {
+    position: sticky;
+    top: 0;
+    z-index: 9999;
+    background-color: $color-background;
+    height: 60px;
+    width: 100%;
+  }
+
+  app-menu {
+    width: 20%;
+    max-width: 220px;
+  }
+
+  router-outlet {
+    display: none;
+  }
+}

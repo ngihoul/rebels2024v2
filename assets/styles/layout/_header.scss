@@ -1,0 +1,53 @@
+header {
+  position: sticky;
+  top: 0;
+  background-color: $color-background;
+  padding: 0.8rem 1rem;
+  width: 100vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+}
+
+.logo {
+  max-height: 32px;
+}
+
+.profile-icon-desktop {
+  display: none;
+}
+
+@media screen and (min-width: $min-desktop) {
+  .menu-icon,
+  .profile-icon-mobile {
+    display: none;
+  }
+
+  .profile-icon-desktop {
+    display: flex;
+    align-items: center;
+    padding-right: 0.8rem;
+
+    .icon-profile {
+      padding-right: 0.4rem;
+    }
+
+    .profile-user-data {
+      display: flex;
+      height: 100%;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .user-name {
+      font-size: 0.9rem;
+      padding-bottom: 0.1rem;
+    }
+
+    .deconnect-link {
+      font-size: 0.7rem;
+    }
+  }
+}

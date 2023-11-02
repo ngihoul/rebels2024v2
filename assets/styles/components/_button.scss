@@ -1,0 +1,28 @@
+button {
+  border: 3px solid;
+  border-radius: $border-radius;
+  padding: 0.8rem;
+  margin: 0.8rem 0.8rem 0.8rem 0;
+  text-transform: uppercase;
+
+  &.cta {
+    border-color: $color-secondary;
+    color: $color-secondary;
+  }
+}
+
+@media screen and (min-width: $min-desktop) {
+  button {
+    cursor: pointer;
+
+    &.cta {
+      transition: background-color 0.3s ease-in, color 0.3s ease-in;
+
+      &:hover {
+        background-color: $color-secondary;
+        color: $color-background;
+        animation: background-color 2s ease-in;
+      }
+    }
+  }
+}

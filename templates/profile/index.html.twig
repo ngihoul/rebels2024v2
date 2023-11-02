@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ProfileController!{% endblock %}
+
+{% block body %}
+<div class="container profile-container">
+  <div class="heading-container">
+    <h1>Mon profil</h1>
+    <a routerLink="/edit-profile"
+      ><fa-icon class="icon edit-icon" [icon]="faPenToSquare"></fa-icon
+    ></a>
+  </div>
+  <div class="profile-important-info">
+    <div class="profile-picture">
+      <div class="profile-picture-container">
+        <img
+          class="profile-member-picture"
+          src="https://as1.ftcdn.net/v2/jpg/00/57/04/58/1000_F_57045887_HHJml6DJVxNBMqMeDqVJ0ZQDnotp5rGD.jpg"
+          alt="Profile picture of XXXXXX"
+        />
+        <!-- <img class="profile-flag" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Flag_of_Belgium_%28civil%29.svg/800px-Flag_of_Belgium_%28civil%29.svg.png" alt="Belgium flag" /> -->
+      </div>
+    </div>
+    <section class="profile-member-info">
+      <div class="profile-member-name">
+        <p class="profile-member-lastname">Gihoul</p>
+        <p class="profile-member-firstname">Nicolas</p>
+      </div>
+      <div class="birthdate">
+        <p>23/12/1988</p>
+      </div>
+      <div class="profile-member-numbers">
+        <p>BEL-00001969</p>
+      </div>
+    </section>
+  </div>
+  <div class="flex-container">
+    <section class="profile-member-contact">
+      <h2>Données de contact</h2>
+      <p>Mail: ngihoul@hotmail.com</p>
+      <p>Telephone fixe: +32 4 252 06 78</p>
+      <p>Mobile: +32 491 03 44 77</p>
+    </section>
+    <section class="profile-member-address">
+      <h2>Adresse</h2>
+      <p>Rue d'Ougrée 21</p>
+      <p>4100 Boncelles</p>
+      <p>Belgique</p>
+    </section>
+    <section class="profile-member-agreements">
+      <h2>Accords</h2>
+      <p>
+        Newsletter LFBBS:
+      </p>
+      <p>
+        ROI:
+      </p>
+      <p>
+        Politique de confidentialité:
+      </p>
+    </section>
+  </div>
+  <a href="{{ path('app_logout') }}">Déconnexion</a>
+</div>
+{% endblock %}
