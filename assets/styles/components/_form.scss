@@ -14,7 +14,10 @@ form {
   }
 
   input[type="text"],
-  input[type="password"] {
+  input[type="password"],
+  input[type="email"],
+  input[type="tel"],
+  textarea {
     width: 100%;
     padding: 0.8rem;
     margin: 0.8rem 0 1.2rem;
@@ -27,5 +30,9 @@ form {
       border-color: $color-primary-hover;
       outline: none;
     }
+  }
+
+  input[type="checkbox"] {
+    margin-right: 10px;
   }
 }

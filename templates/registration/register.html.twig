@@ -1,23 +1,99 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}Inscription{% endblock %}
 
 {% block body %}
-    {% for flash_error in app.flashes('verify_email_error') %}
-        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-    {% endfor %}
-
-    <h1>Register</h1>
-
-    {{ form_errors(registrationForm) }}
+    <h1>Inscription</h1>
 
     {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+    
+    {{ form_errors(registrationForm) }}
 
-        <button type="submit" class="btn">Register</button>
+    <div class="form-group">
+        {{ form_row(registrationForm.firstname, {'label': 'Prénom'}) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_row(registrationForm.lastname, {'label': 'Nom de famille'}) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_row(registrationForm.nationality, {'label': 'Nationalité'}) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_row(registrationForm.license_number, {'label': 'Numéro de licence', 'required': false}) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_row(registrationForm.jersey_number, {'label': 'Numéro de maillot', 'required': false}) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_row(registrationForm.date_of_birth, {
+            'widget': 'single_text',
+            'format': 'yyyy-MM-dd',
+            'attr': {
+                'class': 'datepicker',
+            },
+        }) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_row(registrationForm.gender, {'label': 'Genre'}) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_row(registrationForm.address_street, {'label': 'Adresse'}) }}
+    </div>
+
+    <div class "form-group">
+        {{ form_row(registrationForm.address_number, {'label': 'Numéro de rue'}) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_row(registrationForm.zipcode, {'label': 'Code postal'}) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_row(registrationForm.locality, {'label': 'Localité'}) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_row(registrationForm.country, {'label': 'Pays'}) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_row(registrationForm.phone_number, {'label': 'Numéro de téléphone', 'required': false}) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_row(registrationForm.mobile_number, {'label': 'Numéro de portable', 'required': false}) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_row(registrationForm.email, {'label': 'Adresse e-mail'}) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_row(registrationForm.password.first, {'label': 'Mot de passe'}) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_row(registrationForm.password.second, {'label': 'Répéter le mot de passe'}) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_row(registrationForm.profile_picture, {'label': 'Photo de profil'}) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_row(registrationForm.newsletter_lfbbs, {'label': 'Souscrire à la newsletter LFBBS', 'required': false}) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_row(registrationForm.internal_rules, {'label': 'Règles internes', 'required': false}) }}
+    </div>
+
     {{ form_end(registrationForm) }}
 {% endblock %}

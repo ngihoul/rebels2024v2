@@ -18,11 +18,50 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
+    #[ORM\Column(type: 'string', length: 50)]
+    private ?string $firstname = null;
+
+    #[ORM\Column(length: 50)]
+    private ?string $lastname = null;
+
+    #[ORM\Column(length: 50)]
+    private ?string $nationality = null;
+
+    #[ORM\Column(length: 12, nullable: true)] // Set the maximum length for the license_number
+    private ?string $license_number = null;
+
+    #[ORM\Column(type: 'smallint', nullable: true)] // Use smallint for jersey_number
+    private ?int $jersey_number = null;
+
+    #[ORM\Column(type: 'datetime')]
+    private \DateTimeInterface $date_of_birth;
+
+    #[ORM\Column(length: 1)]
+    private ?string $gender = null;
+
+    #[ORM\Column(length: 120)]
+    private ?string $address_street = null;
+
+    #[ORM\Column(length: 20)]
+    private ?string $address_number = null;
+
+    #[ORM\Column(length: 6)]
+    private ?string $zipcode = null;
+
+    #[ORM\Column(length: 50)]
+    private ?string $locality = null;
+
+    #[ORM\Column(length: 50)]
+    private ?string $country = null;
+
+    #[ORM\Column(length: 20, nullable: true)]
+    private ?string $phone_number = null;
+
+    #[ORM\Column(length: 20, nullable: true)]
+    private ?string $mobile_number = null;
+
     #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
-
-    #[ORM\Column]
-    private array $roles = [];
 
     /**
      * @var string The hashed password
@@ -30,12 +69,198 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
+    #[ORM\Column]
+    private array $roles = [];
+
+    #[ORM\Column(nullable: true)]
+    private ?string $profile_picture = null;
+
+    #[ORM\Column(type: 'boolean')]
+    private bool $newsletter_lfbbs = false;
+
+    #[ORM\Column(type: 'boolean')]
+    private bool $internal_rules = false;
+
+    #[ORM\Column(type: 'boolean')]
+    private bool $is_banned = false;
+
+    #[ORM\Column(type: 'boolean')]
+    private bool $is_archived = false;
+
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getFirstname(): ?string
+    {
+        return $this->firstname;
+    }
+
+    public function setFirstname(string $firstname): static
+    {
+        $this->firstname = $firstname;
+
+        return $this;
+    }
+
+    public function getLastname(): ?string
+    {
+        return $this->lastname;
+    }
+
+    public function setLastname(string $lastname): static
+    {
+        $this->lastname = $lastname;
+
+        return $this;
+    }
+
+    public function getNationality(): ?string
+    {
+        return $this->nationality;
+    }
+
+    public function setNationality(string $nationality): static
+    {
+        $this->nationality = $nationality;
+
+        return $this;
+    }
+
+    public function getLicenseNumber(): ?string
+    {
+        return $this->license_number;
+    }
+
+    public function setLicenseNumber(?string $license_number): static
+    {
+        $this->license_number = $license_number;
+
+        return $this;
+    }
+
+    public function getJerseyNumber(): ?int
+    {
+        return $this->jersey_number;
+    }
+
+    public function setJerseyNumber(?int $jersey_number): static
+    {
+        $this->jersey_number = $jersey_number;
+
+        return $this;
+    }
+
+    public function getDateOfBirth(): \DateTimeInterface
+    {
+        return $this->date_of_birth;
+    }
+
+    public function setDateOfBirth(\DateTimeInterface $date_of_birth): static
+    {
+        $this->date_of_birth = $date_of_birth;
+
+        return $this;
+    }
+
+    public function getGender(): ?string
+    {
+        return $this->gender;
+    }
+
+    public function setGender(string $gender): static
+    {
+        $this->gender = $gender;
+
+        return $this;
+    }
+
+    public function getAddressStreet(): ?string
+    {
+        return $this->address_street;
+    }
+
+    public function setAddressStreet(string $address_street): static
+    {
+        $this->address_street = $address_street;
+
+        return $this;
+    }
+
+    public function getAddressNumber(): ?string
+    {
+        return $this->address_number;
+    }
+
+    public function setAddressNumber(string $address_number): static
+    {
+        $this->address_number = $address_number;
+
+        return $this;
+    }
+
+    public function getZipcode(): ?string
+    {
+        return $this->zipcode;
+    }
+
+    public function setZipcode(string $zipcode): static
+    {
+        $this->zipcode = $zipcode;
+
+        return $this;
+    }
+
+    public function getLocality(): ?string
+    {
+        return $this->locality;
+    }
+
+    public function setLocality(string $locality): static
+    {
+        $this->locality = $locality;
+
+        return $this;
+    }
+
+    public function getCountry(): ?string
+    {
+        return $this->country;
+    }
+
+    public function setCountry(string $country): static
+    {
+        $this->country = $country;
+
+        return $this;
+    }
+
+    public function getPhoneNumber(): ?string
+    {
+        return $this->phone_number;
+    }
+
+    public function setPhoneNumber(?string $phone_number): static
+    {
+        $this->phone_number = $phone_number;
+
+        return $this;
+    }
+
+    public function getMobileNumber(): ?string
+    {
+        return $this->mobile_number;
+    }
+
+    public function setMobileNumber(?string $mobile_number): static
+    {
+        $this->mobile_number = $mobile_number;
+
+        return $this;
     }
 
     public function getEmail(): ?string
@@ -101,6 +326,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function getProfilePicture(): ?string
+    {
+        return $this->profile_picture;
+    }
+
+    public function setProfilePicture(string $profile_picture): static
+    {
+        $this->profile_picture = $profile_picture;
+
+        return $this;
+    }
+
+    public function isNewsletterLfbbs(): bool
+    {
+        return $this->newsletter_lfbbs;
+    }
+
+    public function setNewsletterLfbbs(bool $newsletter_lfbbs): static
+    {
+        $this->newsletter_lfbbs = $newsletter_lfbbs;
+
+        return $this;
+    }
+
+    public function isInternalRules(): bool
+    {
+        return $this->internal_rules;
+    }
+
+    public function setInternalRules(bool $internal_rules): static
+    {
+        $this->internal_rules = $internal_rules;
+
+        return $this;
+    }
+
+    public function isBanned(): bool
+    {
+        return $this->is_banned;
+    }
+
+    public function setIsBanned(bool $is_banned): static
+    {
+        $this->is_banned = $is_banned;
+
+        return $this;
+    }
+
+    public function isArchived(): bool
+    {
+        return $this->is_archived;
+    }
+
+    public function setIsArchived(bool $is_archived): static
+    {
+        $this->is_archived = $is_archived;
+
+        return $this;
     }
 
     public function isVerified(): bool
