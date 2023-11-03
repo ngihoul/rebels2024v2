@@ -11,14 +11,18 @@
         <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
 
-    <form action="{{ path('app_login') }}" method="post">
+    {% for flash in app.flashes('success') %}
+        <div class="alert alert-success">{{ flash }}</div>
+    {% endfor %}
+
+    <form class="login-form" action="{{ path('app_login') }}" method="post">
         <label for="username">Email</label>
         <input type="text" id="username" name="_username" value="{{ last_username }}">
 
         <label for="password">Mot de passe</label>
         <input class="login-password" type="password" id="password" name="_password">
 
-        <p class="forgot-password"><a href="">Mot de passe oublié ?</a> </p>
+        <p class="forgot-password"><a href="{{ path("app_forgot_password_request") }}">Mot de passe oublié ?</a> </p>
         {# If you want to control the URL the user is redirected to on success
         <input type="hidden" name="_target_path" value="/account"> #}
 

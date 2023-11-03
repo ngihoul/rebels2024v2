@@ -2,8 +2,10 @@ button {
   border: 3px solid;
   border-radius: $border-radius;
   padding: 0.8rem;
-  margin: 0.8rem 0.8rem 0.8rem 0;
+  margin: 0.8rem;
   text-transform: uppercase;
+  color: $color-primary;
+  border-color: $color-primary;
 
   &.cta {
     border-color: $color-secondary;
