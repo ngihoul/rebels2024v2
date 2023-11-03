@@ -66,6 +66,8 @@ li {
 
 @media screen and (min-width: $min-desktop) {
   .container {
-    width: 100%;
+    width: calc(100vw - 220px);
+    margin-left: 220px;
+    overflow: hidden;
   }
 }
