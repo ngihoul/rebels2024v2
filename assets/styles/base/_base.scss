@@ -66,6 +66,6 @@ li {
 
 @media screen and (min-width: $min-desktop) {
   .container {
-    width: calc(100vw - 220px);
+    width: 100%;
   }
 }

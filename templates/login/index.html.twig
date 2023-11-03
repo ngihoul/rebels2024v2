@@ -4,6 +4,9 @@
 
 {% block body %}
 <div class="container container-login">
+    
+    <img class="login-logo" src="{{ asset('images/logo.png') }}" alt="Symfony!"/>
+
     {% if error %}
         <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
@@ -12,13 +15,16 @@
         <label for="username">Email</label>
         <input type="text" id="username" name="_username" value="{{ last_username }}">
 
-        <label for="password">Password</label>
-        <input type="password" id="password" name="_password">
+        <label for="password">Mot de passe</label>
+        <input class="login-password" type="password" id="password" name="_password">
 
+        <p class="forgot-password"><a href="">Mot de passe oublié ?</a> </p>
         {# If you want to control the URL the user is redirected to on success
         <input type="hidden" name="_target_path" value="/account"> #}
 
-        <button type="submit">Se connecter</button>
+        <button class="btn login" type="submit">Se connecter</button>
     </form>
+
+    <p class="new-member">Pas encore membre ? <a class="link-new-member" href="{{ path('app_register') }}">S'inscrire !</a></p>
 </div>
 {% endblock %}

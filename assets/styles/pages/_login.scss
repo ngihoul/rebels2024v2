@@ -1,0 +1,46 @@
+.container.container-login {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.login-logo {
+  max-width: 152px;
+}
+
+form {
+  padding: 2.5rem;
+}
+
+input[type="password"].login-password {
+  margin-bottom: 0.3rem;
+}
+
+p.forgot-password {
+  margin-bottom: 1.2rem;
+  font-size: 0.8rem;
+  color: lighten(black, 10);
+}
+
+.btn.login {
+  width: 100%;
+  margin: 0;
+  color: $color-primary;
+}
+
+.new-member {
+  margin: 2.5rem;
+}
+
+a.link-new-member {
+  color: $color-primary;
+}
+
+@media screen and (min-width: $min-desktop) {
+  form {
+    width: 30%;
+    max-width: 30%;
+  }
+}
