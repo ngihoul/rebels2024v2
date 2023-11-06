@@ -6,9 +6,6 @@ use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -18,13 +15,11 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Choice;
-use Symfony\Component\Validator\Constraints\Date;
 use Symfony\Component\Validator\Constraints\Type;
 use Symfony\Component\Validator\Constraints\File;
 
-class RegistrationFormType extends AbstractType
+class UserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -155,35 +150,22 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('email', EmailType::class, [
-                'constraints' => [
-                    new NotBlank(['message' => 'Veuillez entrer votre adresse e-mail.']),
-                    new Email(['message' => 'Adresse e-mail invalide.']),
-                ],
-            ])
-            ->add('password', RepeatedType::class, [
-                'type' => PasswordType::class,
-                'invalid_message' => 'Les champs de mot de passe doivent correspondre.',
-                'first_options' => ['label' => 'Mot de passe'],
-                'second_options' => ['label' => 'Répéter le mot de passe'],
-                'required' => true,
-                'constraints' => [
-                    new NotBlank(['message' => 'Veuillez entrer un mot de passe.']),
-                    new Length([
-                        'min' => 6,
-                        'minMessage' => 'Votre mot de passe doit contenir au moins {{ limit }} caractères.',
-                    ]),
-                ],
-            ])
             ->add('profile_picture', FileType::class, [
-                'required' => true,
+                'label' => 'Photo de profil',
+                'multiple' => false,
+                'mapped' => false,
+                'required' => false,
                 'constraints' => [
                     new File([
                         'maxSize' => '1024k',
-                        'maxSizeMessage' => 'Le fichier est trop volumineux. La taille maximale autorisée est de {{ limit }}.',
-                        'mimeTypes' => ['image/*'],
-                        'mimeTypesMessage' => 'Veuillez télécharger un fichier image valide.',
-                    ]),
+                        'maxSizeMessage' => 'La taille de l\'avatar ne doit pas dépasser 1Mo',
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/png',
+                            'image/gif',
+                        ],
+                        'mimeTypesMessage' => 'Le format de l\'avatar  doit être jpg, jpeg, gif ou png',
+                    ])
                 ],
             ])
             ->add('newsletter_lfbbs', CheckboxType::class, [
@@ -192,7 +174,7 @@ class RegistrationFormType extends AbstractType
             ->add('internal_rules', CheckboxType::class, [
                 'required' => false,
             ])
-            ->add('Inscription', SubmitType::class);
+            ->add('submit', SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver)

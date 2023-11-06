@@ -6,9 +6,7 @@
 <div class="container profile-container">
   <div class="heading-container">
     <h1>Mon profil</h1>
-    <a routerLink="/edit-profile"
-      ><fa-icon class="icon edit-icon" [icon]="faPenToSquare"></fa-icon
-    ></a>
+    <a href=" {{ path('app_edit_profile') }}"><i class="fa-regular fa-pen-to-square icon icon-edit"></i></a>
   </div>
   <div class="profile-important-info">
     <div class="profile-picture">
@@ -23,43 +21,53 @@
     </div>
     <section class="profile-member-info">
       <div class="profile-member-name">
-        <p class="profile-member-lastname">Gihoul</p>
-        <p class="profile-member-firstname">Nicolas</p>
+        <p class="profile-member-lastname">{{ user.lastname }}</p>
+        <p class="profile-member-firstname">{{ user.firstname }}</p>
       </div>
       <div class="birthdate">
-        <p>23/12/1988</p>
+        <p>{{ user.dateOfBirth|date("m/d/Y") }}</p>
       </div>
       <div class="profile-member-numbers">
-        <p>BEL-00001969</p>
+        <p>{{ user.licenseNumber }}</p>
       </div>
     </section>
   </div>
   <div class="flex-container">
     <section class="profile-member-contact">
       <h2>Données de contact</h2>
-      <p>Mail: ngihoul@hotmail.com</p>
-      <p>Telephone fixe: +32 4 252 06 78</p>
-      <p>Mobile: +32 491 03 44 77</p>
+      <p>Mail: {{ user.email }}</p>
+      <p>Telephone fixe: {{ user.phoneNumber }}</p>
+      <p>Mobile: {{ user.mobileNumber }}</p>
     </section>
     <section class="profile-member-address">
       <h2>Adresse</h2>
-      <p>Rue d'Ougrée 21</p>
-      <p>4100 Boncelles</p>
-      <p>Belgique</p>
+      <p>{{ user.addressStreet }} {{ user.addressNumber }}</p>
+      <p>{{ user.zipCode }} {{ user.locality }}</p>
+      <p>{{ user.country }}</p>
     </section>
     <section class="profile-member-agreements">
       <h2>Accords</h2>
       <p>
-        Newsletter LFBBS:
+          Newsletter LFBBS:
+          {% if user.newsletterLFBBS %}
+              <i class="fas fa-check agree"></i>
+          {% else %}
+              <i class="fas fa-times disagree"></i>
+          {% endif %}
       </p>
+
       <p>
-        ROI:
+          ROI:
+          {% if user.internalRules %}
+              <i class="fas fa-check agree"></i>
+          {% else %}
+              <i class="fas fa-times disagree"></i>
+          {% endif %}
       </p>
       <p>
         Politique de confidentialité:
       </p>
     </section>
   </div>
-  <a href="{{ path('app_logout') }}">Déconnexion</a>
 </div>
 {% endblock %}
