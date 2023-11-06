@@ -15,22 +15,8 @@
 
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
+            {{ encore_entry_script_tags('menu') }}
             <script src="https://kit.fontawesome.com/dd6e6a21ba.js" crossorigin="anonymous"></script>
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    const hamburgerIcon = document.getElementById('hamburger-icon');
-                    const closeIcon = document.getElementById('close-icon');
-                    const menu = document.querySelector('.menu');
-
-                    hamburgerIcon.addEventListener('click', function() {
-                        menu.classList.add('menu-open');
-                    });
-
-                    closeIcon.addEventListener('click', function() {
-                        menu.classList.remove('menu-open');
-                    });
-                });
-            </script>
         {% endblock %}
     </head>
     <body>
@@ -40,49 +26,50 @@
                     <i class="fa-solid fa-bars icon icon-hamburger"></i>
                 </div>
             {% endif %}
-            <div class="menu-logo">
-                <a href="{{ path('app_profile') }}"
-                ><img class="logo" src="{{ asset('images/logo_R.png') }}" alt="Liege Rebels Logo"
-                /></a>
-            </div>
+                <div class="menu-logo">
+                    <a href="{{ path('app_profile') }}"
+                    ><img class="logo" src="{{ asset('images/logo_R.png') }}" alt="Liege Rebels Logo"
+                    /></a>
+                </div>
             {% if app.user %}
-            <div class="profile-icon-mobile">
-                <a href="{{ path('app_profile') }}"
-                ><i class="fa-regular fa-user icon icon-profile"></i></a>
-            </div>
-            <div class="profile-icon-desktop">
-                <a href="{{ path('app_login') }}"
-                ><i class="fa-regular fa-user icon icon-profile"></i></a>
-                <div class="profile-user-data">
-                <a href="{{ path('app_login') }}"><p class="user-name">Nicolas Gihoul</p></a>
-                <p class="deconnect-link">Se déconnecter</p>
-                <!-- Routing to deconnection -->
+                <div class="profile-icon-mobile">
+                    <a href="{{ path('app_profile') }}"
+                    ><i class="fa-regular fa-user icon icon-profile"></i></a>
+                </div>
+                <div class="profile-icon-desktop">
+                    <a href="{{ path('app_login') }}"
+                    ><i class="fa-regular fa-user icon icon-profile"></i></a>
+                    <div class="profile-user-data">
+                    <a href="{{ path('app_login') }}"><p class="user-name">Nicolas Gihoul</p></a>
+                    <p class="deconnect-link">Se déconnecter</p>
+                    <!-- Routing to deconnection -->
                 </div>
             {% endif %}
-            </div>
-            </header>
-            <nav class="menu" class="menu-closed">
-                <button id="close-icon" class="icon close-icon">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-                <ul>
-                    <li class="menu-item">
-                        <i class="fa-regular fa-calendar-days"></i> Mon agenda
-                    </li>
-                    <li class="menu-item">
-                    <a href=""
-                        ><i class="fa-regular fa-id-card"></i> Licences</a
-                    >
-                    </li>
-                    <li class="menu-item">
-                        <i class="fa-regular fa-chart-bar"></i> Statistiques
-                    </li>
-                    <li class="menu-item">
-                        <a><i class="fa-regular fa-user"></i> Mon profil</a
+        </header>
+            {% if app.user %}
+                <nav class="menu" class="menu-closed">
+                    <button id="close-icon" class="icon close-icon">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                    <ul>
+                        <li class="menu-item">
+                            <i class="fa-regular fa-calendar-days"></i> Mon agenda
+                        </li>
+                        <li class="menu-item">
+                        <a href=""
+                            ><i class="fa-regular fa-id-card"></i> Licences</a
                         >
-                    </li>
-                </ul>
+                        </li>
+                        <li class="menu-item">
+                            <i class="fa-regular fa-chart-bar"></i> Statistiques
+                        </li>
+                        <li class="menu-item">
+                            <a><i class="fa-regular fa-user"></i> Mon profil</a
+                            >
+                        </li>
+                    </ul>
                 </nav>
+            {% endif %}
         {% block body %}{% endblock %}
     </body>
 </html>

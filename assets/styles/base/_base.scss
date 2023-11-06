@@ -65,9 +65,14 @@ li {
 }
 
 @media screen and (min-width: $min-desktop) {
-  .container {
+  .container.nav-open {
     width: calc(100vw - 220px);
     margin-left: 220px;
     overflow: hidden;
+  }
+
+  .container.nav-closed {
+    width: 100vw;
+    margin-left: 0;
   }
 }
