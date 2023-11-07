@@ -74,4 +74,13 @@ class UserController extends AbstractController
             'image' => $user->getProfilePicture()
         ]);
     }
+
+    #[Route('/licenses', name: 'app_licenses')]
+    #[IsGranted('ROLE_USER')]
+    public function license(): Response
+    {
+        $user = $this->getUser();
+
+        dd($user->getLicenses());
+    }
 }
