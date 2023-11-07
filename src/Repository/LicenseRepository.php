@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\License;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -21,28 +22,46 @@ class LicenseRepository extends ServiceEntityRepository
         parent::__construct($registry, License::class);
     }
 
-//    /**
-//     * @return License[] Returns an array of License objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('l')
-//            ->andWhere('l.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('l.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function getCurrentYearActiveLicense(User $user)
+    {
+        $queryBuilder = $this->createQueryBuilder('l')
+            ->where('l.season = :currentYear')
+            ->andWhere('l.status = :activeStatus')
+            ->andWhere('l.user = :user')
+            ->setParameters([
+                'currentYear' => date('Y'),
+                'activeStatus' => License::IN_ORDER,
+                'user' => $user,
+            ]);
 
-//    public function findOneBySomeField($value): ?License
-//    {
-//        return $this->createQueryBuilder('l')
-//            ->andWhere('l.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        return $queryBuilder->getQuery()->getResult();
+    }
+
+    public function getCurrentYearPendingLicenses(User $user)
+    {
+        $queryBuilder = $this->createQueryBuilder('l')
+            ->where('l.season = :currentYear')
+            ->andWhere('l.status < :pendingStatus')
+            ->andWhere('l.user = :user')
+            ->setParameters([
+                'currentYear' => date('Y'),
+                'pendingStatus' => License::IN_ORDER,
+                'user' => $user,
+            ]);
+
+        return $queryBuilder->getQuery()->getResult();
+    }
+
+    public function getPastYearsLicenses(User $user)
+    {
+        $queryBuilder = $this->createQueryBuilder('l')
+            ->where('l.season < :currentYear')
+            ->andWhere('l.user = :user')
+            ->setParameters([
+                'currentYear' => date('Y'),
+                'user' => $user,
+            ]);
+
+        return $queryBuilder->getQuery()->getResult();
+    }
 }

@@ -1,0 +1,133 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello LicenseController!{% endblock %}
+
+{% block body %}
+    <div class="container license-container">
+        <h1>Mes Licences</h1>
+
+        {# Cas : Utilisateur n'a pas de license pour cette année mais bien des anciennes #}
+            <div class="no-license-this-year">
+                <p class="alert alert-warning">
+                    Vous n'avez pas de license pour cette année !
+                </p>
+                <a href="">
+                    <button class="cta">Demandez une licence</button>
+                </a>
+            </div>
+
+        {# Cas : Utilisateur n'a et n'a jamais eu de license #}
+
+            <div class="no-license">
+                <p class="alert alert-danger">
+                    Vous n'avez pas encore de licence chez les Rebels
+                </p>
+                <br />
+                <a href="">
+                    <button class="cta">Demandez votre première licence !</button>
+                </a>
+            </div>
+
+        {% if currentYearActiveLicenses|length > 0 %}
+            <h2>Actives</h2>
+            <table class="license-table">
+                <tr>
+                    <th>Saison</th>
+                    <th>Statut</th>
+                    <th>Details</th>
+                </tr>
+                {% for license in currentYearActiveLicenses %}
+                    <tr class="">
+                        <td>{{ license.season }}</td>
+                        {% if license.status == 1 %}
+                            <td>Demandée</td>
+                        {% elseif license.status == 2 %}
+                            <td>Document téléchargé</td>
+                        {% elseif license.status == 3 %}
+                            <td>Document reçu</td>
+                        {% elseif license.status == 4 %}
+                            <td>Document validé</td>
+                        {% elseif license.status == 5 %}
+                            <td>En ordre</td>
+                        {% endif %}
+                        <td>
+                            <ul>
+                                {% for sub_category in license.subcategories %}
+                                    <li>{{ sub_category.name }}</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+
+        {% if currentYearPendingLicenses|length > 0 %}
+            <h2>Demande en cours</h2>
+            <table class="license-table">
+                <tr>
+                    <th>Saison</th>
+                    <th>Statut</th>
+                    <th>Details</th>
+                </tr>
+                {% for license in currentYearPendingLicenses %}
+                    <tr class="">
+                        <td>{{ license.season }}</td>
+                        {% if license.status == 1 %}
+                            <td>Demandée</td>
+                        {% elseif license.status == 2 %}
+                            <td>Document téléchargé</td>
+                        {% elseif license.status == 3 %}
+                            <td>Document reçu</td>
+                        {% elseif license.status == 4 %}
+                            <td>Document validé</td>
+                        {% elseif license.status == 5 %}
+                            <td>En ordre</td>
+                        {% endif %}
+                        <td>
+                            <ul>
+                                {% for sub_category in license.subcategories %}
+                                    <li>{{ sub_category.name }}</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+
+        {% if pastYearsLicenses|length > 0 %}
+            <h2>Echues</h2>
+            <table class="license-table">
+                <tr>
+                    <th>Saison</th>
+                    <th>Statut</th>
+                    <th>Details</th>
+                </tr>
+                {% for license in pastYearsLicenses %}
+                    <tr class="">
+                        <td>{{ license.season }}</td>
+                        {% if license.status == 1 %}
+                            <td>Demandée</td>
+                        {% elseif license.status == 2 %}
+                            <td>Document téléchargé</td>
+                        {% elseif license.status == 3 %}
+                            <td>Document reçu</td>
+                        {% elseif license.status == 4 %}
+                            <td>Document validé</td>
+                        {% elseif license.status == 5 %}
+                            <td>En ordre</td>
+                        {% endif %}
+                        <td>
+                            <ul>
+                                {% for sub_category in license.subcategories %}
+                                    <li>{{ sub_category.name }}</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+    </div>
+{% endblock %}

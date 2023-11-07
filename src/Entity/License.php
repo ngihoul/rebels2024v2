@@ -12,6 +12,13 @@ use Doctrine\ORM\Mapping\JoinTable;
 #[ORM\Entity(repositoryClass: LicenseRepository::class)]
 class License
 {
+    const ON_DEMAND = 1;
+    const DOC_DOWNLOADED = 2;
+    const DOC_RECEIVED = 3;
+    const DOC_VALIDATED = 4;
+    const IN_ORDER = 5;
+
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]

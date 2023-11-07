@@ -8,6 +8,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use App\Form\UserType;
+use App\Repository\LicenseRepository;
+use App\Repository\UserRepository;
 use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -73,14 +75,5 @@ class UserController extends AbstractController
             'form' => $form->createView(),
             'image' => $user->getProfilePicture()
         ]);
-    }
-
-    #[Route('/licenses', name: 'app_licenses')]
-    #[IsGranted('ROLE_USER')]
-    public function license(): Response
-    {
-        $user = $this->getUser();
-
-        dd($user->getLicenses());
     }
 }
