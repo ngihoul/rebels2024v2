@@ -158,13 +158,13 @@ class UserType extends AbstractType
                 'constraints' => [
                     new File([
                         'maxSize' => '1024k',
-                        'maxSizeMessage' => 'La taille de l\'avatar ne doit pas dépasser 1Mo',
+                        'maxSizeMessage' => 'La taille de la photo de profil ne doit pas dépasser 1Mo',
                         'mimeTypes' => [
                             'image/jpeg',
                             'image/png',
                             'image/gif',
                         ],
-                        'mimeTypesMessage' => 'Le format de l\'avatar  doit être jpg, jpeg, gif ou png',
+                        'mimeTypesMessage' => 'Le format de la photo de profil doit être jpg, jpeg, gif ou png',
                     ])
                 ],
             ])

@@ -44,7 +44,11 @@
 
         {{ form_row(form.mobile_number, {'label': 'Numéro de portable', 'required': false}) }}
 
-        {{ form_row(form.profile_picture, {'label': 'Photo de profil'}) }}
+        {{ form_row(form.profile_picture, {'label': 'Photo de profil', 'id': 'profile_picture_input'}) }}
+
+        <div id="previewPicture">
+            <img id="previewImage" src="{{ asset('uploads/user_pictures/' ~ image) }}">
+        </div>
 
         <div class="custom-checkbox">
             {{ form_row(form.newsletter_lfbbs, {'label': 'J\'accepte de recevoir la newsletter de la LFBBS', 'required': false}) }}
@@ -57,3 +61,5 @@
         {{ form_end(form) }}
     </div>
 {% endblock %}
+
+
