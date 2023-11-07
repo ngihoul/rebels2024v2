@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Modifier ton profil{% endblock %}
+{% block title %}Modifier mon profil{% endblock %}
 
 {% block body %}
     <div class="container container-register">
-        <h1>Modifier ton profil</h1>
+        <h1>Modifier mon profil</h1>
 
         {{ form_start(form) }}
         
@@ -57,6 +57,8 @@
         <div class="custom-checkbox">
             {{ form_row(form.internal_rules, {'label': 'J\'accepte le Règlement d\'Ordre Intérieur', 'required': true}) }}
         </div>
+
+        {{ form_row(form.submit, { 'label': 'Modifier mon profil' }) }}
 
         {{ form_end(form) }}
     </div>

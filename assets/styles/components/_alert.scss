@@ -5,9 +5,9 @@
   border: 1px solid;
 
   &-danger {
-    color: #721c24;
-    background-color: #f8d7da;
-    border-color: #f5c6cb;
+    color: $color-danger;
+    background-color: $color-bg-danger;
+    border-color: $color-border-danger;
   }
 
   &-warning {

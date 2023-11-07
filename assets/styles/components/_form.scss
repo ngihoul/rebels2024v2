@@ -40,4 +40,15 @@ form {
   button[type="submit"] {
     width: 100%;
   }
+
+  // Generated errors from Symfony Type - Alerts style
+  li {
+    padding: 0.75rem;
+    margin: 0.8rem 0;
+    border-radius: 0.25rem;
+    border: 1px solid;
+    color: $color-danger;
+    background-color: $color-bg-danger;
+    border-color: $color-border-danger;
+  }
 }
