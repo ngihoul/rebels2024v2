@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello LicenseController!{% endblock %}
+{% block title %}{{ parent() }} | Mes licences{% endblock %}
 
 {% block body %}
     <div class="container license-container">
@@ -34,7 +34,7 @@
                 <tr>
                     <th>Saison</th>
                     <th>Statut</th>
-                    <th>Details</th>
+                    <th>Détails</th>
                 </tr>
                 {% for license in currentYearActiveLicenses %}
                     <tr class="">

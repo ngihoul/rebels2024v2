@@ -42,7 +42,7 @@
                     ><i class="fa-regular fa-user icon icon-profile"></i></a>
                     <div class="profile-user-data">
                     <a href="{{ path('app_profile') }}"><p class="user-name">{{ app.user.firstname ~ ' ' ~ app.user.lastname }}</p></a>
-                    <a href="{{ path('app_logout') }}">Se déconnecter</a>
+                    <a class="disconnect-link" href="{{ path('app_logout') }}">Se déconnecter</a>
                     <!-- Routing to deconnection -->
                 </div>
             {% endif %}
@@ -57,8 +57,8 @@
                             <i class="fa-regular fa-calendar-days"></i> Mon agenda
                         </li>
                         <li class="menu-item">
-                        <a href=""
-                            ><i class="fa-regular fa-id-card"></i> Licences</a
+                        <a href="{{ path('app_licenses') }}"
+                            ><i class="fa-regular fa-id-card"></i> Mes Licences</a
                         >
                         </li>
                         <li class="menu-item">
