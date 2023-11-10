@@ -15,12 +15,14 @@
 
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
+            {{ encore_entry_script_tags('spinner') }}
             {{ encore_entry_script_tags('menu') }}
             {{ encore_entry_script_tags('picture_preview') }}
             <script src="https://kit.fontawesome.com/dd6e6a21ba.js" crossorigin="anonymous"></script>
         {% endblock %}
     </head>
     <body>
+        <div id="spinner" class="spinner"></div>
         <header>
             {% if app.user %}
                 <div id="hamburger-icon" class="menu-icon">
