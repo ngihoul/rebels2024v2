@@ -6,6 +6,11 @@
     <div class="container container-register">
         <h1>Modifier mon profil</h1>
 
+        {# Display error flash messages #}
+        {% for flash in app.flashes('error') %}
+            <div class="alert alert-danger">{{ flash }}</div>
+        {% endfor %}
+
         {{ form_start(form) }}
         
         {{ form_errors(form) }}

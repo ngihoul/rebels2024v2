@@ -1,33 +1,47 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ parent() }} | Mes licences{% endblock %}
+{% block title %}{{ parent() }} | My Licenses{% endblock %}
 
 {% block body %}
     <div class="container license-container">
-        <h1>Mes Licences</h1>
+        <h1>My Licenses</h1>
 
-        {# Cas : Utilisateur n'a pas de license pour cette année mais bien des anciennes #}
+        {# Display success flash messages #}
+        {% for flash in app.flashes('success') %}
+            <div class="alert alert-success">{{ flash }}</div>
+        {% endfor %}
+
+        {# Display error flash messages #}
+        {% for flash in app.flashes('error') %}
+            <div class="alert alert-danger">{{ flash }}</div>
+        {% endfor %}
+
+        {# Case: User has no licenses for the current year but has past year licenses #}
+        {% if currentYearActiveLicenses|length == 0 and currentYearPendingLicenses|length == 0 and pastYearsLicenses|length > 0 %}
             <div class="no-license-this-year">
                 <p class="alert alert-warning">
-                    Vous n'avez pas de license pour cette année !
+                    Vous n'avez pas de licence chez les Rebels pour cette année !
                 </p>
-                <a href="">
+                <a href="{{ path('app_add_license') }}">
                     <button class="cta">Demandez une licence</button>
                 </a>
             </div>
+        {% endif %}
 
-        {# Cas : Utilisateur n'a et n'a jamais eu de license #}
-
+        {# Case: User has never had a license #}
+        {% if currentYearActiveLicenses|length == 0 and currentYearPendingLicenses|length == 0 and pastYearsLicenses|length == 0 %}
             <div class="no-license">
                 <p class="alert alert-danger">
-                    Vous n'avez pas encore de licence chez les Rebels
+                    Vous n'avez pas encore de licence chez les Rebels !
                 </p>
                 <br />
-                <a href="">
-                    <button class="cta">Demandez votre première licence !</button>
+                <a href="{{ path('app_add_license') }}">
+                    <button class="cta">Demandez votre première licence</button>
                 </a>
             </div>
+        {% endif %}
 
+        {# Display active licenses for the current year #}
         {% if currentYearActiveLicenses|length > 0 %}
             <h2>Actives</h2>
             <table class="license-table">
@@ -62,47 +76,52 @@
             </table>
         {% endif %}
 
+        {# Display pending licenses for the current year #}
         {% if currentYearPendingLicenses|length > 0 %}
             <h2>Demande en cours</h2>
             <table class="license-table">
                 <tr>
                     <th>Saison</th>
                     <th>Statut</th>
-                    <th>Details</th>
+                    <th>Détails</th>
                 </tr>
                 {% for license in currentYearPendingLicenses %}
-                    <tr class="">
-                        <td>{{ license.season }}</td>
+                <tr>
+                    <td><a href="{{ path('app_download_license', {'idLicense': license.id}) }}">{{ license.season }}</a></td>
+                    <td>
                         {% if license.status == 1 %}
-                            <td>Demandée</td>
+                            Demandée
                         {% elseif license.status == 2 %}
-                            <td>Document téléchargé</td>
+                            Document téléchargé
                         {% elseif license.status == 3 %}
-                            <td>Document reçu</td>
+                            Document reçu
                         {% elseif license.status == 4 %}
-                            <td>Document validé</td>
+                            Document validé
                         {% elseif license.status == 5 %}
-                            <td>En ordre</td>
+                            En ordre
                         {% endif %}
-                        <td>
-                            <ul>
-                                {% for sub_category in license.subcategories %}
-                                    <li>{{ sub_category.name }}</li>
-                                {% endfor %}
-                            </ul>
-                        </td>
-                    </tr>
+                    </td>
+                    <td>
+                        <ul>
+                            {% for sub_category in license.subcategories %}
+                                <li>{{ sub_category.name }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                </tr>
+
                 {% endfor %}
             </table>
         {% endif %}
 
+        {# Display past year licenses #}
         {% if pastYearsLicenses|length > 0 %}
             <h2>Echues</h2>
             <table class="license-table">
                 <tr>
                     <th>Saison</th>
                     <th>Statut</th>
-                    <th>Details</th>
+                    <th>Détails</th>
                 </tr>
                 {% for license in pastYearsLicenses %}
                     <tr class="">

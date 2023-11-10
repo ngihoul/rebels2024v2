@@ -439,4 +439,26 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    public function isProfileComplete(): bool
+    {
+        // Vérifiez les champs requis pour déterminer si le profil est complet
+        return (
+            $this->firstname !== null &&
+            $this->lastname !== null &&
+            $this->nationality !== null &&
+            $this->date_of_birth !== null &&
+            $this->gender !== null &&
+            $this->address_street !== null &&
+            $this->address_number !== null &&
+            $this->zipcode !== null &&
+            $this->locality !== null &&
+            $this->country !== null &&
+            $this->email !== null &&
+            $this->profile_picture !== null &&
+            $this->newsletter_lfbbs !== null &&
+            $this->internal_rules === true &&
+            $this->isVerified === true
+        );
+    }
 }

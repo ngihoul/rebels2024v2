@@ -197,4 +197,13 @@ class License
 
         return $this;
     }
+
+    // Définir par défaut l année d'une license (cette année)
+    #[ORM\PrePersist]
+    public function setDefaultSeason(): void
+    {
+        if (null === $this->season) {
+            $this->season = date('Y');
+        }
+    }
 }

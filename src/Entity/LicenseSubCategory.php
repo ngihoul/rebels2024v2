@@ -27,6 +27,9 @@ class LicenseSubCategory
     #[JoinTable(name: 'license_detail')]
     private Collection $licenses;
 
+    #[ORM\Column]
+    private ?int $value = null;
+
     public function __construct()
     {
         $this->licenses = new ArrayCollection();
@@ -84,6 +87,18 @@ class LicenseSubCategory
         if ($this->licenses->removeElement($license)) {
             $license->removeSubCategory($this);
         }
+
+        return $this;
+    }
+
+    public function getValue(): ?int
+    {
+        return $this->value;
+    }
+
+    public function setValue(int $value): static
+    {
+        $this->value = $value;
 
         return $this;
     }

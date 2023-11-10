@@ -2,6 +2,7 @@ twig:
   default_path: "%kernel.project_dir%/templates"
   globals:
     pictures_directory: "http://localhost:8000/uploads/user_pictures/"
+    licenses_download_directory: "https://localhost:8000/licenses/download/"
 
 when@test:
   twig:
