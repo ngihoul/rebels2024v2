@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{  parent() }} | Licences à valider{% endblock %}
+
+{% block body %}
+<div class="container container-license-list-to-validate">
+    <h1>Licences à valider</h1>
+    <table class="license-table">
+        <tr>
+            <th>Joueur</th>
+            <th>Détails</th>
+            <th class="column-actions"></th>
+        </tr>
+        {% for license in licenses %}
+            <tr class="">
+                <td>{{ license.user.lastname }} {{ license.user.firstname }}</td>
+                <td>
+                    <ul>
+                        {% for sub_category in license.subcategories %}
+                            <li>{{ sub_category.name }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+                <td class="table-data-actions">
+                    <a href="{{ path('app_admin_validate_license', { 'licenseId' : license.id }) }}"><i class="fa-regular fa-exclamation-triangle icon disagree"></i></a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

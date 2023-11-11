@@ -64,4 +64,13 @@ class LicenseRepository extends ServiceEntityRepository
 
         return $queryBuilder->getQuery()->getResult();
     }
+
+    public function findAllLicensesToValidate()
+    {
+        $queryBuilder = $this->createQueryBuilder('l')
+            ->where('l.status = :status')
+            ->setParameter('status', License::DOC_RECEIVED);
+
+        return $queryBuilder->getQuery()->getResult();
+    }
 }

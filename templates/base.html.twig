@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Rebels Clubhouse{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+        <link rel="icon" type="image/x-icon" href="{{ asset('images/favicon.svg') }}" />
           <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Lato&family=Raleway&display=swap" rel="stylesheet">
@@ -43,14 +43,15 @@
                     <a href="{{ path('app_profile') }}"
                     ><i class="fa-regular fa-user icon icon-profile"></i></a>
                     <div class="profile-user-data">
-                    <a href="{{ path('app_profile') }}"><p class="user-name">{{ app.user.firstname ~ ' ' ~ app.user.lastname }}</p></a>
-                    <a class="disconnect-link" href="{{ path('app_logout') }}">Se déconnecter</a>
-                    <!-- Routing to deconnection -->
+                        <a href="{{ path('app_profile') }}"><p class="user-name">{{ app.user.firstname ~ ' ' ~ app.user.lastname }}</p></a>
+                        <a class="disconnect-link" href="{{ path('app_logout') }}">Se déconnecter</a>
+                        <!-- Routing to deconnection -->
+                    </div>
                 </div>
             {% endif %}
         </header>
             {% if app.user %}
-                <nav class="menu" class="menu-closed">
+                <nav class="menu menu-closed">
                     <button id="close-icon" class="icon close-icon">
                         <i class="fa-solid fa-xmark"></i>
                     </button>
@@ -62,12 +63,12 @@
                         <a href="{{ path('app_licenses') }}"
                             ><i class="fa-regular fa-id-card"></i> Mes Licences</a
                         >
+                        </li>
                         {% if is_granted('ROLE_ADMIN') %}
                             <li class="menu-item sub-menu-item">
-                                <a href=""><i class="fa-regular fa-exclamation-triangle"></i> À valider</a>
+                                <a href="{{ path('app_admin_license_to_validate') }}"><i class="fa-regular fa-exclamation-triangle"></i> À valider</a>
                             </li>
                         {% endif %}
-                        </li>
                         <li class="menu-item">
                             <i class="fa-regular fa-chart-bar"></i> Statistiques
                         </li>

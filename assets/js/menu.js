@@ -5,10 +5,12 @@ if (document.getElementById("hamburger-icon")) {
 
   hamburgerIcon.addEventListener("click", function () {
     menu.classList.add("menu-open");
+    menu.classList.remove("menu-closed");
   });
 
   closeIcon.addEventListener("click", function () {
     menu.classList.remove("menu-open");
+    menu.classList.add("menu-closed");
   });
 }
 
