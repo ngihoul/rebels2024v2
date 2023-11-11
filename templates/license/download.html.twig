@@ -9,7 +9,10 @@
     <h2>1. Télécharge ta demande ici</h2>
     <a href="{{ asset(licenses_download_directory ~ file_name) }}" target="_blank"><button class="cta">Télécharger</button></a>
 
-    <h2>2. Complète ta demande</h2>
+    <h2>2. Vérifie les données pré-encodées</h2>
+    <p>Si elles ne sont pas correctes : <a class="link-paragraph" href="{{ path('app_edit_profile') }}">adapte ton profil</a> et reclique sur le bouton "Télécharger" ci-dessus<p>
+
+    <h2>3. Complète ta demande</h2>
 
     <h3>a. Partie gauche</h3>
     <img src="{{ asset('') }}" />
@@ -17,7 +20,7 @@
     <h3>b. Partie droite à faire compléter par ton médecin</h3>
     <img src="{{ asset('') }}" />
 
-    <h2>3. Renvoie-nous ta demande ici</h2>
+    <h2>4. Renvoie-nous ta demande ici</h2>
     <a href=""><button class="cta">Renvoyer</button></a>
 </div>
 {% endblock %}

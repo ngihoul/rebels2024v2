@@ -102,17 +102,16 @@ class LicenseController extends AbstractController
         $licenseId = $request->get('idLicense');
         $license = $this->licenseRepository->find($licenseId);
 
-        if (!$license->getDemandFile()) {
-            // Generate and save document on server
-            $ouputFileName = $pdfGenerator->generate($license);
-            // Add filename in demand_file field in License DB
-            $license->setDemandFile($ouputFileName);
-            // Change License status to License::DOC_DOWNLOADED
-            $license->setStatus(License::DOC_DOWNLOADED);
-            // Save to DB
-            $this->em->persist($license);
-            $this->em->flush();
-        }
+        // Generate and save document on server
+        $ouputFileName = $pdfGenerator->generate($license);
+        // Add filename in demand_file field in License DB
+        $license->setDemandFile($ouputFileName);
+
+        // Change License status to License::DOC_DOWNLOADED
+        $license->setStatus(License::DOC_DOWNLOADED);
+        // Save to DB
+        $this->em->persist($license);
+        $this->em->flush();
 
         $demandFileName = $license->getDemandFile();
 

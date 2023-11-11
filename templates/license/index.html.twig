@@ -4,7 +4,7 @@
 
 {% block body %}
     <div class="container license-container">
-        <h1>My Licenses</h1>
+        <h1>Mes licences</h1>
 
         {# Display success flash messages #}
         {% for flash in app.flashes('success') %}
@@ -84,10 +84,11 @@
                     <th>Saison</th>
                     <th>Statut</th>
                     <th>Détails</th>
+                    <th class="column-actions"></th>
                 </tr>
                 {% for license in currentYearPendingLicenses %}
                 <tr>
-                    <td><a href="{{ path('app_download_license', {'idLicense': license.id}) }}">{{ license.season }}</a></td>
+                    <td>{{ license.season }}</td>
                     <td>
                         {% if license.status == 1 %}
                             Demandée
@@ -107,6 +108,10 @@
                                 <li>{{ sub_category.name }}</li>
                             {% endfor %}
                         </ul>
+                    </td>
+                    <td class="table-data-actions">
+                        <a href="{{ path('app_download_license', {'idLicense': license.id}) }}"><i class="fa-regular fa-pen-to-square icon"></i></a>
+                        {# <a href="{{ path('app_download_license', {'idLicense': license.id}) }}"><i class="fas fa-trash icon"></i></a> #}
                     </td>
                 </tr>
 

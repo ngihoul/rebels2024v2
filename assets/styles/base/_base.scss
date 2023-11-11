@@ -54,10 +54,19 @@ section {
   padding: 0.8rem;
 }
 
+p {
+  margin-bottom: 0.8rem;
+}
+
 p,
 a,
 li {
   font-family: $font-text, sans-serif;
+}
+
+.link-paragraph {
+  font-weight: bold;
+  text-decoration: underline;
 }
 
 .container {
