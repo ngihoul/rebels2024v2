@@ -62,6 +62,11 @@
                         <a href="{{ path('app_licenses') }}"
                             ><i class="fa-regular fa-id-card"></i> Mes Licences</a
                         >
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <li class="menu-item sub-menu-item">
+                                <a href=""><i class="fa-regular fa-exclamation-triangle"></i> À valider</a>
+                            </li>
+                        {% endif %}
                         </li>
                         <li class="menu-item">
                             <i class="fa-regular fa-chart-bar"></i> Statistiques

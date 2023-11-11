@@ -41,9 +41,10 @@ header {
       justify-content: center;
     }
 
-    .user-name {
+    p.user-name {
       font-size: 0.9rem;
       padding-bottom: 0.1rem;
+      margin-bottom: 0;
     }
 
     .disconnect-link {

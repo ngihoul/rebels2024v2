@@ -1,0 +1,34 @@
+{# templates/license/upload.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} | Renvoie ta licence{% endblock %}
+
+{% block body %}
+    <div class="container container-upload">
+        <h1>Renvoie ta licence</h1>
+        <h2>1. Ajoute ta licence ici</h2>
+        {{ form_start(form) }}
+        
+        {{ form_widget(form.uploaded_file) }}
+
+        <h2>2. Un administrateur valide ta licence (ou pas)</h2>
+
+        <h2>3. Tu effectues le paiement via le module</h2>
+        <p>Dès la validation de ta licence par un administrateur, tu auras accès au module de paiement en ligne.</p>
+        <p>Pour rappel, tout envoi de licence équivaut pour accord avec le tarif : </p>
+        <p>MONTANT DE LA COTISATION (ANNÉE CIVILE) : </br> -18 ANS : 220€ </br>> 19 ans et + : 280€</p>
+        <p>Si tu nous rejoins entre juillet et septembre : le montant est de 160€.</p>
+        <p>Pour le dernier trimestre d’octobre à décembre, il est de 100€.</p>
+
+        <div class="custom-checkbox">
+            {{ form_row(form.confirm_rules) }}
+        </div>
+        <div class="custom-checkbox">
+            {{ form_row(form.confirm_data) }}
+        </div>
+
+        <button type="submit" class="">Envoyer ma demande de licence</button>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

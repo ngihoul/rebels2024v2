@@ -4,11 +4,15 @@ namespace App\Controller;
 
 use App\Entity\License;
 use App\Form\LicenseType;
+use App\Form\UploadLicenseType;
 use App\Repository\LicenseRepository;
+use App\Service\FileUploader;
 use App\Service\LicensePDFGenerator as ServiceLicensePDFGenerator;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityNotFoundException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -50,21 +54,21 @@ class LicenseController extends AbstractController
     {
         $user = $this->getUser();
 
-        // Check if profile user is complete 
         if (!$user->isProfileComplete()) {
-            $this->addFlash('error', 'Votre profil est incomplet. Complétez d\'abord votre profil et ensuite demandez votre license.');
-
+            $this->addFlash('error', 'Votre profil est incomplet. Complétez d\'abord votre profil et ensuite demandez votre licence.');
             return $this->redirectToRoute('app_edit_profile');
         }
 
-        // Check if User has already a License for this year
-        $currentYearActiveLicenses = $this->licenseRepository->getCurrentYearActiveLicense($user);
-        $currentYearPendingLicenses = $this->licenseRepository->getCurrentYearPendingLicenses($user);
+        try {
+            // Tentative de recherche de la licence actuelle de l'utilisateur
+            $currentLicense = $this->licenseRepository->getCurrentYearActiveLicense($user);
 
-        if (count($currentYearActiveLicenses) > 0 || count($currentYearPendingLicenses) > 0) {
-            $this->addFlash('error', 'Vous avez déjà une licence (en cours de validation ou validée) pour cette année. Vous ne pouvez donc pas en redemander une pour l\'instant.');
-
-            return $this->redirectToRoute('app_licenses');
+            if ($currentLicense) {
+                $this->addFlash('error', 'Vous avez déjà une licence active pour cette année. Vous ne pouvez pas en demander une nouvelle.');
+                return $this->redirectToRoute('app_licenses');
+            }
+        } catch (EntityNotFoundException $e) {
+            // Gérer l'entité non trouvée (currentLicense)
         }
 
         $license = new License();
@@ -74,15 +78,12 @@ class LicenseController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $license->setSeason(date('Y'));
-            // Set status to On Demand
             $license->setStatus(License::ON_DEMAND);
-            // Fill in timestamp
-            $created_at = new DateTimeImmutable();
-            $license->setCreatedAt($created_at);
-            $license->setUpdatedAt($created_at);
-            // Set UserId
-            $license->setUser($this->getUser());
-            $license->setUserLastUpdate($this->getUser());
+            $timestamp = new DateTimeImmutable();
+            $license->setCreatedAt($timestamp);
+            $license->setUpdatedAt($timestamp);
+            $license->setUser($user);
+            $license->setUserLastUpdate($user);
 
             $this->em->persist($license);
             $this->em->flush();
@@ -95,29 +96,95 @@ class LicenseController extends AbstractController
         ]);
     }
 
-    #[Route('/download-license/{idLicense}', name: 'app_download_license')]
+    #[Route('/download-license/{licenseId}', name: 'app_download_license')]
     #[IsGranted('ROLE_USER')]
     public function download(Request $request, ServiceLicensePDFGenerator $pdfGenerator): Response
     {
-        $licenseId = $request->get('idLicense');
-        $license = $this->licenseRepository->find($licenseId);
+        $licenseId = $request->get('licenseId');
+        try {
+            $license = $this->licenseRepository->find($licenseId);
+            if (!$license) {
+                throw new EntityNotFoundException('License not found.');
+            }
 
-        // Generate and save document on server
-        $ouputFileName = $pdfGenerator->generate($license);
-        // Add filename in demand_file field in License DB
-        $license->setDemandFile($ouputFileName);
+            // Generate and save the document on the server
+            $ouputFileName = $pdfGenerator->generate($license);
 
-        // Change License status to License::DOC_DOWNLOADED
-        $license->setStatus(License::DOC_DOWNLOADED);
-        // Save to DB
-        $this->em->persist($license);
-        $this->em->flush();
+            // Add the filename to the demand_file field in the License entity
+            $license->setDemandFile($ouputFileName);
 
-        $demandFileName = $license->getDemandFile();
+            // Change the License status to License::DOC_DOWNLOADED
+            $license->setStatus(License::DOC_DOWNLOADED);
 
-        // Rediriger vers page pour télécharger avec lien vers upload
-        return $this->render('license/download.html.twig', [
-            'file_name' => $demandFileName,
+            // Persist and flush the changes to the database
+            $this->em->persist($license);
+            $this->em->flush();
+
+            $demandFileName = $license->getDemandFile();
+
+            // Redirect to a page to download the file with a link to upload
+            return $this->render('license/download.html.twig', [
+                'file_name' => $demandFileName,
+                'licenseId' => $license->getId(),
+            ]);
+        } catch (EntityNotFoundException $e) {
+            $this->addFlash('error', 'La licence demandée n\'a pas été trouvée.');
+            return $this->redirectToRoute('app_licenses');
+        } catch (FileException $e) {
+            $this->addFlash('error', 'Le fichier n\'a pas pu être généré car ' . $e->getMessage());
+            return $this->redirectToRoute('app_licenses');
+        }
+    }
+
+    #[Route('/upload-license/{licenseId}', name: 'app_upload_license')]
+    #[IsGranted('ROLE_USER')]
+    public function upload(Request $request, FileUploader $fileUploader): Response
+    {
+        $licenseId = $request->get('licenseId');
+
+        // Find license in DB
+        try {
+            $license = $this->licenseRepository->find($licenseId);
+            if (!$license) {
+                throw new EntityNotFoundException('License not found.');
+            }
+        } catch (EntityNotFoundException $e) {
+            $this->addFlash('error', 'La licence demandée n\'a pas été trouvée.');
+            return $this->redirectToRoute('app_licenses');
+        }
+
+        $form = $this->createForm(UploadLicenseType::class);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $uploadedFile = $form->get('uploaded_file')->getData();
+
+            if ($uploadedFile) {
+                try {
+                    $uploadedFileName = $fileUploader->save($uploadedFile, 'uploaded_licenses_directory');
+                    $license->setUploadedFile($uploadedFileName);
+                    // Change License Status
+                    $license->setStatus(License::DOC_RECEIVED);
+                    // Save data in DB
+                    $this->em->persist($license);
+                    $this->em->flush();
+
+                    // Send a mail to administrateur
+
+                    $this->addFlash('success', 'Votre licence a été envoyée avec succès. Un administrateur vérifiera le document et validera votre demande.');
+                } catch (FileException $e) {
+                    $this->addFlash('error', 'Le fichier n\'a pas pu être enregistré car ' . $e->getMessage());
+                }
+            } else {
+                $this->addFlash('error', 'Aucun fichier n\'a été téléchargé.');
+            }
+
+            return $this->redirectToRoute('app_licenses');
+        }
+
+        return $this->render('license/upload.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 }

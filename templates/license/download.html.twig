@@ -21,6 +21,6 @@
     <img src="{{ asset('') }}" />
 
     <h2>4. Renvoie-nous ta demande ici</h2>
-    <a href=""><button class="cta">Renvoyer</button></a>
+    <a href="{{ path('app_upload_license', { 'licenseId' : licenseId }) }}"><button class="cta">Renvoyer</button></a>
 </div>
 {% endblock %}
