@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{  parent() }} | Validation licence de {{ license.user.firstname }} {{ license.user.lastname }}{% endblock %}
+
+{% block body %}
+<div class="container container-license-list-to-validate">
+    <h1>Validation licence</h1>
+    <h2>1. Vérifiez la demande de licence de {{ license.user.firstname }} {{ license.user.lastname }}</h2>
+    <a class="btn" href="{{ asset('uploads/licenses/' ~ license.uploadedFile) }}" target="_blank">Voir la demande</a>
+
+    {{ form_start(form) }}
+
+    <h2>2. Si la demande est complêté et correcte, introduisez le prix demandé pour cette licence :</h2>
+    {# Ajouter un boutton aide qui reprend les règles des tarifs #}
+    {{ form_row(form.price) }}
+
+    <h2>3. Validez la licence en cliquant sur ce bouton :</h2>
+    {{ form_row(form.approval) }}
+
+    <h2>2b. Si la demande est incomplête ou incorrecte, veuillez introduire la raison :</h2>
+    {{ form_row(form.comment) }}
+
+    <h2>3. Refusez la licence en cliquant sur ce bouton :</h2>
+    {{ form_row(form.refusal) }}
+    {{ form_end(form) }}
+</div>
+{% endblock %}

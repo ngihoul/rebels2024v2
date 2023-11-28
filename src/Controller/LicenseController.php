@@ -116,6 +116,8 @@ class LicenseController extends AbstractController
             // Change the License status to License::DOC_DOWNLOADED
             $license->setStatus(License::DOC_DOWNLOADED);
 
+            $license->setUpdatedAt(new DateTimeImmutable());
+
             // Persist and flush the changes to the database
             $this->em->persist($license);
             $this->em->flush();
@@ -166,6 +168,8 @@ class LicenseController extends AbstractController
                     $license->setUploadedFile($uploadedFileName);
                     // Change License Status
                     $license->setStatus(License::DOC_RECEIVED);
+
+                    $license->setUpdatedAt(new DateTimeImmutable());
                     // Save data in DB
                     $this->em->persist($license);
                     $this->em->flush();

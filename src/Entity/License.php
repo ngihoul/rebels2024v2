@@ -56,6 +56,9 @@ class License
     #[JoinTable(name: 'license_detail')]
     private Collection $subCategories;
 
+    #[ORM\Column(nullable: true)]
+    private ?float $price = null;
+
     public function __construct()
     {
         $this->subCategories = new ArrayCollection();
@@ -205,5 +208,17 @@ class License
         if (null === $this->season) {
             $this->season = date('Y');
         }
+    }
+
+    public function getPrice(): ?float
+    {
+        return $this->price;
+    }
+
+    public function setPrice(?float $price): static
+    {
+        $this->price = $price;
+
+        return $this;
     }
 }
