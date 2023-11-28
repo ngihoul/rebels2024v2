@@ -115,6 +115,8 @@
                         {# <a href="{{ path('app_download_license', {'idLicense': license.id}) }}"><i class="fas fa-trash icon"></i></a> #}
                     {% elseif license.status == 3 %}
                         <i class="fa-regular fa-hourglass icon" title="En attente de validation"></i>
+                    {% elseif license.status == 4 %}
+                        <i class="fa-regular fa-credit-card icon" title="Paye ta licence"></i>
                     {% endif %}
                     </td>
                 </tr>
