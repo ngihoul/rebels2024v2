@@ -7,6 +7,7 @@ use App\Form\RegistrationFormType;
 use App\Repository\UserRepository;
 use App\Security\EmailVerifier;
 use App\Service\FileUploader;
+use App\Service\ProfilePictureManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -29,7 +30,7 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, ProfilePictureManager $profilePictureManager): Response
     {
         // Denied access if user is already logged in.
         if ($this->getUser()) {
@@ -52,15 +53,7 @@ class RegistrationController extends AbstractController
             );
 
             // Save picture on server via FileUploader Service
-            $picture = $form->get('profile_picture')->getData();
-            if ($picture) {
-                try {
-                    $pictureFileName = $fileUploader->save($picture, 'pictures_directory');
-                    $user->setProfilePicture($pictureFileName);
-                } catch (FileException $e) {
-                    $this->addFlash('error', 'Le fichier n\'a pas pu être enregistré car ' . $e->getMessage());
-                }
-            }
+            $profilePictureManager->handleProfilePicture($form, $user);
 
             $entityManager->persist($user);
             $entityManager->flush();

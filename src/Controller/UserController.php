@@ -8,18 +8,16 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use App\Form\UserType;
-use App\Service\FileUploader;
+use App\Service\ProfilePictureManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class UserController extends AbstractController
 {
-
-    private EntityManagerInterface $entityManager;
+    private EntityManagerInterface $em;
 
     public function __construct(EntityManagerInterface $entityManager)
     {
-        $this->entityManager = $entityManager;
+        $this->em = $entityManager;
     }
 
     #[Route(path: "/", name: "app_home")]
@@ -40,7 +38,7 @@ class UserController extends AbstractController
 
     #[Route('/edit-profile', name: 'app_edit_profile')]
     #[IsGranted('ROLE_USER')]
-    public function update(Request $request, FileUploader $fileUploader): Response
+    public function update(Request $request, ProfilePictureManager $profilePictureManager): Response
     {
         $user = $this->getUser();
 
@@ -52,19 +50,10 @@ class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $form->getData();
 
-            // Save picture on server via FileUploader Service
-            $picture = $form->get('profile_picture')->getData();
-            if ($picture) {
-                try {
-                    $logoFileName = $fileUploader->save($picture, 'pictures_directory');
-                    $user->setProfilePicture($logoFileName);
-                } catch (FileException $e) {
-                    $this->addFlash('error', 'Le fichier n\'a pas pu être enregistré car ' . $e->getMessage());
-                }
-            }
+            $profilePictureManager->handleProfilePicture($form, $user);
 
-            $this->entityManager->persist($user);
-            $this->entityManager->flush();
+            $this->em->persist($user);
+            $this->em->flush();
 
             return $this->redirectToRoute('app_profile');
         }

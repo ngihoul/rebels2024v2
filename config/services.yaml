@@ -21,9 +21,12 @@ services:
       - "../src/DependencyInjection/"
       - "../src/Entity/"
       - "../src/Kernel.php"
+
   App\Service\LicensePDFGenerator:
     arguments:
       $pdfPath: "%kernel.project_dir%/public/licenses/source/"
       $outputPath: "%kernel.project_dir%/public/licenses/download/"
-  # add more service definitions when explicit configuration is needed
-  # please note that last definitions always *replace* previous ones
+
+  App\Service\ProfilePictureManager:
+    arguments:
+      $fileUploader: '@App\Service\FileUploader'
