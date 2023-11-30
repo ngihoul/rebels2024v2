@@ -15,12 +15,12 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class AdminLicenseController extends AbstractController
 {
     private LicenseRepository $licenseRepository;
-    private EntityManagerInterface $em;
+    private EntityManagerInterface $entityManager;
 
     public function __construct(LicenseRepository $licenseRepository, EntityManagerInterface $entityManager)
     {
         $this->licenseRepository = $licenseRepository;
-        $this->em = $entityManager;
+        $this->entityManager = $entityManager;
     }
 
     #[Route('/admin/licenses', name: 'admin_license_to_validate')]
@@ -66,8 +66,8 @@ class AdminLicenseController extends AbstractController
 
             }
 
-            $this->em->persist($license);
-            $this->em->flush();
+            $this->entityManager->persist($license);
+            $this->entityManager->flush();
 
             // Redirect to list of license to validate
             return $this->redirectToRoute('admin_license_to_validate');

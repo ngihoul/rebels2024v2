@@ -13,11 +13,11 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class UserController extends AbstractController
 {
-    private EntityManagerInterface $em;
+    private EntityManagerInterface $entityManager;
 
     public function __construct(EntityManagerInterface $entityManager)
     {
-        $this->em = $entityManager;
+        $this->entityManager = $entityManager;
     }
 
     #[Route(path: "/", name: "app_home")]
@@ -52,8 +52,8 @@ class UserController extends AbstractController
 
             $profilePictureManager->handleProfilePicture($form, $user);
 
-            $this->em->persist($user);
-            $this->em->flush();
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
 
             return $this->redirectToRoute('app_profile');
         }

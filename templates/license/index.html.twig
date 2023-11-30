@@ -24,7 +24,7 @@
         {# Case: User has never had a license #}
         {% if currentYearActiveLicenses|length == 0 and currentYearPendingLicenses|length == 0 and pastYearsLicenses|length == 0 %}
             <div class="no-license">
-                <p class="alert alert-danger">
+                <p class="alert alert-error">
                     Vous n'avez pas encore de licence chez les Rebels !
                 </p>
                 <br />

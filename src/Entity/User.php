@@ -457,8 +457,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             $this->email !== null &&
             $this->profile_picture !== null &&
             $this->newsletter_lfbbs !== null &&
-            $this->internal_rules === true &&
-            $this->isVerified === true
+            $this->internal_rules === true
         );
     }
 }

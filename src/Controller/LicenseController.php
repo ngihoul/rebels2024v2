@@ -23,12 +23,12 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class LicenseController extends AbstractController
 {
-    private EntityManagerInterface $em;
+    private EntityManagerInterface $entityManager;
     private LicenseRepository $licenseRepository;
 
     public function __construct(EntityManagerInterface $entityManager, LicenseRepository $licenseRepository)
     {
-        $this->em = $entityManager;
+        $this->entityManager = $entityManager;
         $this->licenseRepository = $licenseRepository;
     }
 
@@ -57,21 +57,18 @@ class LicenseController extends AbstractController
     {
         $user = $this->getUser();
 
+        // Profile must be complete to ask a new license
         if (!$user->isProfileComplete()) {
             $this->addFlash('error', 'Votre profil est incomplet. Complétez d\'abord votre profil et ensuite demandez votre licence.');
             return $this->redirectToRoute('app_edit_profile');
         }
 
-        try {
-            // Tentative de recherche de la licence actuelle de l'utilisateur
-            $currentLicense = $this->licenseRepository->getCurrentYearActiveLicense($user);
+        // Only one license can be asked for the current year
+        $currentLicense = $this->licenseRepository->getCurrentYearActiveLicense($user);
 
-            if ($currentLicense) {
-                $this->addFlash('error', 'Vous avez déjà une licence active pour cette année. Vous ne pouvez pas en demander une nouvelle.');
-                return $this->redirectToRoute('app_licenses');
-            }
-        } catch (EntityNotFoundException $e) {
-            // Gérer l'entité non trouvée (currentLicense)
+        if ($currentLicense) {
+            $this->addFlash('error', 'Vous avez déjà une licence active pour cette année. Vous ne pouvez pas en demander une nouvelle.');
+            return $this->redirectToRoute('app_licenses');
         }
 
         $license = new License();
@@ -88,8 +85,8 @@ class LicenseController extends AbstractController
             $license->setUser($user);
             $license->setUserLastUpdate($user);
 
-            $this->em->persist($license);
-            $this->em->flush();
+            $this->entityManager->persist($license);
+            $this->entityManager->flush();
 
             return $this->redirectToRoute('app_licenses');
         }
@@ -122,12 +119,12 @@ class LicenseController extends AbstractController
             $license->setUpdatedAt(new DateTimeImmutable());
 
             // Persist and flush the changes to the database
-            $this->em->persist($license);
-            $this->em->flush();
+            $this->entityManager->persist($license);
+            $this->entityManager->flush();
 
             $demandFileName = $license->getDemandFile();
 
-            // Redirect to a page to download the file with a link to upload
+            // Redirect to a page to download the file
             return $this->render('license/download.html.twig', [
                 'file_name' => $demandFileName,
                 'licenseId' => $license->getId(),
@@ -174,8 +171,8 @@ class LicenseController extends AbstractController
 
                     $license->setUpdatedAt(new DateTimeImmutable());
                     // Save data in DB
-                    $this->em->persist($license);
-                    $this->em->flush();
+                    $this->entityManager->persist($license);
+                    $this->entityManager->flush();
 
                     // Send a mail to administrateur
 
@@ -255,8 +252,8 @@ class LicenseController extends AbstractController
 
         $license->setUpdatedAt(new DateTimeImmutable());
         // Save data in DB
-        $this->em->persist($license);
-        $this->em->flush();
+        $this->entityManager->persist($license);
+        $this->entityManager->flush();
 
         return $this->render('payment/success.html.twig', []);
     }
