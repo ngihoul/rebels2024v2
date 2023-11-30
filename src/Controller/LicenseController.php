@@ -11,11 +11,14 @@ use App\Service\LicensePDFGenerator as ServiceLicensePDFGenerator;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityNotFoundException;
+use Stripe\Checkout\Session;
+use Stripe\Stripe;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class LicenseController extends AbstractController
@@ -190,5 +193,77 @@ class LicenseController extends AbstractController
         return $this->render('license/upload.html.twig', [
             'form' => $form->createView(),
         ]);
+    }
+
+    #[Route('/license/checkout/{licenseId}', name: 'app_license_checkout')]
+    #[IsGranted('ROLE_USER')]
+    public function checkout(Request $request)
+    {
+        $licenseId = $request->get('licenseId');
+
+        // Find license in DB
+        try {
+            $license = $this->licenseRepository->find($licenseId);
+            if (!$license) {
+                throw new EntityNotFoundException('License not found.');
+            }
+        } catch (EntityNotFoundException $e) {
+            $this->addFlash('error', 'La licence demandée n\'a pas été trouvée.');
+            return $this->redirectToRoute('app_licenses');
+        }
+
+        Stripe::setApiKey($_ENV['STRIPE_SECRET_KEY']);
+
+        $checkout_session = Session::create([
+            'line_items' => [[
+                'price_data' => [
+                    'currency' => 'eur',
+                    'product_data' => [
+                        'name' => 'License annuelle',
+                    ],
+                    'unit_amount' => $license->getPrice() * 100,
+                ],
+                'quantity' => 1,
+            ]],
+            'mode' => 'payment',
+            'success_url' => $this->generateUrl('app_success_payment', ['licenseId' => $licenseId], UrlGeneratorInterface::ABSOLUTE_URL),
+            'cancel_url' => $this->generateUrl('app_cancel_payment', [], UrlGeneratorInterface::ABSOLUTE_URL),
+        ]);
+
+        return $this->redirect($checkout_session->url, 303);
+    }
+
+    #[Route('/license/success-url/{licenseId}', name: 'app_success_payment')]
+    public function successUrl(Request $request): Response
+    {
+
+        $licenseId = $request->get('licenseId');
+
+        // Find license in DB
+        try {
+            $license = $this->licenseRepository->find($licenseId);
+            if (!$license) {
+                throw new EntityNotFoundException('License not found.');
+            }
+        } catch (EntityNotFoundException $e) {
+            $this->addFlash('error', 'La licence demandée n\'a pas été trouvée.');
+            return $this->redirectToRoute('app_licenses');
+        }
+
+        // Change status
+        $license->setStatus(License::IN_ORDER);
+
+        $license->setUpdatedAt(new DateTimeImmutable());
+        // Save data in DB
+        $this->em->persist($license);
+        $this->em->flush();
+
+        return $this->render('payment/success.html.twig', []);
+    }
+
+    #[Route('/license/cancel-url', name: 'app_cancel_payment')]
+    public function cancelUrl(): Response
+    {
+        return $this->render('payment/cancel.html.twig', []);
     }
 }
