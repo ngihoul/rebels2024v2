@@ -37,6 +37,7 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('app_home');
         }
 
+        // Create registration form
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
@@ -54,8 +55,8 @@ class RegistrationController extends AbstractController
             $picture = $form->get('profile_picture')->getData();
             if ($picture) {
                 try {
-                    $logoFileName = $fileUploader->save($picture, 'pictures_directory');
-                    $user->setProfilePicture($logoFileName);
+                    $pictureFileName = $fileUploader->save($picture, 'pictures_directory');
+                    $user->setProfilePicture($pictureFileName);
                 } catch (FileException $e) {
                     $this->addFlash('error', 'Le fichier n\'a pas pu être enregistré car ' . $e->getMessage());
                 }
@@ -77,7 +78,7 @@ class RegistrationController extends AbstractController
 
             $this->addFlash('success', 'Votre compte a bien été créé. Merci de confirmer votre mail.');
 
-            return $this->redirectToRoute('app_profile');
+            return $this->redirectToRoute('app_home');
         }
 
         return $this->render('registration/register.html.twig', [
