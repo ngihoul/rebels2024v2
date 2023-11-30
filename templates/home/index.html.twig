@@ -4,7 +4,12 @@
 
 {% block body %}
 <div class="container container-home">
+
     <h1>Clubhouse</h1>
+
+    {# Display flash messages #}
+    {{ parent() }}
+
     <div class="section-container">
         <section>
             <div class="card">

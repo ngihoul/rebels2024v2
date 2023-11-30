@@ -4,10 +4,10 @@
 
 {% block body %}
 <div class="container container-reset-password">
-    {% for flash_error in app.flashes('reset_password_error') %}
-        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-    {% endfor %}
     <h1>Nouveau mot de passe</h1>
+
+    {# Display flash messages #}
+    {{ parent() }}
 
     {{ form_start(requestForm) }}
         <div>

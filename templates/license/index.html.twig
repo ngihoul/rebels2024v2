@@ -6,15 +6,8 @@
     <div class="container license-container">
         <h1>Mes licences</h1>
 
-        {# Display success flash messages #}
-        {% for flash in app.flashes('success') %}
-            <div class="alert alert-success">{{ flash }}</div>
-        {% endfor %}
-
-        {# Display error flash messages #}
-        {% for flash in app.flashes('error') %}
-            <div class="alert alert-danger">{{ flash }}</div>
-        {% endfor %}
+        {# Display flash messages #}
+        {{ parent() }}
 
         {# Case: User has no licenses for the current year but has past year licenses #}
         {% if currentYearActiveLicenses|length == 0 and currentYearPendingLicenses|length == 0 and pastYearsLicenses|length > 0 %}

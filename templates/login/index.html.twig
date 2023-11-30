@@ -11,9 +11,8 @@
         <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
 
-    {% for flash in app.flashes('success') %}
-        <div class="alert alert-success">{{ flash }}</div>
-    {% endfor %}
+    {# Display flash messages #}
+    {{ parent() }}
 
     <form class="login-form" action="{{ path('app_login') }}" method="post">
         <label for="username">Email</label>
