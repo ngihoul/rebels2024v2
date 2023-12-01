@@ -51,18 +51,18 @@
             {{ form_row(registrationForm.password.second, {'label': 'Répéter le mot de passe'}) }}
 
             {{ form_row(registrationForm.profile_picture, {'label': 'Photo de profil', 'id': 'profile_picture_input'}) }}
-
+            <p class="disclamer-picture alert alert-warning">Cette photo sera utilisé pour ta licence auprès de la Ligue Francophone Belge de Baseball et Softball. Utilise donc une photo d'identité ou une photo officielle du club.</p>
 
             <div id="previewPicture">
                 <img id="previewImage" src="">
             </div>
 
             <div class="custom-checkbox">
-                {{ form_row(registrationForm.newsletter_lfbbs, {'label': 'Souscrire à la newsletter LFBBS', 'required': true}) }}
+                {{ form_row(registrationForm.newsletter_lfbbs, {'label': 'J\'accepte de recevoir la newsletter de la LFBBS'}) }}
             </div>
 
             <div class="custom-checkbox">
-                {{ form_row(registrationForm.internal_rules, {'label': 'Règles internes', 'required': true}) }}
+                {{ form_row(registrationForm.internal_rules) }}
             </div>
 
         {{ form_end(registrationForm) }}

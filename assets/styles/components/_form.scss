@@ -72,10 +72,18 @@ form {
         padding-left: 0.8rem;
       }
 
+      // Submit button
       &:last-of-type {
         width: 100%;
         padding-left: 0;
       }
+    }
+
+    // PreviexImage & checkboxes
+    div#previewPicture,
+    div.custom-checkbox {
+      width: 100%;
+      padding-left: 0;
     }
   }
 }

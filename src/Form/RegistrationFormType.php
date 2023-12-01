@@ -194,9 +194,12 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('newsletter_lfbbs', CheckboxType::class, [
                 'required' => false,
+                'label' => ''
             ])
             ->add('internal_rules', CheckboxType::class, [
-                'required' => false,
+                'required' => true,
+                'label' => 'J\'accepte le <a class="link-paragraph" href="https://www.liegebaseball.be/wp-content/uploads/2022/12/LRCBS-ROI-v6.pdf" target="_blank">Règlement d\'Ordre Intérieur</a>',
+                'label_html' => true,
             ])
             ->add('Inscription', SubmitType::class);
     }
