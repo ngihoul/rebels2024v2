@@ -11,17 +11,34 @@
     {{ parent() }}
 
     <div class="section-container">
+    {% if activeLicenses|length == 0 %}
         <section>
             <div class="card">
                 <h2 class="card-title">To Do list</h2>
                 <div class="card-content">
                     <ul>
-                        <li><a href="#">Complétez votre profil</a></li>
-                        <li><a href="#">Demandez une licence</a></li>
+
+                        {% if isProfileComplete != true %}
+                            <li><a href="{{ path('app_edit_profile') }}">Complète ton profil</a></li>
+                        {% endif %}
+
+                        {% if pendingLicense is null %}
+                            <li><a href="{{ path('app_add_license') }}">Demande une licence</a></li>
+                        {% elseif pendingLicense.status == 1 %}
+                            <li><a href="{{ path('app_download_license', { 'licenseId' : pendingLicense.id }) }}">Télécharge ta demande de license</a></li>
+                        {% elseif pendingLicense.status == 2 %}
+                            <li><a href="{{ path('app_upload_license', { 'licenseId' : pendingLicense.id }) }}">Renvoie-nous ta demande complétée et signée</a></li>
+                        {% elseif pendingLicense.status == 3 %}
+                            <li>Un administrateur va bientôt valider ta licence</li>
+                        {% elseif pendingLicense.status == 4 %}
+                            <li><a href="{{ path('app_licenses', { 'licenseId' : pendingLicense.id }) }}">Dernière étape : Paye ta licence</a></li>
+                        {% endif %}
                     </ul>
                 </div>
+            
             </div>
         </section>
+    {% endif %}
         <section>
             <h2>Prochains évènements</h2>
         </section>

@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use App\Form\UserType;
+use App\Repository\LicenseRepository;
 use App\Service\ProfilePictureManager;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -22,9 +23,23 @@ class UserController extends AbstractController
 
     #[Route(path: "/", name: "app_home")]
     #[IsGranted("ROLE_USER")]
-    public function index(): Response
+    public function index(LicenseRepository $licenseRepository): Response
     {
-        return $this->render('home/index.html.twig');
+        $user = $this->getUser();
+
+        $isProfileCompleted = $user->isProfileComplete();
+
+        $pendingLicenses = $licenseRepository->getCurrentYearPendingLicenses($user);
+
+        $pendingLicense = $pendingLicenses ? $pendingLicenses[0] : null;
+
+        $activeLicenses = $licenseRepository->getCurrentYearActiveLicense($user);
+
+        return $this->render('home/index.html.twig', [
+            'isProfileComplete' => $isProfileCompleted,
+            'pendingLicense' => $pendingLicense,
+            'activeLicenses' => $activeLicenses
+        ]);
     }
 
     #[Route('/profile', name: 'app_profile')]
