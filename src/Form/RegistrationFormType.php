@@ -175,14 +175,21 @@ class RegistrationFormType extends AbstractType
                 ],
             ])
             ->add('profile_picture', FileType::class, [
-                'required' => true,
+                'label' => 'Photo de profil',
+                'multiple' => false,
+                'mapped' => false,
+                'required' => false,
                 'constraints' => [
                     new File([
                         'maxSize' => '1024k',
-                        'maxSizeMessage' => 'Le fichier est trop volumineux. La taille maximale autorisée est de {{ limit }}.',
-                        'mimeTypes' => ['image/*'],
-                        'mimeTypesMessage' => 'Veuillez télécharger un fichier image valide.',
-                    ]),
+                        'maxSizeMessage' => 'La taille de la photo de profil ne doit pas dépasser 1Mo',
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/png',
+                            'image/gif',
+                        ],
+                        'mimeTypesMessage' => 'Le format de la photo de profil doit être jpg, jpeg, gif ou png',
+                    ])
                 ],
             ])
             ->add('newsletter_lfbbs', CheckboxType::class, [

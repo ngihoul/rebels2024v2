@@ -15,6 +15,7 @@ form {
     padding: 0.8rem;
     width: 100%;
     margin: 0.8rem 0;
+    background-color: #fff;
   }
 
   input[type="checkbox"] {
@@ -55,5 +56,26 @@ form {
     color: $color-danger;
     background-color: $color-bg-danger;
     border-color: $color-border-danger;
+  }
+}
+
+// Styling register & edit-profile form for desktop
+@media screen and (min-width: $min-desktop) {
+  form {
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    & > div {
+      width: 50%;
+
+      &:nth-child(even) {
+        padding-left: 0.8rem;
+      }
+
+      &:last-of-type {
+        width: 100%;
+        padding-left: 0;
+      }
+    }
   }
 }

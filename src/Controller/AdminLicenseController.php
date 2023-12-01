@@ -6,6 +6,7 @@ use App\Entity\License;
 use App\Form\ValidateLicenseType;
 use App\Repository\LicenseRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityNotFoundException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -39,7 +40,17 @@ class AdminLicenseController extends AbstractController
     public function validate(Request $request): Response
     {
         $licenseId = $request->get('licenseId');
-        $license = $this->licenseRepository->find($licenseId);
+
+        // Find license in DB
+        try {
+            $license = $this->licenseRepository->find($licenseId);
+            if (!$license) {
+                throw new EntityNotFoundException('License not found.');
+            }
+        } catch (EntityNotFoundException $e) {
+            $this->addFlash('error', 'La licence demandée n\'a pas été trouvée.');
+            return $this->redirectToRoute('app_licenses');
+        }
 
         $form = $this->createForm(ValidateLicenseType::class);
 
