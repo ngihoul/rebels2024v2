@@ -4,11 +4,8 @@
 
 {% block body %}
 <div class="container success-container">
-    <h1>Thanks for your attempted order!</h1>
-    <p>
-        We would appreciate your business!
-        The payment failed :(
-        <a href="mailto:orders@example.com">orders@example.com</a>.
-    </p>
+    <h1>Paiement refusé</h1>
+    <p>Vérifie ton moyen de paiement et réessaye. </br> Si le problème persiste, contacte un administrateur ou ton coach pour trouver une solution.<p>
+    <a href="{{ path('app_licenses') }}" class="btn">Revenir à la liste de mes licences</a>
 </div>
 {% endblock %}

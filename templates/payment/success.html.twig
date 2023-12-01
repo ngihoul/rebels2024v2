@@ -4,11 +4,9 @@
 
 {% block body %}
 <div class="container success-container">
-    <h1>Thanks for your order!</h1>
-    <p>
-        We appreciate your business!
-        If you have any questions, please email
-        <a href="mailto:orders@example.com">orders@example.com</a>.
-    </p>
+    <h1>Paiement accepté</h1>
+    <p>Merci pour votre paiement.</br> Votre licence est maintenant en ordre.<p>
+    <h2>Bienvenue chez les Rebels !</h2>
+    <a href="{{ path('app_licenses') }}" class="btn">Revenir à la liste de mes licences</a>
 </div>
 {% endblock %}
