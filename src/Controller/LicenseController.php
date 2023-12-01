@@ -101,9 +101,11 @@ class LicenseController extends AbstractController
     public function download(Request $request, ServiceLicensePDFGenerator $pdfGenerator): Response
     {
         $licenseId = $request->get('licenseId');
+
         try {
             $license = $this->licenseRepository->find($licenseId);
-            if (!$license) {
+            // Access only if license exist or User is the owner of the license
+            if (!$license || $license->getUser() !== $this->getUser()) {
                 throw new EntityNotFoundException('License not found.');
             }
 
@@ -147,7 +149,8 @@ class LicenseController extends AbstractController
         // Find license in DB
         try {
             $license = $this->licenseRepository->find($licenseId);
-            if (!$license) {
+            // Access only if license exist or User is the owner of the license
+            if (!$license || $license->getUser() !== $this->getUser()) {
                 throw new EntityNotFoundException('License not found.');
             }
         } catch (EntityNotFoundException $e) {
@@ -201,7 +204,8 @@ class LicenseController extends AbstractController
         // Find license in DB
         try {
             $license = $this->licenseRepository->find($licenseId);
-            if (!$license) {
+            // Access only if license exist or User is the owner of the license
+            if (!$license || $license->getUser() !== $this->getUser()) {
                 throw new EntityNotFoundException('License not found.');
             }
         } catch (EntityNotFoundException $e) {
@@ -239,7 +243,8 @@ class LicenseController extends AbstractController
         // Find license in DB
         try {
             $license = $this->licenseRepository->find($licenseId);
-            if (!$license) {
+            // Access only if license exist or User is the owner of the license
+            if (!$license || $license->getUser() !== $this->getUser()) {
                 throw new EntityNotFoundException('License not found.');
             }
         } catch (EntityNotFoundException $e) {

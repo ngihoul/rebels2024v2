@@ -109,7 +109,7 @@
                     {% elseif license.status == 3 %}
                         <i class="fa-regular fa-hourglass icon" title="En attente de validation"></i>
                     {% elseif license.status == 4 %}
-                        <a href="{{ path('app_license_checkout', {'licenseId': license.id})}}"><i class="fa-regular fa-credit-card icon" title="Paye ta licence"></i>
+                        <a href="{{ path('app_license_checkout', {'licenseId': license.id})}}"><i class="fa-regular fa-credit-card icon disagree" title="Paye ta licence"></i>
                     {% endif %}
                     </td>
                 </tr>
