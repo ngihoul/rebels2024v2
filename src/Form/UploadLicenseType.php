@@ -35,11 +35,11 @@ class UploadLicenseType extends AbstractType
             ])
             ->add('confirm_rules', CheckboxType::class, [
                 'label' => 'Je confirme avoir lu le Règlement d\'ordre intérieur',
-                'required' => true, // Vous pouvez définir cette option en fonction de vos besoins
+                'required' => true,
             ])
             ->add('confirm_data', CheckboxType::class, [
                 'label' => 'Je confirme que toutes mes données sont correctes et que tous les champs sont complètés',
-                'required' => true, // Vous pouvez définir cette option en fonction de vos besoins
+                'required' => true,
             ]);
     }
 

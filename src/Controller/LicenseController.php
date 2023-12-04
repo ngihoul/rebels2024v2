@@ -60,7 +60,7 @@ class LicenseController extends AbstractController
 
         // Profile must be complete to ask a new license
         if (!$user->isProfileComplete()) {
-            $this->addFlash('error', 'Votre profil est incomplet. Complétez d\'abord votre profil et ensuite demandez votre licence.');
+            $this->addFlash('error', 'ton profil est incomplet. Complète d\'abord ton profil et ensuite demande une licence.');
             return $this->redirectToRoute('app_edit_profile');
         }
 
@@ -68,7 +68,7 @@ class LicenseController extends AbstractController
         $currentLicense = $this->licenseRepository->getCurrentYearActiveLicense($user);
 
         if ($currentLicense) {
-            $this->addFlash('error', 'Vous avez déjà une licence active pour cette année. Vous ne pouvez pas en demander une nouvelle.');
+            $this->addFlash('error', 'Tu as déjà une licence active pour cette année. tu ne peux pas en demander une nouvelle.');
             return $this->redirectToRoute('app_licenses');
         }
 
@@ -181,7 +181,7 @@ class LicenseController extends AbstractController
                     // Send a mail to administrateur
                     $emailManager->sendEmail(EmailManager::ADMIN_MAIL, 'Licence à valider', 'license_to_validate', ['user' => $license->getUser()]);
 
-                    $this->addFlash('success', 'Votre licence a été envoyée avec succès. Un administrateur vérifiera le document et validera votre demande.');
+                    $this->addFlash('success', 'Ta licence a été envoyée avec succès. Un administrateur vérifiera le document et validera ta demande.');
                 } catch (FileException $e) {
                     $this->addFlash('error', 'Le fichier n\'a pas pu être enregistré car ' . $e->getMessage());
                 }

@@ -32,14 +32,14 @@ class UserChecker implements UserCheckerInterface
                 (new TemplatedEmail())
                     ->from(new Address('no-reply@gihoul.be', 'Liège Rebels Baseball & Softball Club'))
                     ->to($user->getEmail())
-                    ->subject('Confirmation de votre compte')
+                    ->subject('Confirmation de ton compte')
                     ->htmlTemplate('registration/confirmation_email.html.twig')
             );
-            throw new CustomUserMessageAuthenticationException("Votre compte n'a pas été verifié. Un nouveau mail de confirmation vous a été envoyé");
+            throw new CustomUserMessageAuthenticationException("Ton compte n'a pas encore été verifié. Un nouveau mail de confirmation t'a été envoyé");
         }
 
         if ($user->isBanned()) {
-            throw new CustomUserMessageAuthenticationException("Vous êtes banni. Vous ne pouvez donc plus utiliser ce site !");
+            throw new CustomUserMessageAuthenticationException("Tu es banni. Tu ne peux donc plus utiliser ce site !");
         }
     }
 

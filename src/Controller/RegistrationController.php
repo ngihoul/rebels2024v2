@@ -32,7 +32,7 @@ class RegistrationController extends AbstractController
     {
         // Denied access if user is already logged in.
         if ($this->getUser()) {
-            $this->addFlash('error', 'Vous êtes déjà connecté.');
+            $this->addFlash('error', 'tu es déjà connecté.');
             return $this->redirectToRoute('app_home');
         }
 
@@ -67,7 +67,7 @@ class RegistrationController extends AbstractController
                     ->htmlTemplate('registration/confirmation_email.html.twig')
             );
 
-            $this->addFlash('success', 'Votre compte a bien été créé. Merci de confirmer votre mail.');
+            $this->addFlash('success', 'Ton compte a bien été créé. Merci de confirmer ton adresse mail en consultant ta boîte mail.');
 
             return $this->redirectToRoute('app_home');
         }
@@ -103,7 +103,7 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
-        $this->addFlash('success', 'Votre adresse email a été vérifiée.');
+        $this->addFlash('success', 'Ton adresse email a été vérifiée.');
 
         return $this->redirectToRoute('app_login');
     }

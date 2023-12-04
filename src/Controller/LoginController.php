@@ -15,7 +15,7 @@ class LoginController extends AbstractController
     {
         // Denied access if user is already logged in.
         if ($this->getUser()) {
-            $this->addFlash('error', 'Vous êtes déjà connecté.');
+            $this->addFlash('error', 'tu es déjà connecté.');
             return $this->redirectToRoute('app_home');
         }
         // get the login error if there is one

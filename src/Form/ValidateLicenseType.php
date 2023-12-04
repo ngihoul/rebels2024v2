@@ -26,7 +26,7 @@ class ValidateLicenseType extends AbstractType
             ])
             ->add('approval', SubmitType::class, [
                 'label' => "Valider",
-                'attr' => ['class' => 'btn'], // Vous pouvez personnaliser les classes CSS si nécessaire
+                'attr' => ['class' => 'btn'],
             ])
             ->add('refusal', SubmitType::class, [
                 'label' => 'Refuser',

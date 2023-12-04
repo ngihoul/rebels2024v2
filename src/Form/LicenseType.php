@@ -37,9 +37,6 @@ class LicenseType extends AbstractType
                     new NotBlank(['message' => 'Veuillez sélectionner au moins une sous-catégorie.']),
                     new Count(['min' => 1, 'minMessage' => 'Veuillez sélectionner au moins une sous-catégorie.']),
                 ],
-            ])
-            ->add('comment', TextareaType::class, [
-                'required' => false,
             ]);
     }
 

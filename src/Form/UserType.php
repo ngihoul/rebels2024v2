@@ -26,7 +26,7 @@ class UserType extends AbstractType
         $builder
             ->add('firstname', TextType::class, [
                 'constraints' => [
-                    new NotBlank(['message' => 'Veuillez entrer votre prénom.']),
+                    new NotBlank(['message' => 'Entre ton prénom.']),
                     new Length([
                         'max' => 50,
                         'maxMessage' => 'Le prénom ne doit pas dépasser {{ limit }} caractères.',
@@ -35,7 +35,7 @@ class UserType extends AbstractType
             ])
             ->add('lastname', TextType::class, [
                 'constraints' => [
-                    new NotBlank(['message' => 'Veuillez entrer votre nom de famille.']),
+                    new NotBlank(['message' => 'Entre ton nom de famille.']),
                     new Length([
                         'max' => 50,
                         'maxMessage' => 'Le nom de famille ne doit pas dépasser {{ limit }} caractères.',
@@ -44,7 +44,7 @@ class UserType extends AbstractType
             ])
             ->add('nationality', TextType::class, [
                 'constraints' => [
-                    new NotBlank(['message' => 'Veuillez entrer votre nationalité.']),
+                    new NotBlank(['message' => 'Entre ta nationalité.']),
                     new Length([
                         'max' => 50,
                         'maxMessage' => 'La nationalité ne doit pas dépasser {{ limit }} caractères.',
@@ -72,7 +72,7 @@ class UserType extends AbstractType
             ->add('date_of_birth', DateType::class, [
                 'widget' => 'single_text',
                 'constraints' => [
-                    new NotBlank(['message' => 'Veuillez sélectionner votre date de naissance.']),
+                    new NotBlank(['message' => 'Veuillez sélectionner ta date de naissance.']),
                 ],
             ])
             ->add('gender', ChoiceType::class, [
@@ -89,7 +89,7 @@ class UserType extends AbstractType
             ])
             ->add('address_street', TextType::class, [
                 'constraints' => [
-                    new NotBlank(['message' => 'Veuillez entrer votre adresse.']),
+                    new NotBlank(['message' => 'Entre ton adresse.']),
                     new Length([
                         'max' => 120,
                         'maxMessage' => 'L\'adresse ne doit pas dépasser {{ limit }} caractères.',
@@ -98,7 +98,7 @@ class UserType extends AbstractType
             ])
             ->add('address_number', TextType::class, [
                 'constraints' => [
-                    new NotBlank(['message' => 'Veuillez entrer le numéro de votre adresse.']),
+                    new NotBlank(['message' => 'Entre le numéro de ton adresse.']),
                     new Length([
                         'max' => 20,
                         'maxMessage' => 'Le numéro de l\'adresse ne doit pas dépasser {{ limit }} caractères.',
@@ -107,7 +107,7 @@ class UserType extends AbstractType
             ])
             ->add('zipcode', TextType::class, [
                 'constraints' => [
-                    new NotBlank(['message' => 'Veuillez entrer votre code postal.']),
+                    new NotBlank(['message' => 'Entre ton code postal.']),
                     new Length([
                         'max' => 6,
                         'maxMessage' => 'Le code postal ne doit pas dépasser {{ limit }} caractères.',
@@ -116,7 +116,7 @@ class UserType extends AbstractType
             ])
             ->add('locality', TextType::class, [
                 'constraints' => [
-                    new Notblank(['message' => 'Veuillez entrer votre localité.']),
+                    new Notblank(['message' => 'Entre ta localité.']),
                     new Length([
                         'max' => 50,
                         'maxMessage' => 'La localité ne doit pas dépasser {{ limit }} caractères.',
@@ -125,7 +125,7 @@ class UserType extends AbstractType
             ])
             ->add('country', TextType::class, [
                 'constraints' => [
-                    new Notblank(['message' => 'Veuillez entrer votre pays.']),
+                    new Notblank(['message' => 'Entre ton pays.']),
                     new Length([
                         'max' => 50,
                         'maxMessage' => 'Le pays ne doit pas dépasser {{ limit }} caractères.',
@@ -173,8 +173,6 @@ class UserType extends AbstractType
             ])
             ->add('internal_rules', CheckboxType::class, [
                 'required' => true,
-                'label' => 'J\'accepte le <a class="link-paragraph" href="https://www.liegebaseball.be/wp-content/uploads/2022/12/LRCBS-ROI-v6.pdf" target="_blank">Règlement d\'Ordre Intérieur</a>',
-                'label_html' => true,
             ])
             ->add('submit', SubmitType::class);
     }

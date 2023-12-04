@@ -21,11 +21,6 @@
     {{ form_start(form) }}
     {{ form_row(form.season, {'label' : 'Saison'}) }}
     {{ form_row(form.subCategories, { 'label' : 'Choisissez une ou plusieurs licences :'}) }}
-
-
-    <label for="{{ form.comment.vars.id }}">Commentaire</label>
-    {{ form_widget(form.comment, {'attr': {'rows': 5}}) }}
-    {{ form_errors(form.comment) }}
     
     <button type="submit" class="btn cta">Ajouter</button>
     {{ form_end(form) }}

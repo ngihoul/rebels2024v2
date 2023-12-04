@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ parent() }} | My Licenses{% endblock %}
+{% block title %}{{ parent() }} | Mes licences{% endblock %}
 
 {% block body %}
     <div class="container license-container">
@@ -13,10 +13,10 @@
         {% if currentYearActiveLicenses|length == 0 and currentYearPendingLicenses|length == 0 and pastYearsLicenses|length > 0 %}
             <div class="no-license-this-year">
                 <p class="alert alert-warning">
-                    Vous n'avez pas de licence chez les Rebels pour cette année !
+                    Tu n'as pas de licence chez les Rebels pour cette année !
                 </p>
                 <a href="{{ path('app_add_license') }}">
-                    <button class="cta">Demandez une licence</button>
+                    <button class="cta">Demande une licence</button>
                 </a>
             </div>
         {% endif %}
@@ -25,11 +25,11 @@
         {% if currentYearActiveLicenses|length == 0 and currentYearPendingLicenses|length == 0 and pastYearsLicenses|length == 0 %}
             <div class="no-license">
                 <p class="alert alert-error">
-                    Vous n'avez pas encore de licence chez les Rebels !
+                    Tu n'as pas encore de licence chez les Rebels !
                 </p>
                 <br />
                 <a href="{{ path('app_add_license') }}">
-                    <button class="cta">Demandez votre première licence</button>
+                    <button class="cta">Demande ta première licence</button>
                 </a>
             </div>
         {% endif %}
