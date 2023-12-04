@@ -6,6 +6,7 @@ use App\Entity\License;
 use App\Form\LicenseType;
 use App\Form\UploadLicenseType;
 use App\Repository\LicenseRepository;
+use App\Service\EmailManager;
 use App\Service\FileUploader;
 use App\Service\LicensePDFGenerator as ServiceLicensePDFGenerator;
 use DateTimeImmutable;
@@ -142,7 +143,7 @@ class LicenseController extends AbstractController
 
     #[Route('/upload-license/{licenseId}', name: 'app_upload_license')]
     #[IsGranted('ROLE_USER')]
-    public function upload(Request $request, FileUploader $fileUploader): Response
+    public function upload(Request $request, FileUploader $fileUploader, EmailManager $emailManager): Response
     {
         $licenseId = $request->get('licenseId');
 
@@ -178,6 +179,7 @@ class LicenseController extends AbstractController
                     $this->entityManager->flush();
 
                     // Send a mail to administrateur
+                    $emailManager->sendEmail(EmailManager::ADMIN_MAIL, 'Licence à valider', 'license_to_validate', ['user' => $license->getUser()]);
 
                     $this->addFlash('success', 'Votre licence a été envoyée avec succès. Un administrateur vérifiera le document et validera votre demande.');
                 } catch (FileException $e) {

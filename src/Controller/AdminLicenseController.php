@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\License;
 use App\Form\ValidateLicenseType;
 use App\Repository\LicenseRepository;
+use App\Service\EmailManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityNotFoundException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -37,7 +38,7 @@ class AdminLicenseController extends AbstractController
 
     #[Route('/admin/validate-license/{licenseId}', name: 'admin_validate_license')]
     #[IsGranted('ROLE_ADMIN')]
-    public function validate(Request $request): Response
+    public function validate(Request $request, EmailManager $emailManager): Response
     {
         $licenseId = $request->get('licenseId');
 
@@ -65,7 +66,7 @@ class AdminLicenseController extends AbstractController
                 $license->setPrice($form->get('price')->getData());
 
                 // Send a mail to player informing him his license has been validated
-
+                $emailManager->sendEmail($license->getUser()->getEmail(), 'Licence validée', 'license_approved');
             } elseif ($form->get('refusal')->isClicked()) {
                 // Change status to ON_DEMAND
                 $license->setStatus(License::ON_DEMAND);
@@ -74,7 +75,7 @@ class AdminLicenseController extends AbstractController
                 $license->setComment($form->get('comment')->getData());
 
                 // Send a mail to player informing him his license has been refused
-
+                $emailManager->sendEmail($license->getUser()->getEmail(), 'Licence refusée', 'license_refused', ['reason' => $license->getComment()]);
             }
 
             $this->entityManager->persist($license);
