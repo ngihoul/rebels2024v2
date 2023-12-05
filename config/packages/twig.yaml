@@ -3,6 +3,7 @@ twig:
   globals:
     pictures_directory: "http://localhost:8000/uploads/user_pictures/"
     licenses_download_directory: "https://localhost:8000/licenses/download/"
+    logo_teams_directory: "http://localhost:8000/uploads/logo_teams/"
 
 when@test:
   twig:

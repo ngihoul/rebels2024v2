@@ -1,0 +1,35 @@
+.container-team {
+  section {
+    text-align: center;
+
+    h2:before {
+      left: calc(50% - 10%);
+    }
+  }
+
+  .link-paragraph {
+    font-size: 0.8rem;
+  }
+
+  img {
+    width: 144px;
+    border-radius: $border-radius;
+  }
+}
+
+@media screen and (min-width: $min-desktop) {
+  .container-team {
+    .team-cards {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    section {
+      width: 30%;
+
+      &:not(:nth-of-type(3n)) {
+        margin-right: 0.8rem;
+      }
+    }
+  }
+}

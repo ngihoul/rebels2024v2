@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello TeamController!{% endblock %}
+
+{% block body %}
+<div class="container container-team">
+    <h1>Mes équipes</h1>
+    <div class="team-cards">
+    {% for team in teams %}
+        <section class="team">
+            <img src="{{ logo_teams_directory ~ team.logo }}" alt="Logo de l'équipe" />
+            <h2>{{ team.name }}</h2>
+            <p><u>Coach</u> : {{ team.coach.firstname }} {{ team.coach.lastname }}</p>
+            <a class="link-paragraph" href="">Voir les membres</a>
+        </section>
+    {% endfor %}
+    </div>
+</div>
+{% endblock %}
