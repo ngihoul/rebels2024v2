@@ -6,9 +6,11 @@
 <div class="container profile-container">
   <div class="heading-container">
     <h1>Mon profil</h1>
+    {% if app.user == user %}
     <a href=" {{ path('app_edit_profile') }}">
       <i class="fa-regular fa-pen-to-square icon icon-edit"></i>
     </a>
+    {% endif %}
   </div>
   <div class="profile-important-info">
     <div class="profile-picture">

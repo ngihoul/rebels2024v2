@@ -100,10 +100,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[JoinTable(name: 'roster')]
     private Collection $teams;
 
+    #[ORM\OneToMany(mappedBy: 'coach', targetEntity: Team::class)]
+    private Collection $coach_of;
+
     public function __construct()
     {
         $this->licenses = new ArrayCollection();
         $this->teams = new ArrayCollection();
+        $this->coach_of = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -489,6 +493,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->teams->removeElement($team)) {
             $team->removePlayer($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Team>
+     */
+    public function getCoachOf(): Collection
+    {
+        return $this->coach_of;
+    }
+
+    public function addCoachOf(Team $coachOf): static
+    {
+        if (!$this->coach_of->contains($coachOf)) {
+            $this->coach_of->add($coachOf);
+            $coachOf->setCoach($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCoachOf(Team $coachOf): static
+    {
+        if ($this->coach_of->removeElement($coachOf)) {
+            // set the owning side to null (unless already changed)
+            if ($coachOf->getCoach() === $this) {
+                $coachOf->setCoach(null);
+            }
         }
 
         return $this;

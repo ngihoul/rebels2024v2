@@ -9,6 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use App\Form\UserType;
 use App\Repository\LicenseRepository;
+use App\Repository\UserRepository;
 use App\Service\ProfilePictureManager;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -40,6 +41,17 @@ class UserController extends AbstractController
             'pendingLicense' => $pendingLicense,
             'activeLicenses' => $activeLicenses
         ]);
+    }
+
+    #[Route('/profile/{userId}', name: 'app_profile_user')]
+    #[IsGranted('ROLE_ADMIN')]
+    public function profileUser(Request $request, UserRepository $userRepository): Response
+    {
+        $userId = $request->get('userId');
+
+        $user = $userRepository->find($userId);
+
+        return $this->render('profile/index.html.twig', ['user' => $user]);
     }
 
     #[Route('/profile', name: 'app_profile')]

@@ -20,10 +20,6 @@ class Team
     private ?string $name = null;
 
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $coach = null;
-
-    #[ORM\ManyToOne]
     private ?User $assistant = null;
 
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'teams')]
@@ -32,6 +28,10 @@ class Team
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $logo = null;
+
+    #[ORM\ManyToOne(inversedBy: 'coach_of')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $coach = null;
 
     public function __construct()
     {
@@ -51,18 +51,6 @@ class Team
     public function setName(string $name): static
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getCoach(): ?User
-    {
-        return $this->coach;
-    }
-
-    public function setCoach(?User $coach): static
-    {
-        $this->coach = $coach;
 
         return $this;
     }
@@ -111,6 +99,18 @@ class Team
     public function setLogo(?string $logo): static
     {
         $this->logo = $logo;
+
+        return $this;
+    }
+
+    public function getCoach(): ?User
+    {
+        return $this->coach;
+    }
+
+    public function setCoach(?User $coach): static
+    {
+        $this->coach = $coach;
 
         return $this;
     }

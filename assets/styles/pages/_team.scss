@@ -17,6 +17,26 @@
   }
 }
 
+.container-team-detail {
+  .jersey_cell {
+    width: 36px;
+  }
+
+  #add_user_to_team {
+    display: flex;
+    flex-direction: row;
+    align-items: last baseline;
+  }
+
+  #add_user_to_team_save {
+    margin-left: 0.8rem;
+  }
+
+  .action-remove {
+    width: 48px;
+  }
+}
+
 @media screen and (min-width: $min-desktop) {
   .container-team {
     .team-cards {

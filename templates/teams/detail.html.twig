@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} | Equipe {{ team.name }}{% endblock %}
+
+{% block body %}
+<div class="container container-team-detail">
+    <h1>Equipe {{ team.name }}</h1>
+    {{ parent() }}
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <section class="add_user_to_team">
+            {{ form_start(form) }}
+                {{ form_widget(form) }}
+            {{ form_end(form) }}
+        </section>
+    {% endif %}
+
+    <table class="license-table">
+        <tr>
+            <th class="jersey_cell">#</th>
+            <th>Nom</th>
+            <th>Rôle</th>
+            <th class="action-remove"></th>
+        </tr>
+        <tr>
+            <td class="jersey_cell">{{ team.coach.jerseyNumber ? team.coach.jerseyNumber : '-' }}</td>
+            {% if is_granted('ROLE_ADMIN') %}
+            <td><a href="{{ path('app_profile_user', { 'userId': team.coach.id }) }}">{{ team.coach.firstname }} {{ team.coach.lastname }}</td>
+            {% else %}
+            <td>{{ team.coach.firstname }} {{ team.coach.lastname }}</td>
+            {% endif %}
+            <td>Coach</td>
+            <td class="action-remove"></td>
+        </tr>
+        <tr>
+            <td class="jersey_cell">{{ team.assistant.jerseyNumber ? team.assistant.jerseyNumber : '-' }}</td>
+            {% if is_granted('ROLE_ADMIN') %}
+            <td><a href="{{ path('app_profile_user', { 'userId': team.assistant.id }) }}">{{ team.assistant.firstname }} {{ team.assistant.lastname }}</td>
+            {% else %}
+            <td>{{ team.assistant.firstname }} {{ team.assistant.lastname }}</td>
+            {% endif %}
+            <td>Assistant</td>
+            <td class="action-remove"></td>
+        </tr>
+        {% for player in team.players %}
+            <tr class="">
+                <td class="jersey_cell">{{ player.jerseyNumber ? player.jerseyNumber : '-' }}</td>
+                {% if is_granted('ROLE_ADMIN') %}
+                <td><a href="{{ path('app_profile_user', { 'userId': player.id }) }}">{{ player.firstname }} {{ player.lastname }}</td>
+                {% else %}
+                <td>{{ player.firstname }} {{ player.lastname }}</td>
+                {% endif %}
+                <td>Joueur</td>
+                <td class="action-remove"><a href="{{ path('app_remove_user_from_team', { 'teamId': team.id, 'userId': player.id }) }}"><i class="fa-solid fa-trash icon icon-trash disagree"></i></a></td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}
