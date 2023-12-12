@@ -23,9 +23,9 @@ class AddUserToTeam extends AbstractType
                 'label' => 'Ajouter un joueur',
                 'query_builder' => function (EntityRepository $entityRepository) use ($options) {
                     return $entityRepository->createQueryBuilder('u')
-                        ->leftJoin('u.teams', 't', 'WITH', 't.id = :teamId')
-                        ->andWhere('t.id IS NULL')
-                        ->setParameter('teamId', $options['team']->getId());
+                        ->andWhere(':team NOT MEMBER OF u.teams')
+                        ->setParameter('team', $options['team'])
+                        ->orderBy('u.lastname', 'ASC');
                 },
             ])
             ->add('save', SubmitType::class, ['label' => 'Ajouter']);
