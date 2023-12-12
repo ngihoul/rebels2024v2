@@ -11,7 +11,7 @@
         <div class="team-cards">
         {% for team in teamsAsCoach %}
             <section class="team">
-                <img src="{{ logo_teams_directory ~ team.logo }}" alt="Logo de l'équipe" />
+                <a href="{{ path('app_team_detail', { 'teamId': team.id }) }}"><img src="{{ logo_teams_directory ~ team.logo }}" alt="Logo de l'équipe" /></a>
                 <h2>{{ team.name }}</h2>
                 <p><u>Coach</u> : {{ team.coach.firstname }} {{ team.coach.lastname }}</p>
                 <a class="link-paragraph" href="{{ path('app_team_detail', { 'teamId': team.id }) }}">Voir les membres</a>
@@ -25,7 +25,7 @@
         <div class="team-cards">
         {% for team in teamsAsPlayer %}
             <section class="team">
-                <img src="{{ logo_teams_directory ~ team.logo }}" alt="Logo de l'équipe" />
+                <a href="{{ path('app_team_detail', { 'teamId': team.id }) }}"><img src="{{ logo_teams_directory ~ team.logo }}" alt="Logo de l'équipe" /></a>
                 <h2>{{ team.name }}</h2>
                 <p><u>Coach</u> : {{ team.coach.firstname }} {{ team.coach.lastname }}</p>
                 <a class="link-paragraph" href="{{ path('app_team_detail', { 'teamId': team.id }) }}">Voir les membres</a>

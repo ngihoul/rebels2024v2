@@ -47,6 +47,11 @@ class TeamController extends AbstractController
             $teamId = $request->get('teamId');
             $team = $this->teamRepository->find($teamId);
 
+            $players = $team->getPlayers()->toArray();
+            usort($players, function ($a, $b) {
+                return strcmp($a->getLastName(), $b->getLastName());
+            });
+
             $form = $this->createForm(AddUserToTeam::class, null, [
                 'team' => $team,
             ]);
@@ -74,6 +79,7 @@ class TeamController extends AbstractController
 
         return $this->render('teams/detail.html.twig', [
             'team' => $team,
+            'players' => $players,
             'form' => $form
         ]);
     }

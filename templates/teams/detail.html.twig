@@ -42,7 +42,7 @@
             <td>Assistant</td>
             <td class="action-remove"></td>
         </tr>
-        {% for player in team.players %}
+        {% for player in players %}
             <tr class="">
                 <td class="jersey_cell">{{ player.jerseyNumber ? player.jerseyNumber : '-' }}</td>
                 {% if is_granted('ROLE_ADMIN') %}
