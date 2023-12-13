@@ -1,7 +1,25 @@
 .card-event-container {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin: 0.8rem;
   padding-bottom: 0.8rem;
   border-bottom: 1px solid $color-border;
+}
+
+.response-event {
+  display: flex;
+  justify-content: space-between;
+}
+
+.response-event-yes {
+  color: $color-success;
+  background-color: $color-bg-success;
+  border-color: $color-border-success;
+}
+
+.response-event-no {
+  color: $color-danger;
+  background-color: $color-bg-danger;
+  border-color: $color-border-danger;
 }

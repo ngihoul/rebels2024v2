@@ -57,12 +57,14 @@
                     </button>
                     <ul>
                         <li class="menu-item">
-                            <i class="fa-regular fa-calendar-days"></i> Mon agenda
+                            <a href="{{ path('app_agenda') }}">
+                                <i class="fa-regular fa-calendar-days"></i> Mon agenda
+                            </a>
                         </li>
                         <li class="menu-item">
-                        <a href="{{ path('app_licenses') }}"
-                            ><i class="fa-regular fa-id-card"></i> Mes Licences</a
-                        >
+                            <a href="{{ path('app_licenses') }}">
+                                <i class="fa-regular fa-id-card"></i> Mes Licences
+                            </a>
                         </li>
                         {% if is_granted('ROLE_ADMIN') %}
                             <li class="menu-item sub-menu-item">
@@ -73,12 +75,10 @@
                             <i class="fa-regular fa-chart-bar"></i> Statistiques
                         </li>
                         <li class="menu-item">
-                            <a href="{{ path('app_profile') }}"><i class="fa-regular fa-user"></i> Mon profil</a
-                            >
+                            <a href="{{ path('app_profile') }}"><i class="fa-regular fa-user"></i> Mon profil</a>
                         </li>
                         <li class="menu-item">
-                            <a href="{{ path('app_teams') }}"><i class="fa-solid fa-user-group"></i> Mes équipes</a
-                            >
+                            <a href="{{ path('app_teams') }}"><i class="fa-solid fa-user-group"></i> Mes équipes</a>
                         </li>
                     </ul>
                 </nav>

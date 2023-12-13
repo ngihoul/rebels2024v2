@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} | Mon agenda{% endblock %}
+
+{% block body %}
+<div class="container container-agenda">
+    <div class="agenda-heading">
+        <h1>Mon agenda</h1>
+        {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_COACH') %}
+            <a href="" class="btn btn-desktop">Ajouter</a>
+            <a href="" class="btn-mobile"></a>
+        {% endif %}
+    </div>
+    <h2>En attente</h2>
+    <section class="card-event-container">
+        <div class="info-event">
+            <p class="event-date">23/08 - 14h00</p>
+            <p class="event-type">[D2] Match vs MSG</p>
+        </div>
+        <div class="response-event">
+            <button class="response-event-yes">V</button>
+            <button class="response-event-no">X</button>
+        </div>
+    </section>
+    <section class="card-event-container">
+        <div class="info-event">
+            <p class="event-date">23/08 - 14h00</p>
+            <p class="event-type">[D2] Match vs MSG</p>
+        </div>
+        <div class="response-event">
+            <button class="response-event-yes">V</button>
+            <button class="response-event-no">X</button>
+        </div>
+    </section>
+    <h2>Prochains</h2>
+    <section class="card-event-container">
+        <div class="info-event">
+            <p class="event-date">23/08 - 14h00</p>
+            <p class="event-type">[D2] Match vs MSG</p>
+        </div>
+        <div class="response-event">
+            <button class="response-event-yes">V</button>
+            <button class="response-event-no">X</button>
+        </div>
+    </section>
+    <section class="card-event-container">
+        <div class="info-event">
+            <p class="event-date">23/08 - 14h00</p>
+            <p class="event-type">[D2] Match vs MSG</p>
+        </div>
+        <div class="response-event">
+            <button class="response-event-yes">V</button>
+            <button class="response-event-no">X</button>
+        </div>
+    </section>
+</div>
+{% endblock %}
