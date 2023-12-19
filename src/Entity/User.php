@@ -103,11 +103,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'coach', targetEntity: Team::class)]
     private Collection $coach_of;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: EventAttendee::class)]
+    private Collection $events;
+
     public function __construct()
     {
         $this->licenses = new ArrayCollection();
         $this->teams = new ArrayCollection();
         $this->coach_of = new ArrayCollection();
+        $this->events = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -522,6 +526,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($coachOf->getCoach() === $this) {
                 $coachOf->setCoach(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, EventAttendee>
+     */
+    public function getEvents(): Collection
+    {
+        return $this->events;
+    }
+
+    public function addEvent(EventAttendee $event): static
+    {
+        if (!$this->events->contains($event)) {
+            $this->events->add($event);
+            $event->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEvent(EventAttendee $event): static
+    {
+        if ($this->events->removeElement($event)) {
+            // set the owning side to null (unless already changed)
+            if ($event->getUser() === $this) {
+                $event->setUser(null);
             }
         }
 
