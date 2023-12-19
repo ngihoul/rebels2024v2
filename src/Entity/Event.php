@@ -20,7 +20,7 @@ class Event
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
-    #[ORM\Column(type: Types::DATE_IMMUTABLE)]
+    #[ORM\Column(type: 'datetime_immutable')]
     private ?\DateTimeImmutable $date = null;
 
     #[ORM\Column(type: Types::TIME_IMMUTABLE, nullable: true)]
@@ -31,9 +31,6 @@ class Event
 
     #[ORM\Column(type: Types::TIME_IMMUTABLE)]
     private ?\DateTimeImmutable $time_to = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $opponent = null;
 
     #[ORM\ManyToOne(inversedBy: 'events')]
     #[ORM\JoinColumn(nullable: false)]
@@ -119,18 +116,6 @@ class Event
     public function setTimeTo(\DateTimeImmutable $time_to): static
     {
         $this->time_to = $time_to;
-
-        return $this;
-    }
-
-    public function getOpponent(): ?string
-    {
-        return $this->opponent;
-    }
-
-    public function setOpponent(?string $opponent): static
-    {
-        $this->opponent = $opponent;
 
         return $this;
     }

@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\EventCategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: EventCategoryRepository::class)]
@@ -20,6 +21,9 @@ class EventCategory
 
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: Event::class)]
     private Collection $events;
+
+    #[ORM\Column(type: Types::SMALLINT)]
+    private ?int $value = null;
 
     public function __construct()
     {
@@ -69,6 +73,18 @@ class EventCategory
                 $event->setCategory(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getValue(): ?int
+    {
+        return $this->value;
+    }
+
+    public function setValue(int $value): static
+    {
+        $this->value = $value;
 
         return $this;
     }

@@ -1,0 +1,64 @@
+{# templates/form/event_form.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer un événement{% endblock %}
+
+{% block body %}
+<div class="container container-create-event">
+    <h1>Créer un événement</h1>
+
+    {{ parent() }}
+
+    {{ form_start(form) }}
+
+    {{ form_row(form.name, {'label': 'Nom de l\'événement'}) }}
+    {{ form_row(form.description, {'label': 'Description'}) }}
+    {{ form_row(form.category, {'label': 'Catégorie'}) }}
+    {{ form_row(form.team, {'label': 'Équipe'}) }}
+    {{ form_row(form.date, {'label': 'Date de l\'événement'}) }}
+    <div></div>
+    <div class="custom-checkbox">
+        {{ form_row(form.is_recurrent, {'label': 'Evènement récurrent'}) }}
+    </div>
+    {{ form_row(form.end_date, {'label': 'Date de fin'}) }}
+    {{ form_row(form.frequency, {'label': 'Fréquence'}) }}
+
+    {{ form_row(form.time_meeting, {'label': 'Heure de rendez-vous'}) }}
+    {{ form_row(form.time_from, {'label': 'Heure de début'}) }}
+    {{ form_row(form.time_to, {'label': 'Heure de fin'}) }}
+    {{ form_row(form.place, {'label': 'Lieu de l\'événement'}) }}
+
+    
+
+    <button type="submit">Créer l'événement</button>
+
+    {{ form_end(form) }}
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const checkbox = document.getElementById('{{ form.is_recurrent.vars.id }}');
+    const startDateLabel = document.querySelector('label[for="event_start_date"]');
+    const endDateLabel = document.querySelector('label[for="event_end_date"]');
+    const frequencyLabel = document.querySelector('label[for="event_frequency"]');
+    const endDateField = document.getElementById('event_end_date');
+    const frequencyField = document.getElementById('event_frequency');
+
+    const toggleFields = function () {
+        const isRecurrentChecked = checkbox.checked;
+
+        endDateField.style.display = isRecurrentChecked ? 'block' : 'none';
+        frequencyField.style.display = isRecurrentChecked ? 'block' : 'none';
+
+        endDateLabel.style.display = isRecurrentChecked ? 'block' : 'none';
+        frequencyLabel.style.display = isRecurrentChecked ? 'block' : 'none';
+    };
+
+    checkbox.addEventListener('change', toggleFields);
+
+    toggleFields();
+});
+
+</script>
+{% endblock %}

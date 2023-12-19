@@ -2,14 +2,49 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
   margin: 0.8rem;
   padding-bottom: 0.8rem;
   border-bottom: 1px solid $color-border;
-}
 
-.response-event {
-  display: flex;
-  justify-content: space-between;
+  .info-event {
+    width: 70%;
+  }
+
+  .response-event {
+    width: 30%;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .admin-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+
+    .btn-invite {
+      display: inline;
+      width: 100%;
+    }
+
+    .icon {
+      font-size: 1rem;
+      border: 2px solid;
+      padding: 0.8rem;
+      border-radius: $border-radius;
+    }
+
+    .icon-edit {
+      border-color: $color-secondary;
+      color: $color-secondary;
+    }
+
+    .icon-delete {
+      border-color: $color-danger;
+      color: $color-danger;
+      margin-left: 0.8rem;
+    }
+  }
 }
 
 .response-event-yes {
@@ -22,4 +57,18 @@
   color: $color-danger;
   background-color: $color-bg-danger;
   border-color: $color-border-danger;
+}
+
+@media screen and (min-width: $min-desktop) {
+  .card-event-container {
+    max-width: 25%;
+
+    .info-event {
+      width: 80%;
+    }
+
+    .response-event {
+      width: 20%;
+    }
+  }
 }

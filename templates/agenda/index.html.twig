@@ -7,10 +7,14 @@
     <div class="agenda-heading">
         <h1>Mon agenda</h1>
         {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_COACH') %}
-            <a href="" class="btn btn-desktop">Ajouter</a>
-            <a href="" class="btn-mobile"></a>
+            <a href="{{ path('app_create_event') }}" class="btn btn-desktop">Ajouter</a>
+            <a href="{{ path('app_create_event') }}" class="btn-mobile"></a>
         {% endif %}
     </div>
+
+    {# Flash messages #}
+    {{ parent() }}
+
     <h2>En attente</h2>
     <section class="card-event-container">
         <div class="info-event">
@@ -21,6 +25,13 @@
             <button class="response-event-yes">V</button>
             <button class="response-event-no">X</button>
         </div>
+        {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_COACH') %}
+            <div class="admin-btn">
+                <a class="btn btn-invite" href="#">Inviter</a>
+                <a class="icon icon-edit" href="#"><i class="fa-regular fa-pen-to-square"></i></a>
+                <a class="icon icon-delete" href="#"><i class="fa-solid fa-trash"></i></a>
+            </div>
+        {% endif %}
     </section>
     <section class="card-event-container">
         <div class="info-event">
