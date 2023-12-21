@@ -3,7 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Event;
+use App\Entity\EventAttendee;
+use App\Entity\User;
+use App\Form\AttendeeType;
 use App\Form\EventType;
+use App\Form\InvitationType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,6 +16,13 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class EventController extends AbstractController
 {
+    private $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
     #[Route('/agenda', name: 'app_agenda')]
     public function index(): Response
     {
@@ -21,7 +32,7 @@ class EventController extends AbstractController
     }
 
     #[Route('/create-event', name: 'app_create_event')]
-    public function createEvent(Request $request, EntityManagerInterface $entityManager): Response
+    public function createEvent(Request $request): Response
     {
         try {
             $event = new Event();
@@ -34,17 +45,17 @@ class EventController extends AbstractController
                 $endDate = $form->get('end_date')->getData();
                 $frequency = $form->get('frequency')->getData();
 
-                $entityManager->beginTransaction();
+                $this->entityManager->beginTransaction();
 
                 if ($endDate === null) {
-                    $entityManager->persist($event);
+                    $this->entityManager->persist($event);
                 } else {
                     $currentDate = $startDate;
                     while ($currentDate <= $endDate) {
                         $newEvent = clone $event;
                         $newEvent->setDate($currentDate);
 
-                        $entityManager->persist($newEvent);
+                        $this->entityManager->persist($newEvent);
 
                         if ($frequency === 'daily') {
                             $currentDate = $currentDate->modify('+1 day');
@@ -58,20 +69,61 @@ class EventController extends AbstractController
                     }
                 }
 
-                $entityManager->flush();
-                $entityManager->commit();
+                $this->entityManager->flush();
+                $this->entityManager->commit();
 
                 $this->addFlash('success', 'L\'évènement a bien été créé.');
                 return $this->redirectToRoute('app_agenda');
             }
         } catch (\Exception $e) {
-            $entityManager->rollback();
+            $this->entityManager->rollback();
 
             $this->addFlash('error', 'Une erreur s\'est produite lors de la création de l\'événement.');
             return $this->redirectToRoute('app_agenda');
         }
 
         return $this->render('agenda/event_form.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/invitation/{id}', name: 'app_invitation')]
+    public function inviteUsers(Request $request, Event $event): Response
+    {
+        $form = $this->createForm(InvitationType::class, null, ['event' => $event]);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Get the selected users from the form
+            $invitedUsers = $form->get('invitedUsers')->getData();
+
+            foreach ($invitedUsers as $user) {
+                // Check if the user is already invited to the event
+                $existingAttendee = $this->entityManager
+                    ->getRepository(EventAttendee::class)
+                    ->findOneBy(['event' => $event, 'user' => $user]);
+
+                // If not, create and persist a new EventAttendee instance
+                if (!$existingAttendee) {
+                    $eventAttendee = new EventAttendee();
+                    $eventAttendee->setEvent($event);
+                    $eventAttendee->setUser($user);
+                    $eventAttendee->setCreatedAt(new \DateTimeImmutable());
+
+                    $this->entityManager->persist($eventAttendee);
+                }
+            }
+
+            $this->entityManager->flush();
+
+            // Send a message to User
+
+            return $this->redirectToRoute('app_agenda');
+        }
+
+        return $this->render('agenda/invitation_form.html.twig', [
+            'event' => $event,
             'form' => $form->createView(),
         ]);
     }

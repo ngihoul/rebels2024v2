@@ -6,6 +6,8 @@
 <div class="container container-team">
     <h1>Mes équipes</h1>
 
+    {{ parent() }}
+
     {% if teamsAsCoach|length > 0 %}
         <h2>Coach/Assistant</h2>
         <div class="team-cards">

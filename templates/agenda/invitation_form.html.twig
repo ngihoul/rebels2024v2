@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="container container-invitation">
+    <h1>Invite Users to {{ event.name }}</h1>
+
+    {{ form_start(form) }}
+    {{ form_row(form.invitedUsers) }}
+    {{ form_row(form.invite) }}
+    {{ form_end(form) }}
+</div>
+{% endblock %}
