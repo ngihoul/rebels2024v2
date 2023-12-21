@@ -60,6 +60,7 @@ class TeamController extends AbstractController
             $form = $this->createForm(AddUserToTeam::class, null, [
                 'team' => $team,
             ]);
+
             // Avoid testing if form si submitted for the first loading
             if ($request->isMethod('POST')) {
                 $form->handleRequest($request);
@@ -74,6 +75,8 @@ class TeamController extends AbstractController
                     $this->entityManager->flush();
 
                     $this->addFlash('success', 'Joueur ajouté à l\'équipe !');
+                    // Force to reload the player list
+                    return $this->redirectToRoute('app_team_detail', ['teamId' => $team->getId()]);
                 } else {
                     $this->addFlash('error', 'Une erreur est survenue: le joueur n\'a pas pu être ajouté');
                 }
