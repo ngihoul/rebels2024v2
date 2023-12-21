@@ -6,6 +6,7 @@ use App\Form\AddUserToTeam;
 use App\Repository\TeamRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityNotFoundException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -47,6 +48,10 @@ class TeamController extends AbstractController
             $teamId = $request->get('teamId');
             $team = $this->teamRepository->find($teamId);
 
+            if (!$team) {
+                throw new EntityNotFoundException('L\'équipe n\'existe pas.');
+            }
+
             $players = $team->getPlayers()->toArray();
             usort($players, function ($a, $b) {
                 return strcmp($a->getLastName(), $b->getLastName());
@@ -74,7 +79,8 @@ class TeamController extends AbstractController
                 }
             }
         } catch (\Exception $e) {
-            $this->addFlash('error', 'An error occurred: ' . $e->getMessage());
+            $this->addFlash('error', $e->getMessage());
+            return $this->redirectToRoute('app_teams');
         }
 
         return $this->render('teams/detail.html.twig', [
