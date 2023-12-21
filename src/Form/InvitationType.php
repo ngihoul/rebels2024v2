@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Event;
+use App\Entity\Team;
 use App\Entity\User;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -16,6 +17,22 @@ class InvitationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('invitedTeams', EntityType::class, [
+                'class' => Team::class,
+                'query_builder' => function (EntityRepository $er) use ($options) {
+                    // Utilisez le nom correct de l'association pour les équipes
+                    $eventId = $options['event']->getId();
+
+                    return $er->createQueryBuilder('t')
+                        ->leftJoin('t.events', 'te')
+                        ->andWhere('te.id IS NULL OR te.id != :eventId')
+                        ->setParameter('eventId', $eventId);
+                },
+                'choice_label' => 'name',
+                'multiple' => true,
+                'expanded' => true,
+                'mapped' => false,
+            ])
             ->add('invitedUsers', EntityType::class, [
                 'class' => User::class,
                 'query_builder' => function (EntityRepository $er) use ($options) {

@@ -5,7 +5,22 @@
     <h1>Invite Users to {{ event.name }}</h1>
 
     {{ form_start(form) }}
-    {{ form_row(form.invitedUsers) }}
+    <h2>Equipes</h2>
+    {% for team in form.invitedTeams %}
+        <div class="checkbox-pair">
+            {{ form_widget(team, {'attr': {'id': 'custom_id_teams_' ~ team.vars.value}}) }}
+            {{ form_label(team) }}
+        </div>
+    {% endfor %}
+
+    <h2>Joueurs</h2>
+    {% for user in form.invitedUsers %}
+        <div class="checkbox-pair">
+            {{ form_widget(user, {'attr': {'id': 'custom_id_users_' ~ user.vars.value}}) }}
+            {{ form_label(user) }}
+        </div>
+    {% endfor %}
+
     {{ form_row(form.invite) }}
     {{ form_end(form) }}
 </div>

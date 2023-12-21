@@ -9,6 +9,8 @@ use App\Form\AttendeeType;
 use App\Form\EventType;
 use App\Form\InvitationType;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityNotFoundException;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -90,41 +92,56 @@ class EventController extends AbstractController
     #[Route('/invitation/{id}', name: 'app_invitation')]
     public function inviteUsers(Request $request, Event $event): Response
     {
-        $form = $this->createForm(InvitationType::class, null, ['event' => $event]);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            // Get the selected users from the form
-            $invitedUsers = $form->get('invitedUsers')->getData();
-
-            foreach ($invitedUsers as $user) {
-                // Check if the user is already invited to the event
-                $existingAttendee = $this->entityManager
-                    ->getRepository(EventAttendee::class)
-                    ->findOneBy(['event' => $event, 'user' => $user]);
-
-                // If not, create and persist a new EventAttendee instance
-                if (!$existingAttendee) {
-                    $eventAttendee = new EventAttendee();
-                    $eventAttendee->setEvent($event);
-                    $eventAttendee->setUser($user);
-                    $eventAttendee->setCreatedAt(new \DateTimeImmutable());
-
-                    $this->entityManager->persist($eventAttendee);
-                }
+        try {
+            if (!$event) {
+                throw new EntityNotFoundException('L\'évèment n\'existe pas');
             }
 
-            $this->entityManager->flush();
+            $form = $this->createForm(InvitationType::class, null, ['event' => $event]);
 
-            // Send a message to User
+            $form->handleRequest($request);
 
+            if ($form->isSubmitted() && $form->isValid()) {
+                $invitedTeams = $form->get('invitedTeams')->getData();
+                $invitedUsers = $form->get('invitedUsers')->getData();
+
+                foreach ($invitedTeams as $team) {
+                    foreach ($team->getPlayers() as $player) {
+                        $invitedUsers[] = $player;
+                    }
+                }
+
+                foreach ($invitedUsers as $user) {
+                    // Check if the user is already invited to the event
+                    $existingAttendee = $this->entityManager
+                        ->getRepository(EventAttendee::class)
+                        ->findOneBy(['event' => $event, 'user' => $user]);
+
+                    // If not, create and persist a new EventAttendee instance
+                    if (!$existingAttendee) {
+                        $eventAttendee = new EventAttendee();
+                        $eventAttendee->setEvent($event);
+                        $eventAttendee->setUser($user);
+                        $eventAttendee->setCreatedAt(new \DateTimeImmutable());
+
+                        $this->entityManager->persist($eventAttendee);
+                    }
+                }
+
+                $this->entityManager->flush();
+
+                // Send a message to User
+
+                return $this->redirectToRoute('app_agenda');
+            }
+
+            return $this->render('agenda/invitation_form.html.twig', [
+                'event' => $event,
+                'form' => $form->createView(),
+            ]);
+        } catch (Exception $e) {
+            $this->addFlash('error', $e->getMessage());
             return $this->redirectToRoute('app_agenda');
         }
-
-        return $this->render('agenda/invitation_form.html.twig', [
-            'event' => $event,
-            'form' => $form->createView(),
-        ]);
     }
 }

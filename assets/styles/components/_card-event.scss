@@ -14,7 +14,8 @@
   .response-event {
     width: 30%;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
+    padding-right: 0.8rem;
   }
 
   .admin-btn {
@@ -57,11 +58,14 @@
   color: $color-danger;
   background-color: $color-bg-danger;
   border-color: $color-border-danger;
+  margin-left: 0.4rem;
+  margin-right: 0.8rem;
 }
 
 @media screen and (min-width: $min-desktop) {
   .card-event-container {
     max-width: 25%;
+    min-width: 300px;
 
     .info-event {
       width: 80%;
