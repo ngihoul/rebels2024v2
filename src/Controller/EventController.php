@@ -4,36 +4,57 @@ namespace App\Controller;
 
 use App\Entity\Event;
 use App\Entity\EventAttendee;
-use App\Entity\User;
-use App\Form\AttendeeType;
 use App\Form\EventType;
 use App\Form\InvitationType;
+use App\Repository\EventRepository;
+use App\Service\EmailManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityNotFoundException;
 use Exception;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class EventController extends AbstractController
 {
     private $entityManager;
+    private $eventRepository;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager, EventRepository $eventRepository)
     {
         $this->entityManager = $entityManager;
+        $this->eventRepository = $eventRepository;
     }
 
-    #[Route('/agenda', name: 'app_agenda')]
-    public function index(): Response
+    #[Route('/agenda/{page<\d+>?1}', name: 'app_agenda')]
+    #[IsGranted('ROLE_USER')]
+    public function index(Request $request, PaginatorInterface $paginator): Response
     {
+        $user = $this->getUser();
+        $page = (int) $request->get('page');
+
+        // Fetch future events which the user is invited to
+        $futureEvents = $this->eventRepository->findAll();
+
+        $futureEventsPaginated = $paginator->paginate(
+            $futureEvents,
+            $page,
+            5
+        );
+
+        $pendingEvents = $this->eventRepository->findPendingEventsForThisUser($user);
+
         return $this->render('agenda/index.html.twig', [
-            'controller_name' => 'EventController',
+            'futureEvents' => $futureEventsPaginated,
+            'pendingEvents' => $pendingEvents,
         ]);
     }
 
     #[Route('/create-event', name: 'app_create_event')]
+    #[IsGranted('ROLE_COACH')]
     public function createEvent(Request $request): Response
     {
         try {
@@ -90,7 +111,8 @@ class EventController extends AbstractController
     }
 
     #[Route('/invitation/{id}', name: 'app_invitation')]
-    public function inviteUsers(Request $request, Event $event): Response
+    #[IsGranted('ROLE_COACH')]
+    public function inviteUsers(Request $request, Event $event, EmailManager $emailManager): Response
     {
         try {
             if (!$event) {
@@ -125,12 +147,15 @@ class EventController extends AbstractController
                         $eventAttendee->setCreatedAt(new \DateTimeImmutable());
 
                         $this->entityManager->persist($eventAttendee);
+
+                        // Send a message to User
+                        $emailManager->sendEmail($user->getEmail(), 'Invitation a un évènement', 'invitation_confirmation', ['event' => $event]);
                     }
                 }
 
                 $this->entityManager->flush();
 
-                // Send a message to User
+
 
                 return $this->redirectToRoute('app_agenda');
             }

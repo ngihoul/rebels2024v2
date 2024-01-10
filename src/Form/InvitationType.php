@@ -20,7 +20,6 @@ class InvitationType extends AbstractType
             ->add('invitedTeams', EntityType::class, [
                 'class' => Team::class,
                 'query_builder' => function (EntityRepository $er) use ($options) {
-                    // Utilisez le nom correct de l'association pour les équipes
                     $eventId = $options['event']->getId();
 
                     return $er->createQueryBuilder('t')
@@ -39,8 +38,8 @@ class InvitationType extends AbstractType
                     $eventId = $options['event']->getId();
 
                     return $er->createQueryBuilder('u')
-                        ->leftJoin('u.events', 'ea')
-                        ->andWhere('ea.event IS NULL OR ea.event != :eventId')
+                        ->leftJoin('u.events', 'ea', 'WITH', 'ea.event = :eventId')
+                        ->andWhere('ea.event IS NULL')
                         ->setParameter('eventId', $eventId);
                 },
                 'choice_label' => function ($user) {
@@ -49,6 +48,9 @@ class InvitationType extends AbstractType
                 'multiple' => true,
                 'expanded' => true,
                 'mapped' => false,
+                'attr' => [
+                    'class' => 'invited-users-field',
+                ],
             ])
             ->add('invite', SubmitType::class, ['label' => 'Invite']);
     }

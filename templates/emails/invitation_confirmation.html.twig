@@ -1,0 +1,11 @@
+<h1>Bonjour !</h1>
+
+<p>
+    Tu es invité pour le prochain évènement : {{ event.name }} le {{ event.date|date("d/m/Y") }} à {{ event.timeFrom|format_datetime('none', 'short', locale='fr') }} </br>
+    Le rendez-vous est fixé à {{ event.timeMeeting|format_datetime('none', 'short', locale='fr') }}. </br> </br>
+    Confirme ta présence dès maintenant dans <a href="{{ url('app_agenda') }}">ton espace personnel</a> !
+</p>
+
+<p>
+    Sportivement !
+</p>

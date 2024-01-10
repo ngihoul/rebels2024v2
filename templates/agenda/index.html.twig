@@ -15,54 +15,44 @@
     {# Flash messages #}
     {{ parent() }}
 
-    <h2>En attente</h2>
-    <section class="card-event-container">
-        <div class="info-event">
-            <p class="event-date">23/08 - 14h00</p>
-            <p class="event-type">[D2] Match vs MSG</p>
+    {% if pendingEvents|length > 0 %}
+        <h2>En attente</h2>
+        {% for pendingEvent in pendingEvents %}
+            <section class="card-event-container">
+                <div class="info-event">
+                    <p class="event-date">{{ pendingEvent.date|date("d/m/Y") }} - {{ pendingEvent.timeFrom|format_datetime('none', 'short', locale='fr') }}</p>
+                    <p class="event-type">[{{ pendingEvent.team.name }}] {{ pendingEvent.name }}</p>
+                </div>
+                <div class="response-event">
+                    <button class="response-event-yes">V</button>
+                    <button class="response-event-no">X</button>
+                </div>
+            </section>
+        {% endfor %}
+    {% endif %}
+
+    {% if futureEvents|length > 0 %}
+        <h2>Prochains</h2>
+        {% for futureEvent in futureEvents %}
+            <section class="card-event-container">
+                <div class="info-event">
+                    <p class="event-date">{{ futureEvent.date|date("d/m/Y") }} - {{ futureEvent.timeFrom|format_datetime('none', 'short', locale='fr') }}</p>
+                    <p class="event-type">[{{ futureEvent.team.name }}] {{ futureEvent.name }}</p>
+                </div>
+                {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_COACH') %}
+                    <div class="admin-btn">
+                        <a class="btn btn-invite" href="{{ path('app_invitation', { 'id' : futureEvent.id } ) }}">Inviter</a>
+                        <a class="icon icon-edit" href="#"><i class="fa-regular fa-pen-to-square"></i></a>
+                        <a class="icon icon-delete" href="#"><i class="fa-solid fa-trash"></i></a>
+                    </div>
+                {% endif %}
+            </section>
+        {% endfor %}
+        <div class="pagination">
+            {{ knp_pagination_render(futureEvents) }}
         </div>
-        <div class="response-event">
-            <button class="response-event-yes">V</button>
-            <button class="response-event-no">X</button>
-        </div>
-        {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_COACH') %}
-            <div class="admin-btn">
-                <a class="btn btn-invite" href="#">Inviter</a>
-                <a class="icon icon-edit" href="#"><i class="fa-regular fa-pen-to-square"></i></a>
-                <a class="icon icon-delete" href="#"><i class="fa-solid fa-trash"></i></a>
-            </div>
-        {% endif %}
-    </section>
-    <section class="card-event-container">
-        <div class="info-event">
-            <p class="event-date">23/08 - 14h00</p>
-            <p class="event-type">[D2] Match vs MSG</p>
-        </div>
-        <div class="response-event">
-            <button class="response-event-yes">V</button>
-            <button class="response-event-no">X</button>
-        </div>
-    </section>
-    <h2>Prochains</h2>
-    <section class="card-event-container">
-        <div class="info-event">
-            <p class="event-date">23/08 - 14h00</p>
-            <p class="event-type">[D2] Match vs MSG</p>
-        </div>
-        <div class="response-event">
-            <button class="response-event-yes">V</button>
-            <button class="response-event-no">X</button>
-        </div>
-    </section>
-    <section class="card-event-container">
-        <div class="info-event">
-            <p class="event-date">23/08 - 14h00</p>
-            <p class="event-type">[D2] Match vs MSG</p>
-        </div>
-        <div class="response-event">
-            <button class="response-event-yes">V</button>
-            <button class="response-event-no">X</button>
-        </div>
-    </section>
+    {% else %}
+        <p>Aucun événement à venir.</p>
+    {% endif %}
 </div>
 {% endblock %}

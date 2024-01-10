@@ -23,7 +23,7 @@ class EmailManager
 
     public function sendEmail(string $to, string $subject, string $template, array $parameters = []): void
     {
-        $htmlBody = $this->twig->render("emails/$template.html.twig", $parameters);
+        // $htmlBody = $this->twig->render("emails/$template.html.twig", $parameters);
 
         $email = (new TemplatedEmail())
             ->from(new Address(self::ADMIN_MAIL, self::ADMIN_NAME))
