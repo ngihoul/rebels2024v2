@@ -177,6 +177,7 @@ class EventController extends AbstractController
     }
 
     #[Route('/invitation/{id}/{result}', name: 'app_invitation_response')]
+    #[IsGranted('ROLE_USER')]
     public function accept(Request $request, Event $event, EventAttendeeRepository $eventAttendeeRepository)
     {
 
