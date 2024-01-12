@@ -11,6 +11,7 @@ use App\Repository\EventRepository;
 use App\Service\EmailManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityNotFoundException;
+use Doctrine\ORM\Mapping\Entity;
 use Exception;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -47,7 +48,7 @@ class EventController extends AbstractController
         $futureEventsPaginated = $paginator->paginate(
             $futureEvents,
             $page,
-            5
+            6
         );
 
         // Fetch future events which the user is invited to
@@ -61,7 +62,7 @@ class EventController extends AbstractController
 
     #[Route('/create-event', name: 'app_create_event')]
     #[IsGranted('ROLE_COACH')]
-    public function createEvent(Request $request): Response
+    public function create(Request $request): Response
     {
         try {
             $event = new Event();
@@ -116,6 +117,26 @@ class EventController extends AbstractController
         ]);
     }
 
+    #[Route('/update-event/{id}', name: 'app_update_event')]
+    #[IsGranted('ROLE_COACH')]
+    public function update(Request $request, Event $event): Response
+    {
+        $form = $this->createForm(EventType::class, $event);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $this->entityManager->persist($event);
+            $this->entityManager->flush();
+
+            return $this->redirectToRoute('app_agenda');
+        }
+
+        return $this->render('agenda/event_form.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
     #[Route('/invitation/{id}', name: 'app_invitation')]
     #[IsGranted('ROLE_COACH')]
     public function inviteUsers(Request $request, Event $event, EmailManager $emailManager): Response
@@ -161,8 +182,6 @@ class EventController extends AbstractController
 
                 $this->entityManager->flush();
 
-
-
                 return $this->redirectToRoute('app_agenda');
             }
 
@@ -178,7 +197,7 @@ class EventController extends AbstractController
 
     #[Route('/invitation/{id}/{result}', name: 'app_invitation_response')]
     #[IsGranted('ROLE_USER')]
-    public function accept(Request $request, Event $event, EventAttendeeRepository $eventAttendeeRepository)
+    public function response(Request $request, Event $event, EventAttendeeRepository $eventAttendeeRepository): Response
     {
 
         $response = $request->get('result');
@@ -201,6 +220,26 @@ class EventController extends AbstractController
         $this->entityManager->flush();
 
         $this->addFlash($messageType, $message);
+
+        $route = $request->headers->get('referer');
+        return $this->redirect($route);
+    }
+
+    #[Route('/delete-event/{id}', name: 'app_delete_event')]
+    #[IsGranted('ROLE_COACH')]
+    public function delete(Request $request, Event $event): Response
+    {
+        try {
+            if (!$event->getAttendees()->isEmpty()) {
+                throw new Exception('Impossible de supprimer un évènement avec invitation');
+            }
+            $this->entityManager->remove($event);
+            $this->entityManager->flush();
+
+            $this->addFlash('success', 'L\'évènement a bien été supprimé');
+        } catch (Exception $e) {
+            $this->addFlash('error', $e->getMessage());
+        }
 
         $route = $request->headers->get('referer');
         return $this->redirect($route);
