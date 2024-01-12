@@ -33,21 +33,23 @@
 
     {% if futureEvents|length > 0 %}
         <h2>Prochains</h2>
-        {% for futureEvent in futureEvents %}
-            <section class="card-event-container">
-                <div class="info-event">
-                    <p class="event-date">{{ futureEvent.date|date("d/m/Y") }} - {{ futureEvent.timeFrom|format_datetime('none', 'short', locale='fr') }}</p>
-                    <p class="event-type">[{{ futureEvent.team.name }}] {{ futureEvent.name }}</p>
-                </div>
-                {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_COACH') %}
-                    <div class="admin-btn">
-                        <a class="btn btn-invite" href="{{ path('app_invitation', { 'id' : futureEvent.id } ) }}">Inviter</a>
-                        <a class="icon icon-edit" href="#"><i class="fa-regular fa-pen-to-square"></i></a>
-                        <a class="icon icon-delete" href="#"><i class="fa-solid fa-trash"></i></a>
+        <div class="next-events">
+            {% for futureEvent in futureEvents %}
+                <section class="card-event-container">
+                    <div class="info-event">
+                        <p class="event-date">{{ futureEvent.date|date("d/m/Y") }} - {{ futureEvent.timeFrom|format_datetime('none', 'short', locale='fr') }}</p>
+                        <p class="event-type">[{{ futureEvent.team.name }}] {{ futureEvent.name }}</p>
                     </div>
-                {% endif %}
-            </section>
-        {% endfor %}
+                    {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_COACH') %}
+                        <div class="admin-btn">
+                            <a class="btn btn-invite" href="{{ path('app_invitation', { 'id' : futureEvent.id } ) }}">Inviter</a>
+                            <a class="icon icon-edit" href="#"><i class="fa-regular fa-pen-to-square"></i></a>
+                            <a class="icon icon-delete" href="#"><i class="fa-solid fa-trash"></i></a>
+                        </div>
+                    {% endif %}
+                </section>
+            {% endfor %}
+        </div>
         <div class="pagination">
             {{ knp_pagination_render(futureEvents) }}
         </div>

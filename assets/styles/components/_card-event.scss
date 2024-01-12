@@ -52,6 +52,14 @@
   }
 }
 
+.next-events {
+  .card-event-container {
+    .info-event {
+      width: 100%;
+    }
+  }
+}
+
 .response-event-yes {
   color: $color-success;
   background-color: $color-bg-success;

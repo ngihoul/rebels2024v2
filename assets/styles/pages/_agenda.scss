@@ -27,3 +27,13 @@
     color: $color-background;
   }
 }
+
+.pagination {
+  display: flex;
+  justify-content: center;
+
+  & > span {
+    margin-right: 0.8rem;
+    font-size: 1.1rem;
+  }
+}

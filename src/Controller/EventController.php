@@ -36,7 +36,6 @@ class EventController extends AbstractController
         $user = $this->getUser();
         $page = (int) $request->get('page');
 
-        // Fetch future events which the user is invited to
         $futureEvents = $this->eventRepository->findAll();
 
         $futureEventsPaginated = $paginator->paginate(
@@ -45,6 +44,7 @@ class EventController extends AbstractController
             5
         );
 
+        // Fetch future events which the user is invited to
         $pendingEvents = $this->eventRepository->findPendingEventsForThisUser($user);
 
         return $this->render('agenda/index.html.twig', [
