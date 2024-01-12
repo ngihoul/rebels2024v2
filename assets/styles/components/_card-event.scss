@@ -19,7 +19,6 @@
     width: 30%;
     display: flex;
     justify-content: space-around;
-    padding-right: 0.8rem;
   }
 
   .admin-btn {
@@ -52,18 +51,22 @@
   }
 }
 
-.next-events {
-  .card-event-container {
-    .info-event {
-      width: 100%;
-    }
-  }
-}
+// .next-events {
+//   .card-event-container {
+//     .info-event {
+//       width: 100%;
+//     }
+//   }
+// }
 
 .response-event-yes {
   color: $color-success;
   background-color: $color-bg-success;
   border-color: $color-border-success;
+
+  &:visited {
+    color: $color-success;
+  }
 }
 
 .response-event-no {
@@ -71,7 +74,20 @@
   background-color: $color-bg-danger;
   border-color: $color-border-danger;
   margin-left: 0.4rem;
-  margin-right: 0.8rem;
+
+  &:visited {
+    color: $color-danger;
+  }
+}
+
+.disabled {
+  color: #383d41;
+  background-color: #e2e3e5;
+  border-color: #d6d8db;
+
+  &:visited {
+    color: #383d41;
+  }
 }
 
 @media screen and (min-width: $min-desktop) {

@@ -24,15 +24,15 @@
                     <p class="event-type">[{{ pendingEvent.team.name }}] {{ pendingEvent.name }}</p>
                 </div>
                 <div class="response-event">
-                    <button class="response-event-yes">V</button>
-                    <button class="response-event-no">X</button>
+                    <a class="btn response-event-yes" href="{{ path('app_invitation_response', { 'id' : pendingEvent.id, 'result' : 'accept' }) }}">V</a>
+                    <a class="btn response-event-no" href="{{ path('app_invitation_response', { 'id' : pendingEvent.id, 'result' : 'decline' }) }}">X</a>
                 </div>
             </section>
         {% endfor %}
     {% endif %}
 
+    <h2>Prochains</h2>
     {% if futureEvents|length > 0 %}
-        <h2>Prochains</h2>
         <div class="next-events">
             {% for futureEvent in futureEvents %}
                 <section class="card-event-container">
@@ -40,6 +40,16 @@
                         <p class="event-date">{{ futureEvent.date|date("d/m/Y") }} - {{ futureEvent.timeFrom|format_datetime('none', 'short', locale='fr') }}</p>
                         <p class="event-type">[{{ futureEvent.team.name }}] {{ futureEvent.name }}</p>
                     </div>
+                    
+                    {%  for attendee in futureEvent.attendees %}
+                        {% if attendee.user.id == app.user.id and attendee.userResponse == '1' or attendee.userResponse == '0' %}
+                        <div class="response-event">
+                            <a class="btn response-event-yes {{ attendee.userResponse == true ? '' : 'disabled' }}" href="{{ path('app_invitation_response', { 'id' : futureEvent.id, 'result' : 'accept' }) }}">V</a>
+                            <a class="btn response-event-no {{ attendee.userResponse == false ? '' : 'disabled' }}" href="{{ path('app_invitation_response', { 'id' : futureEvent.id, 'result' : 'decline' }) }}">X</a>
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+
                     {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_COACH') %}
                         <div class="admin-btn">
                             <a class="btn btn-invite" href="{{ path('app_invitation', { 'id' : futureEvent.id } ) }}">Inviter</a>

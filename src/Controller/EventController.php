@@ -6,6 +6,7 @@ use App\Entity\Event;
 use App\Entity\EventAttendee;
 use App\Form\EventType;
 use App\Form\InvitationType;
+use App\Repository\EventAttendeeRepository;
 use App\Repository\EventRepository;
 use App\Service\EmailManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -13,6 +14,7 @@ use Doctrine\ORM\EntityNotFoundException;
 use Exception;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -31,12 +33,16 @@ class EventController extends AbstractController
 
     #[Route('/agenda/{page<\d+>?1}', name: 'app_agenda')]
     #[IsGranted('ROLE_USER')]
-    public function index(Request $request, PaginatorInterface $paginator): Response
+    public function index(Request $request, PaginatorInterface $paginator, Security $security): Response
     {
         $user = $this->getUser();
         $page = (int) $request->get('page');
 
-        $futureEvents = $this->eventRepository->findAll();
+        if ($security->isGranted('ROLE_COACH')) {
+            $futureEvents = $this->eventRepository->findAll();
+        } else {
+            $futureEvents = $this->eventRepository->findFutureEventsForThisUser($user);
+        }
 
         $futureEventsPaginated = $paginator->paginate(
             $futureEvents,
@@ -168,5 +174,34 @@ class EventController extends AbstractController
             $this->addFlash('error', $e->getMessage());
             return $this->redirectToRoute('app_agenda');
         }
+    }
+
+    #[Route('/invitation/{id}/{result}', name: 'app_invitation_response')]
+    public function accept(Request $request, Event $event, EventAttendeeRepository $eventAttendeeRepository)
+    {
+
+        $response = $request->get('result');
+
+        $eventAttendee = $eventAttendeeRepository->findOneBy(['user' => $this->getUser(), 'event' => $event]);
+
+        if ($response === 'accept') {
+            $eventAttendee->setUserResponse(true);
+            $messageType = 'success';
+            $message = 'Tu es bien inscrit à l\'évènement';
+        } elseif ($response === 'decline') {
+            $eventAttendee->setUserResponse(false);
+            $messageType = 'error';
+            $message = 'Tu as refusé l\'invitation à l\'évènement';
+        }
+
+        $eventAttendee->setRespondedAt(new \DateTimeImmutable());
+
+        $this->entityManager->persist($eventAttendee);
+        $this->entityManager->flush();
+
+        $this->addFlash($messageType, $message);
+
+        $route = $request->headers->get('referer');
+        return $this->redirect($route);
     }
 }

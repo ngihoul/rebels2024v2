@@ -52,6 +52,22 @@ class EventRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findFutureEventsForThisUser(UserInterface $user)
+    {
+        $currentDateTime = new \DateTimeImmutable();
+
+        return $this->createQueryBuilder('e')
+            ->leftJoin('e.attendees', 'a')
+            ->where('e.date >= :currentDate')
+            ->andWhere('a.user = :user')
+            ->andWhere('a.user_response IS NOT NULL')
+            ->setParameter('currentDate', $currentDateTime)
+            ->setParameter('user', $user)
+            ->orderBy('e.date', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
     //    /**
     //     * @return Event[] Returns an array of Event objects
     //     */
