@@ -6,6 +6,3 @@ MAILER_DSN=smtp://localhost:1025
 
 Consulter les mails
 http://0.0.0.0:8025/
-
-Comment activer l'envoi de mail .
-php bin/console messenger:consume async -vv
