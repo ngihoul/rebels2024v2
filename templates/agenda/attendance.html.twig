@@ -17,7 +17,14 @@
         <ul>
             {% for attendee in attendees %}
                 <li>
-                     <a href="{{ path('app_profile', { 'userId' : attendee.user.id }) }}">{{ attendee.user.firstname }} {{ attendee.user.lastname }}
+                     <a href="{{ path('app_profile', { 'userId' : attendee.user.id }) }}">
+                        <img
+                            class="picture"
+                            src="{{ asset('uploads/user_pictures/' ~ attendee.user.profilePicture) }}"
+                            alt="Profile picture of {{ attendee.user.firstname }}"
+                        />
+                        {{ attendee.user.firstname }} {{ attendee.user.lastname }}
+                    </a>
                 </li>
             {% endfor %}
         </ul>
@@ -28,7 +35,14 @@
         <ul>
             {% for attendee in awaiting %}
                 <li>
-                    <a href="{{ path('app_profile', { 'userId' : attendee.user.id }) }}">{{ attendee.user.firstname }} {{ attendee.user.lastname }}</a>
+                    <a href="{{ path('app_profile', { 'userId' : attendee.user.id }) }}">
+                        <img
+                            class="picture"
+                            src="{{ asset('uploads/user_pictures/' ~ attendee.user.profilePicture) }}"
+                            alt="Profile picture of {{ attendee.user.firstname }}"
+                        />
+                        {{ attendee.user.firstname }} {{ attendee.user.lastname }}
+                    </a>
                 </li>
             {% endfor %}
         </ul>
@@ -39,11 +53,21 @@
         <ul>
             {% for attendee in unavailable %}
                 <li>
-                    <a href="{{ path('app_profile', { 'userId' : attendee.user.id }) }}">{{ attendee.user.firstname }} {{ attendee.user.lastname }}</a>
+                    <a href="{{ path('app_profile', { 'userId' : attendee.user.id }) }}">
+                        <img
+                            class="picture"
+                            src="{{ asset('uploads/user_pictures/' ~ attendee.user.profilePicture) }}"
+                            alt="Profile picture of {{ attendee.user.firstname }}"
+                        />
+                        {{ attendee.user.firstname }} {{ attendee.user.lastname }}
+                    </a>
                 </li>
             {% endfor %}
         </ul>
     {% endif %}
+
+    <a class="btn btn-invite" href="{{ path('app_invitation', { 'id' : event.id } ) }}">Inviter</a>
+
 </div>
 
 {% endblock %}

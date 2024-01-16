@@ -7,5 +7,17 @@
     &:last-child {
       margin-bottom: 1.4rem;
     }
+
+    a {
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  .picture {
+    width: 32px;
+    height: 32px;
+    border-radius: 32px;
+    margin-right: 0.8rem;
   }
 }
