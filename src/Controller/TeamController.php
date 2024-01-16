@@ -40,6 +40,12 @@ class TeamController extends AbstractController
         ]);
     }
 
+    #[Route('/team/create', name: 'app_team_create')]
+    #[IsGranted('ROLE_COACH')]
+    public function create(): Response
+    {
+    }
+
     #[Route('/team/{teamId}', name: 'app_team_detail')]
     #[IsGranted('ROLE_USER')]
     public function detail(Request $request): Response
@@ -94,7 +100,7 @@ class TeamController extends AbstractController
     }
 
     #[Route('/team/{teamId}/remove-user/{userId}', name: 'app_remove_user_from_team')]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('ROLE_COACH')]
     public function removeUserFromTeam(int $teamId, int $userId): Response
     {
         try {

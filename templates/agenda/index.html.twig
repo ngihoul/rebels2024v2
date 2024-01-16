@@ -4,11 +4,10 @@
 
 {% block body %}
 <div class="container container-agenda">
-    <div class="agenda-heading">
+    <div class="heading-container">
         <h1>Mon agenda</h1>
         {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_COACH') %}
-            <a href="{{ path('app_create_event') }}" class="btn btn-desktop">Ajouter</a>
-            <a href="{{ path('app_create_event') }}" class="btn-mobile"></a>
+            <a href="{{ path('app_create_event') }}" class="btn-add"></a>
         {% endif %}
     </div>
 
