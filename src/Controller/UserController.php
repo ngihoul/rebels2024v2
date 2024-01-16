@@ -12,6 +12,7 @@ use App\Repository\LicenseRepository;
 use App\Repository\UserRepository;
 use App\Service\ProfilePictureManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityNotFoundException;
 
 class UserController extends AbstractController
 {
@@ -43,33 +44,34 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/profile/{userId}', name: 'app_profile_user')]
+    #[Route('/profile/{userId}', name: 'app_profile')]
     #[IsGranted('ROLE_COACH')]
     public function profileUser(Request $request, UserRepository $userRepository): Response
     {
-        $userId = $request->get('userId');
-        $user = $userRepository->find($userId);
+        try {
+            $userId = (int) $request->get('userId');
+            $user = $this->getUser();
 
-        $pageTitle = 'Profil de ' . $user->getFirstname() . ' ' . $user->getLastname();
+            if ($userId === $user->getId()) {
+                $pageTitle = 'Mon profil';
+            } else {
+                $user = $userRepository->find($userId);
+                // Handling ID error
+                if (!$user) {
+                    throw new EntityNotFoundException('Membre non trouvé.');
+                }
 
-        return $this->render('profile/index.html.twig', [
-            'user' => $user,
-            'pageTitle' => $pageTitle
-        ]);
-    }
+                $pageTitle = 'Profil de ' . $user->getFirstname() . ' ' . $user->getLastname();
+            }
 
-    #[Route('/profile', name: 'app_profile')]
-    #[IsGranted('ROLE_USER')]
-    public function profile(): Response
-    {
-        $user = $this->getUser();
-
-        $pageTitle = 'Mon profil';
-
-        return $this->render('profile/index.html.twig', [
-            'user' => $user,
-            'pageTitle' => $pageTitle
-        ]);
+            return $this->render('profile/index.html.twig', [
+                'user' => $user,
+                'pageTitle' => $pageTitle
+            ]);
+        } catch (EntityNotFoundException $e) {
+            $this->addFlash('error', 'Le profil demandé n\'a pas été trouvée.');
+            return $this->redirectToRoute('app_home');
+        }
     }
 
     #[Route('/edit-profile', name: 'app_edit_profile')]
@@ -91,7 +93,7 @@ class UserController extends AbstractController
             $this->entityManager->persist($user);
             $this->entityManager->flush();
 
-            return $this->redirectToRoute('app_profile');
+            return $this->redirectToRoute('app_profile', ['userId' => $user->getId()]);
         }
 
         return $this->render('profile/update.html.twig', [

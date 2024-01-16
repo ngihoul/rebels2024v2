@@ -107,7 +107,7 @@ class LicenseController extends AbstractController
             $license = $this->licenseRepository->find($licenseId);
             // Access only if license exist or User is the owner of the license
             if (!$license || $license->getUser() !== $this->getUser()) {
-                throw new EntityNotFoundException('License not found.');
+                throw new EntityNotFoundException('License non trouvé.');
             }
 
             // Generate and save the document on the server

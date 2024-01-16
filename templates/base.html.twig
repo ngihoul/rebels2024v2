@@ -36,14 +36,14 @@
                 </div>
             {% if app.user %}
                 <div class="profile-icon-mobile">
-                    <a href="{{ path('app_profile') }}"
+                    <a href="{{ path('app_profile', { 'userId' : app.user.id }) }}"
                     ><i class="fa-regular fa-user icon icon-profile"></i></a>
                 </div>
                 <div class="profile-icon-desktop">
-                    <a href="{{ path('app_profile') }}"
+                    <a href="{{ path('app_profile', { 'userId' : app.user.id }) }}"
                     ><i class="fa-regular fa-user icon icon-profile"></i></a>
                     <div class="profile-user-data">
-                        <a href="{{ path('app_profile') }}"><p class="user-name">{{ app.user.firstname ~ ' ' ~ app.user.lastname }}</p></a>
+                        <a href="{{ path('app_profile', { 'userId' : app.user.id }) }}"><p class="user-name">{{ app.user.firstname ~ ' ' ~ app.user.lastname }}</p></a>
                         <a class="disconnect-link" href="{{ path('app_logout') }}">Se déconnecter</a>
                         <!-- Routing to deconnection -->
                     </div>
@@ -75,7 +75,7 @@
                             <i class="fa-regular fa-chart-bar"></i> Statistiques
                         </li>
                         <li class="menu-item">
-                            <a href="{{ path('app_profile') }}"><i class="fa-regular fa-user"></i> Mon profil</a>
+                            <a href="{{ path('app_profile', { 'userId' : app.user.id }) }}"><i class="fa-regular fa-user"></i> Mon profil</a>
                         </li>
                         <li class="menu-item">
                             <a href="{{ path('app_teams') }}"><i class="fa-solid fa-user-group"></i> Mes équipes</a>
