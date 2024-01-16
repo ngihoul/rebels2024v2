@@ -60,6 +60,41 @@ class EventController extends AbstractController
         ]);
     }
 
+    #[Route('/agenda/event/{id}', name: 'app_agenda_detail')]
+    #[IsGranted('ROLE_USER')]
+    public function detail(Event $event): Response
+    {
+        $attendees = 0;
+        $awaiting = 0;
+        $unavailable = 0;
+
+        foreach ($event->getAttendees() as $attendee) {
+            if (NULL === $attendee->isUserResponse()) {
+                $awaiting++;
+            } elseif (true === $attendee->isUserResponse()) {
+                $attendees++;
+            } elseif (false === $attendee->isUserResponse()) {
+                $unavailable++;
+            }
+        }
+
+        return $this->render('agenda/detail.html.twig', [
+            'event' => $event,
+            'attendees' => $attendees,
+            'awaiting' => $awaiting,
+            'unavailable' => $unavailable
+        ]);
+    }
+
+    #[Route('/agenda/event/{id}/attendance', name: 'app_agenda_attendance')]
+    #[IsGranted('ROLE_COACH')]
+    public function attendance(Event $event): Response
+    {
+        return $this->render('agenda/attendance.html.twig', [
+            'event' => $event
+        ]);
+    }
+
     #[Route('/create-event', name: 'app_create_event')]
     #[IsGranted('ROLE_COACH')]
     public function create(Request $request): Response
@@ -182,7 +217,7 @@ class EventController extends AbstractController
 
                 $this->entityManager->flush();
 
-                return $this->redirectToRoute('app_agenda');
+                return $this->redirect($request->request->get('referer'));
             }
 
             return $this->render('agenda/invitation_form.html.twig', [

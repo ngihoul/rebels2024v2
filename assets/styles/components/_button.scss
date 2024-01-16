@@ -23,6 +23,12 @@ button,
   &:visited {
     color: $color-primary;
   }
+
+  &.btn-danger {
+    color: $color-danger;
+    background-color: $color-bg-danger;
+    border-color: $color-border-danger;
+  }
 }
 
 @media screen and (min-width: $min-desktop) {

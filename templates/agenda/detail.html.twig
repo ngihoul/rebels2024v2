@@ -1,0 +1,89 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} {{ parent() }} | {{ event.name }} {% endblock %}
+
+{% block body %}
+<div class="container container-detail-event">
+    <h1>[{{ event.team.name }}] {{ event.name }} @ {{ event.date|date('d/m/Y') }}</h1>
+
+    {{ parent() }}
+
+    <div class="response">
+        {% for attendee in event.attendees %}
+            {% if attendee.user == app.user %}
+
+                <a class="btn response-btn response-event-yes {{ attendee.userResponse == '1' or ( attendee.userResponse == NULL and attendee.userResponse != '0' ) ? '' : 'disabled' }}" href="{{ path('app_invitation_response', { 'id' : event.id, 'result' : 'accept' }) }}">Présent</a>
+
+                <a class="btn response-btn response-event-no {{ attendee.userResponse == '0' or attendee.userResponse == NULL ? '' : 'disabled' }}" href="{{ path('app_invitation_response', { 'id' : event.id, 'result' : 'decline' }) }}">Absent</a>
+
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    <div class="attendees">
+        <h2>Participants</h2>
+        <a href="{{ path('app_agenda_attendance', { 'id' : event.id }) }}">
+            <section>
+                <div class="attendees">
+                        <p class="number">{{ attendees }}</p>
+                        <p class="text">participant{{ attendees > 1 ? 's' : '' }}</p>
+                </div>
+
+                <div class="awaiting">
+                    <p class="number">{{ awaiting }}</p>
+                    <p class="text">En attente</p>
+                </div>
+                
+                <div class="unavailable">
+                    <p class="number">{{ unavailable }}</p>
+                    <p class="text">Indisponible{{ unavailable > 1 ? 's' : '' }}</p>
+                </div>
+            </section>
+        </a>
+
+        {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_COACH') %}
+            <a class="btn btn-invite" href="{{ path('app_invitation', { 'id' : event.id } ) }}">Inviter</a>
+        {% endif %}
+
+    </div>
+
+    {% if event.timeMeeting %}
+        <div class="meeting">
+            <h2>Rendez-vous à</h2>
+            <section>
+                <p class="time">{{ event.timeMeeting|format_datetime('none', 'short', locale='fr') }}</p>
+            </section>
+        </div>
+    {% endif %}
+
+    <div class="info">
+        <h2>Informations pratiques</h2>
+        <section>
+            <p>Commence à <span class="time">{{ event.timeFrom|format_datetime('none', 'short', locale='fr') }}</span></p>
+            <p>Finit à <span class="time">{{ event.timeTo|format_datetime('none', 'short', locale='fr') }}</span></p>
+            <div class="address">
+                <p>{{ event.place.name }}
+                <p>{{ event.place.addressStreet }} {{ event.place.addressNumber }}</p>
+                <p>{{ event.place.addressZipcode }} {{ event.place.addressLocality }}</p>
+                <p>{{ event.place.addressCountry }}</p>
+            </div>
+        </section>
+    </div>
+
+    {% if event.description %}
+        <div class="description">
+            <h2>Description</h2>
+            <section>
+                <p>{{ event.description }}</p>
+            </section>
+        </div>
+    {% endif %}
+
+    {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_COACH') %}
+        <div class="admin">
+            <a class="btn" href="{{ path('app_update_event', { 'id' : event.id }) }}">Modifier</a>
+            <a class="btn btn-danger" href="{{ path('app_delete_event', { 'id' : event.id }) }}">Supprimer</a>
+        </div>           
+    {% endif %}
+</div>
+{% endblock %}

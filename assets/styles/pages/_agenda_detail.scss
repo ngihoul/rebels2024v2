@@ -1,0 +1,47 @@
+.container-detail-event {
+  .response {
+    display: flex;
+    justify-content: center;
+
+    .response-btn {
+      width: 50%;
+    }
+  }
+
+  .attendees {
+    section {
+      display: flex;
+      justify-content: space-between;
+      text-align: center;
+      padding: 1.2rem;
+
+      & > div:not(:last-child) {
+        margin-right: 0.8rem;
+      }
+
+      .number {
+        font-size: 1.3rem;
+      }
+
+      .text {
+        font-size: 0.8rem;
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  .meeting section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .time {
+    font-size: 1.3rem;
+    margin-bottom: 0;
+  }
+
+  .info .address p {
+    margin-bottom: 0;
+  }
+}

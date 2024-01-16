@@ -25,6 +25,8 @@
                 </div>
             {% endfor %}
         
+        <input type="hidden" name="referer" value="{{app.request.headers.get('referer')}}"/>
+        
         {{ form_row(form.invite) }}
         {{ form_end(form) }}
     {% else %}

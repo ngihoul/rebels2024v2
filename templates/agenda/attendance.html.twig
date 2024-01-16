@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} {{ parent() }} | {{ event.name }} {% endblock %}
+
+{% block body %}
+<div class="container container-attendance-event">
+    <h1>[{{ event.team.name }}] {{ event.name }} @ {{ event.date|date('d/m/Y') }}</h1>
+
+    {{ parent() }}
+
+    {% set attendees = event.attendees|filter(item => item.userResponse == '1') %}
+    {% set awaiting = event.attendees|filter(item => item.userResponse is null) %}
+    {% set unavailable = event.attendees|filter(item => item.userResponse == '0') %}
+
+    {% if attendees|length > 0 %}
+        <h2>Participant{{ attendees|length > 1 ? 's' : '' }}</h2>
+        <ul>
+            {% for attendee in attendees %}
+                <li>{{ attendee.user.firstname }} {{ attendee.user.lastname }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if awaiting|length > 0 %}
+        <h2>En attente</h2>
+        <ul>
+            {% for attendee in awaiting %}
+                <li>{{ attendee.user.firstname }} {{ attendee.user.lastname }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if unavailable|length > 0 %}
+        <h2>Indisponible{{ unavailable|length > 1 ? 's' : '' }}</h2>
+        <ul>
+            {% for attendee in unavailable %}
+                <li>{{ attendee.user.firstname }} {{ attendee.user.lastname }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</div>
+
+{% endblock %}
