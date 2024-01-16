@@ -25,7 +25,7 @@
         <tr>
             <td class="jersey_cell">{{ team.coach.jerseyNumber ? team.coach.jerseyNumber : '-' }}</td>
             {% if is_granted('ROLE_ADMIN') %}
-            <td><a href="{{ path('app_profile_user', { 'userId': team.coach.id }) }}">{{ team.coach.firstname }} {{ team.coach.lastname }}</td>
+            <td><a href="{{ path('app_profile', { 'userId': team.coach.id }) }}">{{ team.coach.firstname }} {{ team.coach.lastname }}</td>
             {% else %}
             <td>{{ team.coach.firstname }} {{ team.coach.lastname }}</td>
             {% endif %}
@@ -35,7 +35,7 @@
         <tr>
             <td class="jersey_cell">{{ team.assistant.jerseyNumber ? team.assistant.jerseyNumber : '-' }}</td>
             {% if is_granted('ROLE_ADMIN') %}
-            <td><a href="{{ path('app_profile_user', { 'userId': team.assistant.id }) }}">{{ team.assistant.firstname }} {{ team.assistant.lastname }}</td>
+            <td><a href="{{ path('app_profile', { 'userId': team.assistant.id }) }}">{{ team.assistant.firstname }} {{ team.assistant.lastname }}</td>
             {% else %}
             <td>{{ team.assistant.firstname }} {{ team.assistant.lastname }}</td>
             {% endif %}
@@ -46,7 +46,7 @@
             <tr class="">
                 <td class="jersey_cell">{{ player.jerseyNumber ? player.jerseyNumber : '-' }}</td>
                 {% if is_granted('ROLE_ADMIN') %}
-                <td><a href="{{ path('app_profile_user', { 'userId': player.id }) }}">{{ player.firstname }} {{ player.lastname }}</td>
+                <td><a href="{{ path('app_profile', { 'userId': player.id }) }}">{{ player.firstname }} {{ player.lastname }}</td>
                 {% else %}
                 <td>{{ player.firstname }} {{ player.lastname }}</td>
                 {% endif %}
