@@ -16,7 +16,9 @@
         <h2>Participant{{ attendees|length > 1 ? 's' : '' }}</h2>
         <ul>
             {% for attendee in attendees %}
-                <li>{{ attendee.user.firstname }} {{ attendee.user.lastname }}</li>
+                <li>
+                     <a href="{{ path('app_profile_user', { 'userId' : attendee.user.id }) }}">{{ attendee.user.firstname }} {{ attendee.user.lastname }}
+                </li>
             {% endfor %}
         </ul>
     {% endif %}
@@ -25,7 +27,9 @@
         <h2>En attente</h2>
         <ul>
             {% for attendee in awaiting %}
-                <li>{{ attendee.user.firstname }} {{ attendee.user.lastname }}</li>
+                <li>
+                    <a href="{{ path('app_profile_user', { 'userId' : attendee.user.id }) }}">{{ attendee.user.firstname }} {{ attendee.user.lastname }}</a>
+                </li>
             {% endfor %}
         </ul>
     {% endif %}
@@ -34,7 +38,9 @@
         <h2>Indisponible{{ unavailable|length > 1 ? 's' : '' }}</h2>
         <ul>
             {% for attendee in unavailable %}
-                <li>{{ attendee.user.firstname }} {{ attendee.user.lastname }}</li>
+                <li>
+                    <a href="{{ path('app_profile_user', { 'userId' : attendee.user.id }) }}">{{ attendee.user.firstname }} {{ attendee.user.lastname }}</a>
+                </li>
             {% endfor %}
         </ul>
     {% endif %}

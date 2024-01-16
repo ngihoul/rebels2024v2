@@ -44,14 +44,18 @@ class UserController extends AbstractController
     }
 
     #[Route('/profile/{userId}', name: 'app_profile_user')]
-    #[IsGranted('ROLE_ADMIN')]
+    #[IsGranted('ROLE_COACH')]
     public function profileUser(Request $request, UserRepository $userRepository): Response
     {
         $userId = $request->get('userId');
-
         $user = $userRepository->find($userId);
 
-        return $this->render('profile/index.html.twig', ['user' => $user]);
+        $pageTitle = 'Profil de ' . $user->getFirstname() . ' ' . $user->getLastname();
+
+        return $this->render('profile/index.html.twig', [
+            'user' => $user,
+            'pageTitle' => $pageTitle
+        ]);
     }
 
     #[Route('/profile', name: 'app_profile')]
@@ -60,7 +64,12 @@ class UserController extends AbstractController
     {
         $user = $this->getUser();
 
-        return $this->render('profile/index.html.twig', ['user' => $user]);
+        $pageTitle = 'Mon profil';
+
+        return $this->render('profile/index.html.twig', [
+            'user' => $user,
+            'pageTitle' => $pageTitle
+        ]);
     }
 
     #[Route('/edit-profile', name: 'app_edit_profile')]

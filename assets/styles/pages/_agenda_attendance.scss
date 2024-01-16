@@ -1,0 +1,11 @@
+.container-attendance-event {
+  li {
+    margin: 0 0.8rem;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid $color-border;
+
+    &:last-child {
+      margin-bottom: 1.4rem;
+    }
+  }
+}

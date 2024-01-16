@@ -5,7 +5,7 @@
 {% block body %}
 <div class="container profile-container">
   <div class="heading-container">
-    <h1>Mon profil</h1>
+    <h1>{{ pageTitle }}</h1>
     {% if app.user == user %}
     <a href=" {{ path('app_edit_profile') }}">
       <i class="fa-regular fa-pen-to-square icon icon-edit"></i>
