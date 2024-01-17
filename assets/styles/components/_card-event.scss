@@ -8,7 +8,7 @@
   border-bottom: 1px solid $color-border;
 
   .info-event {
-    width: 70%;
+    width: 60%;
   }
 
   .event-type {
@@ -16,9 +16,9 @@
   }
 
   .response-event {
-    width: 30%;
+    width: 40%;
     display: flex;
-    justify-content: space-around;
+    justify-content: flex-end;
   }
 
   .admin-btn {
