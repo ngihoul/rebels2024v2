@@ -12,12 +12,12 @@ document.addEventListener("DOMContentLoaded", () => {
             ? "none"
             : teamCards.style.display === "none" ||
               teamCards.style.display === ""
-            ? "block"
+            ? "flex"
             : "none";
         if (icon) {
           icon.classList.toggle(
             "fa-rotate-180",
-            cards === teamCards && teamCards.style.display === "block"
+            cards === teamCards && teamCards.style.display === "flex"
           );
         }
       });

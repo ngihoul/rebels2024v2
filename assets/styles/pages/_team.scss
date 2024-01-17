@@ -1,6 +1,7 @@
 .container-team {
   .team-cards {
     display: none;
+    flex-direction: column;
   }
 
   section {
@@ -58,11 +59,15 @@
   .container-team {
     .team-cards {
       display: flex;
+      flex-direction: row;
       flex-wrap: wrap;
     }
 
     section {
       width: 30%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
 
       &:not(:nth-of-type(3n)) {
         margin-right: 0.8rem;
