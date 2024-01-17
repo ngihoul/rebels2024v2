@@ -3,9 +3,12 @@
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  margin: 0.8rem;
   padding-bottom: 0.8rem;
   border-bottom: 1px solid $color-border;
+
+  &:not(:last-child) {
+    margin-right: 0.8rem;
+  }
 
   .info-event {
     width: 60%;
@@ -85,13 +88,17 @@
 @media screen and (min-width: $min-desktop) {
   .card-event-wrapper {
     display: flex;
-    justify-content: space-between;
     flex-wrap: wrap;
+    margin-right: -0.8rem;
   }
 
   .card-event-container {
-    width: 30%;
+    width: calc(25% - 0.8rem);
     min-width: 350px;
+
+    &:not(:last-child) {
+      margin-right: 0.8rem;
+    }
 
     .info-event {
       width: 80%;
