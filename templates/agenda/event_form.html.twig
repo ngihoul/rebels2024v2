@@ -35,7 +35,7 @@
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', () => {
     const checkbox = document.getElementById('{{ form.is_recurrent.vars.id }}');
     const startDateLabel = document.querySelector('label[for="event_start_date"]');
     const endDateLabel = document.querySelector('label[for="event_end_date"]');
@@ -43,7 +43,7 @@
     const endDateField = document.getElementById('event_end_date');
     const frequencyField = document.getElementById('event_frequency');
 
-    const toggleFields = function () {
+    const toggleFields = () => {
         const isRecurrentChecked = checkbox.checked;
 
         endDateField.style.display = isRecurrentChecked ? 'block' : 'none';
@@ -57,6 +57,5 @@
 
     toggleFields();
 });
-
 </script>
 {% endblock %}

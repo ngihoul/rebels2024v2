@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} | Créer une nouvelle équipe{% endblock %}
+
+{% block body %}
+<div class="container container-create-team">
+    <h1>{{ action == 'update' ? 'Modifier' : 'Créer' }} une équipe</h1>
+
+    {{ parent() }}
+
+    {{ form_start(form) }}
+    
+    {{ form_row(form.name, {'label': 'Nom d\'équipe'}) }}
+    {{ form_row(form.coach, {'label': 'Coach'}) }}
+    {{ form_row(form.assistant, {'label': 'Assistant'}) }}
+    {{ form_row(form.logo, {'label': 'Logo', 'id': 'profile_picture_input'}) }}
+
+    <div id="previewPicture">
+        {% if action == 'update' %}
+            <img id="previewImage" src="{{ asset('uploads/logo_teams/' ~ logo) }}">
+        {% else %}
+            <img id="previewImage" src="">
+        {% endif %}
+    </div>
+    
+    {{ form_row(form.save, {'label': (action == 'update' ? 'Modifier' : 'Créer') }) }}
+    {{ form_end(form) }}
+</div>
+{% endblock %}

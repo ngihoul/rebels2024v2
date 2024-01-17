@@ -24,6 +24,7 @@ Encore
   .addEntry("spinner", "./assets/js/spinner.js")
   .addEntry("menu", "./assets/js/menu.js")
   .addEntry("picture_preview", "./assets/js/picture_preview.js")
+  .addEntry("teamDropdown", "./assets/js/teamDropdown.js")
 
   // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
   .splitEntryChunks()

@@ -1,4 +1,8 @@
 .container-team {
+  .team-cards {
+    display: none;
+  }
+
   section {
     text-align: center;
 
@@ -34,6 +38,19 @@
 
   .action-remove {
     width: 48px;
+  }
+}
+
+.admin {
+  display: flex;
+  justify-content: center;
+
+  a {
+    width: 50%;
+
+    &:first-child {
+      margin-right: 0.8rem;
+    }
   }
 }
 

@@ -13,39 +13,61 @@
 
     {{ parent() }}
 
-    {% if teamsAsCoach|length > 0 %}
-        <h2>Coach/Assistant</h2>
+    {% if allTeams|length > 0 %}
+        <h2>Toutes les équipes <i class="fas fa-chevron-down"></i></h2>
         <div class="team-cards">
-        {% for team in teamsAsCoach %}
-            <section class="team">
-                <a href="{{ path('app_team_detail', { 'teamId': team.id }) }}"><img src="{{ logo_teams_directory ~ team.logo }}" alt="Logo de l'équipe" /></a>
-                <h2>{{ team.name }}</h2>
-                <p><u>Coach</u> : {{ team.coach.firstname }} {{ team.coach.lastname }}</p>
-                <a class="link-paragraph" href="{{ path('app_team_detail', { 'teamId': team.id }) }}">Voir les membres</a>
-            </section>
-        {% endfor %}
+            {% for team in allTeams %}
+                <section class="team">
+                    <a href="{{ path('app_team_detail', { 'teamId': team.id }) }}"><img src="{{ logo_teams_directory ~ team.logo }}" alt="Logo de l'équipe" /></a>
+                    <h2>{{ team.name }}</h2>
+                    <p><u>Coach</u> : {{ team.coach.firstname }} {{ team.coach.lastname }}</p>
+                    <a class="link-paragraph" href="{{ path('app_team_detail', { 'teamId': team.id }) }}">Voir les membres</a>
+                    <div class="admin">
+                        <a href="{{ path('app_team_edit', { 'id' : team.id }) }}" class="btn">Modifier</a>
+                        <a href="#" class="btn btn-danger">Supprimer</a>
+                    </div>
+                </section>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {% if teamsAsCoach|length > 0 %}
+        <h2>Coach/Assistant <i class="fas fa-chevron-down"></i></h2>
+        <div class="team-cards">
+            {% for team in teamsAsCoach %}
+                <section class="team">
+                    <a href="{{ path('app_team_detail', { 'teamId': team.id }) }}"><img src="{{ logo_teams_directory ~ team.logo }}" alt="Logo de l'équipe" /></a>
+                    <h2>{{ team.name }}</h2>
+                    <p><u>Coach</u> : {{ team.coach.firstname }} {{ team.coach.lastname }}</p>
+                    <a class="link-paragraph" href="{{ path('app_team_detail', { 'teamId': team.id }) }}">Voir les membres</a>
+                </section>
+            {% endfor %}
         </div>
     {% endif %}
 
     {% if teamsAsPlayer|length > 0 %}
-        <h2>Joueur</h2>
+        <h2>Joueur <i class="fas fa-chevron-down"></i></h2>
         <div class="team-cards">
-        {% for team in teamsAsPlayer %}
-            <section class="team">
-                <a href="{{ path('app_team_detail', { 'teamId': team.id }) }}"><img src="{{ logo_teams_directory ~ team.logo }}" alt="Logo de l'équipe" /></a>
-                <h2>{{ team.name }}</h2>
-                <p><u>Coach</u> : {{ team.coach.firstname }} {{ team.coach.lastname }}</p>
-                <a class="link-paragraph" href="{{ path('app_team_detail', { 'teamId': team.id }) }}">Voir les membres</a>
-            </section>
-        {% endfor %}
+            {% for team in teamsAsPlayer %}
+                <section class="team">
+                    <a href="{{ path('app_team_detail', { 'teamId': team.id }) }}"><img src="{{ logo_teams_directory ~ team.logo }}" alt="Logo de l'équipe" /></a>
+                    <h2>{{ team.name }}</h2>
+                    <p><u>Coach</u> : {{ team.coach.firstname }} {{ team.coach.lastname }}</p>
+                    <a class="link-paragraph" href="{{ path('app_team_detail', { 'teamId': team.id }) }}">Voir les membres</a>
+                </section>
+            {% endfor %}
         </div>
     {% endif %}
 
-    {% if teamsAsPlayer|length == 0 and teamsAsCoach|length == 0 %}
+    {% if allTeams|length == 0 and teamsAsPlayer|length == 0 and teamsAsCoach|length == 0 %}
         <div>
-            <p class="alert alert-error">Vous n'avez pas encore d'équipe !</p> 
+            <p class="alert alert-error">Vous n'avez pas encore d'équipe !</p>
         </div>
     {% endif %}
-
 </div>
+
+{% block javascript %}
+    {{ encore_entry_script_tags('teamDropdown') }}
+{% endblock %}
+
 {% endblock %}

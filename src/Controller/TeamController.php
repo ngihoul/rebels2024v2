@@ -2,12 +2,17 @@
 
 namespace App\Controller;
 
+use App\Entity\Team;
 use App\Form\AddUserToTeam;
+use App\Form\TeamType;
 use App\Repository\TeamRepository;
 use App\Repository\UserRepository;
+use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityNotFoundException;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -33,17 +38,90 @@ class TeamController extends AbstractController
         $user = $this->getUser();
         $teamsAsPlayer = $user->getTeams();
         $teamsAsCoach = $user->getCoachOf();
+        $allTeams = [];
+
+        if ($this->isGranted('ROLE_ADMIN')) {
+            $allTeams = $this->teamRepository->findAll();
+        }
 
         return $this->render('teams/index.html.twig', [
             'teamsAsPlayer' => $teamsAsPlayer,
             'teamsAsCoach' => $teamsAsCoach,
+            'allTeams' => $allTeams
         ]);
     }
 
     #[Route('/team/create', name: 'app_team_create')]
-    #[IsGranted('ROLE_COACH')]
-    public function create(): Response
+    #[IsGranted('ROLE_ADMIN')]
+    public function new(Request $request, FileUploader $fileUploader): Response
     {
+        $team = new Team();
+        $form = $this->createForm(TeamType::class, $team);
+
+        $form->handleRequest($request);
+
+        try {
+            if ($form->isSubmitted() && $form->isValid()) {
+                $logo = $form->get('logo')->getData();
+
+                if ($logo) {
+                    $logoFileName = $fileUploader->save($logo, 'logos_directory');
+                    $team->setLogo($logoFileName);
+                }
+
+                $this->entityManager->persist($team);
+                $this->entityManager->flush();
+
+                $this->addFlash('success', 'L\'équipe a été créée avec succès.');
+                return $this->redirectToRoute('app_teams');
+            }
+        } catch (FileException $fileException) {
+            $this->addFlash('error', 'Une erreur est survenue lors de l\'upload du logo : ' . $fileException->getMessage());
+        } catch (Exception $exception) {
+            $this->addFlash('error', 'Une erreur est survenue lors de la création de l\'équipe : ' . $exception->getMessage());
+        }
+
+        return $this->render('teams/form.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/team/{id}/edit', name: 'app_team_edit')]
+    #[IsGranted('ROLE_ADMIN')]
+    public function edit(Team $team, Request $request, FileUploader $fileUploader): Response
+    {
+        $action = 'update';
+        $logo = $team->getLogo();
+
+        $form = $this->createForm(TeamType::class, $team);
+
+        $form->handleRequest($request);
+
+        try {
+            if ($form->isSubmitted() && $form->isValid()) {
+                $logo = $form->get('logo')->getData();
+
+                if ($logo) {
+                    $logoFileName = $fileUploader->save($logo, 'logos_directory');
+                    $team->setLogo($logoFileName);
+                }
+
+                $this->entityManager->flush();
+
+                $this->addFlash('success', 'L\'équipe a été mise à jour avec succès.');
+                return $this->redirectToRoute('app_teams');
+            }
+        } catch (FileException $fileException) {
+            $this->addFlash('error', 'Une erreur est survenue lors de l\'upload du logo : ' . $fileException->getMessage());
+        } catch (Exception $exception) {
+            $this->addFlash('error', 'Une erreur est survenue lors de la mise à jour de l\'équipe : ' . $exception->getMessage());
+        }
+
+        return $this->render('teams/form.html.twig', [
+            'form' => $form->createView(),
+            'action' => $action,
+            'logo' => $logo
+        ]);
     }
 
     #[Route('/team/{teamId}', name: 'app_team_detail')]
