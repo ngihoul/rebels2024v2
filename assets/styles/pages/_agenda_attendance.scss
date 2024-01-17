@@ -21,3 +21,13 @@
     margin-right: 0.8rem;
   }
 }
+
+@media screen and (min-width: $min-desktop) {
+  .container-list {
+    display: flex;
+
+    .attendance-list {
+      width: 33%;
+    }
+  }
+}

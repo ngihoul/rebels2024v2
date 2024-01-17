@@ -12,59 +12,69 @@
     {% set awaiting = event.attendees|filter(item => item.userResponse is null) %}
     {% set unavailable = event.attendees|filter(item => item.userResponse == '0') %}
 
-    {% if attendees|length > 0 %}
-        <h2>Participant{{ attendees|length > 1 ? 's' : '' }}</h2>
-        <ul>
-            {% for attendee in attendees %}
-                <li>
-                     <a href="{{ path('app_profile', { 'userId' : attendee.user.id }) }}">
-                        <img
-                            class="picture"
-                            src="{{ asset('uploads/user_pictures/' ~ attendee.user.profilePicture) }}"
-                            alt="Profile picture of {{ attendee.user.firstname }}"
-                        />
-                        {{ attendee.user.firstname }} {{ attendee.user.lastname }}
-                    </a>
-                </li>
-            {% endfor %}
-        </ul>
-    {% endif %}
+    <div class="container-list">
+        {% if attendees|length > 0 %}
+        
+        <div class="attendance-list">
+            <h2>Participant{{ attendees|length > 1 ? 's' : '' }}</h2>
+            <ul>
+                {% for attendee in attendees %}
+                    <li>
+                        <a href="{{ path('app_profile', { 'userId' : attendee.user.id }) }}">
+                            <img
+                                class="picture"
+                                src="{{ asset('uploads/user_pictures/' ~ attendee.user.profilePicture) }}"
+                                alt="Profile picture of {{ attendee.user.firstname }}"
+                            />
+                            {{ attendee.user.firstname }} {{ attendee.user.lastname }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
 
-    {% if awaiting|length > 0 %}
-        <h2>En attente</h2>
-        <ul>
-            {% for attendee in awaiting %}
-                <li>
-                    <a href="{{ path('app_profile', { 'userId' : attendee.user.id }) }}">
-                        <img
-                            class="picture"
-                            src="{{ asset('uploads/user_pictures/' ~ attendee.user.profilePicture) }}"
-                            alt="Profile picture of {{ attendee.user.firstname }}"
-                        />
-                        {{ attendee.user.firstname }} {{ attendee.user.lastname }}
-                    </a>
-                </li>
-            {% endfor %}
-        </ul>
-    {% endif %}
+        {% if awaiting|length > 0 %}
+        <div class="attendance-list">
+            <h2>En attente</h2>
+            <ul>
+                {% for attendee in awaiting %}
+                    <li>
+                        <a href="{{ path('app_profile', { 'userId' : attendee.user.id }) }}">
+                            <img
+                                class="picture"
+                                src="{{ asset('uploads/user_pictures/' ~ attendee.user.profilePicture) }}"
+                                alt="Profile picture of {{ attendee.user.firstname }}"
+                            />
+                            {{ attendee.user.firstname }} {{ attendee.user.lastname }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
 
-    {% if unavailable|length > 0 %}
-        <h2>Indisponible{{ unavailable|length > 1 ? 's' : '' }}</h2>
-        <ul>
-            {% for attendee in unavailable %}
-                <li>
-                    <a href="{{ path('app_profile', { 'userId' : attendee.user.id }) }}">
-                        <img
-                            class="picture"
-                            src="{{ asset('uploads/user_pictures/' ~ attendee.user.profilePicture) }}"
-                            alt="Profile picture of {{ attendee.user.firstname }}"
-                        />
-                        {{ attendee.user.firstname }} {{ attendee.user.lastname }}
-                    </a>
-                </li>
-            {% endfor %}
-        </ul>
-    {% endif %}
+        {% if unavailable|length > 0 %}
+        <div class="attendance-list">
+            <h2>Indisponible{{ unavailable|length > 1 ? 's' : '' }}</h2>
+            <ul>
+                {% for attendee in unavailable %}
+                    <li>
+                        <a href="{{ path('app_profile', { 'userId' : attendee.user.id }) }}">
+                            <img
+                                class="picture"
+                                src="{{ asset('uploads/user_pictures/' ~ attendee.user.profilePicture) }}"
+                                alt="Profile picture of {{ attendee.user.firstname }}"
+                            />
+                            {{ attendee.user.firstname }} {{ attendee.user.lastname }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+    </div>
+
 
     <a class="btn btn-invite" href="{{ path('app_invitation', { 'id' : event.id } ) }}">Inviter</a>
 
