@@ -51,14 +51,6 @@
   }
 }
 
-// .next-events {
-//   .card-event-container {
-//     .info-event {
-//       width: 100%;
-//     }
-//   }
-// }
-
 .response-event-yes {
   color: $color-success;
   background-color: $color-bg-success;
@@ -91,9 +83,15 @@
 }
 
 @media screen and (min-width: $min-desktop) {
+  .card-event-wrapper {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
   .card-event-container {
-    max-width: 25%;
-    min-width: 300px;
+    width: 30%;
+    min-width: 350px;
 
     .info-event {
       width: 80%;

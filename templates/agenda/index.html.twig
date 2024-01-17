@@ -16,27 +16,29 @@
 
     {% if pendingEvents|length > 0 %}
         <h2>En attente</h2>
-        {% for pendingEvent in pendingEvents %}
-            <section class="card-event-container">
-                
-                <div class="info-event">
-                    <a href="{{ path('app_agenda_detail', { 'id' : pendingEvent.id }) }}">
-                        <p class="event-date">{{ pendingEvent.date|date("d/m/Y") }} - {{ pendingEvent.timeFrom|format_datetime('none', 'short', locale='fr') }}</p>
-                        <p class="event-type">[{{ pendingEvent.team.name }}] {{ pendingEvent.name }}</p>
-                    </a>    
-                </div>
-                
-                <div class="response-event">
-                    <a class="btn response-event-yes" href="{{ path('app_invitation_response', { 'id' : pendingEvent.id, 'result' : 'accept' }) }}">V</a>
-                    <a class="btn response-event-no" href="{{ path('app_invitation_response', { 'id' : pendingEvent.id, 'result' : 'decline' }) }}">X</a>
-                </div>
-            </section>
-        {% endfor %}
+        <div class="card-event-wrapper">
+            {% for pendingEvent in pendingEvents %}
+                <section class="card-event-container">
+                    
+                    <div class="info-event">
+                        <a href="{{ path('app_agenda_detail', { 'id' : pendingEvent.id }) }}">
+                            <p class="event-date">{{ pendingEvent.date|date("d/m/Y") }} - {{ pendingEvent.timeFrom|format_datetime('none', 'short', locale='fr') }}</p>
+                            <p class="event-type">[{{ pendingEvent.team.name }}] {{ pendingEvent.name }}</p>
+                        </a>    
+                    </div>
+                    
+                    <div class="response-event">
+                        <a class="btn response-event-yes" href="{{ path('app_invitation_response', { 'id' : pendingEvent.id, 'result' : 'accept' }) }}">V</a>
+                        <a class="btn response-event-no" href="{{ path('app_invitation_response', { 'id' : pendingEvent.id, 'result' : 'decline' }) }}">X</a>
+                    </div>
+                </section>
+            {% endfor %}
+        </div>
     {% endif %}
 
     <h2>Prochains</h2>
     {% if futureEvents|length > 0 %}
-        <div class="next-events">
+        <div class="card-event-wrapper">
             {% for futureEvent in futureEvents %}
                 <section class="card-event-container">
     

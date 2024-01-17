@@ -1,7 +1,3 @@
-.btn-desktop {
-  display: none;
-}
-
 .pagination {
   display: flex;
   justify-content: center;
@@ -9,5 +5,11 @@
   & > span {
     margin-right: 0.8rem;
     font-size: 1.1rem;
+  }
+}
+
+@media screen and (min-width: $min-desktop) {
+  .card-event-container {
+    display: flex;
   }
 }
