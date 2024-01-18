@@ -13,6 +13,7 @@ use App\Repository\UserRepository;
 use App\Service\ProfilePictureManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityNotFoundException;
+use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 
 class UserController extends AbstractController
 {
@@ -45,7 +46,6 @@ class UserController extends AbstractController
     }
 
     #[Route('/profile/{userId}', name: 'app_profile')]
-    #[IsGranted('ROLE_COACH')]
     public function profileUser(Request $request, UserRepository $userRepository): Response
     {
         try {
@@ -55,6 +55,11 @@ class UserController extends AbstractController
             if ($userId === $user->getId()) {
                 $pageTitle = 'Mon profil';
             } else {
+                if (!$this->isGranted("ROLE_COACH") || !$this->isGranted('ROLE_ADMIN')) {
+                    $this->addFlash('error', 'Le profil demandé n\'a pas été trouvé.');
+                    return $this->redirectToRoute('app_home');
+                }
+
                 $user = $userRepository->find($userId);
                 // Handling ID error
                 if (!$user) {
@@ -69,7 +74,7 @@ class UserController extends AbstractController
                 'pageTitle' => $pageTitle
             ]);
         } catch (EntityNotFoundException $e) {
-            $this->addFlash('error', 'Le profil demandé n\'a pas été trouvée.');
+            $this->addFlash('error', 'Le profil demandé n\'a pas été trouvé.');
             return $this->redirectToRoute('app_home');
         }
     }
