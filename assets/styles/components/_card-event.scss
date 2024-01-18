@@ -6,10 +6,6 @@
   padding-bottom: 0.8rem;
   border-bottom: 1px solid $color-border;
 
-  &:not(:last-child) {
-    margin-right: 0.8rem;
-  }
-
   .info-event {
     width: 60%;
   }
@@ -96,7 +92,7 @@
     width: calc(33% - 0.8rem);
     min-width: 350px;
 
-    &:not(:last-child) {
+    &:not(:nth-child(3n)) {
       margin-right: 0.8rem;
     }
 
