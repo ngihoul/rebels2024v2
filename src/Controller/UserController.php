@@ -50,24 +50,20 @@ class UserController extends AbstractController
     {
         try {
             $userId = (int) $request->get('userId');
-            $user = $this->getUser();
+            $user = $userRepository->find($userId);
 
-            if ($userId === $user->getId()) {
-                $pageTitle = 'Mon profil';
-            } else {
-                if (!$this->isGranted("ROLE_COACH") || !$this->isGranted('ROLE_ADMIN')) {
-                    $this->addFlash('error', 'Le profil demandé n\'a pas été trouvé.');
-                    return $this->redirectToRoute('app_home');
-                }
-
-                $user = $userRepository->find($userId);
-                // Handling ID error
-                if (!$user) {
-                    throw new EntityNotFoundException('Membre non trouvé.');
-                }
-
-                $pageTitle = 'Profil de ' . $user->getFirstname() . ' ' . $user->getLastname();
+            if (!$user) {
+                throw new EntityNotFoundException('Membre non trouvé.');
             }
+
+            $currentUser = $this->getUser();
+
+            if ($user !== $currentUser && (!$this->isGranted("ROLE_COACH") || !$this->isGranted('ROLE_ADMIN'))) {
+                $this->addFlash('error', 'Le profil demandé n\'a pas été trouvé.');
+                return $this->redirectToRoute('app_home');
+            }
+
+            $pageTitle = ($user === $currentUser) ? 'Mon profil' : 'Profil de ' . $user->getFirstname() . ' ' . $user->getLastname();
 
             return $this->render('profile/index.html.twig', [
                 'user' => $user,
