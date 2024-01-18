@@ -49,7 +49,7 @@
             {{ form_row(form.mobile_number, {'label': 'Numéro de portable', 'required': false}) }}
 
             {{ form_row(form.profile_picture, {'label': 'Photo de profil', 'id': 'profile_picture_input'}) }}
-            <p class="disclamer-picture alert alert-warning">Cette photo sera utilisé pour ta licence auprès de la Ligue Francophone Belge de Baseball et Softball. Utilise donc une photo d'identité ou une photo officielle du club.</p>
+            <p class="disclamer-picture alert alert-warning">Cette photo sera utilisée pour ta licence auprès de la Ligue Francophone Belge de Baseball et Softball. Utilise donc une photo d'identité ou une photo officielle du club.</p>
 
             <div id="previewPicture">
                 <img id="previewImage" src="{{ asset('uploads/user_pictures/' ~ image) }}">
