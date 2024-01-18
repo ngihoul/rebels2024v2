@@ -50,7 +50,7 @@
                     </div>
                     
                     {% for attendee in futureEvent.attendees %}
-                        {% if attendee.user == app.user and attendee.userResponse == '1' or attendee.userResponse == '0' %}
+                        {% if attendee.user == app.user and ( attendee.userResponse == '1' or attendee.userResponse == '0' ) %}
                         <div class="response-event">
                             <a class="btn response-event-yes {{ attendee.userResponse == true ? '' : 'disabled' }}" href="{{ path('app_invitation_response', { 'id' : futureEvent.id, 'result' : 'accept' }) }}">V</a>
                             <a class="btn response-event-no {{ attendee.userResponse == false ? '' : 'disabled' }}" href="{{ path('app_invitation_response', { 'id' : futureEvent.id, 'result' : 'decline' }) }}">X</a>

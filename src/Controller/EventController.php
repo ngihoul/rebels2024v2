@@ -51,6 +51,7 @@ class EventController extends AbstractController
             6
         );
 
+        //dd($futureEventsPaginated);
         // Fetch future events which the user is invited to
         $pendingEvents = $this->eventRepository->findPendingEventsForThisUser($user);
 
