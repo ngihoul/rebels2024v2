@@ -20,40 +20,47 @@
             <th class="jersey_cell">#</th>
             <th>Nom</th>
             <th>Rôle</th>
-            <th class="action-remove"></th>
-        </tr>
-        <tr>
-            <td class="jersey_cell">{{ team.coach.jerseyNumber ? team.coach.jerseyNumber : '-' }}</td>
-            {% if is_granted('ROLE_ADMIN') %}
-            <td><a href="{{ path('app_profile', { 'userId': team.coach.id }) }}">{{ team.coach.firstname }} {{ team.coach.lastname }}</td>
-            {% else %}
-            <td>{{ team.coach.firstname }} {{ team.coach.lastname }}</td>
+            {% if is_granted('ROLE_COACH') %}
+                <th class="action-remove"></th>
             {% endif %}
-            <td>Coach</td>
-            <td class="action-remove"></td>
         </tr>
-        <tr>
-            <td class="jersey_cell">{{ team.assistant.jerseyNumber ? team.assistant.jerseyNumber : '-' }}</td>
-            {% if is_granted('ROLE_ADMIN') %}
-            <td><a href="{{ path('app_profile', { 'userId': team.assistant.id }) }}">{{ team.assistant.firstname }} {{ team.assistant.lastname }}</td>
-            {% else %}
-            <td>{{ team.assistant.firstname }} {{ team.assistant.lastname }}</td>
-            {% endif %}
-            <td>Assistant</td>
-            <td class="action-remove"></td>
-        </tr>
-        {% for player in players %}
-            <tr class="">
-                <td class="jersey_cell">{{ player.jerseyNumber ? player.jerseyNumber : '-' }}</td>
+
+        {% for role, member in {'Coach': team.coach, 'Assistant': team.assistant} %}
+            <tr>
+                <td class="jersey_cell">{{ member.jerseyNumber | default('-') }}</td>
                 {% if is_granted('ROLE_ADMIN') %}
-                <td><a href="{{ path('app_profile', { 'userId': player.id }) }}">{{ player.firstname }} {{ player.lastname }}</td>
+                    <td>
+                        <a href="{{ path('app_profile', { 'userId': member.id }) }}">{{ member.firstname }} {{ member.lastname }}</a>
+                    </td>
                 {% else %}
-                <td>{{ player.firstname }} {{ player.lastname }}</td>
+                    <td>{{ member.firstname }} {{ member.lastname }}</td>
                 {% endif %}
-                <td>Joueur</td>
-                <td class="action-remove"><a href="{{ path('app_remove_user_from_team', { 'teamId': team.id, 'userId': player.id }) }}"><i class="fa-solid fa-trash icon icon-trash disagree"></i></a></td>
+                <td>{{ role }}</td>
+                {% if is_granted('ROLE_COACH') %}
+                    <td class="action-remove"></td>
+                {% endif %}
             </tr>
         {% endfor %}
+
+        {% for player in players %}
+            <tr class="">
+                <td class="jersey_cell">{{ player.jerseyNumber | default('-') }}</td>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <td>
+                        <a href="{{ path('app_profile', { 'userId': player.id }) }}">{{ player.firstname }} {{ player.lastname }}</a>
+                    </td>
+                {% else %}
+                    <td>{{ player.firstname }} {{ player.lastname }}</td>
+                {% endif %}
+                <td>Joueur</td>
+                {% if is_granted('ROLE_COACH') %}
+                    <td class="action-remove">
+                        <a href="{{ path('app_remove_user_from_team', { 'teamId': team.id, 'userId': player.id }) }}"><i class="fa-solid fa-trash icon icon-trash disagree"></i></a>
+                    </td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+        
     </table>
 </div>
 {% endblock %}
