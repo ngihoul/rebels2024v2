@@ -12,9 +12,9 @@
         {% for attendee in event.attendees %}
             {% if attendee.user == app.user %}
 
-                <a class="btn response-btn response-event-yes {{ attendee.userResponse == '1' or ( attendee.userResponse == NULL and attendee.userResponse != '0' ) ? '' : 'disabled' }}" href="{{ path('app_invitation_response', { 'id' : event.id, 'result' : 'accept' }) }}">Présent</a>
+                <a class="btn response-btn response-event-yes {{ attendee.userResponse == '1' or ( attendee.userResponse == NULL and attendee.userResponse != '0' ) ? '' : 'disabled' }}" href="{{ path('app_agenda_response', { 'id' : event.id, 'result' : 'accept' }) }}">Présent</a>
 
-                <a class="btn response-btn response-event-no {{ attendee.userResponse == '0' or attendee.userResponse == NULL ? '' : 'disabled' }}" href="{{ path('app_invitation_response', { 'id' : event.id, 'result' : 'decline' }) }}">Absent</a>
+                <a class="btn response-btn response-event-no {{ attendee.userResponse == '0' or attendee.userResponse == NULL ? '' : 'disabled' }}" href="{{ path('app_agenda_response', { 'id' : event.id, 'result' : 'decline' }) }}">Absent</a>
 
             {% endif %}
         {% endfor %}
@@ -42,7 +42,7 @@
         </a>
 
         {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_COACH') %}
-            <a class="btn btn-invite" href="{{ path('app_invitation', { 'id' : event.id } ) }}">Inviter</a>
+            <a class="btn btn-invite" href="{{ path('app_agenda_invitation', { 'id' : event.id } ) }}">Inviter</a>
         {% endif %}
 
     </div>
@@ -81,8 +81,8 @@
 
     {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_COACH') %}
         <div class="admin">
-            <a class="btn" href="{{ path('app_update_event', { 'id' : event.id }) }}">Modifier</a>
-            <a class="btn btn-danger" href="{{ path('app_delete_event', { 'id' : event.id }) }}">Supprimer</a>
+            <a class="btn" href="{{ path('app_agenda_update', { 'id' : event.id }) }}">Modifier</a>
+            <a class="btn btn-danger" href="{{ path('app_agenda_delete', { 'id' : event.id }) }}">Supprimer</a>
         </div>           
     {% endif %}
 </div>

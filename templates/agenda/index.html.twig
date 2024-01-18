@@ -28,8 +28,8 @@
                     </div>
                     
                     <div class="response-event">
-                        <a class="btn response-event-yes" href="{{ path('app_invitation_response', { 'id' : pendingEvent.id, 'result' : 'accept' }) }}">V</a>
-                        <a class="btn response-event-no" href="{{ path('app_invitation_response', { 'id' : pendingEvent.id, 'result' : 'decline' }) }}">X</a>
+                        <a class="btn response-event-yes" href="{{ path('app_agenda_response', { 'id' : pendingEvent.id, 'result' : 'accept' }) }}">V</a>
+                        <a class="btn response-event-no" href="{{ path('app_agenda_response', { 'id' : pendingEvent.id, 'result' : 'decline' }) }}">X</a>
                     </div>
                 </section>
             {% endfor %}
@@ -52,17 +52,17 @@
                     {% for attendee in futureEvent.attendees %}
                         {% if attendee.user == app.user and ( attendee.userResponse == '1' or attendee.userResponse == '0' ) %}
                         <div class="response-event">
-                            <a class="btn response-event-yes {{ attendee.userResponse == true ? '' : 'disabled' }}" href="{{ path('app_invitation_response', { 'id' : futureEvent.id, 'result' : 'accept' }) }}">V</a>
-                            <a class="btn response-event-no {{ attendee.userResponse == false ? '' : 'disabled' }}" href="{{ path('app_invitation_response', { 'id' : futureEvent.id, 'result' : 'decline' }) }}">X</a>
+                            <a class="btn response-event-yes {{ attendee.userResponse == true ? '' : 'disabled' }}" href="{{ path('app_agenda_response', { 'id' : futureEvent.id, 'result' : 'accept' }) }}">V</a>
+                            <a class="btn response-event-no {{ attendee.userResponse == false ? '' : 'disabled' }}" href="{{ path('app_agenda_response', { 'id' : futureEvent.id, 'result' : 'decline' }) }}">X</a>
                         </div>
                         {% endif %}
                     {% endfor %}
 
                     {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_COACH') %}
                         <div class="admin-btn">
-                            <a class="btn btn-invite" href="{{ path('app_invitation', { 'id' : futureEvent.id } ) }}">Inviter</a>
-                            <a class="icon icon-edit" href="{{ path('app_update_event', { 'id' : futureEvent.id }) }}"><i class="fa-regular fa-pen-to-square"></i></a>
-                            <a class="icon icon-delete" href="{{ path('app_delete_event', { 'id' : futureEvent.id }) }}"><i class="fa-solid fa-trash"></i></a>
+                            <a class="btn btn-invite" href="{{ path('app_agenda_invitation', { 'id' : futureEvent.id } ) }}">Inviter</a>
+                            <a class="icon icon-edit" href="{{ path('app_agenda_update', { 'id' : futureEvent.id }) }}"><i class="fa-regular fa-pen-to-square"></i></a>
+                            <a class="icon icon-delete" href="{{ path('app_agenda_delete', { 'id' : futureEvent.id }) }}"><i class="fa-solid fa-trash"></i></a>
                         </div>
                     {% endif %}
 

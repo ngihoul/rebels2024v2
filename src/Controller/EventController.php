@@ -11,7 +11,6 @@ use App\Repository\EventRepository;
 use App\Service\EmailManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityNotFoundException;
-use Doctrine\ORM\Mapping\Entity;
 use Exception;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,6 +20,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
+#[Route('/agenda')]
 class EventController extends AbstractController
 {
     private $entityManager;
@@ -32,10 +32,12 @@ class EventController extends AbstractController
         $this->eventRepository = $eventRepository;
     }
 
-    #[Route('/agenda/{page<\d+>?1}', name: 'app_agenda')]
+    #[Route('/{page<\d+>?1}', name: 'app_agenda')]
     #[IsGranted('ROLE_USER')]
     public function index(Request $request, PaginatorInterface $paginator, Security $security): Response
     {
+        $EVENT_PER_PAGE = 6;
+
         $user = $this->getUser();
         $page = (int) $request->get('page');
 
@@ -48,10 +50,9 @@ class EventController extends AbstractController
         $futureEventsPaginated = $paginator->paginate(
             $futureEvents,
             $page,
-            6
+            $EVENT_PER_PAGE
         );
 
-        //dd($futureEventsPaginated);
         // Fetch future events which the user is invited to
         $pendingEvents = $this->eventRepository->findPendingEventsForThisUser($user);
 
@@ -61,7 +62,7 @@ class EventController extends AbstractController
         ]);
     }
 
-    #[Route('/agenda/event/{id}', name: 'app_agenda_detail')]
+    #[Route('/event/{id}', name: 'app_agenda_detail')]
     #[IsGranted('ROLE_USER')]
     public function detail(Event $event): Response
     {
@@ -87,7 +88,7 @@ class EventController extends AbstractController
         ]);
     }
 
-    #[Route('/agenda/event/{id}/attendance', name: 'app_agenda_attendance')]
+    #[Route('/event/{id}/attendance', name: 'app_agenda_attendance')]
     #[IsGranted('ROLE_COACH')]
     public function attendance(Event $event): Response
     {
@@ -96,7 +97,7 @@ class EventController extends AbstractController
         ]);
     }
 
-    #[Route('/create-event', name: 'app_create_event')]
+    #[Route('/create', name: 'app_create_event')]
     #[IsGranted('ROLE_COACH')]
     public function create(Request $request): Response
     {
@@ -153,7 +154,7 @@ class EventController extends AbstractController
         ]);
     }
 
-    #[Route('/update-event/{id}', name: 'app_update_event')]
+    #[Route('/update/{id}', name: 'app_agenda_update')]
     #[IsGranted('ROLE_COACH')]
     public function update(Request $request, Event $event): Response
     {
@@ -173,9 +174,9 @@ class EventController extends AbstractController
         ]);
     }
 
-    #[Route('/invitation/{id}', name: 'app_invitation')]
+    #[Route('/invitation/{id}', name: 'app_agenda_invitation')]
     #[IsGranted('ROLE_COACH')]
-    public function inviteUsers(Request $request, Event $event, EmailManager $emailManager): Response
+    public function invite(Request $request, Event $event, EmailManager $emailManager): Response
     {
         try {
             if (!$event) {
@@ -231,7 +232,7 @@ class EventController extends AbstractController
         }
     }
 
-    #[Route('/invitation/{id}/{result}', name: 'app_invitation_response')]
+    #[Route('/invitation/{id}/{result}', name: 'app_agenda_response')]
     #[IsGranted('ROLE_USER')]
     public function response(Request $request, Event $event, EventAttendeeRepository $eventAttendeeRepository): Response
     {
@@ -261,7 +262,7 @@ class EventController extends AbstractController
         return $this->redirect($route);
     }
 
-    #[Route('/delete-event/{id}', name: 'app_delete_event')]
+    #[Route('/delete/{id}', name: 'app_agenda_delete')]
     #[IsGranted('ROLE_COACH')]
     public function delete(Request $request, Event $event): Response
     {
