@@ -31,3 +31,6 @@ services:
   App\Service\ProfilePictureManager:
     arguments:
       $fileUploader: '@App\Service\FileUploader'
+
+  App\Controller\ErrorController:
+    arguments: []
