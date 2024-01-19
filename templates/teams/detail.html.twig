@@ -55,7 +55,7 @@
                 <td>Joueur</td>
                 {% if is_granted('ROLE_COACH') %}
                     <td class="action-remove">
-                        <a href="{{ path('app_remove_user_from_team', { 'teamId': team.id, 'userId': player.id }) }}"><i class="fa-solid fa-trash icon icon-trash disagree"></i></a>
+                        <a href="{{ path('app_team_remove', { 'teamId': team.id, 'userId': player.id }) }}"><i class="fa-solid fa-trash icon icon-trash disagree"></i></a>
                     </td>
                 {% endif %}
             </tr>

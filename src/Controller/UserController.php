@@ -13,7 +13,6 @@ use App\Repository\UserRepository;
 use App\Service\ProfilePictureManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityNotFoundException;
-use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 
 class UserController extends AbstractController
 {
@@ -75,7 +74,7 @@ class UserController extends AbstractController
         }
     }
 
-    #[Route('/edit-profile', name: 'app_edit_profile')]
+    #[Route('/profile/update', name: 'app_profile_update')]
     #[IsGranted('ROLE_USER')]
     public function update(Request $request, ProfilePictureManager $profilePictureManager): Response
     {

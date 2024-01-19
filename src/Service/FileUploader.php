@@ -27,7 +27,7 @@ class FileUploader
      */
     public function save(UploadedFile $image, string $directory): string
     {
-        $allowedImageMimeTypes = ['image/jpeg', 'image/png', 'image/gif'];
+        $allowedImageMimeTypes = ['image/jpeg', 'image/png', 'image/gif', 'application/pdf'];
         $fileMimeType = $this->mimeTypes->guessMimeType($image->getPathname());
 
         if (!in_array($fileMimeType, $allowedImageMimeTypes)) {

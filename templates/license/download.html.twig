@@ -10,7 +10,7 @@
     <a href="{{ asset(licenses_download_directory ~ file_name) }}" target="_blank"><button class="cta">Télécharger</button></a>
 
     <h2>2. Vérifie les données pré-encodées</h2>
-    <p>Si elles ne sont pas correctes : <a class="link-paragraph" href="{{ path('app_edit_profile') }}">adapte ton profil</a> et reclique sur le bouton "Télécharger" ci-dessus<p>
+    <p>Si elles ne sont pas correctes : <a class="link-paragraph" href="{{ path('app_profile_update') }}">adapte ton profil</a> et reclique sur le bouton "Télécharger" ci-dessus<p>
 
     <h2>3. Complète ta demande</h2>
 
@@ -21,6 +21,6 @@
     <img src="{{ asset('') }}" />
 
     <h2>4. Renvoie-nous ta demande ici</h2>
-    <a href="{{ path('app_upload_license', { 'licenseId' : licenseId }) }}"><button class="cta">Renvoyer</button></a>
+    <a href="{{ path('app_license_upload', { 'licenseId' : licenseId }) }}"><button class="cta">Renvoyer</button></a>
 </div>
 {% endblock %}

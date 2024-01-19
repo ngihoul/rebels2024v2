@@ -22,6 +22,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
+#[Route('/license')]
 class LicenseController extends AbstractController
 {
     private EntityManagerInterface $entityManager;
@@ -33,7 +34,7 @@ class LicenseController extends AbstractController
         $this->licenseRepository = $licenseRepository;
     }
 
-    #[Route('/licenses', name: 'app_licenses')]
+    #[Route('/', name: 'app_license')]
     #[IsGranted('ROLE_USER')]
     public function index(): Response
     {
@@ -52,16 +53,16 @@ class LicenseController extends AbstractController
         ]);
     }
 
-    #[Route('/add-license', name: 'app_add_license')]
+    #[Route('/create', name: 'app_license_create')]
     #[IsGranted('ROLE_USER')]
-    public function add(Request $request): Response
+    public function create(Request $request): Response
     {
         $user = $this->getUser();
 
         // Profile must be complete to ask a new license
         if (!$user->isProfileComplete()) {
             $this->addFlash('error', 'ton profil est incomplet. Complète d\'abord ton profil et ensuite demande une licence.');
-            return $this->redirectToRoute('app_edit_profile');
+            return $this->redirectToRoute('app_profile_update');
         }
 
         // Only one license can be asked for the current year
@@ -69,7 +70,7 @@ class LicenseController extends AbstractController
 
         if ($currentLicense) {
             $this->addFlash('error', 'Tu as déjà une licence active pour cette année. tu ne peux pas en demander une nouvelle.');
-            return $this->redirectToRoute('app_licenses');
+            return $this->redirectToRoute('app_license');
         }
 
         $license = new License();
@@ -89,7 +90,7 @@ class LicenseController extends AbstractController
             $this->entityManager->persist($license);
             $this->entityManager->flush();
 
-            return $this->redirectToRoute('app_licenses');
+            return $this->redirectToRoute('app_license');
         }
 
         return $this->render('license/form.html.twig', [
@@ -97,7 +98,7 @@ class LicenseController extends AbstractController
         ]);
     }
 
-    #[Route('/download-license/{licenseId}', name: 'app_download_license')]
+    #[Route('/download/{licenseId}', name: 'app_license_download')]
     #[IsGranted('ROLE_USER')]
     public function download(Request $request, ServiceLicensePDFGenerator $pdfGenerator): Response
     {
@@ -134,14 +135,14 @@ class LicenseController extends AbstractController
             ]);
         } catch (EntityNotFoundException $e) {
             $this->addFlash('error', 'La licence demandée n\'a pas été trouvée.');
-            return $this->redirectToRoute('app_licenses');
+            return $this->redirectToRoute('app_license');
         } catch (FileException $e) {
             $this->addFlash('error', 'Le fichier n\'a pas pu être généré car ' . $e->getMessage());
-            return $this->redirectToRoute('app_licenses');
+            return $this->redirectToRoute('app_license');
         }
     }
 
-    #[Route('/upload-license/{licenseId}', name: 'app_upload_license')]
+    #[Route('/upload/{licenseId}', name: 'app_license_upload')]
     #[IsGranted('ROLE_USER')]
     public function upload(Request $request, FileUploader $fileUploader, EmailManager $emailManager): Response
     {
@@ -156,7 +157,7 @@ class LicenseController extends AbstractController
             }
         } catch (EntityNotFoundException $e) {
             $this->addFlash('error', 'La licence demandée n\'a pas été trouvée.');
-            return $this->redirectToRoute('app_licenses');
+            return $this->redirectToRoute('app_license');
         }
 
         $form = $this->createForm(UploadLicenseType::class);
@@ -189,7 +190,7 @@ class LicenseController extends AbstractController
                 $this->addFlash('error', 'Aucun fichier n\'a été téléchargé.');
             }
 
-            return $this->redirectToRoute('app_licenses');
+            return $this->redirectToRoute('app_license');
         }
 
         return $this->render('license/upload.html.twig', [
@@ -197,7 +198,7 @@ class LicenseController extends AbstractController
         ]);
     }
 
-    #[Route('/license/checkout/{licenseId}', name: 'app_license_checkout')]
+    #[Route('/checkout/{licenseId}', name: 'app_license_checkout')]
     #[IsGranted('ROLE_USER')]
     public function checkout(Request $request)
     {
@@ -212,7 +213,7 @@ class LicenseController extends AbstractController
             }
         } catch (EntityNotFoundException $e) {
             $this->addFlash('error', 'La licence demandée n\'a pas été trouvée.');
-            return $this->redirectToRoute('app_licenses');
+            return $this->redirectToRoute('app_license');
         }
 
         Stripe::setApiKey($_ENV['STRIPE_SECRET_KEY']);
@@ -236,7 +237,7 @@ class LicenseController extends AbstractController
         return $this->redirect($checkout_session->url, 303);
     }
 
-    #[Route('/license/success-url/{licenseId}', name: 'app_success_payment')]
+    #[Route('/success-url/{licenseId}', name: 'app_success_payment')]
     public function successUrl(Request $request): Response
     {
 
@@ -251,7 +252,7 @@ class LicenseController extends AbstractController
             }
         } catch (EntityNotFoundException $e) {
             $this->addFlash('error', 'La licence demandée n\'a pas été trouvée.');
-            return $this->redirectToRoute('app_licenses');
+            return $this->redirectToRoute('app_license');
         }
 
         // Change status
@@ -265,7 +266,7 @@ class LicenseController extends AbstractController
         return $this->render('payment/success.html.twig', []);
     }
 
-    #[Route('/license/cancel-url', name: 'app_cancel_payment')]
+    #[Route('/cancel-url', name: 'app_cancel_payment')]
     public function cancelUrl(): Response
     {
         return $this->render('payment/cancel.html.twig', []);

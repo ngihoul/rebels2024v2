@@ -23,7 +23,7 @@
                     <p><u>Coach</u> : {{ team.coach.firstname }} {{ team.coach.lastname }}</p>
                     <a class="link-paragraph" href="{{ path('app_team_detail', { 'teamId': team.id }) }}">Voir les membres</a>
                     <div class="admin">
-                        <a href="{{ path('app_team_edit', { 'id' : team.id }) }}" class="btn">Modifier</a>
+                        <a href="{{ path('app_team_update', { 'id' : team.id }) }}" class="btn">Modifier</a>
                         <a href="#" class="btn btn-danger">Supprimer</a>
                     </div>
                 </section>

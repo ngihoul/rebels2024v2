@@ -50,7 +50,7 @@ class AdminLicenseController extends AbstractController
             }
         } catch (EntityNotFoundException $e) {
             $this->addFlash('error', 'La licence demandée n\'a pas été trouvée.');
-            return $this->redirectToRoute('app_licenses');
+            return $this->redirectToRoute('app_license');
         }
 
         $form = $this->createForm(ValidateLicenseType::class);

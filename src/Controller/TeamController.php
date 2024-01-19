@@ -86,9 +86,9 @@ class TeamController extends AbstractController
         ]);
     }
 
-    #[Route('/team/{id}/edit', name: 'app_team_edit')]
+    #[Route('/team/{id}/update', name: 'app_team_update')]
     #[IsGranted('ROLE_ADMIN')]
-    public function edit(Team $team, Request $request, FileUploader $fileUploader): Response
+    public function update(Team $team, Request $request, FileUploader $fileUploader): Response
     {
         $action = 'update';
         $logo = $team->getLogo();
@@ -177,7 +177,7 @@ class TeamController extends AbstractController
         ]);
     }
 
-    #[Route('/team/{teamId}/remove-user/{userId}', name: 'app_remove_user_from_team')]
+    #[Route('/team/{teamId}/remove/{userId}', name: 'app_team_remove')]
     #[IsGranted('ROLE_COACH')]
     public function removeUserFromTeam(int $teamId, int $userId): Response
     {
