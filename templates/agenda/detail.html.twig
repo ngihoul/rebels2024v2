@@ -22,7 +22,9 @@
 
     <div class="attendees">
         <h2>Participants</h2>
-        <a href="{{ path('app_agenda_attendance', { 'id' : event.id }) }}">
+        {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_COACH') %}
+            <a href="{{ path('app_agenda_attendance', { 'id' : event.id }) }}">
+        {% endif %}
             <section>
                 <div class="attendees">
                         <p class="number">{{ attendees }}</p>
@@ -39,7 +41,9 @@
                     <p class="text">Indisponible{{ unavailable > 1 ? 's' : '' }}</p>
                 </div>
             </section>
-        </a>
+        {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_COACH') %}
+            </a>
+        {% endif %}
 
         {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_COACH') %}
             <a class="btn btn-invite" href="{{ path('app_agenda_invitation', { 'id' : event.id } ) }}">Inviter</a>
