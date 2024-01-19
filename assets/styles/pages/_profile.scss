@@ -15,19 +15,13 @@
   color: $color-background;
   position: relative;
 
-  &::before {
-    font-family: "Font Awesome\ 5 Free";
-    font-weight: 900;
-    content: "\f044";
+  svg {
     font-size: 1.5rem;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    color: $color-background;
   }
 
   &:visited {
-    color: $color-background;
+    color: $color-primary;
   }
 }
 
