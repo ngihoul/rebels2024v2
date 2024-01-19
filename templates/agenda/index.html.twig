@@ -15,7 +15,7 @@
     {{ parent() }}
 
     {% if pendingEvents|length > 0 %}
-        <h2>En attente</h2>
+        <h2>En attente de réponse</h2>
         <div class="card-event-wrapper">
             {% for pendingEvent in pendingEvents %}
                 <section class="card-event-container">
@@ -40,8 +40,17 @@
     {% if futureEvents|length > 0 %}
         <div class="card-event-wrapper">
             {% for futureEvent in futureEvents %}
-                <section class="card-event-container">
-    
+
+                {% set customClass = '' %}
+                {% for attendee in futureEvent.attendees %}
+                    {% if attendee.user == app.user and attendee.userResponse == '1' %}
+                        {% set customClass = 'present' %}
+                    {% elseif attendee.user == app.user and attendee.userResponse == '0' %}
+                        {% set customClass = 'absent' %}
+                    {% endif %}
+                {% endfor %}
+                
+                <section class="card-event-container {{ customClass }}">
                     <div class="info-event">
                         <a href="{{ path('app_agenda_detail', { 'id' : futureEvent.id }) }}">
                             <p class="event-date">{{ futureEvent.date|date("d/m/Y") }} - {{ futureEvent.timeFrom|format_datetime('none', 'short', locale='fr') }}</p>
