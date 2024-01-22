@@ -28,8 +28,8 @@
                     </div>
                     
                     <div class="response-event">
-                        <a class="btn response-event-yes" href="{{ path('app_agenda_response', { 'id' : pendingEvent.id, 'result' : 'accept' }) }}">V</a>
-                        <a class="btn response-event-no" href="{{ path('app_agenda_response', { 'id' : pendingEvent.id, 'result' : 'decline' }) }}">X</a>
+                        <a class="btn response-event-yes" href="{{ path('app_agenda_response', { 'id' : pendingEvent.id, 'result' : 'accept' }) }}" title="Accepter">V</a>
+                        <a class="btn response-event-no" href="{{ path('app_agenda_response', { 'id' : pendingEvent.id, 'result' : 'decline' }) }}" title="Refuser">X</a>
                     </div>
                 </section>
             {% endfor %}
