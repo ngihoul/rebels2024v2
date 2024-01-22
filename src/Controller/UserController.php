@@ -76,7 +76,7 @@ class UserController extends AbstractController
     public function profileUser(Request $request, UserRepository $userRepository): Response
     {
         try {
-            $userId = (int) $request->get('userId');
+            $userId = $request->get('userId');
             $user = $userRepository->find($userId);
 
             if (!$user) {

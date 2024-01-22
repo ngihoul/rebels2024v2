@@ -136,6 +136,7 @@ class TeamController extends AbstractController
                 throw new EntityNotFoundException('L\'équipe n\'existe pas.');
             }
 
+            // Sort players by lastname
             $players = $team->getPlayers()->toArray();
             usort($players, function ($a, $b) {
                 return strcmp($a->getLastName(), $b->getLastName());
@@ -162,7 +163,7 @@ class TeamController extends AbstractController
                     // Force to reload the player list
                     return $this->redirectToRoute('app_team_detail', ['teamId' => $team->getId()]);
                 } else {
-                    $this->addFlash('error', 'Une erreur est survenue: le joueur n\'a pas pu être ajouté');
+                    throw new Exception('Le joueur n\'a pas pu être ajouté');
                 }
             }
         } catch (\Exception $e) {
@@ -179,21 +180,29 @@ class TeamController extends AbstractController
 
     #[Route('/team/{teamId}/remove/{userId}', name: 'app_team_remove')]
     #[IsGranted('ROLE_COACH')]
-    public function removeUserFromTeam(int $teamId, int $userId): Response
+    public function removeUserFromTeam(Request $request): Response
     {
         try {
+            $teamId = $request->get('teamId');
             $team = $this->teamRepository->find($teamId);
-            $user = $this->userRepository->find($userId);
+            if (!$team) {
+                throw new EntityNotFoundException('Equipe non trouvé.');
+            }
 
-            if (!$team || !$user) {
-                throw $this->createNotFoundException('Equipe ou Utilisateur non trouvé.');
+            $userId = $request->get('userId');
+            $user = $this->userRepository->find($userId);
+            if (!$user) {
+                throw new EntityNotFoundException('Utilisateur non trouvé.');
             }
 
             $team->removePlayer($user);
+
             $this->entityManager->persist($team);
             $this->entityManager->flush();
 
-            $this->addFlash('success', 'Le joueur a été retiré de l\'équipe');
+            $this->addFlash('success', 'Le joueur ' . $user->getFirstname() . ' ' . $user->getLastname() . ' a été retiré de l\'équipe ' . $team->getName());
+        } catch (EntityNotFoundException $entityNotFound) {
+            $this->addFlash('error', 'Une erreur est survenue : ' . $entityNotFound->getMessage());
         } catch (\Exception $e) {
             $this->addFlash('error', 'Une erreur est survenue : ' . $e->getMessage());
         }

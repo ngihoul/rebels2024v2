@@ -44,6 +44,7 @@ class EventController extends AbstractController
         if ($security->isGranted('ROLE_COACH')) {
             $futureEvents = $this->eventRepository->findAll();
         } else {
+            // Fetch future events which the user is invited to (with reply)
             $futureEvents = $this->eventRepository->findFutureEventsForThisUser($user);
         }
 
@@ -53,7 +54,7 @@ class EventController extends AbstractController
             $EVENT_PER_PAGE
         );
 
-        // Fetch future events which the user is invited to
+        // Fetch future events which the user is invited to (without reply)
         $pendingEvents = $this->eventRepository->findPendingEventsForThisUser($user);
 
         return $this->render('agenda/index.html.twig', [
@@ -114,6 +115,7 @@ class EventController extends AbstractController
 
                 $this->entityManager->beginTransaction();
 
+                // Check if the event is a single-day or recurring event
                 if ($endDate === null) {
                     $this->entityManager->persist($event);
                 } else {
@@ -159,10 +161,10 @@ class EventController extends AbstractController
     public function update(Request $request, Event $event): Response
     {
         $form = $this->createForm(EventType::class, $event);
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $this->entityManager->persist($event);
             $this->entityManager->flush();
 
@@ -176,9 +178,12 @@ class EventController extends AbstractController
 
     #[Route('/invitation/{id}', name: 'app_agenda_invitation')]
     #[IsGranted('ROLE_COACH')]
-    public function invite(Request $request, Event $event, EmailManager $emailManager): Response
+    public function invite(Request $request, EmailManager $emailManager, EventAttendeeRepository $eventAttendeeRepository): Response
     {
         try {
+            $eventId = $request->get('id');
+            $event = $this->eventRepository->find($eventId);
+
             if (!$event) {
                 throw new EntityNotFoundException('L\'évèment n\'existe pas');
             }
@@ -199,11 +204,9 @@ class EventController extends AbstractController
 
                 foreach ($invitedUsers as $user) {
                     // Check if the user is already invited to the event
-                    $existingAttendee = $this->entityManager
-                        ->getRepository(EventAttendee::class)
-                        ->findOneBy(['event' => $event, 'user' => $user]);
+                    $existingAttendee = $eventAttendeeRepository->findOneBy(['event' => $event, 'user' => $user]);
 
-                    // If not, create and persist a new EventAttendee instance
+                    // If not, create and persist a new EventAttendee
                     if (!$existingAttendee) {
                         $eventAttendee = new EventAttendee();
                         $eventAttendee->setEvent($event);
@@ -234,32 +237,48 @@ class EventController extends AbstractController
 
     #[Route('/invitation/{id}/{result}', name: 'app_agenda_response')]
     #[IsGranted('ROLE_USER')]
-    public function response(Request $request, Event $event, EventAttendeeRepository $eventAttendeeRepository): Response
+    public function response(Request $request, EventAttendeeRepository $eventAttendeeRepository): Response
     {
+        try {
+            $eventId = $request->get('id');
+            $event = $this->eventRepository->find($eventId);
+            if (!$event) {
+                throw new EntityNotFoundException('L\'évènement n\'existe pas.');
+            }
 
-        $response = $request->get('result');
+            $response = $request->get('result');
 
-        $eventAttendee = $eventAttendeeRepository->findOneBy(['user' => $this->getUser(), 'event' => $event]);
+            $eventAttendee = $eventAttendeeRepository->findOneBy(['user' => $this->getUser(), 'event' => $event]);
+            if (!$eventAttendee) {
+                throw new EntityNotFoundException('L\'invitation à l\'évènement n\'a pas été trouvée.');
+            }
 
-        if ($response === 'accept') {
-            $eventAttendee->setUserResponse(true);
-            $messageType = 'success';
-            $message = 'Tu es bien inscrit à l\'évènement';
-        } elseif ($response === 'decline') {
-            $eventAttendee->setUserResponse(false);
-            $messageType = 'error';
-            $message = 'Tu as refusé l\'invitation à l\'évènement';
+            if ($response === 'accept') {
+                $eventAttendee->setUserResponse(true);
+                $messageType = 'success';
+                $message = 'Tu es bien inscrit à l\'évènement ' . $event->getName();
+            } elseif ($response === 'decline') {
+                $eventAttendee->setUserResponse(false);
+                $messageType = 'error';
+                $message = 'Tu as refusé l\'invitation à l\'évènement ' . $event->getName();
+            }
+
+            $eventAttendee->setRespondedAt(new \DateTimeImmutable());
+
+            $this->entityManager->persist($eventAttendee);
+            $this->entityManager->flush();
+
+            $this->addFlash($messageType, $message);
+
+            $route = $request->headers->get('referer');
+            return $this->redirect($route);
+        } catch (EntityNotFoundException $e) {
+            $this->addFlash('error', $e->getMessage());
+            return $this->redirectToRoute('app_agenda');
+        } catch (\Exception $e) {
+            $this->addFlash('error', 'Une erreur s\'est produite lors du traitement de la réponse à l\'invitation.');
+            return $this->redirectToRoute('app_agenda');
         }
-
-        $eventAttendee->setRespondedAt(new \DateTimeImmutable());
-
-        $this->entityManager->persist($eventAttendee);
-        $this->entityManager->flush();
-
-        $this->addFlash($messageType, $message);
-
-        $route = $request->headers->get('referer');
-        return $this->redirect($route);
     }
 
     #[Route('/delete/{id}', name: 'app_agenda_delete')]

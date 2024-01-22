@@ -175,7 +175,7 @@ class LicenseController extends AbstractController
                     $license->setStatus(License::DOC_RECEIVED);
 
                     $license->setUpdatedAt(new DateTimeImmutable());
-                    // Save data in DB
+
                     $this->entityManager->persist($license);
                     $this->entityManager->flush();
 
@@ -240,7 +240,6 @@ class LicenseController extends AbstractController
     #[Route('/success-url/{licenseId}', name: 'app_success_payment')]
     public function successUrl(Request $request): Response
     {
-
         $licenseId = $request->get('licenseId');
 
         // Find license in DB

@@ -58,6 +58,7 @@ class AdminLicenseController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Check which button was clicked 
             if ($form->get('approval')->isClicked()) {
                 // Change status to DOC_VALIDATED
                 $license->setStatus(License::DOC_VALIDATED);
