@@ -14,7 +14,7 @@ final class Version20231213124411 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return '';
+        return 'Aff value to Event_category table';
     }
 
     public function up(Schema $schema): void

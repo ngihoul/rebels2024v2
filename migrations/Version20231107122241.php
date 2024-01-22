@@ -14,7 +14,7 @@ final class Version20231107122241 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return '';
+        return 'Create License table';
     }
 
     public function up(Schema $schema): void

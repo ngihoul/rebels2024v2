@@ -14,7 +14,7 @@ final class Version20231205144821 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return '';
+        return 'Add logo field to Team table';
     }
 
     public function up(Schema $schema): void

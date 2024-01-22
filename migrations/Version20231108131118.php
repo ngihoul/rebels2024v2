@@ -14,7 +14,7 @@ final class Version20231108131118 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return '';
+        return 'Delete current_state field from License table';
     }
 
     public function up(Schema $schema): void

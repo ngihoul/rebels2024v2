@@ -14,7 +14,7 @@ final class Version20231205162734 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return '';
+        return 'Removing coach_id field from Team table';
     }
 
     public function up(Schema $schema): void

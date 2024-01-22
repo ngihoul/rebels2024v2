@@ -14,7 +14,7 @@ final class Version20231219134436 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return '';
+        return 'Create Event Attendee table';
     }
 
     public function up(Schema $schema): void

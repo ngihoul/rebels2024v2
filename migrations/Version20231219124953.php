@@ -14,7 +14,7 @@ final class Version20231219124953 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return '';
+        return 'Delete opponent field from Event table';
     }
 
     public function up(Schema $schema): void

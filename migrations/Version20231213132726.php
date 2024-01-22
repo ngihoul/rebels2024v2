@@ -14,7 +14,7 @@ final class Version20231213132726 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return '';
+        return 'Modify dateformat in event table';
     }
 
     public function up(Schema $schema): void
