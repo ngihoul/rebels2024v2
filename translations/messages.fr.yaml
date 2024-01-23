@@ -20,6 +20,12 @@ nav:
 homepage:
   title: "Se connecter"
   next_event: "Prochains évènements"
+  fill_in_profile: "Complète ton profil"
+  ask_license: "Demande une licence"
+  download_license: "Télécharge ta demande de license"
+  send_back_license: "Renvoie-nous ta demande complétée et signée"
+  license_to_validate: "Un administrateur va bientôt valider ta licence"
+  pay_license: "Dernière étape : paye ta licence"
 
 login:
   login: "Se connecter"

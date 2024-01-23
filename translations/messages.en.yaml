@@ -20,6 +20,12 @@ nav:
 homepage:
   title: "Login"
   next_event: "Next events"
+  fill_in_profile: "Complete your profile"
+  ask_license: "Apply for a license"
+  download_license: "Download your license"
+  send_back_license: "Send us back your completed and signed license application"
+  license_to_validate: "An administrator will soon validate your license"
+  pay_license: "Last step: pay your license"
 
 login:
   login: "Login"
