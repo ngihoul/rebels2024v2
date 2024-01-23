@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{  parent() }} | Se connecter{% endblock %}
+{% block title %}{{  parent() }} | {{ "login.login"|trans }}{% endblock %}
 
 {% block body %}
 <div class="container container-login">
@@ -20,16 +20,16 @@
         <label for="username">Email</label>
         <input type="text" id="username" name="_username" value="{{ last_username }}">
 
-        <label for="password">Mot de passe</label>
+        <label for="password">{{ "login.password"|trans }}</label>
         <input class="login-password" type="password" id="password" name="_password">
 
-        <p class="forgot-password"><a href="{{ path("app_forgot_password_request") }}">Mot de passe oublié ?</a> </p>
+        <p class="forgot-password"><a href="{{ path("app_forgot_password_request") }}">{{ "login.forgot_password"|trans }}</a> </p>
 
         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-        <button class="btn login" type="submit">Se connecter</button>
+        <button class="btn login" type="submit">{{ "login.login"|trans }}</button>
     </form>
 
-    <p class="new-member">Pas encore membre ? <a class="link-new-member" href="{{ path('app_register') }}">S'inscrire !</a></p>
+    <p class="new-member">{{ "login.not_member"|trans }} <a class="link-new-member" href="{{ path('app_register') }}">{{ "login.signup"|trans }}</a></p>
 </div>
 {% endblock %}
