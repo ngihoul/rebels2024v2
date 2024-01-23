@@ -18,7 +18,10 @@
             {{ encore_entry_script_tags('app') }}
             {{ encore_entry_script_tags('spinner') }}
             {{ encore_entry_script_tags('menu') }}
+
+            {# A déplacer dans les formulaires concernés ! #}
             {{ encore_entry_script_tags('picture_preview') }}
+
             <script src="https://kit.fontawesome.com/dd6e6a21ba.js" crossorigin="anonymous"></script>
         {% endblock %}
     </head>
@@ -45,7 +48,7 @@
                     ><i class="fa-regular fa-user icon icon-profile"></i></a>
                     <div class="profile-user-data">
                         <a href="{{ path('app_profile', { 'userId' : app.user.id }) }}"><p class="user-name">{{ app.user.firstname ~ ' ' ~ app.user.lastname }}</p></a>
-                        <a class="disconnect-link" href="{{ path('app_logout') }}">Se déconnecter</a>
+                        <a class="disconnect-link" href="{{ path('app_logout') }}">{{ "header.log_off"|trans }}</a>
                         <!-- Routing to deconnection -->
                     </div>
                 </div>
@@ -59,27 +62,27 @@
                     <ul>
                         <li class="menu-item">
                             <a href="{{ path('app_agenda') }}">
-                                <i class="fa-regular fa-calendar-days"></i> Mon agenda
+                                <i class="fa-regular fa-calendar-days"></i> {{ "nav.my_agenda"|trans }}
                             </a>
                         </li>
                         <li class="menu-item">
                             <a href="{{ path('app_license') }}">
-                                <i class="fa-regular fa-id-card"></i> Mes Licences
+                                <i class="fa-regular fa-id-card"></i> {{ "nav.my_licenses"|trans }}
                             </a>
                         </li>
                         {% if is_granted('ROLE_ADMIN') %}
                             <li class="menu-item sub-menu-item">
-                                <a href="{{ path('admin_license_to_validate') }}"><i class="fa-regular fa-exclamation-triangle"></i> À valider</a>
+                                <a href="{{ path('admin_license_to_validate') }}"><i class="fa-regular fa-exclamation-triangle"></i> {{ "nav.to_validate"|trans }}</a>
                             </li>
                         {% endif %}
                         <li class="menu-item">
-                            <i class="fa-regular fa-chart-bar"></i> Statistiques
+                            <i class="fa-regular fa-chart-bar"></i> {{ "nav.statistics"|trans }}
                         </li>
                         <li class="menu-item">
-                            <a href="{{ path('app_profile', { 'userId' : app.user.id }) }}"><i class="fa-regular fa-user"></i> Mon profil</a>
+                            <a href="{{ path('app_profile', { 'userId' : app.user.id }) }}"><i class="fa-regular fa-user"></i> {{ "nav.my_profile"|trans }}</a>
                         </li>
                         <li class="menu-item">
-                            <a href="{{ path('app_teams') }}"><i class="fa-solid fa-user-group"></i> Mes équipes</a>
+                            <a href="{{ path('app_teams') }}"><i class="fa-solid fa-user-group"></i> {{ "nav.my_teams"|trans }}</a>
                         </li>
                     </ul>
                 </nav>
