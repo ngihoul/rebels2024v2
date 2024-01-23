@@ -2,9 +2,12 @@
 error:
   already_logged: "You are already logged."
   profile_not_found: "The requested profile has not been found."
+  email_validation: "A problem has occurred during validation."
 
 success:
-  profile_updated: "Your profile has been updated"
+  profile_updated: "Your profile has been updated."
+  account_created: "Your account has been created. Please confirm your e-mail address by checking your mailbox."
+  email_verified: "Your email address has been verified."
 
 # Header
 header:
@@ -52,6 +55,13 @@ profile:
 forms:
   update_profile:
     title: "Edit my profile"
+    submit: "Edit my profile"
+  register:
+    title: "Register"
+    submit: "Sign up"
+  email: "Email"
+  password: "Password"
+  password_confirmation: "Repeat password"
   firstname: "Firstname *"
   lastname: "Lastname *"
   nationality: "Nationality *"
@@ -74,4 +84,3 @@ forms:
     I accept the <a class="link-paragraph" 
     href="https://www.liegebaseball.be/wp-content/uploads/2022/12/LRCBS-ROI-v6.pdf" 
     target="_blank">Internal Rules</a> *'
-  submit: "Edit my profile"

@@ -21,10 +21,12 @@ use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 class RegistrationController extends AbstractController
 {
     private EmailVerifier $emailVerifier;
+    private TranslatorInterface $translator;
 
-    public function __construct(EmailVerifier $emailVerifier)
+    public function __construct(EmailVerifier $emailVerifier, TranslatorInterface $translator)
     {
         $this->emailVerifier = $emailVerifier;
+        $this->translator = $translator;
     }
 
     #[Route('/register', name: 'app_register')]
@@ -32,7 +34,7 @@ class RegistrationController extends AbstractController
     {
         // Denied access if user is already logged in.
         if ($this->getUser()) {
-            $this->addFlash('error', 'tu es déjà connecté.');
+            $this->addFlash('error', $this->translator->trans('error.already_logged'));
             return $this->redirectToRoute('app_home');
         }
 
@@ -67,7 +69,7 @@ class RegistrationController extends AbstractController
                     ->htmlTemplate('registration/confirmation_email.html.twig')
             );
 
-            $this->addFlash('success', 'Ton compte a bien été créé. Merci de confirmer ton adresse mail en consultant ta boîte mail.');
+            $this->addFlash('success', $this->translator->trans('success.account_created'));
 
             return $this->redirectToRoute('app_home');
         }
@@ -98,12 +100,12 @@ class RegistrationController extends AbstractController
         } catch (VerifyEmailExceptionInterface $exception) {
             $this->addFlash('verify_email_error', $translator->trans($exception->getReason(), [], 'VerifyEmailBundle'));
 
-            $this->addFlash('error', 'Un problème est survenu lors de la validation.');
+            $this->addFlash('error', $this->translator->trans('error.email_validation'));
 
             return $this->redirectToRoute('app_login');
         }
 
-        $this->addFlash('success', 'Ton adresse email a été vérifiée.');
+        $this->addFlash('success', $this->translator->trans('success.email_verified'));
 
         return $this->redirectToRoute('app_login');
     }

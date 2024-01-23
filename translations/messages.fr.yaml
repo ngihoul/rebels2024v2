@@ -1,10 +1,13 @@
-# Errors
+# Flash messages
 error:
   already_logged: "Tu es déjà connecté."
   profile_not_found: "Le profil demandé n'a pas été trouvé."
+  email_validation: "Un problème est survenu lors de la validation."
 
 success:
-  profile_updated: "Votre profil a été mis à jour"
+  profile_updated: "Votre profil a été mis à jour."
+  account_created: "Ton compte a bien été créé. Merci de confirmer ton adresse mail en consultant ta boîte mail."
+  email_verified: "Ton adresse email a été vérifiée."
 
 # Header
 header:
@@ -52,6 +55,13 @@ profile:
 forms:
   update_profile:
     title: "Modifier mon profil"
+    submit: "Modifier mon profil"
+  register:
+    title: "S'enregistrer"
+    submit: "M'inscrire"
+  email: "Adresse email"
+  password: "Mot de passe"
+  password_confirmation: "Répeter le mot de passe"
   firstname: "Prénom *"
   lastname: "Nom de famille *"
   nationality: "Nationalité *"
@@ -74,4 +84,3 @@ forms:
     J'accepte le <a class="link-paragraph" 
     href="https://www.liegebaseball.be/wp-content/uploads/2022/12/LRCBS-ROI-v6.pdf" 
     target="_blank">Règlement d'Ordre Intérieur</a> *'
-  submit: "Modifier mon profil"
