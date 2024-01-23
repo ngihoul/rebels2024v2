@@ -8,3 +8,14 @@ localized_routes:
   prefix: "/{_locale}"
   type: annotation
   resource: "../src/Controller/"
+  requirements:
+    _locale: "%app_locales%"
+  defaults:
+    _locale: "%locale%"
+
+redirect_home:
+  path: /
+  defaults:
+    _controller: 'Symfony\Bundle\FrameworkBundle\Controller\RedirectController::redirectAction'
+    route: app_home
+    permanent: true

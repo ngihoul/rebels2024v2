@@ -9,7 +9,7 @@ parameters:
   uploaded_licenses_directory: "%kernel.project_dir%/public/uploads/licenses"
 
   locale: fr
-  app.supported_locales: "fr|en"
+  app_locales: "fr|en"
 
 services:
   # default configuration for services in *this* file
