@@ -1,75 +1,73 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{  parent() }} | Modifier mon profil{% endblock %}
+{% block title %}{{ parent() }} | {{ 'forms.update_profile.title'|trans }}{% endblock %}
 
 {% block body %}
     <div class="container container-register">
-        <h1>Modifier mon profil</h1>
+        <h1>{{ 'forms.update_profile.title'|trans }}</h1>
 
         {# Display flash messages #}
         {{ parent() }}
 
         {{ form_start(form) }}
-        
+
         {{ form_errors(form) }}
 
-            {{ form_row(form.firstname, {'label': 'Prénom *'}) }}
+        {{ form_row(form.firstname, {'label': 'forms.firstname'|trans}) }}
 
-            {{ form_row(form.lastname, {'label': 'Nom de famille *'}) }}
+        {{ form_row(form.lastname, {'label': 'forms.lastname'|trans}) }}
 
-            {{ form_row(form.nationality, {'label': 'Nationalité *'}) }}
+        {{ form_row(form.nationality, {'label': 'forms.nationality'|trans}) }}
 
-            {{ form_row(form.license_number, {'label': 'Numéro de licence', 'required': false}) }}
+        {{ form_row(form.license_number, {'label': 'forms.license_number'|trans, 'required': false}) }}
 
-            {{ form_row(form.jersey_number, {'label': 'Numéro de maillot', 'required': false}) }}
+        {{ form_row(form.jersey_number, {'label': 'forms.jersey_number'|trans, 'required': false}) }}
 
-            {{ form_row(form.date_of_birth, {
-                'label': 'Date de naissance *',
-                'widget': 'single_text',
-                'format': 'yyyy-MM-dd',
-                'attr': {
-                    'class': 'datepicker',
-                },
+        {{ form_row(form.date_of_birth, {
+            'label': 'forms.date_of_birth'|trans,
+            'widget': 'single_text',
+            'format': 'yyyy-MM-dd',
+            'attr': {
+                'class': 'datepicker',
+            },
+        }) }}
+
+        {{ form_row(form.gender, {'label': 'forms.gender'|trans}) }}
+
+        {{ form_row(form.address_street, {'label': 'forms.address_street'|trans}) }}
+
+        {{ form_row(form.address_number, {'label': 'forms.address_number'|trans}) }}
+
+        {{ form_row(form.zipcode, {'label': 'forms.zipcode'|trans}) }}
+
+        {{ form_row(form.locality, {'label': 'forms.locality'|trans}) }}
+
+        {{ form_row(form.country, {'label': 'forms.country'|trans}) }}
+
+        {{ form_row(form.phone_number, {'label': 'forms.phone_number'|trans, 'required': false}) }}
+
+        {{ form_row(form.mobile_number, {'label': 'forms.mobile_number'|trans, 'required': false}) }}
+
+        {{ form_row(form.profile_picture, {'label': 'forms.profile_picture.label'|trans, 'id': 'profile_picture_input'}) }}
+        <p class="disclaimer-picture alert alert-warning">{{ 'forms.profile_picture.disclaimer'|trans }}</p>
+
+        <div id="previewPicture">
+            <img id="previewImage" src="{{ asset('uploads/user_pictures/' ~ image) }}">
+        </div>
+
+        <div class="custom-checkbox">
+            {{ form_row(form.newsletter_lfbbs, {'label': 'forms.newsletter_lfbbs'|trans, 'required': false}) }}
+        </div>
+
+        <div class="custom-checkbox">
+            {{ form_row(form.internal_rules, {
+                'label': 'forms.internal_rules'|trans,
+                'label_html': true,
             }) }}
+        </div>
 
-            {{ form_row(form.gender, {'label': 'Genre *'}) }}
-
-            {{ form_row(form.address_street, {'label': 'Adresse *'}) }}
-
-            {{ form_row(form.address_number, {'label': 'Numéro de rue *'}) }}
-
-            {{ form_row(form.zipcode, {'label': 'Code postal *'}) }}
-
-            {{ form_row(form.locality, {'label': 'Localité *'}) }}
-
-            {{ form_row(form.country, {'label': 'Pays *'}) }}
-
-            {{ form_row(form.phone_number, {'label': 'Numéro de téléphone', 'required': false}) }}
-
-            {{ form_row(form.mobile_number, {'label': 'Numéro de portable', 'required': false}) }}
-
-            {{ form_row(form.profile_picture, {'label': 'Photo de profil', 'id': 'profile_picture_input'}) }}
-            <p class="disclamer-picture alert alert-warning">Cette photo sera utilisée pour ta licence auprès de la Ligue Francophone Belge de Baseball et Softball. Utilise donc une photo d'identité ou une photo officielle du club.</p>
-
-            <div id="previewPicture">
-                <img id="previewImage" src="{{ asset('uploads/user_pictures/' ~ image) }}">
-            </div>
-
-            <div class="custom-checkbox">
-                {{ form_row(form.newsletter_lfbbs, {'label': 'J\'accepte de recevoir la newsletter de la LFBBS', 'required': false}) }}
-            </div>
-
-            <div class="custom-checkbox">
-                {{ form_row(form.internal_rules, {
-                    'label': 'J\'accepte le <a class="link-paragraph" href="https://www.liegebaseball.be/wp-content/uploads/2022/12/LRCBS-ROI-v6.pdf" target="_blank">Règlement d\'Ordre Intérieur</a> *',
-                    'label_html': true,
-                }) }}
-            </div>
-
-            {{ form_row(form.submit, { 'label': 'Modifier mon profil' }) }}
+        {{ form_row(form.submit, {'label': 'forms.submit'|trans}) }}
 
         {{ form_end(form) }}
     </div>
 {% endblock %}
-
-

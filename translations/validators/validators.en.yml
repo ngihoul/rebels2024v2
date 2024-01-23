@@ -1,0 +1,40 @@
+validators:
+  firstname:
+    not_blank: "Enter your first name."
+    length: "The first name must not exceed {{ limit }} characters."
+  lastname:
+    not_blank: "Enter your last name."
+    length: "The last name must not exceed {{ limit }} characters."
+  nationality:
+    not_blank: "Enter your nationality."
+    length: "The nationality must not exceed {{ limit }} characters."
+  license_number:
+    length: "The license number must not exceed {{ limit }} characters."
+  jersey_number:
+    type: "The jersey number must be a number."
+  date_of_birth:
+    not_blank: "Please select your date of birth."
+  gender:
+    choice: "Please select a valid gender."
+  address_street:
+    not_blank: "Enter your address."
+    length: "The address must not exceed {{ limit }} characters."
+  address_number:
+    not_blank: "Enter your address number."
+    length: "The address number must not exceed {{ limit }} characters."
+  zipcode:
+    not_blank: "Enter your postal code."
+    length: "The postal code must not exceed {{ limit }} characters."
+  locality:
+    not_blank: "Enter your locality."
+    length: "The locality must not exceed {{ limit }} characters."
+  country:
+    not_blank: "Enter your country."
+    length: "The country must not exceed {{ limit }} characters."
+  phone_number:
+    length: "The phone number must not exceed {{ limit }} characters."
+  mobile_number:
+    length: "The mobile number must not exceed {{ limit }} characters."
+  profile_picture:
+    max_size: "The profile picture size must not exceed 1MB."
+    mime_types: "The profile picture format must be jpg, jpeg, gif, or png."

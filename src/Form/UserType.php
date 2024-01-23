@@ -26,28 +26,28 @@ class UserType extends AbstractType
         $builder
             ->add('firstname', TextType::class, [
                 'constraints' => [
-                    new NotBlank(['message' => 'Entre ton prénom.']),
+                    new NotBlank(['message' => 'validators.firstname.not_blank']),
                     new Length([
                         'max' => 50,
-                        'maxMessage' => 'Le prénom ne doit pas dépasser {{ limit }} caractères.',
+                        'maxMessage' => 'validators.firstname.length',
                     ]),
                 ],
             ])
             ->add('lastname', TextType::class, [
                 'constraints' => [
-                    new NotBlank(['message' => 'Entre ton nom de famille.']),
+                    new NotBlank(['message' => 'validators.lastname.not_blank']),
                     new Length([
                         'max' => 50,
-                        'maxMessage' => 'Le nom de famille ne doit pas dépasser {{ limit }} caractères.',
+                        'maxMessage' => 'validators.lastname.length',
                     ]),
                 ],
             ])
             ->add('nationality', TextType::class, [
                 'constraints' => [
-                    new NotBlank(['message' => 'Entre ta nationalité.']),
+                    new NotBlank(['message' => 'validators.nationality.not_blank']),
                     new Length([
                         'max' => 50,
-                        'maxMessage' => 'La nationalité ne doit pas dépasser {{ limit }} caractères.',
+                        'maxMessage' => 'validators.nationality.length',
                     ]),
                 ],
             ])
@@ -56,7 +56,7 @@ class UserType extends AbstractType
                 'constraints' => [
                     new Length([
                         'max' => 12,
-                        'maxMessage' => 'Le numéro de licence ne doit pas dépasser {{ limit }} caractères.',
+                        'maxMessage' => 'validators.license_number.length',
                     ]),
                 ],
             ])
@@ -65,14 +65,14 @@ class UserType extends AbstractType
                 'constraints' => [
                     new Type([
                         'type' => 'numeric',
-                        'message' => 'Le numéro de maillot doit être un nombre.',
+                        'message' => 'validators.jersey_number.type',
                     ]),
                 ],
             ])
             ->add('date_of_birth', DateType::class, [
                 'widget' => 'single_text',
                 'constraints' => [
-                    new NotBlank(['message' => 'Veuillez sélectionner ta date de naissance.']),
+                    new NotBlank(['message' => 'validators.date_of_birth.not_blank']),
                 ],
             ])
             ->add('gender', ChoiceType::class, [
@@ -83,52 +83,52 @@ class UserType extends AbstractType
                 'constraints' => [
                     new Choice([
                         'choices' => ['M', 'F'],
-                        'message' => 'Veuillez sélectionner un genre valide.',
+                        'message' => 'validators.gender.choice',
                     ]),
                 ],
             ])
             ->add('address_street', TextType::class, [
                 'constraints' => [
-                    new NotBlank(['message' => 'Entre ton adresse.']),
+                    new NotBlank(['message' => 'validators.address_street.not_blank']),
                     new Length([
                         'max' => 120,
-                        'maxMessage' => 'L\'adresse ne doit pas dépasser {{ limit }} caractères.',
+                        'maxMessage' => 'validators.address_street.length',
                     ]),
                 ],
             ])
             ->add('address_number', TextType::class, [
                 'constraints' => [
-                    new NotBlank(['message' => 'Entre le numéro de ton adresse.']),
+                    new NotBlank(['message' => 'validators.address_number.not_blank']),
                     new Length([
                         'max' => 20,
-                        'maxMessage' => 'Le numéro de l\'adresse ne doit pas dépasser {{ limit }} caractères.',
+                        'maxMessage' => 'validators.address_number.length',
                     ]),
                 ],
             ])
             ->add('zipcode', TextType::class, [
                 'constraints' => [
-                    new NotBlank(['message' => 'Entre ton code postal.']),
+                    new NotBlank(['message' => 'validators.zipcode.not_blank']),
                     new Length([
                         'max' => 6,
-                        'maxMessage' => 'Le code postal ne doit pas dépasser {{ limit }} caractères.',
+                        'maxMessage' => 'validators.zipcode.length',
                     ]),
                 ],
             ])
             ->add('locality', TextType::class, [
                 'constraints' => [
-                    new Notblank(['message' => 'Entre ta localité.']),
+                    new NotBlank(['message' => 'validators.locality.not_blank']),
                     new Length([
                         'max' => 50,
-                        'maxMessage' => 'La localité ne doit pas dépasser {{ limit }} caractères.',
+                        'maxMessage' => 'validators.locality.length',
                     ]),
                 ],
             ])
             ->add('country', TextType::class, [
                 'constraints' => [
-                    new Notblank(['message' => 'Entre ton pays.']),
+                    new NotBlank(['message' => 'validators.country.not_blank']),
                     new Length([
                         'max' => 50,
-                        'maxMessage' => 'Le pays ne doit pas dépasser {{ limit }} caractères.',
+                        'maxMessage' => 'validators.country.length',
                     ]),
                 ],
             ])
@@ -137,7 +137,7 @@ class UserType extends AbstractType
                 'constraints' => [
                     new Length([
                         'max' => 20,
-                        'maxMessage' => 'Le numéro de téléphone ne doit pas dépasser {{ limit }} caractères.',
+                        'maxMessage' => 'validators.phone_number.length',
                     ]),
                 ],
             ])
@@ -146,25 +146,24 @@ class UserType extends AbstractType
                 'constraints' => [
                     new Length([
                         'max' => 20,
-                        'maxMessage' => 'Le numéro de portable ne doit pas dépasser {{ limit }} caractères.',
+                        'maxMessage' => 'validators.mobile_number.length',
                     ]),
                 ],
             ])
             ->add('profile_picture', FileType::class, [
-                'label' => 'Photo de profil',
                 'multiple' => false,
                 'mapped' => false,
                 'required' => false,
                 'constraints' => [
                     new File([
                         'maxSize' => '1024k',
-                        'maxSizeMessage' => 'La taille de la photo de profil ne doit pas dépasser 1Mo',
+                        'maxSizeMessage' => 'validators.profile_picture.max_size',
                         'mimeTypes' => [
                             'image/jpeg',
                             'image/png',
                             'image/gif',
                         ],
-                        'mimeTypesMessage' => 'Le format de la photo de profil doit être jpg, jpeg, gif ou png',
+                        'mimeTypesMessage' => 'validators.profile_picture.mime_types',
                     ])
                 ],
             ])

@@ -1,7 +1,10 @@
-# Errors
+# Flash messages
 error:
   already_logged: "You are already logged."
   profile_not_found: "The requested profile has not been found."
+
+success:
+  profile_updated: "Your profile has been updated"
 
 # Header
 header:
@@ -45,3 +48,30 @@ profile:
   agreements: "Agreements"
   internal_rules: "Internal rules:"
   privacy_policy: "Privacy policy:"
+
+forms:
+  update_profile:
+    title: "Edit my profile"
+  firstname: "Firstname *"
+  lastname: "Lastname *"
+  nationality: "Nationality *"
+  license_number: "License number"
+  jersey_number: "Jersey number"
+  date_of_birth: "Date of birth *"
+  gender: "Gender *"
+  address_street: "Address *"
+  address_number: "Street number *"
+  zipcode: "Zipcode *"
+  locality: "Locality *"
+  country: "Country *"
+  phone_number: "Phone number"
+  mobile_number: "Mobile number"
+  profile_picture:
+    label: "Profile picture"
+    disclaimer: "This photo will be used for your license with the Ligue Francophone Belge de Baseball et Softball. Please use a passport photo or an official club photo."
+  newsletter_lfbbs: "I agree to receive the newsletter from LFBBS"
+  internal_rules: >-
+    I accept the <a class="link-paragraph" 
+    href="https://www.liegebaseball.be/wp-content/uploads/2022/12/LRCBS-ROI-v6.pdf" 
+    target="_blank">Internal Rules</a> *'
+  submit: "Edit my profile"

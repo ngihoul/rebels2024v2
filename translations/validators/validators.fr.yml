@@ -1,0 +1,40 @@
+validators:
+  firstname:
+    not_blank: "Entre ton prénom."
+    length: "Le prénom ne doit pas dépasser {{ limit }} caractères."
+  lastname:
+    not_blank: "Entre ton nom de famille."
+    length: "Le nom de famille ne doit pas dépasser {{ limit }} caractères."
+  nationality:
+    not_blank: "Entre ta nationalité."
+    length: "La nationalité ne doit pas dépasser {{ limit }} caractères."
+  license_number:
+    length: "Le numéro de licence ne doit pas dépasser {{ limit }} caractères."
+  jersey_number:
+    type: "Le numéro de maillot doit être un nombre."
+  date_of_birth:
+    not_blank: "Veuillez sélectionner ta date de naissance."
+  gender:
+    choice: "Veuillez sélectionner un genre valide."
+  address_street:
+    not_blank: "Entre ton adresse."
+    length: "L'adresse ne doit pas dépasser {{ limit }} caractères."
+  address_number:
+    not_blank: "Entre le numéro de ton adresse."
+    length: "Le numéro de l'adresse ne doit pas dépasser {{ limit }} caractères."
+  zipcode:
+    not_blank: "Entre ton code postal."
+    length: "Le code postal ne doit pas dépasser {{ limit }} caractères."
+  locality:
+    not_blank: "Entre ta localité."
+    length: "La localité ne doit pas dépasser {{ limit }} caractères."
+  country:
+    not_blank: "Entre ton pays."
+    length: "Le pays ne doit pas dépasser {{ limit }} caractères."
+  phone_number:
+    length: "Le numéro de téléphone ne doit pas dépasser {{ limit }} caractères."
+  mobile_number:
+    length: "Le numéro de portable ne doit pas dépasser {{ limit }} caractères."
+  profile_picture:
+    max_size: "La taille de la photo de profil ne doit pas dépasser 1Mo"
+    mime_types: "Le format de la photo de profil doit être jpg, jpeg, gif ou png"
