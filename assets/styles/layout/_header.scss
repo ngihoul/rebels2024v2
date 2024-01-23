@@ -9,6 +9,14 @@ header {
   align-items: center;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   z-index: 9999;
+
+  & > div {
+    width: 33.33%;
+  }
+}
+
+.menu-logo {
+  text-align: center;
 }
 
 .logo {
@@ -17,6 +25,39 @@ header {
 
 .profile-icon-desktop {
   display: none;
+}
+
+.header-options {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.language-dropdown {
+  position: relative;
+  font-size: 1.1rem;
+  margin-right: 0.4rem;
+
+  .dropdown-toggle {
+    padding: 0.8rem;
+  }
+
+  .dropdown-menu {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    right: 0;
+
+    .dropdown-item {
+      padding: 0.8rem;
+      background-color: $color-background;
+      margin-top: 0.8rem;
+    }
+
+    &.hidden {
+      display: none;
+    }
+  }
 }
 
 @media screen and (min-width: $min-desktop) {

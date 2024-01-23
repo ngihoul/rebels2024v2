@@ -18,6 +18,7 @@
             {{ encore_entry_script_tags('app') }}
             {{ encore_entry_script_tags('spinner') }}
             {{ encore_entry_script_tags('menu') }}
+            {{ encore_entry_script_tags('languageDropdown') }}
 
             {# A déplacer dans les formulaires concernés ! #}
             {{ encore_entry_script_tags('picture_preview') }}
@@ -38,21 +39,38 @@
                     ><img class="logo" src="{{ asset('images/logo_R.png') }}" alt="Liege Rebels Logo"
                     /></a>
                 </div>
-            {% if app.user %}
-                <div class="profile-icon-mobile">
-                    <a href="{{ path('app_profile', { 'userId' : app.user.id }) }}"
-                    ><i class="fa-regular fa-user icon icon-profile"></i></a>
-                </div>
-                <div class="profile-icon-desktop">
-                    <a href="{{ path('app_profile', { 'userId' : app.user.id }) }}"
-                    ><i class="fa-regular fa-user icon icon-profile"></i></a>
-                    <div class="profile-user-data">
-                        <a href="{{ path('app_profile', { 'userId' : app.user.id }) }}"><p class="user-name">{{ app.user.firstname ~ ' ' ~ app.user.lastname }}</p></a>
-                        <a class="disconnect-link" href="{{ path('app_logout') }}">{{ "header.log_off"|trans }}</a>
-                        <!-- Routing to deconnection -->
+                <div class="header-options">
+                    <div class="language-dropdown">
+                        <a href="#" class="dropdown-toggle" id="languageDropdown">
+                            {{ app.request.locale|upper }}
+                        </a>
+                        <div class="dropdown-menu hidden">
+                            {% set currentLocale = app.request.locale %}
+                            {% set availableLocales = ['fr', 'en'] %}
+
+                            {% for locale in availableLocales %}
+                                {% if locale != currentLocale %}
+                                    <a href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge({'_locale': locale})) }}" class="dropdown-item">{{ locale|upper }}</a>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
                     </div>
-                </div>
-            {% endif %}
+                {% if app.user %}
+                    <div class="profile-icon-mobile">
+                        <a href="{{ path('app_profile', { 'userId' : app.user.id }) }}"
+                        ><i class="fa-regular fa-user icon icon-profile"></i></a>
+                    </div>
+                    <div class="profile-icon-desktop">
+                        <a href="{{ path('app_profile', { 'userId' : app.user.id }) }}"
+                        ><i class="fa-regular fa-user icon icon-profile"></i></a>
+                        <div class="profile-user-data">
+                            <a href="{{ path('app_profile', { 'userId' : app.user.id }) }}"><p class="user-name">{{ app.user.firstname ~ ' ' ~ app.user.lastname }}</p></a>
+                            <a class="disconnect-link" href="{{ path('app_logout') }}">{{ "header.log_off"|trans }}</a>
+                            <!-- Routing to deconnection -->
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
         </header>
             {% if app.user %}
                 <nav class="menu menu-closed">
@@ -97,5 +115,8 @@
                 {% endfor %}
             {% endfor %}
         {% endblock %}
+        <script>
+        
+        </script>
     </body>
 </html>
