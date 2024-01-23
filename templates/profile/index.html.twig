@@ -8,6 +8,8 @@
 
     <h1>{{ pageTitle }}</h1>
 
+    
+
     {% if app.user == user %}
       <a class="icon-edit" href=" {{ path('app_profile_update') }}">
         <i class="fa-regular fa-pen-to-square"></i>
@@ -15,6 +17,8 @@
     {% endif %}
 
   </div>
+
+  {{ parent() }}
 
   <div class="profile-important-info">
     <div class="profile-picture">

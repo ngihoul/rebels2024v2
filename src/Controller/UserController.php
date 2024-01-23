@@ -66,6 +66,7 @@ class UserController extends AbstractController
             $this->entityManager->persist($user);
             $this->entityManager->flush();
 
+            $this->addFlash('success', $this->translator->trans('success.profile_updated'));
             return $this->redirectToRoute('app_profile', ['userId' => $user->getId()]);
         }
 
