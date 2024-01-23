@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ parent() }} | Mon profil{% endblock %}
+{% block title %}{{ parent() }} | {{ pageTitle }}{% endblock %}
 
 {% block body %}
 <div class="container profile-container">
@@ -51,21 +51,21 @@
   <div class="flex-container">
 
     <section class="profile-member-contact">
-      <h2>Données de contact</h2>
-      <p>Mail: {{ user.email }}</p>
-      <p>Telephone fixe: {{ user.phoneNumber }}</p>
-      <p>Mobile: {{ user.mobileNumber }}</p>
+      <h2>{{ "profile.contact_information"|trans }}</h2>
+      <p>Email: {{ user.email }}</p>
+      <p>{{ "profile.phone"|trans }} {{ user.phoneNumber }}</p>
+      <p>{{ "profile.mobile"|trans }} {{ user.mobileNumber }}</p>
     </section>
 
     <section class="profile-member-address">
-      <h2>Adresse</h2>
+      <h2>{{ "profile.address"|trans }}</h2>
       <p>{{ user.addressStreet }} {{ user.addressNumber }}</p>
       <p>{{ user.zipCode }} {{ user.locality }}</p>
       <p>{{ user.country }}</p>
     </section>
 
     <section class="profile-member-agreements">
-      <h2>Accords</h2>
+      <h2>{{ "profile.agreements"|trans }}</h2>
       <p>
           Newsletter LFBBS:
           {% if user.newsletterLFBBS %}
@@ -76,7 +76,7 @@
       </p>
 
       <p>
-          ROI:
+          {{ "profile.internal_rules"|trans }}
           {% if user.internalRules %}
               <i class="fas fa-check agree"></i>
           {% else %}
@@ -85,7 +85,7 @@
       </p>
 
       <p>
-        Politique de confidentialité:
+        {{ "profile.privacy_policy"|trans }}
       </p>
       
     </section>

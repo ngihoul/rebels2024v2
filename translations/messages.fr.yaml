@@ -1,0 +1,41 @@
+# Errors
+error:
+  already_logged: "Tu es déjà connecté."
+  profile_not_found: "Le profil demandé n'a pas été trouvé."
+
+# Header
+header:
+  log_off: "Se déconnecter"
+
+# Navbar
+nav:
+  my_agenda: "Mon agenda"
+  my_licenses: "Mes licences"
+  to_validate: "A valider"
+  statistics: "Statistiques"
+  my_profile: "Mon profil"
+  my_teams: "Mes équipes"
+
+# Pages
+homepage:
+  title: "Se connecter"
+  next_event: "Prochains évènements"
+
+login:
+  login: "Se connecter"
+  password: "Mot de passe"
+  forgot_password: "Mot de passe oublié ?"
+  not_member: "Pas encore membre ?"
+  signup: "S'inscrire !"
+
+profile:
+  title: "Profil"
+  my_profile: "Mon profil"
+  profile_of: "Profil de "
+  contact_information: "Données de contact"
+  phone: "Téléphone fixe :"
+  mobile: "Mobile :"
+  address: "Adresse"
+  agreements: "Accords"
+  internal_rules: "Règlement d'ordre Intérieur :"
+  privacy_policy: "Politique de confidentialité :"

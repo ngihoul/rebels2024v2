@@ -1,0 +1,41 @@
+# Errors
+error:
+  already_logged: "You are already logged."
+  profile_not_found: "The requested profile has not been found."
+
+# Header
+header:
+  log_off: "Log off"
+
+# Navbar
+nav:
+  my_agenda: "My agenda"
+  my_licenses: "My licenses"
+  to_validate: "To validate"
+  statistics: "Statistics"
+  my_profile: "My profile"
+  my_teams: "My teams"
+
+# Pages
+homepage:
+  title: "Login"
+  next_event: "Next events"
+
+login:
+  login: "Login"
+  password: "Password"
+  forgot_password: "Forgot password?"
+  not_member: "Still not a member?"
+  signup: "Sign Up!"
+
+profile:
+  title: "Profile"
+  my_profile: "My profile"
+  profile_of: "Profile of "
+  contact_information: "Contact information"
+  phone: "Phone:"
+  mobile: "Mobile phone:"
+  address: "Address"
+  agreements: "Agreements"
+  internal_rules: "Internal rules:"
+  privacy_policy: "Privacy policy:"

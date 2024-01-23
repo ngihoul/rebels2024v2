@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{  parent() }} | Se connecter{% endblock %}
+{% block title %}{{  parent() }} | {{ "homepage.title"|trans }} {% endblock %}
 
 {% block body %}
 <div class="container container-home">
@@ -33,7 +33,7 @@
             </ul>
         </section>
     {% endif %}
-        <h2>Prochains évènements</h2>
+        <h2>{{ "homepage.next_event"|trans }}</h2>
         <section>
             
         </section>

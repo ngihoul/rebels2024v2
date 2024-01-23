@@ -13,14 +13,17 @@ use App\Repository\UserRepository;
 use App\Service\ProfilePictureManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityNotFoundException;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class UserController extends AbstractController
 {
     private EntityManagerInterface $entityManager;
+    private TranslatorInterface $translator;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager, TranslatorInterface $translator)
     {
         $this->entityManager = $entityManager;
+        $this->translator = $translator;
     }
 
     #[Route(path: "/", name: "app_home")]
@@ -80,24 +83,24 @@ class UserController extends AbstractController
             $user = $userRepository->find($userId);
 
             if (!$user) {
-                throw new EntityNotFoundException('Membre non trouvé.');
+                throw new EntityNotFoundException($this->translator->trans('error.profile_not_found'));
             }
 
             $currentUser = $this->getUser();
 
             if ($user !== $currentUser && (!$this->isGranted("ROLE_COACH") || !$this->isGranted('ROLE_ADMIN'))) {
-                $this->addFlash('error', 'Le profil demandé n\'a pas été trouvé.');
+                $this->addFlash('error', $this->translator->trans('error.profile_not_found'));
                 return $this->redirectToRoute('app_home');
             }
 
-            $pageTitle = ($user === $currentUser) ? 'Mon profil' : 'Profil de ' . $user->getFirstname() . ' ' . $user->getLastname();
+            $pageTitle = ($user === $currentUser) ? $this->translator->trans('profile.my_profile') : $this->translator->trans('profile.profile_of') . $user->getFirstname() . ' ' . $user->getLastname();
 
             return $this->render('profile/index.html.twig', [
                 'user' => $user,
                 'pageTitle' => $pageTitle
             ]);
         } catch (EntityNotFoundException $e) {
-            $this->addFlash('error', 'Le profil demandé n\'a pas été trouvé.');
+            $this->addFlash('error', $e->getMessage());
             return $this->redirectToRoute('app_home');
         }
     }
