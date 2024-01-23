@@ -66,7 +66,6 @@
                         <div class="profile-user-data">
                             <a href="{{ path('app_profile', { 'userId' : app.user.id }) }}"><p class="user-name">{{ app.user.firstname ~ ' ' ~ app.user.lastname }}</p></a>
                             <a class="disconnect-link" href="{{ path('app_logout') }}">{{ "header.log_off"|trans }}</a>
-                            <!-- Routing to deconnection -->
                         </div>
                     </div>
                 {% endif %}
