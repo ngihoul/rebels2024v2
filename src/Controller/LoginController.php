@@ -11,7 +11,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class LoginController extends AbstractController
 {
-    #[Route('/login', name: 'app_login', locale: 'fr')]
+    #[Route('/login', name: 'app_login')]
     public function index(AuthenticationUtils $authenticationUtils, TranslatorInterface $translator, Request $request): Response
     {
         // Denied access if user is already logged in.
