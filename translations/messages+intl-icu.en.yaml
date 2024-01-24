@@ -40,6 +40,9 @@ login:
   not_member: "Still not a member?"
   signup: "Sign Up!"
 
+register:
+  title: "Register"
+
 profile:
   title: "Profile"
   my_profile: "My profile"
@@ -51,36 +54,24 @@ profile:
   agreements: "Agreements"
   internal_rules: "Internal rules:"
   privacy_policy: "Privacy policy:"
-
-forms:
-  update_profile:
+  update:
     title: "Edit my profile"
-    submit: "Edit my profile"
-  register:
-    title: "Register"
-    submit: "Sign up"
-  email: "Email"
-  password: "Password"
-  password_confirmation: "Repeat password"
-  firstname: "Firstname *"
-  lastname: "Lastname *"
-  nationality: "Nationality *"
-  license_number: "License number"
-  jersey_number: "Jersey number"
-  date_of_birth: "Date of birth *"
-  gender: "Gender *"
-  address_street: "Address *"
-  address_number: "Street number *"
-  zipcode: "Zipcode *"
-  locality: "Locality *"
-  country: "Country *"
-  phone_number: "Phone number"
-  mobile_number: "Mobile number"
-  profile_picture:
-    label: "Profile picture"
+  picture:
     disclaimer: "This photo will be used for your license with the Ligue Francophone Belge de Baseball et Softball. Please use a passport photo or an official club photo."
-  newsletter_lfbbs: "I agree to receive the newsletter from LFBBS"
-  internal_rules: >-
-    I accept the <a class="link-paragraph" 
-    href="https://www.liegebaseball.be/wp-content/uploads/2022/12/LRCBS-ROI-v6.pdf" 
-    target="_blank">Internal Rules</a> *'
+team:
+  title: "My teams"
+  detail:
+    title: "Team"
+    name: "Name"
+    role: "Role"
+  create:
+    title: "Create a team"
+  update:
+    title: "Edit a team"
+  all: "All teams"
+  player: "Player"
+  logo: "Team's logo"
+  see_members: "View members"
+  edit: "Edit"
+  delete: "Delete"
+  no_team: "You don't have a team yet!"

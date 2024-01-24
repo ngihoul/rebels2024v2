@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ parent() }} | Equipe {{ team.name }}{% endblock %}
+{% block title %}{{ parent() }} | {{ "team.detail.title"|trans }} {{ team.name }} {{ team.name }}{% endblock %}
 
 {% block body %}
 <div class="container container-team-detail">
-    <h1>Equipe {{ team.name }}</h1>
+    <h1>{{ "team.detail.title"|trans }} {{ team.name }}</h1>
     {{ parent() }}
 
     {% if is_granted('ROLE_ADMIN') %}
@@ -18,8 +18,8 @@
     <table class="license-table">
         <tr>
             <th class="jersey_cell">#</th>
-            <th>Nom</th>
-            <th>Rôle</th>
+            <th>{{ "team.detail.name"|trans }}</th>
+            <th>{{ "team.detail.role"|trans }}</th>
             {% if is_granted('ROLE_COACH') %}
                 <th class="action-remove"></th>
             {% endif %}

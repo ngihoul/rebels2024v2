@@ -20,7 +20,7 @@ class AddUserToTeam extends AbstractType
                 'choice_label' => function (User $user) {
                     return sprintf('%s %s - %s - %s', $user->getFirstname(), $user->getLastname(), $user->getGender(), $user->getDateOfBirth()->format('d-m-Y'));
                 },
-                'label' => 'Ajouter un joueur',
+                'label' => 'add_player.label',
                 'query_builder' => function (EntityRepository $entityRepository) use ($options) {
                     return $entityRepository->createQueryBuilder('u')
                         ->andWhere(':team NOT MEMBER OF u.teams')
@@ -28,7 +28,7 @@ class AddUserToTeam extends AbstractType
                         ->orderBy('u.lastname', 'ASC');
                 },
             ])
-            ->add('save', SubmitType::class, ['label' => 'Ajouter']);
+            ->add('save', SubmitType::class, ['label' => 'add_player.btn']);
     }
 
     public function configureOptions(OptionsResolver $resolver)
@@ -36,6 +36,7 @@ class AddUserToTeam extends AbstractType
         $resolver->setDefaults([
             'data_class' => null,
             'team' => null,
+            'translation_domain' => 'forms'
         ]);
     }
 }

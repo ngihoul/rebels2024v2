@@ -17,7 +17,7 @@ class TeamType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', TextType::class, ['label' => 'Nom'])
+            ->add('name', TextType::class)
             ->add('coach', EntityType::class, [
                 'class' => 'App\Entity\User',
                 'choice_label' => function ($user) {
@@ -54,6 +54,7 @@ class TeamType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Team::class,
+            'translation_domain' => 'forms'
         ]);
     }
 }

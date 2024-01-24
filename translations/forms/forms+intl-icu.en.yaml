@@ -1,0 +1,46 @@
+user:
+  update_profile:
+    submit: "Edit my profile"
+  register:
+    submit: "Sign up"
+  email: "Email *"
+  password: "Password *"
+  password_confirmation: "Repeat password *"
+  firstname: "Firstname *"
+  lastname: "Lastname *"
+  nationality: "Nationality *"
+  license_number: "License number"
+  jersey_number: "Jersey number"
+  date_of_birth: "Date of birth *"
+  gender:
+    label: "Gender *"
+    male: "Male"
+    female: "Female"
+  address_street: "Address *"
+  address_number: "Street number *"
+  zipcode: "Zipcode *"
+  locality: "Locality *"
+  country: "Country *"
+  phone_number: "Phone number"
+  mobile_number: "Mobile number"
+  profile_picture:
+    label: "Profile picture"
+  newsletter_lfbbs: "I agree to receive the newsletter from LFBBS"
+  internal_rules: >-
+    I accept the <a class="link-paragraph" 
+    href="https://www.liegebaseball.be/wp-content/uploads/2022/12/LRCBS-ROI-v6.pdf" 
+    target="_blank">Internal Rules</a> *'
+# Team Form
+team:
+  create:
+    btn: "Create"
+  update:
+    btn: "Edit"
+  name: "Team name"
+  coach: "Coach"
+  assistant: "Assistant"
+  logo: "Logo"
+# Add User to Team
+add_player:
+  label: "Add a player"
+  btn: "Add"

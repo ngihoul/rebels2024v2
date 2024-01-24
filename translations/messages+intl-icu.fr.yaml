@@ -8,6 +8,7 @@ success:
   profile_updated: "Votre profil a été mis à jour."
   account_created: "Ton compte a bien été créé. Merci de confirmer ton adresse mail en consultant ta boîte mail."
   email_verified: "Ton adresse email a été vérifiée."
+  team_created: "L'équipe {} a été créée."
 
 # Header
 header:
@@ -40,6 +41,9 @@ login:
   not_member: "Pas encore membre ?"
   signup: "S'inscrire !"
 
+register:
+  title: "S'enregistrer"
+
 profile:
   title: "Profil"
   my_profile: "Mon profil"
@@ -51,36 +55,24 @@ profile:
   agreements: "Accords"
   internal_rules: "Règlement d'ordre Intérieur :"
   privacy_policy: "Politique de confidentialité :"
-
-forms:
-  update_profile:
+  update:
     title: "Modifier mon profil"
-    submit: "Modifier mon profil"
-  register:
-    title: "S'enregistrer"
-    submit: "M'inscrire"
-  email: "Adresse email"
-  password: "Mot de passe"
-  password_confirmation: "Répeter le mot de passe"
-  firstname: "Prénom *"
-  lastname: "Nom de famille *"
-  nationality: "Nationalité *"
-  license_number: "Numéro de licence"
-  jersey_number: "Numéro de maillot"
-  date_of_birth: "Date de naissance *"
-  gender: "Genre *"
-  address_street: "Adresse *"
-  address_number: "Numéro de rue *"
-  zipcode: "Code postal *"
-  locality: "Localité *"
-  country: "Pays *"
-  phone_number: "Numéro de téléphone"
-  mobile_number: "Numéro de portable"
-  profile_picture:
-    label: "Photo de profil"
+  picture:
     disclaimer: "Cette photo sera utilisée pour ta licence auprès de la Ligue Francophone Belge de Baseball et Softball. Utilise donc une photo d'identité ou une photo officielle du club."
-  newsletter_lfbbs: "J'accepte de recevoir la newsletter de la LFBBS"
-  internal_rules: >-
-    J'accepte le <a class="link-paragraph" 
-    href="https://www.liegebaseball.be/wp-content/uploads/2022/12/LRCBS-ROI-v6.pdf" 
-    target="_blank">Règlement d'Ordre Intérieur</a> *'
+team:
+  title: "Mes équipes"
+  detail:
+    title: "Equipe"
+    name: "Nom"
+    role: "Rôle"
+  create:
+    title: "Créer une équipe"
+  update:
+    title: "Modifier une équipe"
+  all: "Toutes les équipes"
+  player: "Joueur"
+  logo: "Logo de l'équipe"
+  see_members: "Voir les membres"
+  edit: "Modifier"
+  delete: "Supprimer"
+  no_team: "Vous n'avez pas encore d'équipe !"

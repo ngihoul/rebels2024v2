@@ -17,18 +17,21 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class TeamController extends AbstractController
 {
     private TeamRepository $teamRepository;
     private UserRepository $userRepository;
     private EntityManagerInterface $entityManager;
+    private TranslatorInterface $translator;
 
-    public function __construct(TeamRepository $teamRepository, UserRepository $userRepository, EntityManagerInterface $entityManager)
+    public function __construct(TeamRepository $teamRepository, UserRepository $userRepository, EntityManagerInterface $entityManager, TranslatorInterface $translator)
     {
         $this->teamRepository = $teamRepository;
         $this->userRepository = $userRepository;
         $this->entityManager = $entityManager;
+        $this->translator = $translator;
     }
 
     #[Route('/teams', name: 'app_teams')]
@@ -55,6 +58,8 @@ class TeamController extends AbstractController
     #[IsGranted('ROLE_ADMIN')]
     public function new(Request $request, FileUploader $fileUploader): Response
     {
+        $action = 'create';
+
         $team = new Team();
         $form = $this->createForm(TeamType::class, $team);
 
@@ -72,7 +77,7 @@ class TeamController extends AbstractController
                 $this->entityManager->persist($team);
                 $this->entityManager->flush();
 
-                $this->addFlash('success', 'L\'équipe a été créée avec succès.');
+                $this->addFlash('success', $this->translator->trans('success.team_created'));
                 return $this->redirectToRoute('app_teams');
             }
         } catch (FileException $fileException) {
@@ -83,6 +88,7 @@ class TeamController extends AbstractController
 
         return $this->render('teams/form.html.twig', [
             'form' => $form->createView(),
+            'action' => $action
         ]);
     }
 

@@ -77,8 +77,8 @@ class UserType extends AbstractType
             ])
             ->add('gender', ChoiceType::class, [
                 'choices' => [
-                    'Homme' => 'M',
-                    'Femme' => 'F',
+                    'user.gender.male' => 'M',
+                    'user.gender.female' => 'F',
                 ],
                 'constraints' => [
                     new Choice([
@@ -180,6 +180,7 @@ class UserType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            'translation_domain' => 'forms'
         ]);
     }
 }

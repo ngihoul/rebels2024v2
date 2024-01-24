@@ -1,27 +1,27 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{  parent() }} | {{ "forms.register.title"|trans }}{% endblock %}
+{% block title %}{{  parent() }} | {{ "register.title"|trans }}{% endblock %}
 
 {% block body %}
     <div class="container container-register">
-        <h1>{{ "forms.register.title"|trans }}</h1>
+        <h1>{{ "register.title"|trans }}</h1>
 
         {{ form_start(registrationForm) }}
         
         {{ form_errors(registrationForm) }}
 
-            {{ form_row(registrationForm.firstname, {'label': 'forms.firstname'|trans}) }}
+            {{ form_row(registrationForm.firstname, {'label': 'user.firstname'}) }}
 
-            {{ form_row(registrationForm.lastname, {'label': 'forms.lastname'|trans}) }}
+            {{ form_row(registrationForm.lastname, {'label': 'user.lastname'}) }}
 
-            {{ form_row(registrationForm.nationality, {'label': 'forms.nationality'|trans}) }}
+            {{ form_row(registrationForm.nationality, {'label': 'user.nationality'}) }}
 
-            {{ form_row(registrationForm.license_number, {'label': 'forms.license_number'|trans, 'required': false}) }}
+            {{ form_row(registrationForm.license_number, {'label': 'user.license_number', 'required': false}) }}
 
-            {{ form_row(registrationForm.jersey_number, {'label': 'forms.jersey_number'|trans, 'required': false}) }}
+            {{ form_row(registrationForm.jersey_number, {'label': 'user.jersey_number', 'required': false}) }}
 
             {{ form_row(registrationForm.date_of_birth, {
-                'label': 'forms.date_of_birth'|trans,
+                'label': 'user.date_of_birth',
                 'widget': 'single_text',
                 'format': 'yyyy-MM-dd',
                 'attr': {
@@ -29,47 +29,47 @@
                 },
             }) }}
 
-            {{ form_row(registrationForm.gender, {'label': 'forms.gender'|trans}) }}
+            {{ form_row(registrationForm.gender, {'label': 'user.gender.label'}) }}
 
-            {{ form_row(registrationForm.address_street, {'label': 'forms.address_street'|trans}) }}
+            {{ form_row(registrationForm.address_street, {'label': 'user.address_street'}) }}
 
-            {{ form_row(registrationForm.address_number, {'label': 'forms.address_number'|trans}) }}
+            {{ form_row(registrationForm.address_number, {'label': 'user.address_number'}) }}
 
-            {{ form_row(registrationForm.zipcode, {'label': 'forms.zipcode'|trans}) }}
+            {{ form_row(registrationForm.zipcode, {'label': 'user.zipcode'}) }}
 
-            {{ form_row(registrationForm.locality, {'label': 'forms.locality'|trans}) }}
+            {{ form_row(registrationForm.locality, {'label': 'user.locality'}) }}
 
-            {{ form_row(registrationForm.country, {'label' : 'forms.country'|trans}) }}
+            {{ form_row(registrationForm.country, {'label' : 'user.country'}) }}
 
-            {{ form_row(registrationForm.phone_number, {'label': 'forms.phone_number'|trans, 'required': false}) }}
+            {{ form_row(registrationForm.phone_number, {'label': 'user.phone_number', 'required': false}) }}
 
-            {{ form_row(registrationForm.mobile_number, {'label': 'forms.mobile_number'|trans, 'required': false}) }}
+            {{ form_row(registrationForm.mobile_number, {'label': 'user.mobile_number', 'required': false}) }}
 
-            {{ form_row(registrationForm.email, {'label': 'forms.email'|trans }) }}
+            {{ form_row(registrationForm.email, {'label': 'user.email' }) }}
 
-            {{ form_row(registrationForm.password.first, {'label': 'forms.password'|trans }) }}
+            {{ form_row(registrationForm.password.first, {'label': 'user.password' }) }}
 
-            {{ form_row(registrationForm.password.second, {'label': 'forms.password_confirmation'|trans }) }}
+            {{ form_row(registrationForm.password.second, {'label': 'user.password_confirmation' }) }}
 
-            {{ form_row(registrationForm.profile_picture, {'label': 'forms.profile_picture.label'|trans, 'id': 'profile_picture_input'}) }}
-            <p class="disclamer-picture alert alert-warning">{{ 'forms.profile_picture.disclaimer'|trans }}</p>
+            {{ form_row(registrationForm.profile_picture, {'label': 'user.profile_picture.label', 'id': 'profile_picture_input'}) }}
+            <p class="disclamer-picture alert alert-warning">{{ 'profile.picture.disclaimer'|trans }}</p>
 
             <div id="previewPicture">
                 <img id="previewImage" src="">
             </div>
 
             <div class="custom-checkbox">
-                {{ form_row(registrationForm.newsletter_lfbbs, {'label': 'forms.newsletter_lfbbs'|trans }) }}
+                {{ form_row(registrationForm.newsletter_lfbbs, {'label': 'user.newsletter_lfbbs' }) }}
             </div>
 
             <div class="custom-checkbox">
                 {{ form_row(registrationForm.internal_rules, {
-                    'label': 'forms.internal_rules'|trans,
+                    'label': 'user.internal_rules',
                     'label_html': true,
                 }) }}
             </div>
 
-            {{ form_row(registrationForm.submit, { 'label': 'forms.register.submit' }) }}
+            {{ form_row(registrationForm.submit, { 'label': 'user.register.submit' }) }}
 
         {{ form_end(registrationForm) }}
     </div>
