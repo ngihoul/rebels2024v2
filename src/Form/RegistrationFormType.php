@@ -156,21 +156,19 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('email', EmailType::class, [
                 'constraints' => [
-                    new NotBlank(['message' => 'Entre ton adresse e-mail.']),
-                    new Email(['message' => 'Adresse e-mail invalide.']),
+                    new NotBlank(['message' => 'validators.email.not_blank']),
+                    new Email(['message' => 'validators.email.valid']),
                 ],
             ])
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
-                'invalid_message' => 'Les champs de mot de passe doivent correspondre.',
-                'first_options' => ['label' => 'Mot de passe'],
-                'second_options' => ['label' => 'Répéter le mot de passe'],
+                'invalid_message' => 'validators.password.match',
                 'required' => true,
                 'constraints' => [
-                    new NotBlank(['message' => 'Entre un mot de passe.']),
+                    new NotBlank(['message' => 'validators.password.not_blank']),
                     new Length([
                         'min' => 6,
-                        'minMessage' => 'Ton mot de passe doit contenir au moins {{ limit }} caractères.',
+                        'minMessage' => 'validators.password.length',
                     ]),
                 ],
             ])

@@ -38,3 +38,10 @@ validators:
   profile_picture:
     max_size: "La taille de la photo de profil ne doit pas dépasser 1Mo"
     mime_types: "Le format de la photo de profil doit être jpg, jpeg, gif ou png"
+  email:
+    not_blank: "Entre ton adresse e-mail."
+    valid: "Adresse e-mail invalide."
+  password:
+    match: "Les champs de mot de passe doivent correspondre."
+    not_blank: "Entre un mot de passe."
+    length: "Ton mot de passe doit contenir au moins {{ limit }} caractères."
