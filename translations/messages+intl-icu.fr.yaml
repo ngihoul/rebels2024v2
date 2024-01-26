@@ -18,6 +18,7 @@ success:
   event_accept: "Tu es bien inscrit à l'évènement {name}"
   event_decline: "Tu as refusé de participer à l'évènement {name}"
   event_delete: "L'évènement a bien été supprimé."
+  event_update: "L'évènement a bien été modifié."
 
 # Header
 header:

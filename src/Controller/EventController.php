@@ -68,39 +68,61 @@ class EventController extends AbstractController
 
     #[Route('/event/{id}', name: 'app_agenda_detail')]
     #[IsGranted('ROLE_USER')]
-    public function detail(Event $event): Response
+    public function detail(Request $request): Response
     {
-        // TODO : test event and throw Exception
+        try {
+            $eventId = $request->get('id');
+            $event = $this->eventRepository->find($eventId);
 
-        $attendees = 0;
-        $awaiting = 0;
-        $unavailable = 0;
-
-        foreach ($event->getAttendees() as $attendee) {
-            if (NULL === $attendee->isUserResponse()) {
-                $awaiting++;
-            } elseif (true === $attendee->isUserResponse()) {
-                $attendees++;
-            } elseif (false === $attendee->isUserResponse()) {
-                $unavailable++;
+            if (!$event) {
+                throw new EntityNotFoundException($this->translator->trans('error.event_not_found'));
             }
-        }
 
-        return $this->render('agenda/detail.html.twig', [
-            'event' => $event,
-            'attendees' => $attendees,
-            'awaiting' => $awaiting,
-            'unavailable' => $unavailable
-        ]);
+            $attendees = 0;
+            $awaiting = 0;
+            $unavailable = 0;
+
+            foreach ($event->getAttendees() as $attendee) {
+                if (NULL === $attendee->isUserResponse()) {
+                    $awaiting++;
+                } elseif (true === $attendee->isUserResponse()) {
+                    $attendees++;
+                } elseif (false === $attendee->isUserResponse()) {
+                    $unavailable++;
+                }
+            }
+
+            return $this->render('agenda/detail.html.twig', [
+                'event' => $event,
+                'attendees' => $attendees,
+                'awaiting' => $awaiting,
+                'unavailable' => $unavailable
+            ]);
+        } catch (Exception $e) {
+            $this->addFlash('error', $e->getMessage());
+            return $this->redirectToRoute('app_agenda');
+        }
     }
 
     #[Route('/event/{id}/attendance', name: 'app_agenda_attendance')]
     #[IsGranted('ROLE_COACH')]
-    public function attendance(Event $event): Response
+    public function attendance(Request $request): Response
     {
-        return $this->render('agenda/attendance.html.twig', [
-            'event' => $event
-        ]);
+        try {
+            $eventId = $request->get('id');
+            $event = $this->eventRepository->find($eventId);
+
+            if (!$event) {
+                throw new EntityNotFoundException($this->translator->trans('error.event_not_found'));
+            }
+
+            return $this->render('agenda/attendance.html.twig', [
+                'event' => $event
+            ]);
+        } catch (Exception $e) {
+            $this->addFlash('error', $e->getMessage());
+            return $this->redirectToRoute('app_agenda');
+        }
     }
 
     #[Route('/create', name: 'app_create_event')]
@@ -165,26 +187,38 @@ class EventController extends AbstractController
 
     #[Route('/update/{id}', name: 'app_agenda_update')]
     #[IsGranted('ROLE_COACH')]
-    public function update(Request $request, Event $event): Response
+    public function update(Request $request): Response
     {
-        // TO DO : Test if event exist and throw exception
-
         $action = 'update';
-        $form = $this->createForm(EventType::class, $event);
 
-        $form->handleRequest($request);
+        try {
+            $eventId = $request->get('id');
+            $event = $this->eventRepository->find($eventId);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->entityManager->persist($event);
-            $this->entityManager->flush();
+            if (!$event) {
+                throw new EntityNotFoundException($this->translator->trans('error.event_not_found'));
+            }
 
+            $form = $this->createForm(EventType::class, $event);
+
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                $this->entityManager->persist($event);
+                $this->entityManager->flush();
+
+                $this->addFlash('success', $this->translator->trans('success.event_update'));
+                return $this->redirectToRoute('app_agenda');
+            }
+
+            return $this->render('agenda/event_form.html.twig', [
+                'form' => $form->createView(),
+                'action' => $action
+            ]);
+        } catch (Exception $e) {
+            $this->addFlash('error', $e->getMessage());
             return $this->redirectToRoute('app_agenda');
         }
-
-        return $this->render('agenda/event_form.html.twig', [
-            'form' => $form->createView(),
-            'action' => $action
-        ]);
     }
 
     #[Route('/invitation/{id}', name: 'app_agenda_invitation')]
@@ -253,6 +287,7 @@ class EventController extends AbstractController
         try {
             $eventId = $request->get('id');
             $event = $this->eventRepository->find($eventId);
+
             if (!$event) {
                 throw new EntityNotFoundException($this->translator->trans('error.event_not_found'));
             }
