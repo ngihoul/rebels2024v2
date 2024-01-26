@@ -37,13 +37,13 @@ class TeamType extends AbstractType
                 'constraints' => [
                     new File([
                         'maxSize' => '1024k',
-                        'maxSizeMessage' => 'La taille du logo ne doit pas dépasser 1Mo',
+                        'maxSizeMessage' => 'validators.logo.size',
                         'mimeTypes' => [
                             'image/jpeg',
                             'image/png',
                             'image/gif',
                         ],
-                        'mimeTypesMessage' => 'Le format de la photo du logo doit être jpg, jpeg, gif ou png',
+                        'mimeTypesMessage' => 'validators.logo.mime_types',
                     ])
                 ],
             ])

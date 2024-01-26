@@ -22,14 +22,14 @@ class UploadLicenseType extends AbstractType
                 'constraints' => [
                     new File([
                         'maxSize' => '2048k',
-                        'maxSizeMessage' => 'La taille de la photo de profil ne doit pas dépasser 2Mo',
+                        'maxSizeMessage' => 'La taille de la demande de licence ne doit pas dépasser 2Mo',
                         'mimeTypes' => [
                             'image/jpeg',
                             'image/png',
                             'image/gif',
                             'application/pdf',
                         ],
-                        'mimeTypesMessage' => 'Le format de la photo de profil doit être jpg, jpeg, gif, png ou pdf',
+                        'mimeTypesMessage' => 'Le format de la demande de licence doit être jpg, jpeg, gif, png ou pdf',
                     ])
                 ],
             ])

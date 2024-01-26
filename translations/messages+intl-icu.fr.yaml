@@ -59,6 +59,7 @@ profile:
     title: "Modifier mon profil"
   picture:
     disclaimer: "Cette photo sera utilisée pour ta licence auprès de la Ligue Francophone Belge de Baseball et Softball. Utilise donc une photo d'identité ou une photo officielle du club."
+
 team:
   title: "Mes équipes"
   detail:
@@ -76,3 +77,12 @@ team:
   edit: "Modifier"
   delete: "Supprimer"
   no_team: "Vous n'avez pas encore d'équipe !"
+
+agenda:
+  title: "Mon agenda"
+  waiting_reply: "En attente de réponse"
+  accept: "Accepter"
+  decline: "Refuser"
+  next_events: "Prochains évènements"
+  invite: "Inviter"
+  no_event: "Aucun événement à venir."

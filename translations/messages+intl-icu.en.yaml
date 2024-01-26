@@ -58,6 +58,7 @@ profile:
     title: "Edit my profile"
   picture:
     disclaimer: "This photo will be used for your license with the Ligue Francophone Belge de Baseball et Softball. Please use a passport photo or an official club photo."
+
 team:
   title: "My teams"
   detail:
@@ -75,3 +76,12 @@ team:
   edit: "Edit"
   delete: "Delete"
   no_team: "You don't have a team yet!"
+
+agenda:
+  title: "My agenda"
+  waiting_reply: "Awaiting reply"
+  accept: "Accept"
+  decline: "decline"
+  next_events: "Next events"
+  invite: "Invite"
+  no_event: "No upcoming events."

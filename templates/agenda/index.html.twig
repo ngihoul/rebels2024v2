@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ parent() }} | Mon agenda{% endblock %}
+{% block title %}{{ parent() }} | {{ "agenda.title"|trans }}{% endblock %}
 
 {% block body %}
 <div class="container container-agenda">
     <div class="heading-container">
-        <h1>Mon agenda</h1>
+        <h1>{{ "agenda.title"|trans }}</h1>
         {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_COACH') %}
             <a href="{{ path('app_create_event') }}" class="btn-add"></a>
         {% endif %}
@@ -15,7 +15,7 @@
     {{ parent() }}
 
     {% if pendingEvents|length > 0 %}
-        <h2>En attente de réponse</h2>
+        <h2>{{ "agenda.waiting_reply"|trans }}</h2>
         <div class="card-event-wrapper">
             {% for pendingEvent in pendingEvents %}
                 <section class="card-event-container">
@@ -28,15 +28,15 @@
                     </div>
                     
                     <div class="response-event">
-                        <a class="btn response-event-yes" href="{{ path('app_agenda_response', { 'id' : pendingEvent.id, 'result' : 'accept' }) }}" title="Accepter">V</a>
-                        <a class="btn response-event-no" href="{{ path('app_agenda_response', { 'id' : pendingEvent.id, 'result' : 'decline' }) }}" title="Refuser">X</a>
+                        <a class="btn response-event-yes" href="{{ path('app_agenda_response', { 'id' : pendingEvent.id, 'result' : 'accept' }) }}" title="{{ "agenda.accept"|trans }}">V</a>
+                        <a class="btn response-event-no" href="{{ path('app_agenda_response', { 'id' : pendingEvent.id, 'result' : 'decline' }) }}" title="{{ "agenda.decline"|trans }}">X</a>
                     </div>
                 </section>
             {% endfor %}
         </div>
     {% endif %}
 
-    <h2>Prochains</h2>
+    <h2>{{ "agenda.next_events"|trans }}</h2>
     {% if futureEvents|length > 0 %}
         <div class="card-event-wrapper">
             {% for futureEvent in futureEvents %}
@@ -69,7 +69,7 @@
 
                     {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_COACH') %}
                         <div class="admin-btn">
-                            <a class="btn btn-invite" href="{{ path('app_agenda_invitation', { 'id' : futureEvent.id } ) }}">Inviter</a>
+                            <a class="btn btn-invite" href="{{ path('app_agenda_invitation', { 'id' : futureEvent.id } ) }}">{{ "agenda.invite"|trans }}</a>
                             <a class="icon icon-edit" href="{{ path('app_agenda_update', { 'id' : futureEvent.id }) }}"><i class="fa-regular fa-pen-to-square"></i></a>
                             <a class="icon icon-delete" href="{{ path('app_agenda_delete', { 'id' : futureEvent.id }) }}"><i class="fa-solid fa-trash"></i></a>
                         </div>
@@ -82,7 +82,7 @@
             {{ knp_pagination_render(futureEvents) }}
         </div>
     {% else %}
-        <p>Aucun événement à venir.</p>
+        <p>{{ "agenda.no_event"|trans }}</p>
     {% endif %}
 </div>
 {% endblock %}
