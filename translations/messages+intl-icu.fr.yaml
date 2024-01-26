@@ -3,12 +3,21 @@ error:
   already_logged: "Tu es déjà connecté."
   profile_not_found: "Le profil demandé n'a pas été trouvé."
   email_validation: "Un problème est survenu lors de la validation."
+  event_creation: "Une erreur s'est produite lors de la création de l'événement."
+  event_not_found: "L'évèment n'existe pas."
+  invitation_not_found: "L'invitation à l'évènement n'a pas été trouvée."
+  event_response: "Une erreur s'est produite lors du traitement de la réponse à l'invitation."
+  event_delete: "Impossible de supprimer un évènement avec invitation."
 
 success:
   profile_updated: "Votre profil a été mis à jour."
   account_created: "Ton compte a bien été créé. Merci de confirmer ton adresse mail en consultant ta boîte mail."
   email_verified: "Ton adresse email a été vérifiée."
-  team_created: "L'équipe {} a été créée."
+  team_created: "L'équipe a été créée."
+  event_created: "L'évènement a été créé."
+  event_accept: "Tu es bien inscrit à l'évènement {name}"
+  event_decline: "Tu as refusé de participer à l'évènement {name}"
+  event_delete: "L'évènement a bien été supprimé."
 
 # Header
 header:
@@ -80,9 +89,30 @@ team:
 
 agenda:
   title: "Mon agenda"
+  create:
+    title: "Créer un événement"
+  update:
+    title: "Modifier un évènement"
   waiting_reply: "En attente de réponse"
   accept: "Accepter"
   decline: "Refuser"
   next_events: "Prochains évènements"
   invite: "Inviter"
   no_event: "Aucun événement à venir."
+  present: "Présent"
+  absent: "Absent"
+  attendees: "Particpants"
+  attendee: "participant"
+  awaiting: "en attente"
+  unavailable: "Indisponible"
+  meeting_at: "Rendez-vous à"
+  practical_info: "Informations pratiques"
+  starts_at: "Commence à"
+  ends_at: "Finit à"
+  description: "Description"
+  edit: "Modifier"
+  delete: "Supprimer"
+  profile_picture_of: "Photo de profil de"
+  invite_to: "Inviter à"
+  teams: "Equipes"
+  players: "Joueurs"

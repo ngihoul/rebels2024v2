@@ -16,7 +16,7 @@
         {% if attendees|length > 0 %}
         
         <div class="attendance-list">
-            <h2>Participant{{ attendees|length > 1 ? 's' : '' }}</h2>
+            <h2>{{ "agenda.attendee"|trans|capitalize }}{{ attendees|length > 1 ? 's' : '' }}</h2>
             <ul>
                 {% for attendee in attendees %}
                     <li>
@@ -24,7 +24,7 @@
                             <img
                                 class="picture"
                                 src="{{ asset('uploads/user_pictures/' ~ attendee.user.profilePicture) }}"
-                                alt="Profile picture of {{ attendee.user.firstname }}"
+                                alt="{{ "agenda.profile_picture_of"|trans }} {{ attendee.user.firstname }}"
                             />
                             {{ attendee.user.firstname }} {{ attendee.user.lastname }}
                         </a>
@@ -36,7 +36,7 @@
 
         {% if awaiting|length > 0 %}
         <div class="attendance-list">
-            <h2>En attente</h2>
+            <h2>{{ "agenda.awaiting"|trans|capitalize }}</h2>
             <ul>
                 {% for attendee in awaiting %}
                     <li>
@@ -44,7 +44,7 @@
                             <img
                                 class="picture"
                                 src="{{ asset('uploads/user_pictures/' ~ attendee.user.profilePicture) }}"
-                                alt="Profile picture of {{ attendee.user.firstname }}"
+                                alt="{{ "agenda.profile_picture_of"|trans }} {{ attendee.user.firstname }}"
                             />
                             {{ attendee.user.firstname }} {{ attendee.user.lastname }}
                         </a>
@@ -56,7 +56,7 @@
 
         {% if unavailable|length > 0 %}
         <div class="attendance-list">
-            <h2>Indisponible{{ unavailable|length > 1 ? 's' : '' }}</h2>
+            <h2>{{ "agenda.unavailable"|trans|capitalize }}{{ unavailable|length > 1 ? 's' : '' }}</h2>
             <ul>
                 {% for attendee in unavailable %}
                     <li>
@@ -64,7 +64,7 @@
                             <img
                                 class="picture"
                                 src="{{ asset('uploads/user_pictures/' ~ attendee.user.profilePicture) }}"
-                                alt="Profile picture of {{ attendee.user.firstname }}"
+                                alt="{{ "agenda.profile_picture_of"|trans }} {{ attendee.user.firstname }}"
                             />
                             {{ attendee.user.firstname }} {{ attendee.user.lastname }}
                         </a>
@@ -76,7 +76,7 @@
     </div>
 
 
-    <a class="btn btn-invite" href="{{ path('app_agenda_invitation', { 'id' : event.id } ) }}">Inviter</a>
+    <a class="btn btn-invite" href="{{ path('app_agenda_invitation', { 'id' : event.id } ) }}">{{ "agenda.invite"|trans }}</a>
 
 </div>
 

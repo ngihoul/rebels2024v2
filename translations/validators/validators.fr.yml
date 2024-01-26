@@ -48,3 +48,8 @@ validators:
   logo:
     size: "La taille du logo ne doit pas dépasser 1Mo."
     mime_types: "Le format de la photo du logo doit être jpg, jpeg, gif ou png"
+  event:
+    not_blank: "Entre un nom d'évènement"
+    date: "Sélectionne la date de l'évènement"
+    start_time: "Sélectionne l'heure de début"
+    end_time: "Sélectionne l'heure de fin"

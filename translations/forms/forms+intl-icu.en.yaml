@@ -44,3 +44,26 @@ team:
 add_player:
   label: "Add a player"
   btn: "Add"
+# Event
+event:
+  name: "Event name"
+  description: "Description"
+  category: "Category"
+  team: "Team"
+  date: "Event date"
+  recurring: "Recurring event?"
+  end_date: "End date"
+  frequency:
+    label: "Frequency"
+    daily: "Daily"
+    weekly: "Weekly"
+    biweekly: "Biweekly"
+    monthly: "Monthly"
+  meeting_time: "Meeting time"
+  start_time: "Start time"
+  end_time: "End time"
+  place: "Event place"
+  btn:
+    create: "Create event"
+    update: "Update event"
+  invite: "Invite"

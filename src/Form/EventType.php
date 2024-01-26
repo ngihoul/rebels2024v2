@@ -11,6 +11,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
@@ -25,7 +26,7 @@ class EventType extends AbstractType
         $builder
             ->add('name', TextType::class, [
                 'constraints' => [
-                    new NotBlank(['message' => 'Entre un nom d\'évènement'])
+                    new NotBlank(['message' => 'validators.event.not_blank'])
                 ]
             ])
             ->add('description', TextareaType::class, [
@@ -42,7 +43,7 @@ class EventType extends AbstractType
             ->add('date', DateType::class, [
                 'widget' => 'single_text',
                 'constraints' => [
-                    new NotBlank(['message' => 'Sélectionne la date de l\'évènement']),
+                    new NotBlank(['message' => 'validators.event.date']),
                 ],
                 'input' => 'datetime_immutable',
             ])
@@ -54,14 +55,14 @@ class EventType extends AbstractType
             ->add('time_from', TimeType::class, [
                 'widget' => 'single_text',
                 'constraints' => [
-                    new NotBlank(['message' => 'Sélectionne l\'heure de début']),
+                    new NotBlank(['message' => 'validators.event.start_time']),
                 ],
                 'input'  => 'datetime_immutable',
             ])
             ->add('time_to', TimeType::class, [
                 'widget' => 'single_text',
                 'constraints' => [
-                    new NotBlank(['message' => 'Sélectionne l\'heure de fin']),
+                    new NotBlank(['message' => 'validators.event.end_time']),
                 ],
                 'input'  => 'datetime_immutable',
             ])
@@ -70,7 +71,6 @@ class EventType extends AbstractType
                 'choice_label' => 'name',
             ])
             ->add('is_recurrent', CheckboxType::class, [
-                'label' => 'Entraînement récurrent',
                 'mapped' => false,
                 'required' => false,
             ])
@@ -82,20 +82,22 @@ class EventType extends AbstractType
             ])
             ->add('frequency', ChoiceType::class, [
                 'choices' => [
-                    'Tous les jours' => 'daily',
-                    'Toutes les semaines' => 'weekly',
-                    'Toutes les deux semaines' => 'biweekly',
-                    'Tous les mois' => 'monthly'
+                    'event.frequency.daily' => 'daily',
+                    'event.frequency.weekly' => 'weekly',
+                    'event.frequency.biweekly' => 'biweekly',
+                    'event.frequency.monthly' => 'monthly'
                 ],
                 'required' => false,
                 'mapped' => false
-            ]);
+            ])
+            ->add('submit', SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Event::class,
+            'translation_domain' => 'forms'
         ]);
     }
 }

@@ -1,35 +1,34 @@
 {% extends 'base.html.twig' %}
+{% set pageTitle = action == 'create' ? 'agenda.create.title'|trans : 'agenda.update.title'|trans %}
 
-{% block title %}Créer un événement{% endblock %}
+{% block title %}{{ parent() }} | {{ pageTitle }}{% endblock %}
 
 {% block body %}
 <div class="container container-create-event">
-    <h1>Créer un événement</h1>
+    <h1>{{ pageTitle }}</h1>
 
     {{ parent() }}
 
     {{ form_start(form) }}
 
-    {{ form_row(form.name, {'label': 'Nom de l\'événement'}) }}
-    {{ form_row(form.description, {'label': 'Description'}) }}
-    {{ form_row(form.category, {'label': 'Catégorie'}) }}
-    {{ form_row(form.team, {'label': 'Équipe'}) }}
-    {{ form_row(form.date, {'label': 'Date de l\'événement'}) }}
+    {{ form_row(form.name, {'label': 'event.name'}) }}
+    {{ form_row(form.description, {'label': 'event.description'}) }}
+    {{ form_row(form.category, {'label': 'event.category'}) }}
+    {{ form_row(form.team, {'label': 'event.team'}) }}
+    {{ form_row(form.date, {'label': 'event.date'}) }}
     <div></div>
     <div class="custom-checkbox">
-        {{ form_row(form.is_recurrent, {'label': 'Evènement récurrent'}) }}
+        {{ form_row(form.is_recurrent, {'label': 'event.recurring'}) }}
     </div>
-    {{ form_row(form.end_date, {'label': 'Date de fin'}) }}
-    {{ form_row(form.frequency, {'label': 'Fréquence'}) }}
+    {{ form_row(form.end_date, {'label': 'event.end_date'}) }}
+    {{ form_row(form.frequency, {'label': 'event.frequency.label'}) }}
 
-    {{ form_row(form.time_meeting, {'label': 'Heure de rendez-vous'}) }}
-    {{ form_row(form.time_from, {'label': 'Heure de début'}) }}
-    {{ form_row(form.time_to, {'label': 'Heure de fin'}) }}
-    {{ form_row(form.place, {'label': 'Lieu de l\'événement'}) }}
+    {{ form_row(form.time_meeting, {'label': 'event.meeting_time'}) }}
+    {{ form_row(form.time_from, {'label': 'event.start_time'}) }}
+    {{ form_row(form.time_to, {'label': 'event.end_time'}) }}
+    {{ form_row(form.place, {'label': 'event.place'}) }}
 
-    
-
-    <button type="submit">Créer l'événement</button>
+    {{ form_row(form.submit, { 'label': (action == 'update' ? 'event.btn.update' : 'event.btn.create') }) }}
 
     {{ form_end(form) }}
 </div>

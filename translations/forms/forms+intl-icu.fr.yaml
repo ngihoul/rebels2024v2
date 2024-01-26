@@ -45,3 +45,26 @@ team:
 add_player:
   label: "Ajouter un joueur"
   btn: "Ajouter"
+# Event
+event:
+  name: "Nom de l'évènement"
+  description: "Description"
+  category: "Catégorie"
+  team: "Equipe"
+  date: "Date de l'évènement"
+  recurring: "Evènement récurrent ?"
+  end_date: "Date de fin"
+  frequency:
+    label: "Fréquence"
+    daily: "Tous les jours"
+    weekly: "Toutes les semaines"
+    biweekly: "Toutes les 2 semaines"
+    monthly: "Tous les mois"
+  meeting_time: "Heure de rendez-vous"
+  start_time: "Heure de début"
+  end_time: "Heure de fin"
+  place: "Lieu de l'évènement"
+  btn:
+    create: "Créer l'évènement"
+    update: "Modifier l'évènement"
+  invite: "Inviter"

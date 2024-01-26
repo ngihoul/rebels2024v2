@@ -52,7 +52,7 @@ class InvitationType extends AbstractType
                     'class' => 'invited-users-field',
                 ],
             ])
-            ->add('invite', SubmitType::class, ['label' => 'Invite']);
+            ->add('invite', SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver)
@@ -60,6 +60,7 @@ class InvitationType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Event::class,
             'event' => null,
+            'translation_domain' => 'forms'
         ]);
     }
 }

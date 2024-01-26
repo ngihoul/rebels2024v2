@@ -1,13 +1,15 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}{{ parent() }} | {{ "agenda.invite_to"|trans }} {{ event.name }}{% endblock %}
+
 {% block body %}
 <div class="container container-invitation">
-    <h1>Inviter à {{ event.name }}</h1>
+    <h1>{{ "agenda.invite_to"|trans }} {{ event.name }}</h1>
 
     {% if form.invitedUsers is not empty %}
         {{ form_start(form) }}
         
-        <h2>Equipes</h2>
+        <h2>{{ "agenda.teams"|trans }}</h2>
 
         {% for team in form.invitedTeams %}
             <div class="checkbox-pair">
@@ -16,7 +18,7 @@
             </div>
         {% endfor %}
 
-        <h2>Joueurs</h2>
+        <h2>{{ "agenda.players"|trans }}</h2>
         
             {% for user in form.invitedUsers %}
                 <div class="checkbox-pair">
@@ -27,7 +29,7 @@
         
         <input type="hidden" name="referer" value="{{app.request.headers.get('referer')}}"/>
         
-        {{ form_row(form.invite) }}
+        {{ form_row(form.invite, { 'label': 'event.invite' }) }}
         {{ form_end(form) }}
     {% else %}
         <p>Aucun joueur à inviter.</p>

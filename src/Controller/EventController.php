@@ -19,17 +19,20 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/agenda')]
 class EventController extends AbstractController
 {
-    private $entityManager;
-    private $eventRepository;
+    private EntityManagerInterface $entityManager;
+    private EventRepository $eventRepository;
+    private TranslatorInterface $translator;
 
-    public function __construct(EntityManagerInterface $entityManager, EventRepository $eventRepository)
+    public function __construct(EntityManagerInterface $entityManager, EventRepository $eventRepository, TranslatorInterface $translator)
     {
         $this->entityManager = $entityManager;
         $this->eventRepository = $eventRepository;
+        $this->translator = $translator;
     }
 
     #[Route('/{page<\d+>?1}', name: 'app_agenda')]
@@ -67,6 +70,8 @@ class EventController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function detail(Event $event): Response
     {
+        // TODO : test event and throw Exception
+
         $attendees = 0;
         $awaiting = 0;
         $unavailable = 0;
@@ -103,6 +108,7 @@ class EventController extends AbstractController
     public function create(Request $request): Response
     {
         try {
+            $action = 'create';
             $event = new Event();
 
             $form = $this->createForm(EventType::class, $event);
@@ -141,18 +147,19 @@ class EventController extends AbstractController
                 $this->entityManager->flush();
                 $this->entityManager->commit();
 
-                $this->addFlash('success', 'L\'évènement a bien été créé.');
+                $this->addFlash('success', $this->translator->trans('success.event_created'));
                 return $this->redirectToRoute('app_agenda');
             }
         } catch (\Exception $e) {
             $this->entityManager->rollback();
 
-            $this->addFlash('error', 'Une erreur s\'est produite lors de la création de l\'événement.');
+            $this->addFlash('error', $this->translator->trans('error.event_creation'));
             return $this->redirectToRoute('app_agenda');
         }
 
         return $this->render('agenda/event_form.html.twig', [
             'form' => $form->createView(),
+            'action' => $action
         ]);
     }
 
@@ -160,6 +167,9 @@ class EventController extends AbstractController
     #[IsGranted('ROLE_COACH')]
     public function update(Request $request, Event $event): Response
     {
+        // TO DO : Test if event exist and throw exception
+
+        $action = 'update';
         $form = $this->createForm(EventType::class, $event);
 
         $form->handleRequest($request);
@@ -173,6 +183,7 @@ class EventController extends AbstractController
 
         return $this->render('agenda/event_form.html.twig', [
             'form' => $form->createView(),
+            'action' => $action
         ]);
     }
 
@@ -185,7 +196,7 @@ class EventController extends AbstractController
             $event = $this->eventRepository->find($eventId);
 
             if (!$event) {
-                throw new EntityNotFoundException('L\'évèment n\'existe pas');
+                throw new EntityNotFoundException($this->translator->trans('error.event_not_found'));
             }
 
             $form = $this->createForm(InvitationType::class, null, ['event' => $event]);
@@ -243,24 +254,24 @@ class EventController extends AbstractController
             $eventId = $request->get('id');
             $event = $this->eventRepository->find($eventId);
             if (!$event) {
-                throw new EntityNotFoundException('L\'évènement n\'existe pas.');
+                throw new EntityNotFoundException($this->translator->trans('error.event_not_found'));
             }
 
             $response = $request->get('result');
 
             $eventAttendee = $eventAttendeeRepository->findOneBy(['user' => $this->getUser(), 'event' => $event]);
             if (!$eventAttendee) {
-                throw new EntityNotFoundException('L\'invitation à l\'évènement n\'a pas été trouvée.');
+                throw new EntityNotFoundException($this->translator->trans('error.invitation_not_found'));
             }
 
             if ($response === 'accept') {
                 $eventAttendee->setUserResponse(true);
                 $messageType = 'success';
-                $message = 'Tu es bien inscrit à l\'évènement ' . $event->getName();
+                $message = $this->translator->trans('success.event_accept', ['name' => $event->getName()]);
             } elseif ($response === 'decline') {
                 $eventAttendee->setUserResponse(false);
                 $messageType = 'error';
-                $message = 'Tu as refusé l\'invitation à l\'évènement ' . $event->getName();
+                $message = $this->translator->trans('success.event_decline', ['name' => $event->getName()]);
             }
 
             $eventAttendee->setRespondedAt(new \DateTimeImmutable());
@@ -276,7 +287,7 @@ class EventController extends AbstractController
             $this->addFlash('error', $e->getMessage());
             return $this->redirectToRoute('app_agenda');
         } catch (\Exception $e) {
-            $this->addFlash('error', 'Une erreur s\'est produite lors du traitement de la réponse à l\'invitation.');
+            $this->addFlash('error', $this->translator->trans('error.event_response'));
             return $this->redirectToRoute('app_agenda');
         }
     }
@@ -287,12 +298,12 @@ class EventController extends AbstractController
     {
         try {
             if (!$event->getAttendees()->isEmpty()) {
-                throw new Exception('Impossible de supprimer un évènement avec invitation');
+                throw new Exception($this->translator->trans('error.event_delete'));
             }
             $this->entityManager->remove($event);
             $this->entityManager->flush();
 
-            $this->addFlash('success', 'L\'évènement a bien été supprimé');
+            $this->addFlash('success', $this->translator->trans('succes.event_delete'));
         } catch (Exception $e) {
             $this->addFlash('error', $e->getMessage());
         }
