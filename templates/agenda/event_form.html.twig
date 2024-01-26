@@ -11,24 +11,26 @@
 
     {{ form_start(form) }}
 
-    {{ form_row(form.name, {'label': 'event.name'}) }}
-    {{ form_row(form.description, {'label': 'event.description'}) }}
-    {{ form_row(form.category, {'label': 'event.category'}) }}
-    {{ form_row(form.team, {'label': 'event.team'}) }}
-    {{ form_row(form.date, {'label': 'event.date'}) }}
-    <div></div>
-    <div class="custom-checkbox">
-        {{ form_row(form.is_recurrent, {'label': 'event.recurring'}) }}
-    </div>
-    {{ form_row(form.end_date, {'label': 'event.end_date'}) }}
-    {{ form_row(form.frequency, {'label': 'event.frequency.label'}) }}
+        {{ form_row(form.name, {'label': 'event.name'}) }}
+        {{ form_row(form.description, {'label': 'event.description'}) }}
+        {{ form_row(form.category, {'label': 'event.category'}) }}
+        {{ form_row(form.team, {'label': 'event.team'}) }}
+        {{ form_row(form.date, {'label': 'event.date'}) }}
+        <div></div>
 
-    {{ form_row(form.time_meeting, {'label': 'event.meeting_time'}) }}
-    {{ form_row(form.time_from, {'label': 'event.start_time'}) }}
-    {{ form_row(form.time_to, {'label': 'event.end_time'}) }}
-    {{ form_row(form.place, {'label': 'event.place'}) }}
+        <div class="custom-checkbox">
+            {{ form_row(form.is_recurrent, {'label': 'event.recurring'}) }}
+        </div>
+        
+        {{ form_row(form.end_date, {'label': 'event.end_date'}) }}
+        {{ form_row(form.frequency, {'label': 'event.frequency.label'}) }}
 
-    {{ form_row(form.submit, { 'label': (action == 'update' ? 'event.btn.update' : 'event.btn.create') }) }}
+        {{ form_row(form.time_meeting, {'label': 'event.meeting_time'}) }}
+        {{ form_row(form.time_from, {'label': 'event.start_time'}) }}
+        {{ form_row(form.time_to, {'label': 'event.end_time'}) }}
+        {{ form_row(form.place, {'label': 'event.place'}) }}
+
+        {{ form_row(form.submit, { 'label': (action == 'update' ? 'event.btn.update' : 'event.btn.create') }) }}
 
     {{ form_end(form) }}
 </div>

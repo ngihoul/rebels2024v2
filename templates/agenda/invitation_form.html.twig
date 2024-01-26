@@ -32,7 +32,7 @@
         {{ form_row(form.invite, { 'label': 'event.invite' }) }}
         {{ form_end(form) }}
     {% else %}
-        <p>Aucun joueur à inviter.</p>
+        <p>{{ "agenda.no_player_to_invite"|trans }}</p>
     {% endif %}
 </div>
 {% endblock %}

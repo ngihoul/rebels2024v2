@@ -117,3 +117,4 @@ agenda:
   invite_to: "Inviter à"
   teams: "Equipes"
   players: "Joueurs"
+  no_player_to_invite: "Aucun joueur à inviter."
