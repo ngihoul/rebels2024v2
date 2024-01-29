@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class AdminLicenseController extends AbstractController
 {
@@ -38,7 +39,7 @@ class AdminLicenseController extends AbstractController
 
     #[Route('/admin/validate-license/{licenseId}', name: 'admin_validate_license')]
     #[IsGranted('ROLE_ADMIN')]
-    public function validate(Request $request, EmailManager $emailManager): Response
+    public function validate(Request $request, EmailManager $emailManager, TranslatorInterface $translator): Response
     {
         $licenseId = $request->get('licenseId');
 
@@ -46,11 +47,11 @@ class AdminLicenseController extends AbstractController
         try {
             $license = $this->licenseRepository->find($licenseId);
             if (!$license) {
-                throw new EntityNotFoundException('License not found.');
+                throw new EntityNotFoundException($translator->trans('error.license.not_found'));
             }
         } catch (EntityNotFoundException $e) {
-            $this->addFlash('error', 'La licence demandée n\'a pas été trouvée.');
-            return $this->redirectToRoute('app_license');
+            $this->addFlash('error', $e->getMessage());
+            return $this->redirectToRoute('admin_license_to_validate');
         }
 
         $form = $this->createForm(ValidateLicenseType::class);

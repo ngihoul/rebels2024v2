@@ -25,11 +25,9 @@ class ValidateLicenseType extends AbstractType
                 'required' => false,
             ])
             ->add('approval', SubmitType::class, [
-                'label' => "Valider",
                 'attr' => ['class' => 'btn'],
             ])
             ->add('refusal', SubmitType::class, [
-                'label' => 'Refuser',
                 'attr' => ['class' => 'btn cta'],
             ]);
     }

@@ -1,31 +1,38 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{  parent() }} | Licences à valider{% endblock %}
+{% block title %}{{  parent() }} | {{ "license.to_validate.title"|trans }}{% endblock %}
 
 {% block body %}
 <div class="container container-license-list-to-validate">
-    <h1>Licences à valider</h1>
-    <table class="license-table">
-        <tr>
-            <th>Joueur</th>
-            <th>Détails</th>
-            <th class="column-actions"></th>
-        </tr>
-        {% for license in licenses %}
-            <tr class="">
-                <td>{{ license.user.lastname }} {{ license.user.firstname }}</td>
-                <td>
-                    <ul>
-                        {% for sub_category in license.subcategories %}
-                            <li>{{ sub_category.name }}</li>
-                        {% endfor %}
-                    </ul>
-                </td>
-                <td class="table-data-actions">
-                    <a href="{{ path('admin_validate_license', { 'licenseId' : license.id }) }}"><i class="fa-regular fa-exclamation-triangle icon disagree"></i></a>
-                </td>
+    <h1>{{ "license.to_validate.title"|trans({"number" : licenses|length}) }}</h1>
+
+    {{ parent() }}
+
+    {% if licenses|length > 0 %}
+        <table class="license-table">
+            <tr>
+                <th>{{ "license.to_validate.player"|trans }}</th>
+                <th>{{ "license.to_validate.details"|trans }}</th>
+                <th class="column-actions"></th>
             </tr>
-        {% endfor %}
-    </table>
+            {% for license in licenses %}
+                <tr class="">
+                    <td>{{ license.user.lastname }} {{ license.user.firstname }}</td>
+                    <td>
+                        <ul>
+                            {% for sub_category in license.subcategories %}
+                                <li>{{ sub_category.name }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                    <td class="table-data-actions">
+                        <a href="{{ path('admin_validate_license', { 'licenseId' : license.id }) }}"><i class="fa-regular fa-exclamation-triangle icon disagree"></i></a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p class="alert alert-warning">{{ "license.to_validate.none"|trans }}</p>
+    {% endif %}
 </div>
 {% endblock %}

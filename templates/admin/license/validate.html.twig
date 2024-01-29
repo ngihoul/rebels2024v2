@@ -1,27 +1,30 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{  parent() }} | Validation licence de {{ license.user.firstname }} {{ license.user.lastname }}{% endblock %}
+{% block title %}{{  parent() }} | {{ "license.validation.page_title"|trans({'firstname' : license.user.firstname, "lastname" : license.user.lastname}) }}{% endblock %}
 
 {% block body %}
 <div class="container container-license-list-to-validate">
-    <h1>Validation licence</h1>
-    <h2>1. Vérifiez la demande de licence de {{ license.user.firstname }} {{ license.user.lastname }}</h2>
-    <a class="btn" href="{{ asset('uploads/licenses/' ~ license.uploadedFile) }}" target="_blank">Voir la demande</a>
+    <h1>{{ "license.validation.title"|trans }}</h1>
+
+    {{ parent() }}
+
+    <h2>{{ "license.validation.check.sub_title"|trans({'firstname' : license.user.firstname, 'lastname' : license.user.lastname }) }}</h2>
+    <a class="btn" href="{{ asset('uploads/licenses/' ~ license.uploadedFile) }}" target="_blank">{{ "license.validation.check.btn"|trans }}</a>
 
     {{ form_start(form) }}
 
-    <h2>2. Si la demande est complêté et correcte, introduisez le prix demandé pour cette licence :</h2>
+    <h2>{{ "license.validation.price"|trans }}</h2>
     {# TODO: Ajouter un boutton aide qui reprend les règles des tarifs #}
     {{ form_row(form.price) }}
 
-    <h2>3. Validez la licence en cliquant sur ce bouton :</h2>
-    {{ form_row(form.approval) }}
+    <h2>{{ "license.validation.validate.sub_title"|trans }}</h2>
+    {{ form_row(form.approval, { "label" : "license.validation.validate.btn"|trans }) }}
 
-    <h2>2b. Si la demande est incomplête ou incorrecte, veuillez introduire la raison :</h2>
+    <h2>{{ "license.validation.incomplete"|trans }}</h2>
     {{ form_row(form.comment) }}
 
-    <h2>3. Refusez la licence en cliquant sur ce bouton :</h2>
-    {{ form_row(form.refusal) }}
+    <h2>{{ "license.validation.decline.sub_title"|trans }}</h2>
+    {{ form_row(form.refusal, {"label" : "license.validation.decline.btn"|trans }) }}
     {{ form_end(form) }}
 </div>
 {% endblock %}

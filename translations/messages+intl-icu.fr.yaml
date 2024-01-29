@@ -8,6 +8,8 @@ error:
   invitation_not_found: "L'invitation à l'évènement n'a pas été trouvée."
   event_response: "Une erreur s'est produite lors du traitement de la réponse à l'invitation."
   event_delete: "Impossible de supprimer un évènement avec invitation."
+  license:
+    not_found: "La license n'existe pas."
 
 success:
   profile_updated: "Votre profil a été mis à jour."
@@ -118,3 +120,29 @@ agenda:
   teams: "Equipes"
   players: "Joueurs"
   no_player_to_invite: "Aucun joueur à inviter."
+# License
+license:
+  to_validate:
+    title: >-
+      {number, plural,
+        =0 {License à valider}
+        =1 {Licence à valider}
+        other {Licences à valider}
+      }
+    player: "Joueur"
+    details: "Détails"
+    none: "Aucune licence à valider"
+  validation:
+    page_title: "Validation licence de {firstname} {lastname}"
+    title: "Validation licence"
+    check:
+      sub_title: "1. Vérifiez la demande de licence de {firstname} {lastname}"
+      btn: "Voir la demande"
+    price: "2. Si la demande est complète et correcte, introduisez le prix demandé pour cette licence :"
+    validate:
+      sub_title: "3. Validez la licence en cliquant sur ce bouton :"
+      btn: "Valider"
+    incomplete: "2b. Si la demande est incomplête ou incorrecte, veuillez introduire la raison :"
+    decline:
+      sub_title: "3. Refusez la licence en cliquant sur ce bouton :"
+      btn: "Refuser"

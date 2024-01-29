@@ -8,6 +8,8 @@ error:
   invitation_not_found: "The invitation to the event was not found."
   event_response: "An error has occurred while processing the response to the invitation."
   event_delete: "Impossible to delete an event with invitation."
+  license:
+    not_found: "License not found."
 
 success:
   profile_updated: "Your profile has been updated."
@@ -118,3 +120,29 @@ agenda:
   teams: "Teams"
   players: "Players"
   no_player_to_invite: "No players to invite."
+# License
+license:
+  to_validate:
+    title: >-
+      {number, plural,
+        =0 {License to validate}
+        =1 {Licence to validate}
+        other {Licences to validate}
+      }
+    player: "Player"
+    details: "Details"
+    none: "No license to validate"
+  validation:
+    page_title: "{firstname} {lastname}'s license validation"
+    title: "License validation"
+    check:
+      sub_title: "1. Check {firstname} {lastname}'s license application"
+      btn: "See the application"
+    price: "2. If the application is complete and correct, enter the price requested for this license:"
+    validate:
+      sub_title: "3. Validate the license by clicking on this button:"
+      btn: "Validate"
+    incomplete: "2b. If the request is incomplete or incorrect, please enter the reason:"
+    decline:
+      sub_title: "3. Refuse the license by clicking on this button:"
+      btn: "Refuse"
