@@ -11,20 +11,25 @@
     <h2>{{ "license.validation.check.sub_title"|trans({'firstname' : license.user.firstname, 'lastname' : license.user.lastname }) }}</h2>
     <a class="btn" href="{{ asset('uploads/licenses/' ~ license.uploadedFile) }}" target="_blank">{{ "license.validation.check.btn"|trans }}</a>
 
-    {{ form_start(form) }}
+    {{ form_start(form, { "attr": { "class" : "validate_license" } }) }}
 
-    <h2>{{ "license.validation.price"|trans }}</h2>
-    {# TODO: Ajouter un boutton aide qui reprend les règles des tarifs #}
-    {{ form_row(form.price) }}
+    <div class="approval-container">
+        <h2>{{ "license.validation.price"|trans }}</h2>
+        {# TODO: Ajouter un boutton aide qui reprend les règles des tarifs #}
+        {{ form_row(form.price) }}
 
-    <h2>{{ "license.validation.validate.sub_title"|trans }}</h2>
-    {{ form_row(form.approval, { "label" : "license.validation.validate.btn"|trans }) }}
+        <h2>{{ "license.validation.validate.sub_title"|trans }}</h2>
+        {{ form_row(form.approval, { "label" : "license.validation.validate.btn"|trans }) }}
+    </div>
 
-    <h2>{{ "license.validation.incomplete"|trans }}</h2>
-    {{ form_row(form.comment) }}
+    <div class="refusal-container">
+        <h2>{{ "license.validation.incomplete"|trans }}</h2>
+        {{ form_row(form.comment) }}
 
-    <h2>{{ "license.validation.decline.sub_title"|trans }}</h2>
-    {{ form_row(form.refusal, {"label" : "license.validation.decline.btn"|trans }) }}
+        <h2>{{ "license.validation.decline.sub_title"|trans }}</h2>
+        {{ form_row(form.refusal, {"label" : "license.validation.decline.btn"|trans }) }}
+    </div>
+
     {{ form_end(form) }}
 </div>
 {% endblock %}
