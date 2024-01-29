@@ -75,7 +75,7 @@ class EventController extends AbstractController
             $event = $this->eventRepository->find($eventId);
 
             if (!$event) {
-                throw new EntityNotFoundException($this->translator->trans('error.event_not_found'));
+                throw new EntityNotFoundException($this->translator->trans('error.event.not_found'));
             }
 
             $attendees = 0;
@@ -113,7 +113,7 @@ class EventController extends AbstractController
             $event = $this->eventRepository->find($eventId);
 
             if (!$event) {
-                throw new EntityNotFoundException($this->translator->trans('error.event_not_found'));
+                throw new EntityNotFoundException($this->translator->trans('error.event.not_found'));
             }
 
             return $this->render('agenda/attendance.html.twig', [
@@ -169,13 +169,13 @@ class EventController extends AbstractController
                 $this->entityManager->flush();
                 $this->entityManager->commit();
 
-                $this->addFlash('success', $this->translator->trans('success.event_created'));
+                $this->addFlash('success', $this->translator->trans('success.event.created'));
                 return $this->redirectToRoute('app_agenda');
             }
         } catch (\Exception $e) {
             $this->entityManager->rollback();
 
-            $this->addFlash('error', $this->translator->trans('error.event_creation'));
+            $this->addFlash('error', $this->translator->trans('error.event.creation'));
             return $this->redirectToRoute('app_agenda');
         }
 
@@ -196,7 +196,7 @@ class EventController extends AbstractController
             $event = $this->eventRepository->find($eventId);
 
             if (!$event) {
-                throw new EntityNotFoundException($this->translator->trans('error.event_not_found'));
+                throw new EntityNotFoundException($this->translator->trans('error.event.not_found'));
             }
 
             $form = $this->createForm(EventType::class, $event);
@@ -207,7 +207,7 @@ class EventController extends AbstractController
                 $this->entityManager->persist($event);
                 $this->entityManager->flush();
 
-                $this->addFlash('success', $this->translator->trans('success.event_update'));
+                $this->addFlash('success', $this->translator->trans('success.event.update'));
                 return $this->redirectToRoute('app_agenda');
             }
 
@@ -230,7 +230,7 @@ class EventController extends AbstractController
             $event = $this->eventRepository->find($eventId);
 
             if (!$event) {
-                throw new EntityNotFoundException($this->translator->trans('error.event_not_found'));
+                throw new EntityNotFoundException($this->translator->trans('error.event.not_found'));
             }
 
             $form = $this->createForm(InvitationType::class, null, ['event' => $event]);
@@ -289,7 +289,7 @@ class EventController extends AbstractController
             $event = $this->eventRepository->find($eventId);
 
             if (!$event) {
-                throw new EntityNotFoundException($this->translator->trans('error.event_not_found'));
+                throw new EntityNotFoundException($this->translator->trans('error.event.not_found'));
             }
 
             $response = $request->get('result');
@@ -302,11 +302,11 @@ class EventController extends AbstractController
             if ($response === 'accept') {
                 $eventAttendee->setUserResponse(true);
                 $messageType = 'success';
-                $message = $this->translator->trans('success.event_accept', ['name' => $event->getName()]);
+                $message = $this->translator->trans('success.event.accept', ['name' => $event->getName()]);
             } elseif ($response === 'decline') {
                 $eventAttendee->setUserResponse(false);
                 $messageType = 'error';
-                $message = $this->translator->trans('success.event_decline', ['name' => $event->getName()]);
+                $message = $this->translator->trans('success.event.decline', ['name' => $event->getName()]);
             }
 
             $eventAttendee->setRespondedAt(new \DateTimeImmutable());
@@ -322,7 +322,7 @@ class EventController extends AbstractController
             $this->addFlash('error', $e->getMessage());
             return $this->redirectToRoute('app_agenda');
         } catch (\Exception $e) {
-            $this->addFlash('error', $this->translator->trans('error.event_response'));
+            $this->addFlash('error', $this->translator->trans('error.event.response'));
             return $this->redirectToRoute('app_agenda');
         }
     }
@@ -333,12 +333,12 @@ class EventController extends AbstractController
     {
         try {
             if (!$event->getAttendees()->isEmpty()) {
-                throw new Exception($this->translator->trans('error.event_delete'));
+                throw new Exception($this->translator->trans('error.event.delete'));
             }
             $this->entityManager->remove($event);
             $this->entityManager->flush();
 
-            $this->addFlash('success', $this->translator->trans('succes.event_delete'));
+            $this->addFlash('success', $this->translator->trans('success.event.delete'));
         } catch (Exception $e) {
             $this->addFlash('error', $e->getMessage());
         }

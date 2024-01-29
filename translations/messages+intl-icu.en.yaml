@@ -3,11 +3,12 @@ error:
   already_logged: "You are already logged."
   profile_not_found: "The requested profile has not been found."
   email_validation: "A problem has occurred during validation."
-  event_creation: "An error occurred while creating the event."
-  event_not_found: "The event does not exist."
+  event:
+    creation: "An error occurred while creating the event."
+    not_found: "The event does not exist."
+    response: "An error has occurred while processing the response to the invitation."
+    delete: "Impossible to delete an event with invitation."
   invitation_not_found: "The invitation to the event was not found."
-  event_response: "An error has occurred while processing the response to the invitation."
-  event_delete: "Impossible to delete an event with invitation."
   license:
     not_found: "License not found."
 
@@ -16,11 +17,12 @@ success:
   account_created: "Your account has been created. Please confirm your e-mail address by checking your mailbox."
   email_verified: "Your email address has been verified."
   team_created: "The team has been created."
-  event_created: "The event has been created."
-  event_accept: "You are registered for the {name} event."
-  event_decline: "You refused to take part in the {name} event."
-  event_delete: "The event has been deleted."
-  event_update: "The event has been modified."
+  event:
+    created: "The event has been created."
+    accept: "You are registered for the {name} event."
+    decline: "You refused to take part in the {name} event."
+    delete: "The event has been deleted."
+    update: "The event has been modified."
 
 # Header
 header:
