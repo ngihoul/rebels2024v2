@@ -58,14 +58,16 @@ class TeamController extends AbstractController
     #[IsGranted('ROLE_ADMIN')]
     public function new(Request $request, FileUploader $fileUploader): Response
     {
-        $action = 'create';
-
-        $team = new Team();
-        $form = $this->createForm(TeamType::class, $team);
-
-        $form->handleRequest($request);
 
         try {
+            $action = 'create';
+
+            $team = new Team();
+            $form = $this->createForm(TeamType::class, $team);
+
+            $form->handleRequest($request);
+
+
             if ($form->isSubmitted() && $form->isValid()) {
                 $logo = $form->get('logo')->getData();
 
@@ -80,30 +82,38 @@ class TeamController extends AbstractController
                 $this->addFlash('success', $this->translator->trans('success.team_created'));
                 return $this->redirectToRoute('app_teams');
             }
-        } catch (FileException $fileException) {
-            $this->addFlash('error', 'Une erreur est survenue lors de l\'upload du logo : ' . $fileException->getMessage());
-        } catch (Exception $exception) {
-            $this->addFlash('error', 'Une erreur est survenue lors de la création de l\'équipe : ' . $exception->getMessage());
-        }
 
-        return $this->render('teams/form.html.twig', [
-            'form' => $form->createView(),
-            'action' => $action
-        ]);
+            return $this->render('teams/form.html.twig', [
+                'form' => $form->createView(),
+                'action' => $action
+            ]);
+        } catch (FileException $fileException) {
+            $this->addFlash('error', $this->translator->trans('error.team.logo'));
+            return $this->redirectToRoute('app_teams');
+        } catch (Exception $exception) {
+            $this->addFlash('error', $exception->getMessage());
+            return $this->redirectToRoute('app_teams');
+        }
     }
 
-    #[Route('/team/{id}/update', name: 'app_team_update')]
+    #[Route('/team/{teamId}/update', name: 'app_team_update')]
     #[IsGranted('ROLE_ADMIN')]
-    public function update(Team $team, Request $request, FileUploader $fileUploader): Response
+    public function update(Request $request, FileUploader $fileUploader): Response
     {
-        $action = 'update';
-        $logo = $team->getLogo();
-
-        $form = $this->createForm(TeamType::class, $team);
-
-        $form->handleRequest($request);
 
         try {
+            $action = 'update';
+
+            $teamId = $request->get('teamId');
+            $team = $this->findTeam($teamId);
+
+            $logo = $team->getLogo();
+
+            $form = $this->createForm(TeamType::class, $team);
+
+            $form->handleRequest($request);
+
+
             if ($form->isSubmitted() && $form->isValid()) {
                 $logo = $form->get('logo')->getData();
 
@@ -114,20 +124,22 @@ class TeamController extends AbstractController
 
                 $this->entityManager->flush();
 
-                $this->addFlash('success', 'L\'équipe a été mise à jour avec succès.');
+                $this->addFlash('success', $this->translator->trans('success.team.update'));
                 return $this->redirectToRoute('app_teams');
             }
-        } catch (FileException $fileException) {
-            $this->addFlash('error', 'Une erreur est survenue lors de l\'upload du logo : ' . $fileException->getMessage());
-        } catch (Exception $exception) {
-            $this->addFlash('error', 'Une erreur est survenue lors de la mise à jour de l\'équipe : ' . $exception->getMessage());
-        }
 
-        return $this->render('teams/form.html.twig', [
-            'form' => $form->createView(),
-            'action' => $action,
-            'logo' => $logo
-        ]);
+            return $this->render('teams/form.html.twig', [
+                'form' => $form->createView(),
+                'action' => $action,
+                'logo' => $logo
+            ]);
+        } catch (FileException $fileException) {
+            $this->addFlash('error', $this->translator->trans('error.team.logo'));
+            return $this->redirectToRoute('app_teams');
+        } catch (Exception $exception) {
+            $this->addFlash('error', $exception->getMessage());
+            return $this->redirectToRoute('app_teams');
+        }
     }
 
     #[Route('/team/{teamId}', name: 'app_team_detail')]
@@ -136,11 +148,7 @@ class TeamController extends AbstractController
     {
         try {
             $teamId = $request->get('teamId');
-            $team = $this->teamRepository->find($teamId);
-
-            if (!$team) {
-                throw new EntityNotFoundException('L\'équipe n\'existe pas.');
-            }
+            $team = $this->findTeam($teamId);
 
             // Sort players by lastname
             $players = $team->getPlayers()->toArray();
@@ -165,23 +173,27 @@ class TeamController extends AbstractController
                     $this->entityManager->persist($team);
                     $this->entityManager->flush();
 
-                    $this->addFlash('success', 'Joueur ajouté à l\'équipe !');
+                    $this->addFlash('success', $this->translator->trans('success.team.player_added', [
+                        'firstname' => $user->getFirstname(),
+                        'lastname' => $user->getLastname(),
+                        'teamName' => $team->getName()
+                    ]));
                     // Force to reload the player list
                     return $this->redirectToRoute('app_team_detail', ['teamId' => $team->getId()]);
                 } else {
-                    throw new Exception('Le joueur n\'a pas pu être ajouté');
+                    throw new Exception($this->translator->trans('error.team.player_added'));
                 }
             }
+
+            return $this->render('teams/detail.html.twig', [
+                'team' => $team,
+                'players' => $players,
+                'form' => $form
+            ]);
         } catch (\Exception $e) {
             $this->addFlash('error', $e->getMessage());
             return $this->redirectToRoute('app_teams');
         }
-
-        return $this->render('teams/detail.html.twig', [
-            'team' => $team,
-            'players' => $players,
-            'form' => $form
-        ]);
     }
 
     #[Route('/team/{teamId}/remove/{userId}', name: 'app_team_remove')]
@@ -190,15 +202,12 @@ class TeamController extends AbstractController
     {
         try {
             $teamId = $request->get('teamId');
-            $team = $this->teamRepository->find($teamId);
-            if (!$team) {
-                throw new EntityNotFoundException('Equipe non trouvé.');
-            }
+            $team = $this->findTeam($teamId);
 
             $userId = $request->get('userId');
             $user = $this->userRepository->find($userId);
             if (!$user) {
-                throw new EntityNotFoundException('Utilisateur non trouvé.');
+                throw new EntityNotFoundException($this->translator->trans('error.team.user_not_found'));
             }
 
             $team->removePlayer($user);
@@ -206,13 +215,26 @@ class TeamController extends AbstractController
             $this->entityManager->persist($team);
             $this->entityManager->flush();
 
-            $this->addFlash('success', 'Le joueur ' . $user->getFirstname() . ' ' . $user->getLastname() . ' a été retiré de l\'équipe ' . $team->getName());
-        } catch (EntityNotFoundException $entityNotFound) {
-            $this->addFlash('error', 'Une erreur est survenue : ' . $entityNotFound->getMessage());
+            $this->addFlash('success', $this->translator->trans('success.team.player_remove', [
+                'firstname' => $user->getFirstname(),
+                'lastname' => $user->getLastname(),
+                'teamName' => $team->getName()
+            ]));
         } catch (\Exception $e) {
-            $this->addFlash('error', 'Une erreur est survenue : ' . $e->getMessage());
+            $this->addFlash('error', $e->getMessage());
         }
 
         return $this->redirectToRoute('app_team_detail', ['teamId' => $team->getId()]);
+    }
+
+    private function findTeam(string $teamId): Team
+    {
+        $team = $this->teamRepository->find($teamId);
+
+        if (!$team) {
+            throw new EntityNotFoundException('L\'équipe n\'existe pas.');
+        }
+
+        return $team;
     }
 }
