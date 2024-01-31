@@ -16,6 +16,10 @@ error:
     profile_incomplete: "Ton profil est incomplet. Complète d'abord ton profil et ensuite demande une licence."
     already_exist: "Tu as déjà une licence active ou en cours de demande pour cette année. tu ne peux pas en demander une nouvelle."
     file_not_found: "Le fichier n'a pas pu être généré car {message}"
+  team:
+    logo: "Une erreur est survenue lors de l'upload du logo."
+    player_added: "Le joueur n'a pas pu être ajouté."
+    user_not_found: "L'utilisateur n'existe pas."
 
 success:
   profile_updated: "Votre profil a été mis à jour."
@@ -31,6 +35,10 @@ success:
   license:
     sent: "Ta licence a été envoyée avec succès. Un administrateur vérifiera le document et validera ta demande."
     no_file_uploaded: "Aucun fichier uploadé"
+  team:
+    update: "L'équipe a été mise à jour."
+    player_added: "Le joueur {firstname} {lastname} a été ajouté à l'équipe {teamName}."
+    player_remove: "Le joueur {firstname} {lastname} a été supprimé à l'équipe {teamName}."
 
 # Header
 header:
