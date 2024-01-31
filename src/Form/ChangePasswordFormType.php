@@ -25,21 +25,21 @@ class ChangePasswordFormType extends AbstractType
                 'first_options' => [
                     'constraints' => [
                         new NotBlank([
-                            'message' => 'Entre un mot de passe',
+                            'message' => 'validators.password.not_blank',
                         ]),
                         new Length([
                             'min' => 6,
-                            'minMessage' => 'Ton mot de passe doit comporter au moins {{ limit }} caractères',
+                            'minMessage' => 'validators.password.length',
                             // Longueur maximale autorisée par Symfony pour des raisons de sécurité
                             'max' => 4096,
                         ]),
                     ],
-                    'label' => 'Nouveau mot de passe',
+                    'label' => 'user.password',
                 ],
                 'second_options' => [
-                    'label' => 'Répéter le mot de passe',
+                    'label' => 'user.password_confirmation',
                 ],
-                'invalid_message' => 'Les champs de mot de passe doivent correspondre.',
+                'invalid_message' => 'validators.password.match',
                 // Au lieu d'être directement défini sur l'objet,
                 // cela est lu et encodé dans le contrôleur
                 'mapped' => false,
@@ -48,6 +48,8 @@ class ChangePasswordFormType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([]);
+        $resolver->setDefaults([
+            "translation_domain" => 'forms'
+        ]);
     }
 }

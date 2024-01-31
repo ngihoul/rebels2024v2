@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{  parent() }} | Nouveau mot de passe{% endblock %}
+{% block title %}{{  parent() }} | {{ "password.request.title"|trans }}{% endblock %}
 
 {% block body %}
 <div class="container container-reset-password">
-    <h1>Nouveau mot de passe</h1>
+    <h1>{{ "password.request.title"|trans }}</h1>
 
     {# Display flash messages #}
     {{ parent() }}
@@ -12,15 +12,13 @@
     {{ form_start(requestForm) }}
         <div>
             <h2 class="reset-password disclamer">
-                Saisis ton adresse e-mail, et nous t'enverrons un
-                lien pour réinitialiser ton mot de passe.
+                {{ "password.request.disclamer"|trans }}
             </h2>
         </div>
 
         {{ form_row(requestForm.email) }}
-        
 
-        <button class="btn btn-primary">Réinitialiser mon mot de passe</button>
+        <button class="btn btn-primary">{{ "password.reset.title"|trans }}</button>
     {{ form_end(requestForm) }}
 </div>
 {% endblock %}

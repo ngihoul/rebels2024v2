@@ -164,3 +164,17 @@ license:
     decline:
       sub_title: "3. Refuse the license by clicking on this button:"
       btn: "Refuse"
+
+password:
+  # Request new password
+  request:
+    title: "New password"
+    disclamer: "Enter your e-mail address, and we'll send you a link to reset your password."
+
+  # Reset password
+  reset:
+    title: "Reset my password"
+    email:
+      title: "Password reset email sent"
+      text: "If an account matching your e-mail address exists, then an e-mail has just been sent containing a link you can use to reset your password. </br>This link will expire in"
+      not_received: "If you don't receive an email, check your spam folder"

@@ -138,6 +138,7 @@ agenda:
   teams: "Equipes"
   players: "Joueurs"
   no_player_to_invite: "Aucun joueur à inviter."
+
 # License
 license:
   to_validate:
@@ -164,3 +165,17 @@ license:
     decline:
       sub_title: "3. Refusez la licence en cliquant sur ce bouton :"
       btn: "Refuser"
+
+password:
+  # Request New password
+  request:
+    title: "Nouveau mot de passe"
+    disclamer: "Saisis ton adresse e-mail, et nous t'enverrons un lien pour réinitialiser ton mot de passe."
+
+  # Reset password
+  reset:
+    title: "Réinitialiser mon mot de passe"
+    email:
+      title: "Email de réinitialisation de mot de passe envoyé"
+      text: "Si un compte correspondant à ton adresse e-mail existe, alors un e-mail vient d'être envoyé, contenant un lien que tu peux utiliser pour réinitialiser ton mot de passe. </br>Ce lien expirera dans "
+      not_received: "Si tu ne reçois pas d'e-mail, vérifie ton dossier de courrier indésirable"
