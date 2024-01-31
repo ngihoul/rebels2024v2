@@ -12,6 +12,7 @@ use App\Service\LicensePDFGenerator as ServiceLicensePDFGenerator;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityNotFoundException;
+use Exception;
 use Stripe\Checkout\Session;
 use Stripe\Stripe;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,17 +22,20 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/license')]
 class LicenseController extends AbstractController
 {
     private EntityManagerInterface $entityManager;
     private LicenseRepository $licenseRepository;
+    private TranslatorInterface $translator;
 
-    public function __construct(EntityManagerInterface $entityManager, LicenseRepository $licenseRepository)
+    public function __construct(EntityManagerInterface $entityManager, LicenseRepository $licenseRepository, TranslatorInterface $translator)
     {
         $this->entityManager = $entityManager;
         $this->licenseRepository = $licenseRepository;
+        $this->translator = $translator;
     }
 
     #[Route('/', name: 'app_license')]
@@ -61,15 +65,16 @@ class LicenseController extends AbstractController
 
         // Profile must be complete to ask a new license
         if (!$user->isProfileComplete()) {
-            $this->addFlash('error', 'ton profil est incomplet. Complète d\'abord ton profil et ensuite demande une licence.');
+            $this->addFlash('error', $this->translator->trans('error.license.profile_incomplete'));
             return $this->redirectToRoute('app_profile_update');
         }
 
         // Only one license can be asked for the current year
         $currentLicense = $this->licenseRepository->getCurrentYearActiveLicense($user);
+        $currentYearPendingLicenses = $this->licenseRepository->getCurrentYearPendingLicenses($user);
 
-        if ($currentLicense) {
-            $this->addFlash('error', 'Tu as déjà une licence active pour cette année. tu ne peux pas en demander une nouvelle.');
+        if ($currentLicense || $currentYearPendingLicenses) {
+            $this->addFlash('error', $this->translator->trans('error.license.already_exist'));
             return $this->redirectToRoute('app_license');
         }
 
@@ -102,14 +107,9 @@ class LicenseController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function download(Request $request, ServiceLicensePDFGenerator $pdfGenerator): Response
     {
-        $licenseId = $request->get('licenseId');
-
         try {
-            $license = $this->licenseRepository->find($licenseId);
-            // Access only if license exist or User is the owner of the license
-            if (!$license || $license->getUser() !== $this->getUser()) {
-                throw new EntityNotFoundException('License non trouvé.');
-            }
+            $licenseId = $request->get('licenseId');
+            $license = $this->findLicense($licenseId);
 
             // Generate and save the document on the server
             $ouputFileName = $pdfGenerator->generate($license);
@@ -134,10 +134,10 @@ class LicenseController extends AbstractController
                 'licenseId' => $license->getId(),
             ]);
         } catch (EntityNotFoundException $e) {
-            $this->addFlash('error', 'La licence demandée n\'a pas été trouvée.');
+            $this->addFlash('error', $e->getMessage());
             return $this->redirectToRoute('app_license');
         } catch (FileException $e) {
-            $this->addFlash('error', 'Le fichier n\'a pas pu être généré car ' . $e->getMessage());
+            $this->addFlash('error', $this->translator->trans('error.license.file_not_found', ['message' => $e->getMessage()]));
             return $this->redirectToRoute('app_license');
         }
     }
@@ -146,29 +146,17 @@ class LicenseController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function upload(Request $request, FileUploader $fileUploader, EmailManager $emailManager): Response
     {
-        $licenseId = $request->get('licenseId');
-
-        // Find license in DB
         try {
-            $license = $this->licenseRepository->find($licenseId);
-            // Access only if license exist or User is the owner of the license
-            if (!$license || $license->getUser() !== $this->getUser()) {
-                throw new EntityNotFoundException('License not found.');
-            }
-        } catch (EntityNotFoundException $e) {
-            $this->addFlash('error', 'La licence demandée n\'a pas été trouvée.');
-            return $this->redirectToRoute('app_license');
-        }
+            $licenseId = $request->get('licenseId');
+            $license = $this->findLicense($licenseId);
 
-        $form = $this->createForm(UploadLicenseType::class);
+            $form = $this->createForm(UploadLicenseType::class);
+            $form->handleRequest($request);
 
-        $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $uploadedFile = $form->get('uploaded_file')->getData();
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $uploadedFile = $form->get('uploaded_file')->getData();
-
-            if ($uploadedFile) {
-                try {
+                if ($uploadedFile) {
                     $uploadedFileName = $fileUploader->save($uploadedFile, 'uploaded_licenses_directory');
                     $license->setUploadedFile($uploadedFileName);
                     // Change License Status
@@ -182,92 +170,94 @@ class LicenseController extends AbstractController
                     // Send a mail to administrateur
                     $emailManager->sendEmail(EmailManager::ADMIN_MAIL, 'Licence à valider', 'license_to_validate', ['user' => $license->getUser()]);
 
-                    $this->addFlash('success', 'Ta licence a été envoyée avec succès. Un administrateur vérifiera le document et validera ta demande.');
-                } catch (FileException $e) {
-                    $this->addFlash('error', 'Le fichier n\'a pas pu être enregistré car ' . $e->getMessage());
+                    $this->addFlash('success', $this->translator->trans('success.license.sent'));
+                } else {
+                    $this->addFlash('error', $this->translator->trans('error.license.no_file_uploaded'));
                 }
-            } else {
-                $this->addFlash('error', 'Aucun fichier n\'a été téléchargé.');
+
+                return $this->redirectToRoute('app_license');
             }
 
+            return $this->render('license/upload.html.twig', [
+                'form' => $form->createView(),
+            ]);
+        } catch (Exception $e) {
+            $this->addFlash('error', $e->getMessage());
             return $this->redirectToRoute('app_license');
         }
-
-        return $this->render('license/upload.html.twig', [
-            'form' => $form->createView(),
-        ]);
     }
 
     #[Route('/checkout/{licenseId}', name: 'app_license_checkout')]
     #[IsGranted('ROLE_USER')]
     public function checkout(Request $request)
     {
-        $licenseId = $request->get('licenseId');
-
-        // Find license in DB
         try {
-            $license = $this->licenseRepository->find($licenseId);
-            // Access only if license exist or User is the owner of the license
-            if (!$license || $license->getUser() !== $this->getUser()) {
-                throw new EntityNotFoundException('License not found.');
-            }
-        } catch (EntityNotFoundException $e) {
-            $this->addFlash('error', 'La licence demandée n\'a pas été trouvée.');
+            $licenseId = $request->get('licenseId');
+            $license = $this->findLicense($licenseId);
+
+            Stripe::setApiKey($_ENV['STRIPE_SECRET_KEY']);
+
+            $checkout_session = Session::create([
+                'line_items' => [[
+                    'price_data' => [
+                        'currency' => 'eur',
+                        'product_data' => [
+                            'name' => 'License annuelle',
+                        ],
+                        'unit_amount' => $license->getPrice() * 100,
+                    ],
+                    'quantity' => 1,
+                ]],
+                'mode' => 'payment',
+                'success_url' => $this->generateUrl('app_success_payment', ['licenseId' => $licenseId], UrlGeneratorInterface::ABSOLUTE_URL),
+                'cancel_url' => $this->generateUrl('app_cancel_payment', [], UrlGeneratorInterface::ABSOLUTE_URL),
+            ]);
+
+            return $this->redirect($checkout_session->url, 303);
+        } catch (Exception $e) {
+            $this->addFlash('error', $e->getMessage());
             return $this->redirectToRoute('app_license');
         }
-
-        Stripe::setApiKey($_ENV['STRIPE_SECRET_KEY']);
-
-        $checkout_session = Session::create([
-            'line_items' => [[
-                'price_data' => [
-                    'currency' => 'eur',
-                    'product_data' => [
-                        'name' => 'License annuelle',
-                    ],
-                    'unit_amount' => $license->getPrice() * 100,
-                ],
-                'quantity' => 1,
-            ]],
-            'mode' => 'payment',
-            'success_url' => $this->generateUrl('app_success_payment', ['licenseId' => $licenseId], UrlGeneratorInterface::ABSOLUTE_URL),
-            'cancel_url' => $this->generateUrl('app_cancel_payment', [], UrlGeneratorInterface::ABSOLUTE_URL),
-        ]);
-
-        return $this->redirect($checkout_session->url, 303);
     }
 
     #[Route('/success-url/{licenseId}', name: 'app_success_payment')]
     public function successUrl(Request $request): Response
     {
-        $licenseId = $request->get('licenseId');
+
 
         // Find license in DB
         try {
-            $license = $this->licenseRepository->find($licenseId);
-            // Access only if license exist or User is the owner of the license
-            if (!$license || $license->getUser() !== $this->getUser()) {
-                throw new EntityNotFoundException('License not found.');
-            }
-        } catch (EntityNotFoundException $e) {
-            $this->addFlash('error', 'La licence demandée n\'a pas été trouvée.');
+            $licenseId = $request->get('licenseId');
+            $license = $this->findLicense($licenseId);
+
+            // Change status
+            $license->setStatus(License::IN_ORDER);
+
+            $license->setUpdatedAt(new DateTimeImmutable());
+            // Save data in DB
+            $this->entityManager->persist($license);
+            $this->entityManager->flush();
+
+            return $this->render('payment/success.html.twig', []);
+        } catch (Exception $e) {
+            $this->addFlash('error', $e->getMessage());
             return $this->redirectToRoute('app_license');
         }
-
-        // Change status
-        $license->setStatus(License::IN_ORDER);
-
-        $license->setUpdatedAt(new DateTimeImmutable());
-        // Save data in DB
-        $this->entityManager->persist($license);
-        $this->entityManager->flush();
-
-        return $this->render('payment/success.html.twig', []);
     }
 
     #[Route('/cancel-url', name: 'app_cancel_payment')]
     public function cancelUrl(): Response
     {
         return $this->render('payment/cancel.html.twig', []);
+    }
+
+    private function findLicense(string $licenseId)
+    {
+        $license = $this->licenseRepository->find($licenseId);
+        if (!$license || $license->getUser() !== $this->getUser()) {
+            throw new EntityNotFoundException($this->translator->trans('error.license.not_found'));
+        }
+
+        return $license;
     }
 }

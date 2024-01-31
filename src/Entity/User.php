@@ -456,7 +456,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function isProfileComplete(): bool
     {
-        // Vérifiez les champs requis pour déterminer si le profil est complet
+        // Check the required fields to determine if the profile is complete
         return (
             $this->firstname !== null &&
             $this->lastname !== null &&

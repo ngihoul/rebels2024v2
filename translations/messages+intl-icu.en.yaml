@@ -11,6 +11,9 @@ error:
   invitation_not_found: "The invitation to the event was not found."
   license:
     not_found: "License not found."
+    profile_incomplete: "Your profile is incomplete. First complete your profile and then apply for a license."
+    already_exist: "You already have an active or pending license for this year. You cannot apply for a new one."
+    file_not_found: "The file could not be generated because {message}"
 
 success:
   profile_updated: "Your profile has been updated."
@@ -23,6 +26,9 @@ success:
     decline: "You refused to take part in the {name} event."
     delete: "The event has been deleted."
     update: "The event has been modified."
+  license:
+    sent: "Your license was sent successfully. An administrator will check the document and validate your request."
+    no_file_uploaded: "No file uploaded"
 
 # Header
 header:
