@@ -3,6 +3,8 @@ error:
   already_logged: "Tu es déjà connecté."
   profile_not_found: "Le profil demandé n'a pas été trouvé."
   email_validation: "Un problème est survenu lors de la validation."
+  reset_password:
+    no_token: "Aucun jeton de réinitialisation du mot de passe n'a été trouvé dans l'URL ou dans la session."
   event:
     creation: "Une erreur s'est produite lors de la création de l'événement."
     not_found: "L'évèment n'existe pas."

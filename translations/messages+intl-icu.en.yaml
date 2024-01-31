@@ -3,6 +3,8 @@ error:
   already_logged: "You are already logged."
   profile_not_found: "The requested profile has not been found."
   email_validation: "A problem has occurred during validation."
+  reset_password:
+    no_token: "No reset password token found in the URL or in the session."
   event:
     creation: "An error occurred while creating the event."
     not_found: "The event does not exist."
