@@ -1,6 +1,6 @@
 <?php
 
-// !!!!!!!!!!!!!!!!!!!!!!!! A refactoriser !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// !!!!!!!!!!!!!!!!!!!!!!!! TODO : A refactoriser !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 namespace App\Service;
 
 use Exception;
@@ -180,10 +180,10 @@ class LicensePDFGenerator
 
         // Générez le PDF modifié en mémoire
         ob_start();
-        $pdf->Output('F', $outputPath); // Enregistrez le PDF modifié sur le serveur
+        // Enregistrez le PDF modifié sur le serveur
+        $pdf->Output('F', $outputPath);
         $output = ob_get_clean();
 
         return $outputFileName;
-        // return $outputPath;
     }
 }
