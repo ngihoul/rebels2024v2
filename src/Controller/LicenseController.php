@@ -223,8 +223,6 @@ class LicenseController extends AbstractController
     #[Route('/success-url/{licenseId}', name: 'app_success_payment')]
     public function successUrl(Request $request): Response
     {
-
-
         // Find license in DB
         try {
             $licenseId = $request->get('licenseId');

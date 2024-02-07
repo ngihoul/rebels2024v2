@@ -17,6 +17,7 @@ error:
     already_exist: "You already have an active or pending license for this year. You cannot apply for a new one."
     file_not_found: "The file could not be generated because {message}"
   team:
+    not_found: "Team not found"
     logo: "An error occurred while uploading the logo."
     player_added: "Player could not be added."
     user_not_found: "The user doesn't exist."

@@ -232,7 +232,7 @@ class TeamController extends AbstractController
         $team = $this->teamRepository->find($teamId);
 
         if (!$team) {
-            throw new EntityNotFoundException('L\'équipe n\'existe pas.');
+            throw new EntityNotFoundException($this->translator->trans('error.team.not_found'));
         }
 
         return $team;
