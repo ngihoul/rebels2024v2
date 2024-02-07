@@ -9,17 +9,20 @@ use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationExc
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use App\Security\EmailVerifier;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class UserChecker implements UserCheckerInterface
 {
 
     private EntityManagerInterface $entityManager;
     private EmailVerifier $emailVerifier;
+    private TranslatorInterface $translator;
 
-    public function __construct(EntityManagerInterface $entityManager, EmailVerifier $emailVerifier)
+    public function __construct(EntityManagerInterface $entityManager, EmailVerifier $emailVerifier, TranslatorInterface $translator)
     {
         $this->entityManager = $entityManager;
         $this->emailVerifier = $emailVerifier;
+        $this->translator = $translator;
     }
 
     public function checkPreAuth(UserInterface $user)
@@ -35,11 +38,11 @@ class UserChecker implements UserCheckerInterface
                     ->subject('Confirmation de ton compte')
                     ->htmlTemplate('registration/confirmation_email.html.twig')
             );
-            throw new CustomUserMessageAuthenticationException("Ton compte n'a pas encore été verifié. Un nouveau mail de confirmation t'a été envoyé");
+            throw new CustomUserMessageAuthenticationException($this->translator->trans('error.verify_email.not_verified'));
         }
 
         if ($user->isBanned()) {
-            throw new CustomUserMessageAuthenticationException("Tu es banni. Tu ne peux donc plus utiliser ce site !");
+            throw new CustomUserMessageAuthenticationException($this->translator->trans('error.verify_email.banned'));
         }
     }
 
