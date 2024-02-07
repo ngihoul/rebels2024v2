@@ -24,6 +24,8 @@ error:
   verify_email:
     not_verified: "Ton compte n'a pas encore été verifié. Un nouveau mail de confirmation t'a été envoyé."
     banned: "Tu es banni. Tu ne peux donc plus utiliser ce site !"
+  file:
+    not_valid: "Le fichier n'est pas une image valide."
 
 success:
   profile_updated: "Votre profil a été mis à jour."
