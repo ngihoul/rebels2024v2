@@ -141,6 +141,78 @@ agenda:
 
 # License
 license:
+  status:
+    demanded: "Demandé"
+    document_downloaded: "Document téléchargé"
+    document_received: "Document reçu"
+    document_validated: "Document validé"
+    in_order: "En ordre"
+  index:
+    title: "Mes licences"
+    none_current_year: "Tu n'as pas de licence chez les Rebels pour cette année !"
+    request_btn: "Demande une licence"
+    none: "Tu n'as pas encore de licence chez les Rebels !"
+    request_first: "Demande ta première licence"
+    active: >-
+      {number, plural,
+        =1 {Active}
+        other {Actives}
+      }
+    pending: >-
+      {number, plural,
+        =1 {Demande en attente}
+        other {Demandes en attente}
+      }
+    expired: >-
+      {number, plural, 
+        =1 {Echue}
+        other {Echues}
+      }
+  table:
+    season: "Saison"
+    status: "Statut"
+    details: "Détails"
+  request:
+    title: "Demander une licence"
+    text: >-
+      <p>Tu es nouveau, la casquette officielle de notre club est intégrée dans la cotisation.</p>
+      <p>Les U12 et U15 bénéficient également du t-shirt officiel du club.</p>
+      <p>MONTANT DE LA COTISATION (ANNÉE CIVILE) : </br> -18 ANS : 220€ </br>> 19 ans et + : 280€</p>
+      <p>Si tu nous rejoins entre juillet et septembre : le montant est de 160€.</p>
+      <p>Pour le dernier trimestre d’octobre à décembre, il est de 100€.</p>
+      <h2>Tu veux nous rejoindre ? Complète le formulaire ci-dessous !</h2>
+  download:
+    title: "Télécharge ta licence"
+    title_here: "1. Télécharge ta demande de licence ici"
+    btn: "Télécharger"
+    check_data:
+      title: "2. Vérifie les données pré-encodées"
+      text_1: "Si elles ne sont pas correctes :"
+      text_link: "adapte ton profil"
+      text_2: 'et reclique sur le bouton "Télécharger" ci-dessus'
+    complete:
+      title: "3. Complète ta demande"
+      left: "a. Partie gauche"
+      right: "b. Partie droite à faire compléter par ton médecin"
+    upload:
+      title: "4. Renvoie-nous ta demande ici"
+      btn: "Renvoyer"
+  upload:
+    title: "Renvoie ta licence"
+    add:
+      title: "1. Ajoute ta licence ici"
+    validation:
+      title: "2. Un administrateur valide ta licence (ou pas)"
+    payment:
+      title: "3. Tu effectues le paiement en ligne"
+      text: >-
+        <p>
+          Dès la validation de ta licence par un administrateur, tu auras accès au module de paiement en ligne.</br></br>
+          Pour rappel, tout envoi de licence équivaut pour accord avec le tarif : </br>
+          MONTANT DE LA COTISATION (ANNÉE CIVILE) : </br> -18 ANS : 220€ </br>> 19 ans et + : 280€</br></br>
+          Si tu nous rejoins entre juillet et septembre : le montant est de 160€.</br>
+          Pour le dernier trimestre d’octobre à décembre, il est de 100€.
+        </p>
   to_validate:
     title: >-
       {number, plural,

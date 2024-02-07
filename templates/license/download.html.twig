@@ -1,26 +1,26 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ parent() }} | Télécharge ta licence{% endblock %}
+{% block title %}{{ parent() }} | {{ "license.download.title"|trans }}{% endblock %}
 
 {% block body %}
 <div class="container container-download-license">
-    <h1>Télécharge ta licence</h1>
+    <h1>{{ "license.download.title"|trans }}</h1>
 
-    <h2>1. Télécharge ta demande ici</h2>
-    <a href="{{ asset(licenses_download_directory ~ file_name) }}" target="_blank"><button class="cta">Télécharger</button></a>
+    <h2>{{ "license.download.title_here"|trans }}</h2>
+    <a href="{{ asset(licenses_download_directory ~ file_name) }}" target="_blank"><button class="cta">{{ "license.download.btn"|trans }}</button></a>
 
-    <h2>2. Vérifie les données pré-encodées</h2>
-    <p>Si elles ne sont pas correctes : <a class="link-paragraph" href="{{ path('app_profile_update') }}">adapte ton profil</a> et reclique sur le bouton "Télécharger" ci-dessus<p>
+    <h2>{{ "license.download.check_data.title"|trans }}</h2>
+    <p>{{ "license.download.check_data.text_1"|trans }} <a class="link-paragraph" href="{{ path('app_profile_update') }}">{{ "license.download.check_data.text_link"|trans }}</a> {{ "license.download.check_data.text_2"|trans }}<p>
 
-    <h2>3. Complète ta demande</h2>
+    <h2>{{ "license.download.complete.title"|trans }}</h2>
 
-    <h3>a. Partie gauche</h3>
+    <h3>{{ "license.download.complete.left"|trans }}</h3>
     <img src="{{ asset('') }}" />
 
-    <h3>b. Partie droite à faire compléter par ton médecin</h3>
+    <h3>{{ "license.download.complete.right"|trans }}</h3>
     <img src="{{ asset('') }}" />
 
-    <h2>4. Renvoie-nous ta demande ici</h2>
-    <a href="{{ path('app_license_upload', { 'licenseId' : licenseId }) }}"><button class="cta">Renvoyer</button></a>
+    <h2>{{ "license.download.upload.title"|trans }}</h2>
+    <a href="{{ path('app_license_upload', { 'licenseId' : licenseId }) }}"><button class="cta">{{ "license.download.upload.btn"|trans }}</button></a>
 </div>
 {% endblock %}

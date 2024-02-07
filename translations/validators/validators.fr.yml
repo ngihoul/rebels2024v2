@@ -53,3 +53,10 @@ validators:
     date: "Sélectionne la date de l'évènement"
     start_time: "Sélectionne l'heure de début"
     end_time: "Sélectionne l'heure de fin"
+  season: "Veuillez sélectionner une saison"
+  license:
+    sub_category:
+      not_blank: "Veuillez sélectionner au moins une sous-catégorie"
+    upload:
+      size: "La taille de la demande de licence ne doit pas dépasser 2Mo"
+      mime_types: "Le format de la demande de licence doit être jpg, jpeg, gif, png ou pdf"

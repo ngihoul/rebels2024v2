@@ -68,3 +68,15 @@ event:
     create: "Créer l'évènement"
     update: "Modifier l'évènement"
   invite: "Inviter"
+# License
+license:
+  season:
+    label: "Saison"
+  sub_category:
+    label: "Choisissez une ou plusieurs licences :"
+  request:
+    btn: "Demander une license"
+  upload:
+    confirm_rules: "Je confirme avoir lu le Règlement d'ordre intérieur"
+    confirm_data: "Je confirme que toutes mes données sont correctes et que tous les champs sont complètés"
+    btn: "Renvoyez ma demande de licence"

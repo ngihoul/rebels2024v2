@@ -1,156 +1,49 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ parent() }} | Mes licences{% endblock %}
+{% block title %}{{ parent() }} | {{ "license.index.title"|trans }}{% endblock %}
 
 {% block body %}
     <div class="container license-container">
-        <h1>Mes licences</h1>
+        <h1>{{ "license.index.title"|trans }}</h1>
 
-        {# Display flash messages #}
         {{ parent() }}
 
-        {# Case: User has no licenses for the current year but has past year licenses #}
         {% if currentYearActiveLicenses|length == 0 and currentYearPendingLicenses|length == 0 and pastYearsLicenses|length > 0 %}
             <div class="no-license-this-year">
                 <p class="alert alert-warning">
-                    Tu n'as pas de licence chez les Rebels pour cette année !
+                    {{ "license.index.none_current_year"|trans }}
                 </p>
                 <a href="{{ path('app_license_create') }}">
-                    <button class="cta">Demande une licence</button>
+                    <button class="cta">{{ "license.index.request_btn"|trans }}</button>
                 </a>
             </div>
         {% endif %}
 
-        {# Case: User has never had a license #}
         {% if currentYearActiveLicenses|length == 0 and currentYearPendingLicenses|length == 0 and pastYearsLicenses|length == 0 %}
             <div class="no-license">
                 <p class="alert alert-error">
-                    Tu n'as pas encore de licence chez les Rebels !
+                    {{ "license.index.none"|trans }}
                 </p>
                 <br />
                 <a href="{{ path('app_license_create') }}">
-                    <button class="cta">Demande ta première licence</button>
+                    <button class="cta">{{ "license.index.request_first"|trans }}</button>
                 </a>
             </div>
         {% endif %}
 
-        {# Display active licenses for the current year #}
         {% if currentYearActiveLicenses|length > 0 %}
-            <h2>Actives</h2>
-            <table class="license-table">
-                <tr>
-                    <th>Saison</th>
-                    <th>Statut</th>
-                    <th>Détails</th>
-                </tr>
-                {% for license in currentYearActiveLicenses %}
-                    <tr class="">
-                        <td>{{ license.season }}</td>
-                        {% if license.status == 1 %}
-                            <td>Demandée</td>
-                        {% elseif license.status == 2 %}
-                            <td>Document téléchargé</td>
-                        {% elseif license.status == 3 %}
-                            <td>Document reçu</td>
-                        {% elseif license.status == 4 %}
-                            <td>Document validé</td>
-                        {% elseif license.status == 5 %}
-                            <td>En ordre</td>
-                        {% endif %}
-                        <td>
-                            <ul>
-                                {% for sub_category in license.subcategories %}
-                                    <li>{{ sub_category.name }}</li>
-                                {% endfor %}
-                            </ul>
-                        </td>
-                    </tr>
-                {% endfor %}
-            </table>
+            <h2>{{ "license.index.active"|trans({'number' : currentYearActiveLicenses|length }) }}</h2>
+            {{ include('/license/partial_table.html.twig', {'licenses' : currentYearActiveLicenses, 'include_actions' : false}) }}
         {% endif %}
 
-        {# Display pending licenses for the current year #}
         {% if currentYearPendingLicenses|length > 0 %}
-            <h2>Demande en cours</h2>
-            <table class="license-table">
-                <tr>
-                    <th>Saison</th>
-                    <th>Statut</th>
-                    <th>Détails</th>
-                    <th class="column-actions"></th>
-                </tr>
-                {% for license in currentYearPendingLicenses %}
-                <tr>
-                    <td>{{ license.season }}</td>
-                    <td>
-                        {% if license.status == 1 %}
-                            Demandée
-                        {% elseif license.status == 2 %}
-                            Document téléchargé
-                        {% elseif license.status == 3 %}
-                            Document reçu
-                        {% elseif license.status == 4 %}
-                            Document validé
-                        {% elseif license.status == 5 %}
-                            En ordre
-                        {% endif %}
-                    </td>
-                    <td>
-                        <ul>
-                            {% for sub_category in license.subcategories %}
-                                <li>{{ sub_category.name }}</li>
-                            {% endfor %}
-                        </ul>
-                    </td>
-                    <td class="table-data-actions">
-                    {% if license.status < 3 %}
-                        <a href="{{ path('app_license_download', {'licenseId': license.id}) }}"><i class="fa-regular fa-pen-to-square icon"></i></a>
-                        {# <a href="{{ path('app_license_download', {'idLicense': license.id}) }}"><i class="fas fa-trash icon"></i></a> #}
-                    {% elseif license.status == 3 %}
-                        <i class="fa-regular fa-hourglass icon" title="En attente de validation"></i>
-                    {% elseif license.status == 4 %}
-                        <a href="{{ path('app_license_checkout', {'licenseId': license.id})}}"><i class="fa-regular fa-credit-card icon disagree" title="Paye ta licence"></i>
-                    {% endif %}
-                    </td>
-                </tr>
-
-                {% endfor %}
-            </table>
+            <h2>{{ "license.index.pending"|trans({'number' : currentYearPendingLicenses|length} ) }}</h2>
+            {{ include('/license/partial_table.html.twig', {'licenses' : currentYearPendingLicenses, 'include_actions' : true}) }}
         {% endif %}
 
-        {# Display past year licenses #}
         {% if pastYearsLicenses|length > 0 %}
-            <h2>Echues</h2>
-            <table class="license-table">
-                <tr>
-                    <th>Saison</th>
-                    <th>Statut</th>
-                    <th>Détails</th>
-                </tr>
-                {% for license in pastYearsLicenses %}
-                    <tr class="">
-                        <td>{{ license.season }}</td>
-                        {% if license.status == 1 %}
-                            <td>Demandée</td>
-                        {% elseif license.status == 2 %}
-                            <td>Document téléchargé</td>
-                        {% elseif license.status == 3 %}
-                            <td>Document reçu</td>
-                        {% elseif license.status == 4 %}
-                            <td>Document validé</td>
-                        {% elseif license.status == 5 %}
-                            <td>En ordre</td>
-                        {% endif %}
-                        <td>
-                            <ul>
-                                {% for sub_category in license.subcategories %}
-                                    <li>{{ sub_category.name }}</li>
-                                {% endfor %}
-                            </ul>
-                        </td>
-                    </tr>
-                {% endfor %}
-            </table>
+            <h2>{{ "license.index.expired"|trans({'number' : pastYearsLicenses|length} ) }}</h2>
+            {{ include('/license/partial_table.html.twig', {'licenses' : pastYearsLicenses, 'include_actions' : false}) }}
         {% endif %}
     </div>
 {% endblock %}

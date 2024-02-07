@@ -140,6 +140,78 @@ agenda:
   no_player_to_invite: "No players to invite."
 # License
 license:
+  status:
+    demanded: "Demanded"
+    document_downloaded: "Document downloaded"
+    document_received: "Document received"
+    document_validated: "Document validated"
+    in_order: "In order"
+  index:
+    title: "My licenses"
+    none_current_year: "You don't have a Rebels license this year!"
+    request_btn: "Request a license"
+    none: "You don't yet have a license with the Rebels!"
+    request_first: "Request your first license"
+    active: >-
+      {number, plural,
+        =1 {Active}
+        other {Actives}
+      }
+    pending: >-
+      {number, plural,
+        =1 {Pending demand}
+        other {Pending demands}
+      }
+    expired: >-
+      {number, plural, 
+        =1 {Expired}
+        other {Expired}
+      }
+  table:
+    season: "Season"
+    status: "Status"
+    details: "Details"
+  request:
+    title: "Request a license"
+    text: >-
+      <p>If you're new to the club, the official club cap is included in the membership fee.</p>
+      <p>U12s and U15s also benefit from the official club T-shirt.</p>
+      <p>AMOUNT OF THE CONTRIBUTION (CIVIL YEAR): </br> -18 YEARS: 220€ </br>> 19 years and over: 280€</p>
+      <p>If you join us between July and September: the fee is €160.</p>
+      <p>For the last quarter, from October to December, it is €100.</p>
+      <h2>Want to join us? Fill in the form below!</h2>
+  download:
+    title: "Download your license"
+    title_here: "1. Download your license application here"
+    btn: "Download"
+    check_data:
+      title: "2. Checks pre-encoded data"
+      text_1: "If they are not correct :"
+      text_link: "adapt your profile"
+      text_2: 'and click on the "Download" button above'
+    complete:
+      title: "3. Complete your request"
+      left: "a. Left side"
+      right: "b. Right side to be completed by your doctor"
+    upload:
+      title: "4. Send us your request here"
+      btn: "Upload"
+  upload:
+    title: "Return your license"
+    add:
+      title: "1. Add your license here"
+    validation:
+      title: "2. An administrator validates your license (or not)"
+    payment:
+      title: "3. You make the payment online"
+      text: >-
+        <p>
+          Once your license has been validated by an administrator, you'll have access to the online payment module.</br></br>
+          As a reminder, all license shipments are subject to agreement with the tariff :</br>
+          AMOUNT OF THE CONTRIBUTION (CIVIL YEAR): </br> -18 YEARS: 220€ </br>> 19 years and over: 280€ (CIVIL YEAR)</br></br>
+          If you join us between July and September: the fee is €160.</br>
+          For the last quarter, from October to December, it is €100.</br>
+        </p>
   to_validate:
     title: >-
       {number, plural,

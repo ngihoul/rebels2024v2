@@ -1,0 +1,10 @@
+.checkbox-pair {
+  display: flex;
+  align-items: center;
+
+  margin-bottom: 10px;
+}
+
+.checkbox-pair input[type="checkbox"] {
+  margin-right: 10px;
+}

@@ -7,6 +7,7 @@ use App\Entity\LicenseSubCategory;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -17,14 +18,14 @@ class LicenseType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $currentYear = date('Y'); // Obtenir l'année en cours
+        $currentYear = date('Y');
 
         $builder
             ->add('season', ChoiceType::class, [
                 'choices' => [$currentYear => $currentYear],
                 'disabled' => true,
                 'constraints' => [
-                    new NotBlank(['message' => 'Veuillez sélectionner une saison.']),
+                    new NotBlank(['message' => 'validators.season']),
                 ],
             ])
             ->add('subCategories', EntityType::class, [
@@ -34,16 +35,18 @@ class LicenseType extends AbstractType
                 'choice_label' => 'name',
                 'by_reference' => false,
                 'constraints' => [
-                    new NotBlank(['message' => 'Veuillez sélectionner au moins une sous-catégorie.']),
-                    new Count(['min' => 1, 'minMessage' => 'Veuillez sélectionner au moins une sous-catégorie.']),
+                    new NotBlank(['message' => 'validators.license.sub_category.not_blank']),
+                    new Count(['min' => 1, 'minMessage' => 'validators.license.sub_category.not_blank']),
                 ],
-            ]);
+            ])
+            ->add('submit', SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => License::class,
+            'translation_domain' => 'forms'
         ]);
     }
 }

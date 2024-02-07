@@ -67,3 +67,15 @@ event:
     create: "Create event"
     update: "Update event"
   invite: "Invite"
+# License
+license:
+  season:
+    label: "Season"
+  sub_category:
+    label: "Choose one or more licenses:"
+  request:
+    btn: "Apply for a license"
+  upload:
+    confirm_rules: "I confirm that I have read the Internal Rules"
+    confirm_data: "I confirm that all my data is correct and that all fields have been completed."
+    btn: "Return my license application"

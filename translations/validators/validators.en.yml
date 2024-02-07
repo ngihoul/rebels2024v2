@@ -53,3 +53,10 @@ validators:
     date: "Select event date"
     start_time: "Select start time"
     end_time: "Select end time"
+  season: "Please select a season"
+  license:
+    sub_category:
+      not_blank: "Please select at least one sub-category"
+    upload:
+      size: "The size of the license application must not exceed 2MB."
+      mime_types: "License application format must be jpg, jpeg, gif, png or pdf"
