@@ -30,7 +30,6 @@ class ChangePasswordFormType extends AbstractType
                         new Length([
                             'min' => 6,
                             'minMessage' => 'validators.password.length',
-                            // Longueur maximale autorisée par Symfony pour des raisons de sécurité
                             'max' => 4096,
                         ]),
                     ],
@@ -40,8 +39,6 @@ class ChangePasswordFormType extends AbstractType
                     'label' => 'user.password_confirmation',
                 ],
                 'invalid_message' => 'validators.password.match',
-                // Au lieu d'être directement défini sur l'objet,
-                // cela est lu et encodé dans le contrôleur
                 'mapped' => false,
             ]);
     }
