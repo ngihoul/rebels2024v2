@@ -173,6 +173,8 @@ license:
         =1 {Expired}
         other {Expired}
       }
+    pay: "Pay your license"
+    pending_validation: "Pending validation"
   table:
     season: "Season"
     status: "Status"
@@ -242,6 +244,20 @@ license:
     decline:
       sub_title: "3. Refuse the license by clicking on this button:"
       btn: "Refuse"
+
+payment:
+  approved:
+    title: "Payment accepted"
+    welcome: "Welcome to the Rebels!"
+    text: "Thank you for your payment.</br> Your license is now in order."
+  cancel:
+    title: "Payment refused"
+    text: >-
+      <p>
+        Check your payment method and try again. </br> 
+        If the problem persists, contact an administrator or your coach to find a solution.
+      <p>
+  back: "Back to my license list"
 
 password:
   # Request new password

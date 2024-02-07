@@ -145,7 +145,6 @@ agenda:
   players: "Joueurs"
   no_player_to_invite: "Aucun joueur à inviter."
 
-# License
 license:
   status:
     demanded: "Demandé"
@@ -174,6 +173,8 @@ license:
         =1 {Echue}
         other {Echues}
       }
+    pay: "Paye ta licence"
+    pending_validation: "En attente de validation"
   table:
     season: "Saison"
     status: "Statut"
@@ -243,6 +244,20 @@ license:
     decline:
       sub_title: "3. Refusez la licence en cliquant sur ce bouton :"
       btn: "Refuser"
+
+payment:
+  approved:
+    title: "Paiement accepté"
+    welcome: "Bienvenue chez les Rebels !"
+    text: "Merci pour ton paiement.</br> Ta licence est maintenant en ordre."
+  cancel:
+    title: "Paiement refusé"
+    text: >-
+      <p>
+        Vérifie ton moyen de paiement et réessaye. </br> 
+        Si le problème persiste, contacte un administrateur ou ton coach pour trouver une solution.
+      <p>
+    back: "Revenir à la liste de mes licences"
 
 password:
   # Request New password

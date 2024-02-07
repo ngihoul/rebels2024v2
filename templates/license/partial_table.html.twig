@@ -36,9 +36,9 @@
                         <a href="{{ path('app_license_download', {'licenseId': license.id}) }}"><i class="fa-regular fa-pen-to-square icon"></i></a>
                         {# <a href="{{ path('app_license_download', {'idLicense': license.id}) }}"><i class="fas fa-trash icon"></i></a> #}
                     {% elseif license.status == 3 %}
-                        <i class="fa-regular fa-hourglass icon" title="En attente de validation"></i>
+                        <i class="fa-regular fa-hourglass icon" title="{{ "license.index.pending_validation"|trans }}"></i>
                     {% elseif license.status == 4 %}
-                        <a href="{{ path('app_license_checkout', {'licenseId': license.id}) }}"><i class="fa-regular fa-credit-card icon disagree" title="Paye ta licence"></i></a>
+                        <a href="{{ path('app_license_checkout', {'licenseId': license.id}) }}"><i class="fa-regular fa-credit-card icon disagree" title="{{ "license.index.pay"|trans }}"></i></a>
                     {% endif %}
                 </td>
             {% endif %}

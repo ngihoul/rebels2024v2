@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ parent() }} | Paiement a échoué{% endblock %}
+{% block title %}{{ parent() }} | {{ "payment.cancel.title"|trans }}{% endblock %}
 
 {% block body %}
 <div class="container success-container">
-    <h1>Paiement refusé</h1>
-    <p>Vérifie ton moyen de paiement et réessaye. </br> Si le problème persiste, contacte un administrateur ou ton coach pour trouver une solution.<p>
-    <a href="{{ path('app_license') }}" class="btn">Revenir à la liste de mes licences</a>
+    <h1>{{ "payment.cancel.title"|trans }}</h1>
+    {{ "payment.cancel.text"|trans|raw }}
+    <a href="{{ path('app_license') }}" class="btn">{{ "payment.back"|trans }}</a>
 </div>
 {% endblock %}
