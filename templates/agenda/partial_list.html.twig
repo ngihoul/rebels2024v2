@@ -1,0 +1,19 @@
+{% if attendees|length > 0 %}
+    <div class="attendance-list">
+        <h2>{{ title }}</h2>
+        <ul>
+            {% for attendee in attendees %}
+                <li>
+                    <a href="{{ path('app_profile', { 'userId' : attendee.user.id }) }}">
+                        <img
+                            class="picture"
+                            src="{{ asset('uploads/user_pictures/' ~ attendee.user.profilePicture) }}"
+                            alt="{{ "agenda.profile_picture_of"|trans({}, 'messages') }} {{ attendee.user.firstname }}"
+                        />
+                        {{ attendee.user.firstname }} {{ attendee.user.lastname }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endif %}
