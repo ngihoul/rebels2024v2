@@ -168,6 +168,7 @@ class LicenseController extends AbstractController
                     $this->entityManager->flush();
 
                     // Send a mail to administrateur
+                    // Always sent in French -- No need to translate this mail
                     $emailManager->sendEmail(EmailManager::ADMIN_MAIL, 'Licence à valider', 'license_to_validate', ['user' => $license->getUser()]);
 
                     $this->addFlash('success', $this->translator->trans('success.license.sent'));

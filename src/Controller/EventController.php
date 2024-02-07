@@ -260,8 +260,10 @@ class EventController extends AbstractController
 
                         $this->entityManager->persist($eventAttendee);
 
+                        // TODO : fetch locale from $user
+
                         // Send a message to User
-                        $emailManager->sendEmail($user->getEmail(), 'Invitation a un évènement', 'invitation_confirmation', ['event' => $event]);
+                        $emailManager->sendEmail($user->getEmail(), $this->translator->trans('event.invitation.subject', [], 'emails'), 'invitation_confirmation', ['event' => $event]);
                     }
                 }
 

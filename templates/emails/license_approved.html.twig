@@ -1,9 +1,9 @@
-<h1>Bonjour ! Ta licence a été approuvée !</h1>
+<h1>{{ "license.approved.title"|trans({}, 'emails') }}</h1>
 
 <p>
-    Tu as maintenant la possibilité de payer ta licence en ligne à partir de l'onglet <a href="{{ url('app_license') }}">"Mes licences"</a> et ensuite en cliquant sur le logo "cartes de banque".
+    {{ "license.approved.text_1"|trans({}, 'emails') }} <a href="{{ url('app_license') }}">{{ "license.approved.link"|trans({}, 'emails') }}</a> {{ "license.approved.text_2"|trans({}, 'emails') }}
 </p>
 
 <p>
-    Sportivement !
+    {{ "signature"|trans({}, 'emails') }}
 </p>

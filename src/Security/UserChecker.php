@@ -36,7 +36,7 @@ class UserChecker implements UserCheckerInterface
                     ->from(new Address('no-reply@gihoul.be', 'Liège Rebels Baseball & Softball Club'))
                     ->to($user->getEmail())
                     ->subject('Confirmation de ton compte')
-                    ->htmlTemplate('registration/confirmation_email.html.twig')
+                    ->htmlTemplate('emails/registration_confirmation.html.twig')
             );
             throw new CustomUserMessageAuthenticationException($this->translator->trans('error.verify_email.not_verified'));
         }

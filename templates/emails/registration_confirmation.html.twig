@@ -1,0 +1,11 @@
+<h1>{{ "registration.title"|trans({}, "emails") }}</h1>
+
+<p>
+    {{ "registration.message"|trans({}, "emails") }} <br><br>
+    <a href="{{ signedUrl|raw }}">{{ "registration.link"|trans({}, "emails") }}</a>. <br><br>
+    {{ "registration.expires"|trans({}, "emails") }} {{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') }}.
+</p>
+
+<p>
+    {{ "signature"|trans({}, "emails") }}
+</p>

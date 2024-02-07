@@ -1,0 +1,39 @@
+license:
+  approved:
+    subject: "License validated"
+    title: "Hello ! Your license has been approved!"
+    text_1: "You can now pay for your license online from the"
+    link: '"My licenses"'
+    text_2: 'and then click on the "bank cards" logo.'
+  refused:
+    subject: "License refused"
+    title: "Hello ! Your license has been refused!"
+    text: >-
+      Ouch! Apparently, your license request has been denied by an administrator. </br>
+      Here's why: <b>{reason}</b> </br></br>
+      We've reset your license application. Correct it and send it back to us! </br></br>
+      If you have any questions, don't hesitate to contact an administrator or your coach.
+
+event:
+  invitation:
+    subject: "Invitation to an event"
+    title: "Hello !"
+    text: >-
+      You are invited to the next event: {event_name} on {event_date} at {event_time_from}. </br>
+      The appointment is set for {event_time_meeting}. </br> </br>
+      Confirm your presence now in <a href="{agenda_url}">your personal area</a> !
+
+registration:
+  subject: "Confirm your e-mail address"
+  title: "Hello ! Confirm your e-mail address!"
+  message: "Confirm your e-mail address by clicking on the following link:"
+  link: "Confirm my e-mail"
+  expires: "This link will expire in"
+
+reset_password:
+  subject: "Reset your password"
+  title: "Hello !"
+  message: "To reset your password, visit the following link:"
+  expires: "This link will expire in"
+
+signature: "Sportively"

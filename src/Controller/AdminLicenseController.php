@@ -61,8 +61,10 @@ class AdminLicenseController extends AbstractController
                     // Add price to License
                     $license->setPrice($form->get('price')->getData());
 
+                    // TODO : Fetch locale from $license->getUser()
+
                     // Send a mail to player informing him his license has been validated
-                    $emailManager->sendEmail($license->getUser()->getEmail(), 'Licence validée', 'license_approved');
+                    $emailManager->sendEmail($license->getUser()->getEmail(), $translator->trans('license.approved.subject', [], 'emails'), 'license_approved');
                 } elseif ($form->get('refusal')->isClicked()) {
                     // Change status to ON_DEMAND
                     $license->setStatus(License::ON_DEMAND);
@@ -70,8 +72,10 @@ class AdminLicenseController extends AbstractController
                     // Add comment to License
                     $license->setComment($form->get('comment')->getData());
 
+                    // TODO : Fetch locale from $license->getUser()
+
                     // Send a mail to player informing him his license has been refused
-                    $emailManager->sendEmail($license->getUser()->getEmail(), 'Licence refusée', 'license_refused', ['reason' => $license->getComment()]);
+                    $emailManager->sendEmail($license->getUser()->getEmail(), $translator->trans('license.refused.subject', [], 'emails'), 'license_refused', ['reason' => $license->getComment()]);
                 }
 
                 $this->entityManager->persist($license);

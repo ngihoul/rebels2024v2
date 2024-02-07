@@ -65,8 +65,8 @@ class RegistrationController extends AbstractController
                 (new TemplatedEmail())
                     ->from(new Address('nicolas@gihoul.be', 'Liege Rebels Baseball & Softball Club'))
                     ->to($user->getEmail())
-                    ->subject('Liège Rebels - Confirme ton adresse mail')
-                    ->htmlTemplate('registration/confirmation_email.html.twig')
+                    ->subject('Liège Rebels - ' . $this->translator->trans('registration.subject', [], 'emails'))
+                    ->htmlTemplate('emails/registration_confirmation.html.twig')
             );
 
             $this->addFlash('success', $this->translator->trans('success.account_created'));

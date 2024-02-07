@@ -32,6 +32,7 @@ success:
   account_created: "Your account has been created. Please confirm your e-mail address by checking your mailbox."
   email_verified: "Your email address has been verified."
   team_created: "The team has been created."
+  password_changed: "Your password has been updated."
   event:
     created: "The event has been created."
     accept: "You are registered for the {name} event."

@@ -1,0 +1,39 @@
+license:
+  approved:
+    subject: "Licence validée"
+    title: "Bonjour ! Ta licence a été approuvée !"
+    text_1: "Tu as maintenant la possibilité de payer ta licence en ligne à partir de l'onglet"
+    link: '"Mes licences"'
+    text_2: 'et ensuite en cliquant sur le logo "cartes de banque".'
+  refused:
+    subject: "Licence refusée"
+    title: "Bonjour ! Ta licence a été refusé !"
+    text: >-
+      Aïe ! Apparemment, ta demande de licence a été refusée par un administrateur. </br>
+      Voici la raison : <b>{reason}</b> </br></br>
+      Nous avons réinitialisé ta demande de licence, corrige ce qu'il faut et renvoie-la nous ! </br></br>
+      Si tu as des questions, n'hésite pas à contacter un administrateur ou ton coach.
+
+event:
+  invitation:
+    subject: "Invitation a un évènement"
+    title: "Bonjour !"
+    text: >-
+      Tu es invité pour le prochain évènement : {event_name} le {event_date} à {event_time_from}.
+      Le rendez-vous est fixé à {event_time_meeting}. </br> </br>
+      Confirme ta présence dès maintenant dans <a href="{agenda_url}">ton espace personnel</a> !
+
+registration:
+  subject: "Confirme ton adresse e-mail"
+  title: "Bonjour ! Confirme ton adresse e-mail !"
+  message: "Confirme ton adresse e-mail en cliquant sur le lien suivant :"
+  link: "Confirmer mon e-mail"
+  expires: "Ce lien expirera dans"
+
+reset_password:
+  subject: "Réinitialise ton mot de passe"
+  title: "Bonjour !"
+  message: "Pour réinitialiser ton mot de passe, visite le lien suivant :"
+  expires: "Ce lien expirera dans"
+
+signature: "Sportivement"
