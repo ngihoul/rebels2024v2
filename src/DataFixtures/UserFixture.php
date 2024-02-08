@@ -11,7 +11,7 @@ class UserFixture extends Fixture
 {
     public function load(ObjectManager $manager)
     {
-        $faker = Factory::create();
+        $faker = Factory::create('fr_BE');
 
         for ($i = 0; $i < 100; $i++) {
             $user = new User();
@@ -38,8 +38,6 @@ class UserFixture extends Fixture
             $user->setIsBanned($faker->boolean);
             $user->setIsArchived($faker->boolean);
             $user->setIsVerified($faker->boolean);
-
-            // You may add more properties here if needed
 
             $manager->persist($user);
         }
