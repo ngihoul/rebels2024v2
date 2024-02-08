@@ -77,7 +77,8 @@ class UserController extends AbstractController
     }
 
     #[Route('/profile/{userId}', name: 'app_profile')]
-    public function profileUser(Request $request, UserRepository $userRepository): Response
+    #[IsGranted('ROLE_USER')]
+    public function profile(Request $request, UserRepository $userRepository): Response
     {
         try {
             $userId = $request->get('userId');
