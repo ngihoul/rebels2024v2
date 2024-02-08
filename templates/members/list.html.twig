@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ parent() }} | {{ "members.list.title"|trans }}
+{% endblock %}
+
+{% block body %}
+    <div class="container license-container">
+        <h1>{{ "members.list.title"|trans }}</h1>
+
+        {{ parent() }}
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Genre</th>
+                    <th>Age</th>
+                    <th>Licence {{ 'now'|date('Y') }}</th>
+                    <th>Statut license</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for member in members %}
+                    <tr class="member-row" data-member-id="{{ member.id }}" data-locale="{{ app.request.locale }}">
+                        <td>{{ member.lastname }}</td>
+                        <td>{{ member.firstname }}</td>
+                        <td>{{ member.gender }}</td>
+
+                        {# Age calculation #}
+                        {% set age = date().diff(date(member.dateOfBirth)).y %}
+                        <td>{{ age }}</td>
+
+                        <td>
+                            {% set filteredLicenses = member.licenses|filter(l => l.season == 'now'|date('Y')) %}
+                            {% for license in filteredLicenses %}
+                                <ul>
+                                    {% for sub_category in license.subcategories %}
+                                        <li>{{ sub_category.name }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for license in filteredLicenses %}
+                                {% set licenseStatus = license.status %}
+                                {% set licenseStatusTrans = {
+                                    1: 'license.status.demanded'|trans,
+                                    2: 'license.status.document_downloaded'|trans,
+                                    3: 'license.status.document_received'|trans,
+                                    4: 'license.status.document_validated'|trans,
+                                    5: 'license.status.in_order'|trans,
+                                } %}
+                                {{ licenseStatusTrans[licenseStatus] ?? '' }}
+                            {% endfor %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const tableRows = document.querySelectorAll(".member-row");
+            tableRows.forEach(row => {
+                row.addEventListener("click", () => {
+                    const memberId = row.dataset.memberId;
+                    const locale = row.dataset.locale;
+                    if (memberId) {
+                        window.location.href = `/${locale}/profile/${memberId}`;
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}
+

@@ -17,11 +17,13 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class UserController extends AbstractController
 {
+    private UserRepository $userRepository;
     private EntityManagerInterface $entityManager;
     private TranslatorInterface $translator;
 
-    public function __construct(EntityManagerInterface $entityManager, TranslatorInterface $translator)
+    public function __construct(UserRepository $userRepository, EntityManagerInterface $entityManager, TranslatorInterface $translator)
     {
+        $this->userRepository = $userRepository;
         $this->entityManager = $entityManager;
         $this->translator = $translator;
     }
@@ -78,11 +80,11 @@ class UserController extends AbstractController
 
     #[Route('/profile/{userId}', name: 'app_profile')]
     #[IsGranted('ROLE_USER')]
-    public function profile(Request $request, UserRepository $userRepository): Response
+    public function profile(Request $request): Response
     {
         try {
             $userId = $request->get('userId');
-            $user = $userRepository->find($userId);
+            $user = $this->userRepository->find($userId);
 
             if (!$user) {
                 throw new EntityNotFoundException($this->translator->trans('error.profile_not_found'));
@@ -105,5 +107,16 @@ class UserController extends AbstractController
             $this->addFlash('error', $e->getMessage());
             return $this->redirectToRoute('app_home');
         }
+    }
+
+    #[Route('/members', name: 'app_members')]
+    #[IsGranted('ROLE_ADMIN')]
+    public function members(): Response
+    {
+        $members = $this->userRepository->findAll();
+
+        return $this->render('members/list.html.twig', [
+            'members' => $members,
+        ]);
     }
 }

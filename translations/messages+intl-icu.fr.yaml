@@ -53,6 +53,7 @@ header:
 
 # Navbar
 nav:
+  my_members: "Mes membres"
   my_agenda: "Mon agenda"
   my_licenses: "Mes licences"
   to_validate: "A valider"
@@ -259,6 +260,10 @@ payment:
         Si le problème persiste, contacte un administrateur ou ton coach pour trouver une solution.
       <p>
     back: "Revenir à la liste de mes licences"
+
+members:
+  list:
+    title: "Mes membres"
 
 password:
   # Request New password

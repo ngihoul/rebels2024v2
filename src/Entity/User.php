@@ -30,10 +30,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 50)]
     private ?string $nationality = null;
 
-    #[ORM\Column(length: 12, nullable: true)] // Set the maximum length for the license_number
+    #[ORM\Column(length: 12, nullable: true)]
     private ?string $license_number = null;
 
-    #[ORM\Column(type: 'smallint', nullable: true)] // Use smallint for jersey_number
+    #[ORM\Column(type: 'smallint', nullable: true)]
     private ?int $jersey_number = null;
 
     #[ORM\Column(type: 'datetime')]

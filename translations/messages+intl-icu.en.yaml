@@ -53,6 +53,7 @@ header:
 
 # Navbar
 nav:
+  my_members: "My members"
   my_agenda: "My agenda"
   my_licenses: "My licenses"
   to_validate: "To validate"
@@ -145,7 +146,7 @@ agenda:
   teams: "Teams"
   players: "Players"
   no_player_to_invite: "No players to invite."
-# License
+
 license:
   status:
     demanded: "Demanded"
@@ -259,6 +260,10 @@ payment:
         If the problem persists, contact an administrator or your coach to find a solution.
       <p>
   back: "Back to my license list"
+
+members:
+  list:
+    title: "My Members"
 
 password:
   # Request new password
