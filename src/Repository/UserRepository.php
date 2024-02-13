@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\User;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
@@ -21,9 +22,13 @@ use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
  */
 class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
 {
+
+    private $currentYear;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, User::class);
+        $this->currentYear = (new DateTime())->format('Y');
     }
 
     /**
@@ -40,28 +45,71 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->getEntityManager()->flush();
     }
 
-    //    /**
-    //     * @return User[] Returns an array of User objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('u')
-    //            ->andWhere('u.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('u.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    public function findAllWithCurrentYearLicense($query, $orderBy, $orderDirection)
+    {
+        $queryBuilder = $this->createQueryBuilder('u')
+            ->select('u', 'l', 'ls')
+            ->leftJoin('u.licenses', 'l')
+            ->leftJoin('l.subCategories', 'ls')
+            ->andWhere('l.season = :currentYear OR l.id IS NULL')
+            ->andWhere('u.lastname LIKE :query OR u.firstname LIKE :query')
+            ->setParameter('currentYear', $this->currentYear)
+            ->setParameter('query', '%' . $query . '%')
+            ->addOrderBy($orderBy, $orderDirection);
 
-    //    public function findOneBySomeField($value): ?User
-    //    {
-    //        return $this->createQueryBuilder('u')
-    //            ->andWhere('u.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+        return $queryBuilder->getQuery()->getResult();
+    }
+
+    public function advancedSearch($searchOptions, $orderBy, $orderDirection)
+    {
+        $queryBuilder = $this->createQueryBuilder('u')
+            ->select('u', 'l', 'ls')
+            ->leftJoin('u.licenses', 'l')
+            ->leftJoin('l.subCategories', 'ls')
+            ->andWhere('l.season = :currentYear OR l.id IS NULL')
+            ->setParameter('currentYear', $this->currentYear);
+
+        if (!empty($searchOptions['firstname'])) {
+            $queryBuilder
+                ->andWhere('u.firstname LIKE :firstname')
+                ->setParameter('firstname', '%' . $searchOptions['firstname'] . '%');
+        }
+
+        if (!empty($searchOptions['lastname'])) {
+            $queryBuilder
+                ->andWhere('u.lastname LIKE :lastname')
+                ->setParameter('lastname', '%' . $searchOptions['lastname'] . '%');
+        }
+
+        if (!empty($searchOptions['gender'])) {
+            $queryBuilder
+                ->andWhere('u.gender = :gender')
+                ->setParameter('gender', $searchOptions['gender']);
+        }
+
+        if (!empty($searchOptions['ageMin'])) {
+            $dateMin = (new \DateTime())->modify('-' . $searchOptions['ageMin'] . ' years');
+            $queryBuilder
+                ->andWhere('u.date_of_birth <= :dateMin')
+                ->setParameter('dateMin', $dateMin->format('Y-m-d'));
+        }
+
+        if (!empty($searchOptions['ageMax'])) {
+            $dateMax = (new \DateTime())->modify('-' . $searchOptions['ageMax'] . ' years');
+            $queryBuilder
+                ->andWhere('u.date_of_birth >= :dateMax')
+                ->setParameter('dateMax', $dateMax->format('Y-m-d'));
+        }
+
+        if (!empty($searchOptions['licenseStatus'])) {
+            $queryBuilder
+                ->andWhere('l.status = :licenseStatus')
+                ->setParameter('licenseStatus', $searchOptions['licenseStatus']);
+        }
+
+        $queryBuilder
+            ->addOrderBy($orderBy, $orderDirection);
+
+        return $queryBuilder->getQuery()->getResult();
+    }
 }

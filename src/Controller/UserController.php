@@ -13,6 +13,10 @@ use App\Repository\UserRepository;
 use App\Service\ProfilePictureManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityNotFoundException;
+use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class UserController extends AbstractController
@@ -109,14 +113,48 @@ class UserController extends AbstractController
         }
     }
 
-    #[Route('/members', name: 'app_members')]
+    #[Route('/members/{page<\d+>?1}', name: 'app_members')]
     #[IsGranted('ROLE_ADMIN')]
-    public function members(): Response
+    public function members(Request $request, PaginatorInterface $paginator): Response
     {
-        $members = $this->userRepository->findAll();
+        $MEMBERS_PER_PAGE = 25;
+        $ORDER_BY_DEFAULT = 'u.lastname';
+        $ORDER_DIRECTION_DEFAULT = 'ASC';
+
+        // Simple Search
+        $searchQuery = $request->get('q');
+        // Advanced Search
+        $advancedSearch = [
+            'firstname' => $request->get('firstname'),
+            'lastname' => $request->get('lastname'),
+            'gender' => $request->get('gender'),
+            'ageMin' => $request->get('ageMin'),
+            'ageMax' => $request->get('ageMax'),
+            'licenseStatus' => $request->get('licenseStatus'),
+        ];
+        // OrderBY definition
+        $orderBy = $request->get('order') ? $request->get('order') : $ORDER_BY_DEFAULT;
+        $orderDirection = $request->get('dir') ? $request->get('dir') : $ORDER_DIRECTION_DEFAULT;
+
+        // Fetch Data
+        if (array_filter($advancedSearch) !== []) {
+            $members = $this->userRepository->advancedSearch($advancedSearch, $orderBy, $orderDirection);
+        } else {
+            $members = $this->userRepository->findAllWithCurrentYearLicense($searchQuery, $orderBy, $orderDirection);
+        }
+
+        $countMembers = count($members);
+        // Pagination 
+        $page = (int) $request->get('page');
+        $membersPaginated = $paginator->paginate(
+            $members,
+            $page,
+            $MEMBERS_PER_PAGE
+        );
 
         return $this->render('members/list.html.twig', [
-            'members' => $members,
+            'members' => $membersPaginated,
+            'count' => $countMembers
         ]);
     }
 }

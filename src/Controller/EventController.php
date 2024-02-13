@@ -39,7 +39,7 @@ class EventController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function index(Request $request, PaginatorInterface $paginator, Security $security): Response
     {
-        $EVENT_PER_PAGE = 6;
+        $EVENTS_PER_PAGE = 6;
 
         $user = $this->getUser();
         $page = (int) $request->get('page');
@@ -54,7 +54,7 @@ class EventController extends AbstractController
         $futureEventsPaginated = $paginator->paginate(
             $futureEvents,
             $page,
-            $EVENT_PER_PAGE
+            $EVENTS_PER_PAGE
         );
 
         // Fetch future events which the user is invited to (without reply)
