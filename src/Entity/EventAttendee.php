@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\EventAttendeeRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 #[ORM\Entity(repositoryClass: EventAttendeeRepository::class)]
 class EventAttendee
@@ -22,6 +23,7 @@ class EventAttendee
     private ?User $user = null;
 
     #[ORM\Column]
+    #[Gedmo\Timestampable(on: 'create')]
     private ?\DateTimeImmutable $created_at = null;
 
     #[ORM\Column(nullable: true)]

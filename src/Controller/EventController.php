@@ -258,7 +258,6 @@ class EventController extends AbstractController
                         $eventAttendee = new EventAttendee();
                         $eventAttendee->setEvent($event);
                         $eventAttendee->setUser($user);
-                        $eventAttendee->setCreatedAt(new \DateTimeImmutable());
 
                         $this->entityManager->persist($eventAttendee);
 
