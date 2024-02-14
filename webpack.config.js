@@ -26,6 +26,7 @@ Encore
   .addEntry("picture_preview", "./assets/js/picture_preview.js")
   .addEntry("teamDropdown", "./assets/js/teamDropdown.js")
   .addEntry("languageDropdown", "./assets/js/languageDropdown.js")
+  .addEntry("membersList", "./assets/js/membersList.js")
 
   // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
   .splitEntryChunks()
