@@ -264,6 +264,19 @@ payment:
 members:
   list:
     title: "Mes membres"
+    advanced_search: "Recherché avancée"
+    firstname: "Prénom"
+    lastname: "Nom"
+    gender:
+      label: "Genre"
+      male: "Homme"
+      female: "Femme"
+    age: "Age"
+    age_min: "Age minimum"
+    age_max: "Age maximum"
+    license: "Licence"
+    license_status: "Statut licence"
+    search_btn: "Rechercher"
 
 password:
   # Request New password

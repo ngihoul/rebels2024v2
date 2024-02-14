@@ -13,6 +13,7 @@ use App\Repository\UserRepository;
 use App\Service\ProfilePictureManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityNotFoundException;
+use Exception;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\Serializer;
@@ -107,7 +108,7 @@ class UserController extends AbstractController
                 'user' => $user,
                 'pageTitle' => $pageTitle
             ]);
-        } catch (EntityNotFoundException $e) {
+        } catch (Exception $e) {
             $this->addFlash('error', $e->getMessage());
             return $this->redirectToRoute('app_home');
         }
@@ -124,7 +125,7 @@ class UserController extends AbstractController
         // Simple Search
         $searchQuery = $request->get('q');
         // Advanced Search
-        $advancedSearch = [
+        $searchParams = [
             'firstname' => $request->get('firstname'),
             'lastname' => $request->get('lastname'),
             'gender' => $request->get('gender'),
@@ -133,12 +134,12 @@ class UserController extends AbstractController
             'licenseStatus' => $request->get('licenseStatus'),
         ];
         // OrderBY definition
-        $orderBy = $request->get('order') ? $request->get('order') : $ORDER_BY_DEFAULT;
-        $orderDirection = $request->get('dir') ? $request->get('dir') : $ORDER_DIRECTION_DEFAULT;
+        $orderBy = $request->query->get('order', $ORDER_BY_DEFAULT);
+        $orderDirection = $request->query->get('dir', $ORDER_DIRECTION_DEFAULT);
 
         // Fetch Data
-        if (array_filter($advancedSearch) !== []) {
-            $members = $this->userRepository->advancedSearch($advancedSearch, $orderBy, $orderDirection);
+        if (array_filter($searchParams) !== []) {
+            $members = $this->userRepository->advancedSearch($searchParams, $orderBy, $orderDirection);
         } else {
             $members = $this->userRepository->findAllWithCurrentYearLicense($searchQuery, $orderBy, $orderDirection);
         }

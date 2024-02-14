@@ -11,7 +11,7 @@
             <form class="search-engine" action="" method="GET">
                 <input class="search-input" type="text" name="query" placeholder="Rechercher">
                 <button class="search-btn btn"><i class="fa-solid fa-magnifying-glass"></i></button>
-                <a href="#" class="advanced-research-link">Recherche avancée</a>
+                <a href="#" class="advanced-research-link">{{ "members.list.advanced_search"|trans }}</a>
             </form>
         </div>
 
@@ -19,56 +19,56 @@
 
         <section class="advanced-search-engine">
             <span class="close-btn">&times;</span>
-            <h2>Recherche avancée</h2>
-            <form action="" method="GET">
+            <h2>{{ "members.list.advanced_search"|trans }}</h2>
+            <form action="{{ path('app_members') }}" method="GET">
                 <div class="search-firstname">
-                    <label for="firstname">Prénom</label>
+                    <label for="firstname">{{ "members.list.firstname"|trans }}</label>
                     <input type="text" id="firstname" name="firstname" />
                 </div>
                 <div class="search-lastname">
-                    <label for="lastname">Nom</label>
+                    <label for="lastname">{{ "members.list.lastname"|trans }}</label>
                     <input type="text" id="lastname" name="lastname" />
                 </div>
                 <div class="search-gender">
-                    <label for="gender">Genre</label>
+                    <label for="gender">{{ "members.list.gender.label"|trans }}</label>
                     <select id="gender" name="gender">
                         <option value="" default></option>
-                        <option value="H">Homme</option>
-                        <option value="F">Femme</option>
+                        <option value="H">{{ "members.list.gender.male"|trans }}</option>
+                        <option value="F">{{ "members.list.gender.female"|trans }}</option>
                     </select>
                 </div>
                 <div class="search-age-min">
-                    <label for="ageMin">Âge minimum</label>
+                    <label for="ageMin">{{ "members.list.age_min"|trans }}</label>
                     <input type="number" id="ageMin" name="ageMin" />
                 </div>
                 <div class="search-age-max">
-                    <label for="ageMax">Âge maximum</label>
+                    <label for="ageMax">{{ "members.list.age_max"|trans }}</label>
                     <input type="number" id="ageMax" name="ageMax" />
                 </div>
                 <div class="search-license-status">
-                    <label for="licenseStatus">Statut de la licence</label>
+                    <label for="licenseStatus">{{ "members.list.license_status"|trans }}</label>
                     <select id="licenseStatus" name="licenseStatus">
                         <option value="" default></option>
-                        <option value="1">Demandé</option>
-                        <option value="2">Document téléchargé</option>
-                        <option value="3">Document reçu</option>
-                        <option value="4">Document validé</option>
-                        <option value="5">En ordre</option>
+                        <option value="1">{{ "license.status.demanded"|trans }}</option>
+                        <option value="2">{{ "license.status.document_downloaded"|trans }}</option>
+                        <option value="3">{{ "license.status.document_received"|trans }}</option>
+                        <option value="4">{{ "license.status.document_validated"|trans }}</option>
+                        <option value="5">{{ "license.status.in_order"|trans }}</option>
                     </select>
                 </div>
-                <button class="btn" type="submit">Rechercher</button>
+                <button class="advanced-search-btn btn" type="submit">{{ "members.list.search_btn"|trans }}</button>
             </form>
         </section>
 
         <table>
             <thead>
                 <tr>
-                    <th data-order="u.lastname" data-direction="ASC">Nom <i class="fa-solid fa-sort"></i></th>
-                    <th data-order="u.firstname">Prénom <i class="fa-solid fa-sort"></i></th>
-                    <th data-order="u.gender">Genre <i class="fa-solid fa-sort"></i></th>
-                    <th data-order="u.date_of_birth">Age <i class="fa-solid fa-sort"></i></th>
-                    <th>Licence {{ 'now'|date('Y') }}</th>
-                    <th data-order="l.status">Statut license {{ 'now'|date('Y') }} <i class="fa-solid fa-sort"></i></th>
+                    <th data-order="u.lastname" data-direction="ASC">{{ "members.list.lastname"|trans }} <i class="fa-solid fa-sort"></i></th>
+                    <th data-order="u.firstname">{{ "members.list.firstname"|trans }} <i class="fa-solid fa-sort"></i></th>
+                    <th data-order="u.gender">{{ "members.list.gender.label"|trans }} <i class="fa-solid fa-sort"></i></th>
+                    <th data-order="u.date_of_birth">{{ "members.list.age"|trans }} <i class="fa-solid fa-sort"></i></th>
+                    <th>{{ "members.list.license"|trans }} {{ 'now'|date('Y') }}</th>
+                    <th data-order="l.status">{{ "members.list.license_status"|trans }} {{ 'now'|date('Y') }} <i class="fa-solid fa-sort"></i></th>
                 </tr>
             </thead>
             <tbody>
@@ -93,11 +93,11 @@
                             {% for license in member.licenses %}
                                 {% set licenseStatus = license.status %}
                                 {% set licenseStatusTrans = {
-                                    1: 'license.status.demanded'|trans,
-                                    2: 'license.status.document_downloaded'|trans,
-                                    3: 'license.status.document_received'|trans,
-                                    4: 'license.status.document_validated'|trans,
-                                    5: 'license.status.in_order'|trans,
+                                    1: "license.status.demanded"|trans,
+                                    2: "license.status.document_downloaded"|trans,
+                                    3: "license.status.document_received"|trans,
+                                    4: "license.status.document_validated"|trans,
+                                    5: "license.status.in_order"|trans,
                                 } %}
                                 {{ licenseStatusTrans[licenseStatus] ?? '' }}
                             {% endfor %}
@@ -118,7 +118,7 @@
             // get page number
             const path = window.location.pathname;
             const parts = path.split('/');
-            const page = parts[parts.length - 1] == 'members' ? 1 : parts[parts.length - 1];
+            let page = parts[parts.length - 1] == 'members' ? 1 : parts[parts.length - 1];
 
              // Define initial sort direction
             const queryString = window.location.search;
@@ -162,10 +162,12 @@
             tableTh.forEach(th => {
                 th.addEventListener('click', () => {
                     const orderBy = th.dataset.order;
+                    // reinitialize page number
+                    page = 1;
                     direction = direction == 'ASC' ? 'DESC' : 'ASC';
 
                     if (orderBy) {
-                        const url = simpleSearch ? `/${locale}/members/${page}?q=${search}&order=${orderBy}&dir=${direction}` : `/${locale}/members/${page}?firstname=${advancedSearchParameters.firstname}&lastname=${advancedSearchParameters.lastname}&gender=${advancedSearchParameters.gender}&ageMin=${advancedSearchParameters.ageMin}&ageMax=${advancedSearchParameters.ageMax}&licenseStatus=${advancedSearchParameters.licenseStatus}&order=${orderBy}&dir=${direction}`;
+                        const url = simpleSearch ? `/${locale}/members/${page}?q=${simpleSearch}&order=${orderBy}&dir=${direction}` : `/${locale}/members/${page}?firstname=${advancedSearchParameters.firstname}&lastname=${advancedSearchParameters.lastname}&gender=${advancedSearchParameters.gender}&ageMin=${advancedSearchParameters.ageMin}&ageMax=${advancedSearchParameters.ageMax}&licenseStatus=${advancedSearchParameters.licenseStatus}&order=${orderBy}&dir=${direction}`;
                         window.location.href = url;
                     }
                 })
@@ -177,9 +179,14 @@
             searchInput.value = simpleSearch;
             searchButton.addEventListener('click', event => {
                 event.preventDefault();
+                // reinitialize page number
+                page = 1;
                 const query = searchInput.value;
                 window.location.href = `/${locale}/members/${page}?q=${query}`;
             })
+
+            // Advanced Search Engine
+
 
             // Open advanced Search Engine 
             const advancedSearchLink = document.querySelector('.advanced-research-link');
