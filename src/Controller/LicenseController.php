@@ -87,7 +87,6 @@ class LicenseController extends AbstractController
             $license->setSeason(date('Y'));
             $license->setStatus(License::ON_DEMAND);
             $timestamp = new DateTimeImmutable();
-            $license->setCreatedAt($timestamp);
             $license->setUpdatedAt($timestamp);
             $license->setUser($user);
             $license->setUserLastUpdate($user);
@@ -119,8 +118,6 @@ class LicenseController extends AbstractController
 
             // Change the License status to License::DOC_DOWNLOADED
             $license->setStatus(License::DOC_DOWNLOADED);
-
-            $license->setUpdatedAt(new DateTimeImmutable());
 
             // Persist and flush the changes to the database
             $this->entityManager->persist($license);
@@ -161,8 +158,6 @@ class LicenseController extends AbstractController
                     $license->setUploadedFile($uploadedFileName);
                     // Change License Status
                     $license->setStatus(License::DOC_RECEIVED);
-
-                    $license->setUpdatedAt(new DateTimeImmutable());
 
                     $this->entityManager->persist($license);
                     $this->entityManager->flush();
@@ -232,7 +227,6 @@ class LicenseController extends AbstractController
             // Change status
             $license->setStatus(License::IN_ORDER);
 
-            $license->setUpdatedAt(new DateTimeImmutable());
             // Save data in DB
             $this->entityManager->persist($license);
             $this->entityManager->flush();
