@@ -7,9 +7,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Translatable\Translatable;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 #[ORM\Entity(repositoryClass: EventCategoryRepository::class)]
-class EventCategory
+class EventCategory implements Translatable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -17,13 +19,14 @@ class EventCategory
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Gedmo\Translatable]
     private ?string $name = null;
+
+    #[Gedmo\Locale]
+    private $locale;
 
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: Event::class)]
     private Collection $events;
-
-    #[ORM\Column(type: Types::SMALLINT)]
-    private ?int $value = null;
 
     public function __construct()
     {
@@ -77,15 +80,8 @@ class EventCategory
         return $this;
     }
 
-    public function getValue(): ?int
+    public function setTranslatableLocale($locale)
     {
-        return $this->value;
-    }
-
-    public function setValue(int $value): static
-    {
-        $this->value = $value;
-
-        return $this;
+        $this->locale = $locale;
     }
 }
