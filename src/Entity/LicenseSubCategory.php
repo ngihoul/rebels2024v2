@@ -7,9 +7,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\JoinTable;
+use Gedmo\Translatable\Translatable;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 #[ORM\Entity(repositoryClass: LicenseSubCategoryRepository::class)]
-class LicenseSubCategory
+class LicenseSubCategory implements Translatable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -17,7 +19,11 @@ class LicenseSubCategory
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Gedmo\Translatable]
     private ?string $name = null;
+
+    #[Gedmo\Locale]
+    private $locale;
 
     #[ORM\ManyToOne(inversedBy: 'licenseSubCategories')]
     #[ORM\JoinColumn(nullable: false)]
@@ -101,5 +107,10 @@ class LicenseSubCategory
         $this->value = $value;
 
         return $this;
+    }
+
+    public function setTranslatableLocale($locale)
+    {
+        $this->locale = $locale;
     }
 }

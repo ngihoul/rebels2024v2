@@ -78,6 +78,7 @@ class LicenseFixture extends Fixture implements DependentFixtureInterface
     {
         return [
             UserFixture::class,
+            LicenseCategoryFixture::class
         ];
     }
 }
