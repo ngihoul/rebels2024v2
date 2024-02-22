@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\User;
+use App\Entity\Country;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -46,13 +48,11 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('nationality', TextType::class, [
+            ->add('nationality', EntityType::class, [
+                'class' => Country::class,
+                'choice_label' => 'name',
                 'constraints' => [
-                    new NotBlank(['message' => 'validators.nationality.not_blank']),
-                    new Length([
-                        'max' => 50,
-                        'maxMessage' => 'validators.nationality.length',
-                    ]),
+                    new NotBlank(['message' => 'validators.nationality.not_blank'])
                 ],
             ])
             ->add('license_number', TextType::class, [
@@ -127,13 +127,11 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('country', TextType::class, [
+            ->add('country', EntityType::class, [
+                'class' => Country::class,
+                'choice_label' => 'name',
                 'constraints' => [
-                    new NotBlank(['message' => 'validators.country.not_blank']),
-                    new Length([
-                        'max' => 50,
-                        'maxMessage' => 'validators.country.length',
-                    ]),
+                    new NotBlank(['message' => 'validators.country.not_blank'])
                 ],
             ])
             ->add('phone_number', TelType::class, [

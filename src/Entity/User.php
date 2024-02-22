@@ -28,9 +28,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 50)]
     private ?string $lastname = null;
 
-    #[ORM\Column(length: 50)]
-    private ?string $nationality = null;
-
     #[ORM\Column(length: 12, nullable: true)]
     private ?string $license_number = null;
 
@@ -54,9 +51,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 50)]
     private ?string $locality = null;
-
-    #[ORM\Column(length: 50)]
-    private ?string $country = null;
 
     #[ORM\Column(length: 20, nullable: true)]
     private ?string $phone_number = null;
@@ -115,6 +109,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Gedmo\Timestampable(on: 'update')]
     private ?\DateTimeImmutable $updated_at = null;
 
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Country $nationality = null;
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Country $country = null;
+
     public function __construct()
     {
         $this->licenses = new ArrayCollection();
@@ -148,18 +150,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setLastname(string $lastname): static
     {
         $this->lastname = $lastname;
-
-        return $this;
-    }
-
-    public function getNationality(): ?string
-    {
-        return $this->nationality;
-    }
-
-    public function setNationality(string $nationality): static
-    {
-        $this->nationality = $nationality;
 
         return $this;
     }
@@ -256,18 +246,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setLocality(string $locality): static
     {
         $this->locality = $locality;
-
-        return $this;
-    }
-
-    public function getCountry(): ?string
-    {
-        return $this->country;
-    }
-
-    public function setCountry(string $country): static
-    {
-        $this->country = $country;
 
         return $this;
     }
@@ -591,6 +569,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setUpdatedAt(\DateTimeImmutable $updated_at): static
     {
         $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    public function getNationality(): ?Country
+    {
+        return $this->nationality;
+    }
+
+    public function setNationality(?Country $nationality): static
+    {
+        $this->nationality = $nationality;
+
+        return $this;
+    }
+
+    public function getCountry(): ?Country
+    {
+        return $this->country;
+    }
+
+    public function setCountry(?Country $country): static
+    {
+        $this->country = $country;
 
         return $this;
     }
