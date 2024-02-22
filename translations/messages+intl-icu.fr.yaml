@@ -259,7 +259,7 @@ payment:
         Vérifie ton moyen de paiement et réessaye. </br> 
         Si le problème persiste, contacte un administrateur ou ton coach pour trouver une solution.
       <p>
-    back: "Revenir à la liste de mes licences"
+  back: "Revenir à la liste de mes licences"
 
 members:
   list:
