@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} | Mes lieux{% endblock %}
+
+{% block body %}
+    <div class="container place-container">
+        <h1>Mes lieux</h1>
+
+        {{ parent() }}
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Rue</th>
+                    <th>Localité</th>
+                    <th>Pays</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for place in places %}
+                <tr>
+                    <td>{{ place.name }}</td>
+                    <td>{{ place.addressStreet }} {{ place.addressNumber }}</td>
+                    <td>{{ place.addressZipcode }} {{ place.addressLocality }}</td>
+                    <td>{{ place.addressCountry.name }}</td>
+                    <td>
+                        <a href="{{ path('app_places_update', {'placeId': place.id}) }}">
+                            <i class="fas fa-edit icon"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

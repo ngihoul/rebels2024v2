@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+{% set pageTitle = action == 'create' ? 'Créer un lieu' : 'Modifier un lieu' %}
+
+{% block title %}{{ parent() }} | {{ pageTitle }}{% endblock %}
+
+{% block body %}
+    <div class="container place-container">
+        <h1>{{ pageTitle }}</h1>
+
+        {{ parent() }}
+
+        {{ form_start(form, { 
+            'attr' : { 
+                'class' : 'place-form' 
+                }
+            }) 
+        }}
+
+            <div class="name">
+                {{ form_label(form.name, 'Nom') }}
+                {{ form_widget(form.name) }}
+            </div>
+
+            <div class="street">
+                {{ form_label(form.address_street, 'Rue') }}
+                {{ form_widget(form.address_street) }}
+            </div>
+
+            <div class="number">
+                {{ form_label(form.address_number, 'Numéro') }}
+                {{ form_widget(form.address_number) }}
+            </div>
+
+            <div class="zipcode">
+                {{ form_label(form.address_zipcode, 'Code postal') }}
+                {{ form_widget(form.address_zipcode) }}
+            </div>
+
+            <div class="locality">
+                {{ form_label(form.address_locality, 'Localité') }}
+                {{ form_widget(form.address_locality) }}
+            </div>
+
+            <div class="country">
+                {{ form_label(form.address_country, 'Pays') }}
+                {{ form_widget(form.address_country) }}
+            </div>
+
+            <div class="submit">
+                {{ form_row(form.submit, { 'label' : (action == 'create' ? 'Créer' : 'Modifier')}) }}
+            </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

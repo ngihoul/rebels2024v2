@@ -60,3 +60,6 @@ validators:
     upload:
       size: "The size of the license application must not exceed 2MB."
       mime_types: "License application format must be jpg, jpeg, gif, png or pdf"
+  place:
+    not_blank: "Enter a place name."
+    length: "The place name must not exceed {{ limit }} characters."

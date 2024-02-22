@@ -21,7 +21,7 @@ class Place
     #[ORM\Column(length: 255)]
     private ?string $address_street = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $address_number = null;
 
     #[ORM\Column(length: 6)]
@@ -30,11 +30,12 @@ class Place
     #[ORM\Column(length: 255)]
     private ?string $address_locality = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $address_country = null;
-
     #[ORM\OneToMany(mappedBy: 'place', targetEntity: Event::class)]
     private Collection $events;
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Country $address_country = null;
 
     public function __construct()
     {
@@ -106,18 +107,6 @@ class Place
         return $this;
     }
 
-    public function getAddressCountry(): ?string
-    {
-        return $this->address_country;
-    }
-
-    public function setAddressCountry(string $address_country): static
-    {
-        $this->address_country = $address_country;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Event>
      */
@@ -144,6 +133,18 @@ class Place
                 $event->setPlace(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAddressCountry(): ?Country
+    {
+        return $this->address_country;
+    }
+
+    public function setAddressCountry(?Country $address_country): static
+    {
+        $this->address_country = $address_country;
 
         return $this;
     }

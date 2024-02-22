@@ -60,3 +60,6 @@ validators:
     upload:
       size: "La taille de la demande de licence ne doit pas dépasser 2Mo"
       mime_types: "Le format de la demande de licence doit être jpg, jpeg, gif, png ou pdf"
+  place:
+    not_blank: "Entre un nom."
+    length: "Le nom ne doit pas dépasser {{ limit }} caractères."

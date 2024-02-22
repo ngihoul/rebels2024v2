@@ -68,9 +68,9 @@ form {
     & > div {
       width: 50%;
 
-      &:nth-child(even) {
-        padding-left: 0.8rem;
-      }
+      // &:nth-child(even) {
+      //   padding-left: 0.8rem;
+      // }
 
       // Submit button
       &:last-of-type {
