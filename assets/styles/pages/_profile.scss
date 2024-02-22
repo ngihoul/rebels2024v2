@@ -37,7 +37,15 @@
 .profile-picture-container {
   display: flex;
   align-items: center;
+  position: relative;
   margin-right: 1rem;
+
+  .profile-flag {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 40px;
+  }
 }
 
 .profile-member-picture {
