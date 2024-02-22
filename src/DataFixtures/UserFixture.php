@@ -2,23 +2,39 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Country;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 
-class UserFixture extends Fixture implements FixtureGroupInterface
+class UserFixture extends Fixture implements FixtureGroupInterface, DependentFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
         $faker = Factory::create('fr_BE');
 
-        for ($i = 0; $i < 25; $i++) {
+        $countryRepository = $manager->getRepository(Country::class);
+
+        for ($i = 0; $i < 200; $i++) {
             $user = new User();
             $user->setFirstname($faker->firstName);
             $user->setLastname($faker->lastName);
-            $user->setNationality($faker->country);
+
+            // Nationality & Address Country
+            $alpha2 = $faker->countryCode();
+            $country = $countryRepository->findOneBy(['alpha2' => $alpha2]);
+
+            if (!$country instanceof Country) {
+                $alpha2 = 'be';
+                $country = $countryRepository->findOneBy(['alpha2' => $alpha2]);
+            }
+
+            $user->setNationality($country);
+            $user->setCountry($country);
+
             $user->setLicenseNumber($faker->randomNumber(6));
             $user->setJerseyNumber($faker->numberBetween(1, 99));
             $user->setDateOfBirth($faker->dateTimeBetween('-50 years', '-18 years'));
@@ -27,7 +43,6 @@ class UserFixture extends Fixture implements FixtureGroupInterface
             $user->setAddressNumber($faker->buildingNumber);
             $user->setZipcode($faker->postcode);
             $user->setLocality($faker->city);
-            $user->setCountry($faker->country);
             $user->setPhoneNumber($faker->phoneNumber);
             $user->setMobileNumber($faker->phoneNumber);
             $user->setEmail($faker->unique()->email);
@@ -49,5 +64,12 @@ class UserFixture extends Fixture implements FixtureGroupInterface
     public static function getGroups(): array
     {
         return ['user'];
+    }
+
+    public function getDependencies()
+    {
+        return [
+            CountryFixture::class,
+        ];
     }
 }

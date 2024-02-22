@@ -5,6 +5,7 @@ namespace App\Service;
 
 use Exception;
 use setasign\Fpdi\Fpdi;
+use Symfony\Component\HttpFoundation\Request;
 
 class LicensePDFGenerator
 {
@@ -157,10 +158,10 @@ class LicensePDFGenerator
         $pdf->Cell(0, 10, $license->getUser()->getLocality(), 0, 1);
 
         $pdf->SetXY(35, 113.75);
-        $pdf->Cell(0, 10, $license->getUser()->getCountry(), 0, 1);
+        $pdf->Cell(0, 10, $license->getUser()->getCountry()->getName(), 0, 1);
 
         $pdf->SetXY(108, 113.75);
-        $pdf->Cell(0, 10, $license->getUser()->getNationality(), 0, 1);
+        $pdf->Cell(0, 10, $license->getUser()->getNationality()->getName(), 0, 1);
 
         $pdf->SetXY(35, 119.5);
         $pdf->Cell(0, 10, $license->getUser()->getPhoneNumber(), 0, 1);
