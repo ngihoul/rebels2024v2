@@ -60,9 +60,10 @@
             </form>
         </section>
 
-        <table>
+        <table class="member-table">
             <thead>
                 <tr>
+                    <th class="profile-picture"></th>
                     <th data-order="u.lastname" data-direction="ASC">{{ "members.list.lastname"|trans }} <i class="fa-solid fa-sort"></i></th>
                     <th data-order="u.firstname">{{ "members.list.firstname"|trans }} <i class="fa-solid fa-sort"></i></th>
                     <th data-order="u.gender">{{ "members.list.gender.label"|trans }} <i class="fa-solid fa-sort"></i></th>
@@ -74,6 +75,13 @@
             <tbody>
                 {% for member in members %}
                     <tr class="member-row" data-member-id="{{ member.id }}" data-locale="{{ app.request.locale }}">
+                        <td class="profile-picture">
+                            {% if member.profilePicture starts with 'http' %}
+                                <img class="profile-member-picture" src="{{ member.profilePicture }}" alt="Profile picture of {{ member.firstname }}">
+                            {% else %}
+                                <img class="profile-member-picture" src="{{ asset('uploads/user_pictures/' ~ member.profilePicture) }}" alt="Profile picture of {{ member.firstname }}">
+                            {% endif %}
+                        </td>
                         <td>{{ member.lastname }}</td>
                         <td>{{ member.firstname }}</td>
                         <td>{{ member.gender }}</td>
