@@ -6,6 +6,8 @@ use App\Entity\Place;
 use App\Form\PlaceType;
 use App\Repository\PlaceRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityNotFoundException;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -40,37 +42,42 @@ class PlaceController extends AbstractController
     {
         $action = 'create';
 
-        $place = new Place();
-        $form = $this->createForm(PlaceType::class, $place);
+        try {
+            $place = new Place();
+            $form = $this->createForm(PlaceType::class, $place);
 
-        $form->handleRequest($request);
+            $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $place = $form->getData();
+            if ($form->isSubmitted() && $form->isValid()) {
+                $place = $form->getData();
 
-            // Check if new place is not already in DB based on street & zipcode
-            $existingPlace = $this->placeRepository->findOneBy([
-                'address_street' => $place->getAddressStreet(),
-                'address_zipcode' => $place->getAddressZipcode(),
-            ]);
+                // Check if new place is not already in DB based on street & zipcode
+                $existingPlace = $this->placeRepository->findOneBy([
+                    'address_street' => $place->getAddressStreet(),
+                    'address_zipcode' => $place->getAddressZipcode(),
+                ]);
 
-            if ($existingPlace) {
-                $this->addFlash('error', 'Un lieu avec le même nom de rue et le même code postal existe déjà.');
-                // TODO : Redirect to place profile of existingPlace
-                return $this->redirectToRoute('app_places_create');
+                if ($existingPlace) {
+                    $this->addFlash('error', 'Un lieu avec le même nom de rue et le même code postal existe déjà.');
+                    // TODO : Redirect to place profile of existingPlace
+                    return $this->redirectToRoute('app_places_create');
+                }
+
+                $this->entityManager->persist($place);
+                $this->entityManager->flush();
+
+                $this->addFlash('success', 'Lieu créé');
+                return $this->redirectToRoute('app_places');
             }
 
-            $this->entityManager->persist($place);
-            $this->entityManager->flush();
-
-            $this->addFlash('success', 'Lieu créé');
+            return $this->render('place/form.html.twig', [
+                'action' => $action,
+                'form' => $form->createView(),
+            ]);
+        } catch (Exception $e) {
+            $this->addFlash('error', $e->getMessage());
             return $this->redirectToRoute('app_places');
         }
-
-        return $this->render('place/form.html.twig', [
-            'action' => $action,
-            'form' => $form->createView(),
-        ]);
     }
 
     #[Route('/update/{placeId}', name: 'app_place_update')]
@@ -78,30 +85,40 @@ class PlaceController extends AbstractController
     {
         $action = 'update';
 
-        $place = $placeRepository->find($placeId);
-        $form = $this->createForm(PlaceType::class, $place);
+        try {
+            $place = $placeRepository->find($placeId);
 
-        $form->handleRequest($request);
+            if (!$place) {
+                throw new EntityNotFoundException('Le lieu n\'a pas été trouvé');
+            }
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $place = $form->getData();
+            $form = $this->createForm(PlaceType::class, $place);
 
-            $this->entityManager->persist($place);
-            $this->entityManager->flush();
+            $form->handleRequest($request);
 
-            $this->addFlash('success', 'Lieu modifié');
+            if ($form->isSubmitted() && $form->isValid()) {
+                $place = $form->getData();
+
+                $this->entityManager->persist($place);
+                $this->entityManager->flush();
+
+                $this->addFlash('success', 'Lieu modifié');
+                return $this->redirectToRoute('app_places');
+            }
+
+            return $this->render('place/form.html.twig', [
+                'action' => $action,
+                'form' => $form,
+            ]);
+        } catch (Exception $e) {
+            $this->addFlash('error', $e->getMessage());
             return $this->redirectToRoute('app_places');
         }
-
-        return $this->render('place/form.html.twig', [
-            'action' => $action,
-            'form' => $form,
-        ]);
     }
 
-    #[Route('/delete/{placeId}', name: 'app_places_delete')]
-    public function delete(): response
-    {
-        return $this->render('place/index.html.twig', []);
-    }
+    // #[Route('/delete/{placeId}', name: 'app_places_delete')]
+    // public function delete(): response
+    // {
+    //     return $this->render('place/index.html.twig', []);
+    // }
 }
