@@ -28,7 +28,7 @@ class PlaceController extends AbstractController
     #[Route('/', name: 'app_places')]
     public function index(): Response
     {
-        $places = $this->placeRepository->findAll();
+        $places = $this->placeRepository->findBy([], ['name' => "ASC"]);
 
         return $this->render('place/index.html.twig', [
             'places' => $places,
