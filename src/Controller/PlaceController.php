@@ -35,7 +35,7 @@ class PlaceController extends AbstractController
         ]);
     }
 
-    #[Route('/create', name: 'app_places_create')]
+    #[Route('/create', name: 'app_place_create')]
     public function create(Request $request): response
     {
         $action = 'create';
@@ -73,7 +73,7 @@ class PlaceController extends AbstractController
         ]);
     }
 
-    #[Route('/update/{placeId}', name: 'app_places_update')]
+    #[Route('/update/{placeId}', name: 'app_place_update')]
     public function update(Request $request, PlaceRepository $placeRepository, $placeId): response
     {
         $action = 'update';

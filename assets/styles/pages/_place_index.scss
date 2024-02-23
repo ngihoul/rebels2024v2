@@ -1,0 +1,19 @@
+.place-table {
+  .address,
+  .country {
+    display: none;
+  }
+
+  .actions {
+    width: 40px;
+  }
+}
+
+@media screen and (min-width: $min-desktop) {
+  .place-table {
+    .address,
+    .country {
+      display: table-cell;
+    }
+  }
+}

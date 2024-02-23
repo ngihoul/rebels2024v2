@@ -4,35 +4,43 @@
 
 {% block body %}
     <div class="container place-container">
-        <h1>Mes lieux</h1>
+        
+        <div class="heading-container">
+            <h1>Mes lieux</h1>
+            <a href="{{ path('app_place_create') }}" class="btn-add"></a>
+        </div>
 
         {{ parent() }}
 
-        <table>
-            <thead>
-                <tr>
-                    <th>Nom</th>
-                    <th>Rue</th>
-                    <th>Localité</th>
-                    <th>Pays</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for place in places %}
-                <tr>
-                    <td>{{ place.name }}</td>
-                    <td>{{ place.addressStreet }} {{ place.addressNumber }}</td>
-                    <td>{{ place.addressZipcode }} {{ place.addressLocality }}</td>
-                    <td>{{ place.addressCountry.name }}</td>
-                    <td>
-                        <a href="{{ path('app_places_update', {'placeId': place.id}) }}">
-                            <i class="fas fa-edit icon"></i>
-                        </a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        {% if places|length > 0 %}
+            <table class="place-table">
+                <thead>
+                    <tr>
+                        <th class="name">Nom</th>
+                        <th class="address">Rue</th>
+                        <th class="locality">Localité</th>
+                        <th class="country">Pays</th>
+                        <th class="actions"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for place in places %}
+                    <tr>
+                        <td class="name">{{ place.name }}</td>
+                        <td class="address">{{ place.addressStreet }} {{ place.addressNumber }}</td>
+                        <td class="locality">{{ place.addressZipcode }} {{ place.addressLocality }}</td>
+                        <td class="country">{{ place.addressCountry.name }}</td>
+                        <td class="actions">
+                            <a href="{{ path('app_place_update', {'placeId': place.id}) }}">
+                                <i class="fas fa-edit icon"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p class="alert alert-warning">Il n'y a aucun lieu à afficher</p>
+        {% endif %}
     </div>
 {% endblock %}
