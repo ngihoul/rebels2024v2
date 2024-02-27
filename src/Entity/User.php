@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\JoinTable;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -116,6 +117,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?Country $country = null;
+
+    #[ORM\Column(options: ["default" => 0])]
+    private ?bool $privacy_policy = null;
+
+    #[ORM\Column(type: Types::SMALLINT, options: ["default" => 0])]
+    private ?int $unsuccessfull_attempts = null;
 
     public function __construct()
     {
@@ -593,6 +600,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setCountry(?Country $country): static
     {
         $this->country = $country;
+
+        return $this;
+    }
+
+    public function isPrivacyPolicy(): ?bool
+    {
+        return $this->privacy_policy;
+    }
+
+    public function setPrivacyPolicy(bool $privacy_policy): static
+    {
+        $this->privacy_policy = $privacy_policy;
+
+        return $this;
+    }
+
+    public function getUnsuccessfullAttempts(): ?int
+    {
+        return $this->unsuccessfull_attempts;
+    }
+
+    public function setUnsuccessfullAttempts(int $unsuccessfull_attempts): static
+    {
+        $this->unsuccessfull_attempts = $unsuccessfull_attempts;
 
         return $this;
     }
