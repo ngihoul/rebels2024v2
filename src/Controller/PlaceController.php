@@ -32,8 +32,11 @@ class PlaceController extends AbstractController
     {
         $places = $this->placeRepository->findBy([], ['name' => "ASC"]);
 
+        $placesCount = count($places);
+
         return $this->render('place/index.html.twig', [
             'places' => $places,
+            'placesCount' => $placesCount,
         ]);
     }
 
