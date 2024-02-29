@@ -18,7 +18,7 @@ class AddUserToTeam extends AbstractType
             ->add('user', EntityType::class, [
                 'class' => User::class,
                 'choice_label' => function (User $user) {
-                    return sprintf('%s %s - %s - %s', $user->getFirstname(), $user->getLastname(), $user->getGender(), $user->getDateOfBirth()->format('d-m-Y'));
+                    return sprintf('%s %s - %s - %s', $user->getLastname(), $user->getFirstname(), $user->getGender(), $user->getDateOfBirth()->format('d-m-Y'));
                 },
                 'label' => 'add_player.label',
                 'query_builder' => function (EntityRepository $entityRepository) use ($options) {
