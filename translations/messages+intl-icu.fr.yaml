@@ -131,7 +131,7 @@ agenda:
   no_event: "Aucun événement à venir."
   present: "Présent"
   absent: "Absent"
-  attendees: "Particpants"
+  attendees: "Participants"
   attendee: "participant"
   awaiting: "en attente"
   unavailable: "Indisponible"
