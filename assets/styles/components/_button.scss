@@ -31,7 +31,8 @@ button,
   }
 }
 
-.btn-add {
+.btn-add,
+.btn-update {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -40,7 +41,9 @@ button,
   border-radius: 50%;
   background-color: $color-primary;
   color: $color-background;
+}
 
+.btn-add {
   &::before {
     content: "+";
     font-size: 25px;
@@ -48,6 +51,19 @@ button,
 
   &:visited {
     color: $color-background;
+  }
+}
+
+.btn-update {
+  position: relative;
+
+  svg {
+    font-size: 1.2rem;
+    color: $color-background;
+  }
+
+  &:visited {
+    color: $color-primary;
   }
 }
 

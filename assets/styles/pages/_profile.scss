@@ -4,27 +4,6 @@
   align-items: baseline;
 }
 
-.profile-container .icon-edit {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background-color: $color-primary;
-  color: $color-background;
-  position: relative;
-
-  svg {
-    font-size: 1.5rem;
-    color: $color-background;
-  }
-
-  &:visited {
-    color: $color-primary;
-  }
-}
-
 .profile-important-info {
   display: flex;
   align-items: center;

@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} | {{ place.name }}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {# Leaflet CSS #}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+     crossorigin=""/>
+{% endblock %}
+
+{% block body %}
+    <div class="container place-container">
+        
+        <div class="heading-container">
+            <h1>{{ place.name }}</h1>
+            <a class="btn-update" href="{{ path('app_place_update', { 'placeId' : place.id }) }}">
+                <i class="fa-regular fa-pen-to-square"></i>
+            </a>
+        </div>
+
+        <div class="place-content">
+            <section>
+                <p>{{ place.addressStreet }} {{ place.addressNumber }}</p>
+                <p>{{ place.addressZipcode }} {{ place.addressLocality }}</p>
+                <p>{{ place.addressCountry.name }}</p>
+            </section>
+
+            <div id="map" class="" 
+                data-street="{{ place.addressStreet|e('html_attr') }}"
+                data-number="{{ place.addressNumber|e('html_attr') }}"
+                data-zipcode="{{ place.addressZipcode|e('html_attr') }}"
+                data-locality="{{ place.addressLocality|e('html_attr') }}"
+                data-country="{{ place.addressCountry.name|e('html_attr') }}">
+            </div>
+        </div>
+    </div>
+
+    {% block javascripts %}
+        {{ parent() }}
+
+        {# Leaflet Javascript #}
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+        crossorigin=""></script>
+
+        {# Leaflet Geocoder #}
+        <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+
+        {{ encore_entry_script_tags('map') }}
+
+    {% endblock %}
+
+{% endblock %}

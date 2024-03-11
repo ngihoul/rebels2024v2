@@ -1,0 +1,29 @@
+.place-container {
+  .place-content section p:last-child {
+    margin-bottom: 0;
+  }
+  #map {
+    height: 360px;
+  }
+}
+
+@media screen and (min-width: $min-desktop) {
+  .place-container .place-content {
+    display: flex;
+
+    section {
+      width: 50vw;
+      display: flex;
+      order: 2;
+      justify-content: center;
+      flex-direction: column;
+      align-items: flex-start;
+      margin: 0 0 0 0.8rem;
+    }
+
+    #map {
+      width: 50vw;
+      order: 1;
+    }
+  }
+}

@@ -84,12 +84,12 @@ class PlaceController extends AbstractController
     }
 
     #[Route('/update/{placeId}', name: 'app_place_update')]
-    public function update(Request $request, PlaceRepository $placeRepository, $placeId): response
+    public function update(Request $request, $placeId): response
     {
         $action = 'update';
 
         try {
-            $place = $placeRepository->find($placeId);
+            $place = $this->placeRepository->find($placeId);
 
             if (!$place) {
                 throw new EntityNotFoundException('Le lieu n\'a pas été trouvé');
@@ -112,6 +112,25 @@ class PlaceController extends AbstractController
             return $this->render('place/form.html.twig', [
                 'action' => $action,
                 'form' => $form,
+            ]);
+        } catch (Exception $e) {
+            $this->addFlash('error', $e->getMessage());
+            return $this->redirectToRoute('app_places');
+        }
+    }
+
+    #[Route('/{placeId}', name: 'app_place_detail')]
+    public function detail($placeId): Response
+    {
+        try {
+            $place = $this->placeRepository->find($placeId);
+
+            if (!$place) {
+                throw new EntityNotFoundException('Le lieu n\'a pas été trouvé');
+            }
+
+            return $this->render('place/detail.html.twig', [
+                'place' => $place
             ]);
         } catch (Exception $e) {
             $this->addFlash('error', $e->getMessage());
