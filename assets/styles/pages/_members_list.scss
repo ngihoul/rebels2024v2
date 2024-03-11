@@ -81,31 +81,4 @@
       }
     }
   }
-
-  .member-table {
-    tr {
-      cursor: pointer;
-
-      &.focus {
-        font-weight: bold;
-      }
-
-      .profile-member-picture {
-        width: 52px;
-        height: 52px;
-        border-radius: 52px;
-      }
-    }
-
-    td {
-      vertical-align: middle;
-    }
-
-    .profile-picture {
-      display: table-cell;
-      text-align: center;
-      vertical-align: middle;
-      width: 78px;
-    }
-  }
 }

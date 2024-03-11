@@ -1,4 +1,4 @@
-/* Styles pour le tableau */
+/* Generic table style */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -26,4 +26,37 @@ table tbody tr:nth-child(2n) {
 table td {
   padding: 8px;
   border: 1px solid #e0e0e0;
+}
+
+/* Specific table styles */
+@media screen and (min-width: $min-desktop) {
+  .member-table,
+  .place-table {
+    tr {
+      cursor: pointer;
+
+      &.focus {
+        font-weight: bold;
+      }
+    }
+  }
+
+  .member-table {
+    .profile-member-picture {
+      width: 52px;
+      height: 52px;
+      border-radius: 52px;
+    }
+
+    td {
+      vertical-align: middle;
+    }
+
+    .profile-picture {
+      display: table-cell;
+      text-align: center;
+      vertical-align: middle;
+      width: 78px;
+    }
+  }
 }
