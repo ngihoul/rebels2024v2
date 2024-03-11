@@ -124,12 +124,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::SMALLINT, options: ["default" => 0])]
     private ?int $unsuccessfull_attempts = null;
 
+    #[ORM\OneToMany(mappedBy: 'receiver', targetEntity: MessageStatus::class)]
+    private Collection $messageStatuses;
+
     public function __construct()
     {
         $this->licenses = new ArrayCollection();
         $this->teams = new ArrayCollection();
         $this->coach_of = new ArrayCollection();
         $this->events = new ArrayCollection();
+        $this->messageStatuses = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -624,6 +628,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setUnsuccessfullAttempts(int $unsuccessfull_attempts): static
     {
         $this->unsuccessfull_attempts = $unsuccessfull_attempts;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, MessageStatus>
+     */
+    public function getMessageStatuses(): Collection
+    {
+        return $this->messageStatuses;
+    }
+
+    public function addMessageStatus(MessageStatus $messageStatus): static
+    {
+        if (!$this->messageStatuses->contains($messageStatus)) {
+            $this->messageStatuses->add($messageStatus);
+            $messageStatus->setReceiver($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessageStatus(MessageStatus $messageStatus): static
+    {
+        if ($this->messageStatuses->removeElement($messageStatus)) {
+            // set the owning side to null (unless already changed)
+            if ($messageStatus->getReceiver() === $this) {
+                $messageStatus->setReceiver(null);
+            }
+        }
 
         return $this;
     }
