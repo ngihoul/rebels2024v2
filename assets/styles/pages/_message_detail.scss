@@ -1,0 +1,21 @@
+.container-message {
+  .message-data {
+    display: flex;
+    margin-bottom: 1.6rem;
+
+    .author-container,
+    .date-container {
+      display: flex;
+      width: 50%;
+      font-size: 0.8rem;
+
+      p {
+        margin-bottom: 0;
+      }
+
+      svg {
+        margin-right: 0.4rem;
+      }
+    }
+  }
+}

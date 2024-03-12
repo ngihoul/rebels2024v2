@@ -1,0 +1,39 @@
+.message-card {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  border: 1px solid $color-border;
+  padding: 1.6rem 0.8rem;
+  margin-bottom: 1.6rem;
+
+  &:first-child {
+    margin-top: 1.6rem;
+  }
+
+  .message-data {
+    display: flex;
+
+    .author-container,
+    .date-container {
+      display: flex;
+      width: 50%;
+      font-size: 0.8rem;
+
+      p {
+        margin-bottom: 0;
+      }
+
+      svg {
+        margin-right: 0.4rem;
+      }
+    }
+  }
+
+  .title {
+    margin: 0.8rem 0 0.4rem 0;
+  }
+
+  .content {
+    margin-bottom: 0;
+  }
+}
