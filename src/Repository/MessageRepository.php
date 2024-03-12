@@ -48,7 +48,8 @@ class MessageRepository extends ServiceEntityRepository
             ->select('COUNT(s.id)')
             ->andWhere('s.status = :unread')
             ->andWhere('s.receiver = :user')
-            ->setParameters(['unread' => false, 'user' => $user])
+            ->andWhere('m.is_archived = :is_archived')
+            ->setParameters(['unread' => false, 'user' => $user, 'is_archived' => false])
             ->getQuery()
             ->getSingleScalarResult();
     }
