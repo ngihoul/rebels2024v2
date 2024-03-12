@@ -6,6 +6,7 @@ use App\Entity\Message;
 use App\Entity\MessageStatus;
 use App\Form\MessageType;
 use App\Repository\MessageRepository;
+use App\Repository\MessageStatusRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -101,9 +102,16 @@ class MessageController extends AbstractController
     }
 
     #[Route('/{messageId}', name: 'app_message_detail')]
-    public function detail($messageId): Response
+    public function detail(MessageStatusRepository $messageStatusRepository, $messageId): Response
     {
         $message = $this->messageRepository->findOneBy(['id' => $messageId]);
+        // Mark message as read
+        $messageStatus = $messageStatusRepository->findOneBy(['message' => $message, 'receiver' => $this->getUser()]);
+        $messageStatus->setStatus(true);
+
+        $this->entityManager->persist($messageStatus);
+        $this->entityManager->flush();
+
         return $this->render('message/detail.html.twig', [
             "message" => $message
         ]);
