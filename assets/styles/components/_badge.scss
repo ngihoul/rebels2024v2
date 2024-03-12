@@ -4,15 +4,35 @@
   right: 12px;
 }
 
+.badge-unread-count,
 .badge-unread::before {
-  content: "!";
   color: $color-background;
   background-color: red;
   border-radius: 50%;
+  text-align: center;
+  display: inline-block;
+}
+
+.badge-unread::before {
+  content: "!";
   width: 24px;
   height: 24px;
-  text-align: center;
   line-height: 24px;
-  display: inline-block;
   position: relative;
+}
+
+.badge-unread-count {
+  top: 0;
+  left: 152px;
+  font-size: 0.6rem;
+  font-weight: bold;
+  width: 18px;
+  height: 18px;
+  line-height: 18px;
+}
+
+@media screen and (min-width: $min-desktop) {
+  .badge-unread-count {
+    right: 18px;
+  }
 }

@@ -40,4 +40,16 @@ class MessageRepository extends ServiceEntityRepository
 
         return $queryBuilder->getQuery()->getResult();
     }
+
+    public function countUnreadMessagesForThisUser(User $user)
+    {
+        return $this->createQueryBuilder('m')
+            ->leftJoin('m.messageStatuses', 's')
+            ->select('COUNT(s.id)')
+            ->andWhere('s.status = :unread')
+            ->andWhere('s.receiver = :user')
+            ->setParameters(['unread' => false, 'user' => $user])
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }

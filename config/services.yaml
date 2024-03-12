@@ -37,3 +37,13 @@ services:
 
   App\Controller\ErrorController:
     arguments: []
+
+  App\Service\UnreadMessageCounter:
+    arguments:
+      $messageRepository: '@App\Repository\MessageRepository'
+
+  App\Twig\UnreadMessagesExtension:
+    arguments:
+      $unreadMessageCounter: '@App\Service\UnreadMessageCounter'
+    tags:
+      - { name: twig.extension }

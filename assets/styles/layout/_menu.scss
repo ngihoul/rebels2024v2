@@ -45,6 +45,8 @@ ul .menu-item {
   border-radius: 0.5rem;
   transition: background-color 0.3s ease-in-out;
   cursor: pointer;
+  // For badge
+  position: relative;
 
   &:hover {
     background-color: $color-primary-hover;
