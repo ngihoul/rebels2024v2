@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+{% set pageTitle = action == 'create' ? 'Créer un message' : 'Modifier un message' %}
+
+{% block title %}{{ parent() }} | {{ pageTitle }}{% endblock %}
+
+{% block body %}
+    <div class="container container-message">
+        <h1>{{ pageTitle }}</h1>
+
+        {{ parent() }}
+
+        {{ form_start(form, {
+            'attr' : {
+                'class' : 'message-form'
+            }
+        })}}
+
+        <div class="title">
+            {{ form_label(form.title, 'Titre')}}
+            {{ form_widget(form.title) }}
+        </div>
+
+        <div class="content">
+            {{ form_label(form.content, 'Contenu')}}
+            {{ form_widget(form.content) }}
+        </div>
+
+        <h2 class="teams-heading">Envoyer aux équipes <i class="fas fa-chevron-down"></i></h2>
+
+        <div class="list teams-list">
+            {% for team in form.sentToTeams %}
+                <div class="checkbox-pair">
+                    {{ form_widget(team, {'attr': {'id': 'custom_id_teams_' ~ team.vars.value}}) }}
+                    {{ form_label(team) }}
+                </div>
+            {% endfor %}
+        </div>
+
+        <h2 class="users-heading">Envoyer aux joueurs <i class="fas fa-chevron-down"></i></h2>
+
+        <div class="list users-list">
+            {% for user in form.sentToUsers %}
+                <div class="checkbox-pair">
+                    {{ form_widget(user, {'attr': {'id': 'custom_id_users_' ~ user.vars.value}}) }}
+                    {{ form_label(user) }}
+                </div>
+            {% endfor %}
+        </div>
+
+        <h2>Envoyer par mail ?</h2>
+
+        <div class="sent_by_mail checkbox-pair">
+            {{ form_widget(form.sent_by_mail) }}
+            {{ form_label(form.sent_by_mail, 'Envoyer par mail ?')}}
+        </div>
+
+        <div class="submit">
+            {{ form_row(form.submit, { 'label' : (action == 'create' ? 'Créer' : 'Modifier')}) }}
+        </div>
+
+        {{ form_end(form) }}
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const teamsHeading = document.querySelector('.teams-heading');
+            const usersHeading = document.querySelector('.users-heading');
+
+            [teamsHeading, usersHeading].forEach((heading) => {
+                heading.addEventListener('click', () => {
+                    const list = heading.nextElementSibling;
+                    list.classList.toggle('show');
+                    console.log(heading);
+
+                    const icon = heading.querySelector('svg');
+                    icon.classList.toggle('fa-rotate-180');
+                });
+            })
+        });
+    </script>
+{% endblock %}

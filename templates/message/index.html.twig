@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} | Mes messages{% endblock %}
+
+{% block body %}
+    <div class="container container-message">
+        <div class="heading-container">
+            <h1>Mes messages</h1>
+            {% if is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('app_message_create') }}" class="btn-add"></a>
+            {% endif %}
+        </div>
+
+        {{ parent() }}
+
+        {% for message in messages %}
+            <a href="{{ path('app_message_detail', { 'messageId' : message.0.id }) }}">
+                <div class="message-card">
+                {% if message.status is same as(false) %}
+                <div class="badge badge-unread"></div>
+                {% endif %}
+                    <div class="message-data">
+                        <div class="author-container">
+                            <i class="fa-solid fa-user"></i>
+                            <p>{{  message.0.sender.firstname }} {{ message.0.sender.lastname }}
+                        </div>
+                        <div class="date-container">
+                            <i class="fa-solid fa-calendar-days"></i>
+                            <p>{{ message.0.createdAt|format_datetime(locale='{{ app.request.locale }}') }}
+                        </div>
+                    </div>
+                    <h2 class="title">{{ message.0.title }}</h2>
+                    <p class="content">{{ message.short_content }} ...</p>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+{% endblock %}
