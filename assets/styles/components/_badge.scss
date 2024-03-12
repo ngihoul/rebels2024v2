@@ -1,0 +1,18 @@
+.badge {
+  position: absolute;
+  top: -12px;
+  right: 12px;
+}
+
+.badge-unread::before {
+  content: "!";
+  color: $color-background;
+  background-color: red;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  text-align: center;
+  line-height: 24px;
+  display: inline-block;
+  position: relative;
+}
