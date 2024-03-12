@@ -63,3 +63,9 @@ validators:
   place:
     not_blank: "Entre un nom."
     length: "Le nom ne doit pas dépasser {{ limit }} caractères."
+  message:
+    title:
+      not_blank: "Entre un titre"
+      length: "Le titre ne doit pas dépasser {{ limit }} caractères."
+    content:
+      not_blank: "Entre un contenu"

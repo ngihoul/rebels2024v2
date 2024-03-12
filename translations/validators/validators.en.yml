@@ -63,3 +63,9 @@ validators:
   place:
     not_blank: "Enter a place name."
     length: "The place name must not exceed {{ limit }} characters."
+  message:
+    title:
+      not_blank: "Enter a title"
+      length: "The title must not exceed {{ limit }} characters."
+    content:
+      not_blank: "Enter a content"
