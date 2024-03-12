@@ -80,7 +80,7 @@
                         {% if is_granted('ROLE_ADMIN') %}
                         <li class="menu-item">
                             <a href="{{ path('app_members') }}">
-                                <i class="fa-regular fa-calendar-days"></i> {{ "nav.my_members"|trans }}
+                                <i class="fa-solid fa-users"></i> {{ "nav.my_members"|trans }}
                             </a>
                         </li>
                         {% endif %}
@@ -113,6 +113,9 @@
                                 <a href="{{ path('app_places') }}"><i class="fa-solid fa-location-dot"></i> {{ "nav.my_places"|trans }}</a>
                             </li>
                         {% endif %}
+                        <li class="menu-item">
+                            <a href="{{ path('app_messages') }}"><i class="fa-solid fa-envelope"></i> Mes messages</a>
+                        </li>
                     </ul>
                 </nav>
             {% endif %}
