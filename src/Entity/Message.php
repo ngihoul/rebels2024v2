@@ -43,6 +43,7 @@ class Message
     public function __construct()
     {
         $this->messageStatuses = new ArrayCollection();
+        $this->is_archived = false;
     }
 
     public function getId(): ?int
