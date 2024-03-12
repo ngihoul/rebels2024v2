@@ -20,12 +20,12 @@
 
         <h2>{{ "agenda.players"|trans }}</h2>
         
-            {% for user in form.invitedUsers %}
-                <div class="checkbox-pair">
-                    {{ form_widget(user, {'attr': {'id': 'custom_id_users_' ~ user.vars.value}}) }}
-                    {{ form_label(user) }}
-                </div>
-            {% endfor %}
+        {% for user in form.invitedUsers %}
+            <div class="checkbox-pair">
+                {{ form_widget(user, {'attr': {'id': 'custom_id_users_' ~ user.vars.value}}) }}
+                {{ form_label(user) }}
+            </div>
+        {% endfor %}
         
         <input type="hidden" name="referer" value="{{app.request.headers.get('referer')}}"/>
         
