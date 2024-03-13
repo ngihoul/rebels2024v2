@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/messages')]
 #[IsGranted('ROLE_USER')]
@@ -25,13 +26,15 @@ class MessageController extends AbstractController
     private MessageRepository $messageRepository;
     private MessageStatusRepository $messageStatusRepository;
     private  EmailManager $emailManager;
+    private TranslatorInterface $translator;
 
-    public function __construct(EntityManagerInterface $entityManager, MessageRepository $messageRepository, MessageStatusRepository $messageStatusRepository, EmailManager $emailManager)
+    public function __construct(EntityManagerInterface $entityManager, MessageRepository $messageRepository, MessageStatusRepository $messageStatusRepository, EmailManager $emailManager, TranslatorInterface $translator)
     {
         $this->entityManager = $entityManager;
         $this->messageRepository = $messageRepository;
         $this->messageStatusRepository = $messageStatusRepository;
         $this->emailManager = $emailManager;
+        $this->translator = $translator;
     }
 
     #[Route('/', name: 'app_messages')]
@@ -74,8 +77,14 @@ class MessageController extends AbstractController
                 $contentEnglish = $form->get('contentEnglish')->getData();
 
                 $message->setTranslatableLocale('en');
-                $message->setTitle($titleEnglish);
-                $message->setContent($contentEnglish);
+
+                if ($titleEnglish) {
+                    $message->setTitle($titleEnglish);
+                }
+
+                if ($contentEnglish) {
+                    $message->setContent($contentEnglish);
+                }
 
                 $this->entityManager->persist($message);
                 $this->entityManager->flush();
@@ -83,7 +92,7 @@ class MessageController extends AbstractController
                 // Send message to users
                 $this->sendMessage($form, $message);
 
-                $this->addFlash('success', 'Message créé');
+                $this->addFlash('success', $this->translator->trans('success.message.created'));
                 return $this->redirectToRoute('app_messages');
             }
 
@@ -117,7 +126,7 @@ class MessageController extends AbstractController
 
                 $this->sendMessage($form, $message);
 
-                $this->addFlash('success', 'Message modifié');
+                $this->addFlash('success', $this->translator->trans('success.message.updated'));
                 return $this->redirectToRoute('app_messages');
             }
 
@@ -181,7 +190,7 @@ class MessageController extends AbstractController
         $message = $this->messageRepository->findOneBy(['id' => $messageId]);
 
         if (!$message) {
-            throw new EntityNotFoundException('Message non trouvé');
+            throw new EntityNotFoundException($this->translator->trans('error.message.not_found'));
         }
 
         return $message;
@@ -216,7 +225,7 @@ class MessageController extends AbstractController
                 $isSentByMail = $form->get('sent_by_mail')->getData();
 
                 if ($isSentByMail) {
-                    $this->emailManager->sendEmail($user->getEmail(), 'Message reçu', 'message', ['message' => $message]);
+                    $this->emailManager->sendEmail($user->getEmail(), $this->translator->trans('message.subject', [], 'emails'), 'message', ['message' => $message]);
                 }
             }
         }
