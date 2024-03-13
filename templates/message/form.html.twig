@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-{% set pageTitle = action == 'create' ? 'Créer un message' : 'Modifier un message' %}
+{% set pageTitle = action == 'create' ? 'message.form.title.create'|trans : 'message.form.title.update'|trans %}
 
 {% block title %}{{ parent() }} | {{ pageTitle }}{% endblock %}
 
@@ -16,26 +16,26 @@
         })}}
 
         <div class="title">
-            {{ form_label(form.title, 'Titre')}}
+            {{ form_label(form.title, 'message.title')}}
             {{ form_widget(form.title) }}
         </div>
 
         <div class="titleEnglish">
-            {{ form_label(form.titleEnglish, 'Titre en anglais')}}
+            {{ form_label(form.titleEnglish, 'message.title_english')}}
             {{ form_widget(form.titleEnglish) }}
         </div>
 
         <div class="content">
-            {{ form_label(form.content, 'Contenu')}}
+            {{ form_label(form.content, 'message.content')}}
             {{ form_widget(form.content) }}
         </div>
 
         <div class="contentEnglish">
-            {{ form_label(form.contentEnglish, 'Contenu en anglais')}}
+            {{ form_label(form.contentEnglish, 'message.content_english')}}
             {{ form_widget(form.contentEnglish) }}
         </div>
 
-        <h2 class="teams-heading">Envoyer aux équipes <i class="fas fa-chevron-down"></i></h2>
+        <h2 class="teams-heading">{{ 'message.form.send_to_teams'|trans }} <i class="fas fa-chevron-down"></i></h2>
 
         <div class="list teams-list">
             {% for team in form.sentToTeams %}
@@ -46,7 +46,7 @@
             {% endfor %}
         </div>
 
-        <h2 class="users-heading">Envoyer aux joueurs <i class="fas fa-chevron-down"></i></h2>
+        <h2 class="users-heading">{{ 'message.form.send_to_players'|trans }} <i class="fas fa-chevron-down"></i></h2>
 
         <div class="list users-list">
             {% for user in form.sentToUsers %}
@@ -57,15 +57,15 @@
             {% endfor %}
         </div>
 
-        <h2>Envoyer par mail ?</h2>
+        <h2>{{ 'message.form.send_by_mail'|trans }}</h2>
 
         <div class="sent_by_mail checkbox-pair">
             {{ form_widget(form.sent_by_mail) }}
-            {{ form_label(form.sent_by_mail, 'Envoyer par mail ?')}}
+            {{ form_label(form.sent_by_mail, 'message.sent_by_mail')}}
         </div>
 
         <div class="submit">
-            {{ form_row(form.submit, { 'label' : (action == 'create' ? 'Créer' : 'Modifier')}) }}
+            {{ form_row(form.submit, { 'label' : (action == 'create' ? 'message.btn.add' : 'message.btn.modify')}) }}
         </div>
 
         {{ form_end(form) }}

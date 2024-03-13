@@ -42,7 +42,7 @@ class MessageType extends AbstractType
                     ])
                 ]
             ])
-            ->add('contentEnglish', TextType::class, [
+            ->add('contentEnglish', TextareaType::class, [
                 'required' => false,
                 'mapped' => false
             ])
@@ -79,6 +79,7 @@ class MessageType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Message::class,
+            'translation_domain' => 'forms'
         ]);
     }
 }
