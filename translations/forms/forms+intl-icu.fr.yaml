@@ -80,3 +80,13 @@ license:
     confirm_rules: "Je confirme avoir lu le Règlement d'ordre intérieur"
     confirm_data: "Je confirme que toutes mes données sont correctes et que tous les champs sont complètés"
     btn: "Renvoyez ma demande de licence"
+# Message
+message:
+  title: "Titre"
+  title_english: "Titre en anglais"
+  content: "Contenu"
+  content_english: "Contenu en anglais"
+  sent_by_mail: "Envoyer par mail ?"
+  btn:
+    add: "Créer"
+    update: "Modifier"

@@ -79,3 +79,13 @@ license:
     confirm_rules: "I confirm that I have read the Internal Rules"
     confirm_data: "I confirm that all my data is correct and that all fields have been completed."
     btn: "Return my license application"
+# Message
+message:
+  title: "Title in french"
+  title_english: "Title"
+  content: "Content in french"
+  content_english: "Content"
+  sent_by_mail: "Sent by Mail?"
+  btn:
+    add: "Add"
+    update: "Modify"
