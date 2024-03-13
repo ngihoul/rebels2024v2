@@ -27,7 +27,7 @@
             </div>
             <div class="date-container">
                 <i class="fa-solid fa-calendar-days"></i>
-                <p>{{ message.createdAt|format_datetime(locale='{{ app.request.locale }}') }}
+                <p>{{ message.createdAt|format_datetime(locale=app.request.locale) }}
             </div>
         </div>
 

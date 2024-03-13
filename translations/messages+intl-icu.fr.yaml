@@ -26,6 +26,8 @@ error:
     banned: "Tu es banni. Tu ne peux donc plus utiliser ce site !"
   file:
     not_valid: "Le fichier n'est pas une image valide."
+  message:
+    not_found: "Le message n'existe pas."
 
 success:
   profile_updated: "Votre profil a été mis à jour."
@@ -46,6 +48,9 @@ success:
     update: "L'équipe a été mise à jour."
     player_added: "Le joueur {firstname} {lastname} a été ajouté à l'équipe {teamName}."
     player_remove: "Le joueur {firstname} {lastname} a été supprimé à l'équipe {teamName}."
+  message:
+    created: "Le message a été créé."
+    updated: "Le message a été mis à jour."
 
 # Header
 header:
@@ -292,3 +297,19 @@ password:
       title: "Email de réinitialisation de mot de passe envoyé"
       text: "Si un compte correspondant à ton adresse e-mail existe, alors un e-mail vient d'être envoyé, contenant un lien que tu peux utiliser pour réinitialiser ton mot de passe. </br>Ce lien expirera dans "
       not_received: "Si tu ne reçois pas d'e-mail, vérifie ton dossier de courrier indésirable"
+
+# Message
+message:
+  index:
+    title: "Mes messages"
+    archived: "Archivé"
+    btn:
+      modify: "Modifier"
+      archive: "Archiver"
+  form:
+    title:
+      create: "Créer un message"
+      update: "Modifier un message"
+    send_to_teams: "Envoyer aux équipes"
+    send_to_players: "Envoyer aux joueurs"
+    send_by_mail: "Envoyer par mail ?"

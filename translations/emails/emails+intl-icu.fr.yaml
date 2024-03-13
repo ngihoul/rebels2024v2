@@ -36,4 +36,8 @@ reset_password:
   message: "Pour réinitialiser ton mot de passe, visite le lien suivant :"
   expires: "Ce lien expirera dans"
 
+message:
+  subject: "Nouveau message reçu"
+  title: "Bonjour ! Vous avez reçu un nouveau message !"
+
 signature: "Sportivement"

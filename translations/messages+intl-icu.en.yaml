@@ -26,6 +26,8 @@ error:
     banned: "You are banned. You can no longer use this site!"
   file:
     not_valid: "The file is not a valid image."
+  message:
+    not_found: "Message not found."
 
 success:
   profile_updated: "Your profile has been updated."
@@ -46,6 +48,9 @@ success:
     update: "The team has been updated."
     player_added: "Player {firstname} {lastname} has been added to team {teamName}."
     player_remove: "Player {firstname} {lastname} has been deleted from team {teamName}."
+  message:
+    created: "The message has been created."
+    updated: "The message has been updated."
 
 # Header
 header:
@@ -292,3 +297,19 @@ password:
       title: "Password reset email sent"
       text: "If an account matching your e-mail address exists, then an e-mail has just been sent containing a link you can use to reset your password. </br>This link will expire in"
       not_received: "If you don't receive an email, check your spam folder"
+
+# Message
+message:
+  index:
+    title: "My messages"
+    archived: "Archived"
+    btn:
+      modify: "Modify"
+      archive: "Archive"
+  form:
+    title:
+      create: "Create a message"
+      update: "Modify a message"
+    send_to_teams: "Send to teams"
+    send_to_players: "Send to players"
+    send_by_mail: "Send by mail?"

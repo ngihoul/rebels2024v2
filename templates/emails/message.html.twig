@@ -1,7 +1,7 @@
-<h1>Bonjour ! Tu as reçu un nouveau message</h1>
+<h1>{{ "message.title"|trans({}, 'emails') }}</h1>
 
 <h2>{{ message.title }}</h2>
 
 <p>{{ message.content }}</p>
 
-<p>Sportivement,</p>
+<p>{{ "signature"|trans({}, 'emails') }}</p>

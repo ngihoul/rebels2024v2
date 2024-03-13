@@ -36,4 +36,8 @@ reset_password:
   message: "To reset your password, visit the following link:"
   expires: "This link will expire in"
 
+message:
+  subject: "New message received"
+  title: "Hello ! You've received a new message !"
+
 signature: "Sportively"
