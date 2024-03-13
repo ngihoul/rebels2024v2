@@ -1,6 +1,7 @@
 .container-message-detail {
   .message-data {
     display: flex;
+    margin-top: 0.8rem;
     margin-bottom: 1.6rem;
 
     .author-container,
@@ -16,6 +17,24 @@
       svg {
         margin-right: 0.4rem;
       }
+    }
+  }
+}
+
+@media screen and (min-width: $min-desktop) {
+  .container-message-detail {
+    .message-data {
+      .author-container,
+      .date-container {
+        width: fit-content;
+        margin-right: 1.6rem;
+        font-size: 1rem;
+      }
+    }
+
+    .content p {
+      font-size: 1.1rem;
+      line-height: 1.5rem;
     }
   }
 }

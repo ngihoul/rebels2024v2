@@ -3,6 +3,7 @@
   position: relative;
   flex-direction: column;
   border: 1px solid $color-border;
+  border-radius: $border-radius;
   padding: 1.6rem 0.8rem;
   margin-bottom: 1.6rem;
 
@@ -52,6 +53,22 @@
       &:last-child {
         margin-left: 0.8rem;
       }
+    }
+  }
+}
+
+@media screen and (min-width: $min-desktop) {
+  .message-card {
+    width: calc(33% - 0.8rem);
+    margin-right: 0.8rem;
+    justify-content: space-between;
+
+    &:first-child {
+      margin-top: 0;
+    }
+
+    &:nth-child(3n) {
+      margin-right: 0;
     }
   }
 }
