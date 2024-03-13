@@ -5,7 +5,7 @@
 {% block body %}
     <div class="container container-message">
         <div class="heading-container">
-            <h1>Mes messages</h1>
+            <h1>Mes messages ({{ messageCount }})</h1>
             {% if is_granted('ROLE_ADMIN') %}
                 <a href="{{ path('app_message_create') }}" class="btn-add"></a>
             {% endif %}
@@ -13,26 +13,49 @@
 
         {{ parent() }}
 
-        {% for message in messages %}
-            <a href="{{ path('app_message_detail', { 'messageId' : message.0.id }) }}">
-                <div class="message-card">
-                {% if message.status is same as(false) %}
-                <div class="badge badge-unread"></div>
-                {% endif %}
-                    <div class="message-data">
-                        <div class="author-container">
-                            <i class="fa-solid fa-user"></i>
-                            <p>{{  message.0.sender.firstname }} {{ message.0.sender.lastname }}
+        {% if messages|length > 0 %}
+            {% for message in messages %}
+                <a href="{{ path('app_message_detail', { 'messageId' : message.0.id }) }}">
+                    <div class="message-card">
+
+                    {% if message.status is same as(false) %}
+                        <div class="badge badge-unread"></div>
+                    {% endif %}
+
+                        <div class="message-data">
+
+                            <div class="author-container">
+                                <i class="fa-solid fa-user"></i>
+                                <p>{{  message.0.sender.firstname }} {{ message.0.sender.lastname }}
+                            </div>
+
+                            <div class="date-container">
+                                <i class="fa-solid fa-calendar-days"></i>
+                                <p>{{ message.0.createdAt|format_datetime(locale='{{ app.request.locale }}') }}
+                            </div>
+
                         </div>
-                        <div class="date-container">
-                            <i class="fa-solid fa-calendar-days"></i>
-                            <p>{{ message.0.createdAt|format_datetime(locale='{{ app.request.locale }}') }}
-                        </div>
+
+                        <h2 class="title">
+                            {% if message.0.isArchived %}
+                                <span class="is_archived">[Archivé] </span>
+                            {% endif %}
+                            {{ message.0.title }}
+                        </h2>
+
+                        <p class="content">{{ message.short_content }} ...</p>
+
+                        {% if not message.0.isArchived  and is_granted('ROLE_ADMIN') %}
+                            <div class="actions">
+                                <a href="{{ path('app_message_update', { 'messageId' : message.0.id }) }}" class="btn">Modifier</a>
+                                <a href="{{ path('app_message_archive', { 'messageId' : message.0.id }) }}" class="btn btn-danger">Archiver</a>
+                            </div>
+                        {% endif %}
                     </div>
-                    <h2 class="title">{{ message.0.title }}</h2>
-                    <p class="content">{{ message.short_content }} ...</p>
-                </div>
-            </a>
-        {% endfor %}
+                </a>
+            {% endfor %}
+        {% else %}
+            <p class="alert alert-warning">Il n'y a aucun message à afficher</p>
+        {% endif %}
     </div>
 {% endblock %}

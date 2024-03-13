@@ -22,21 +22,23 @@ class MessageRepository extends ServiceEntityRepository
         parent::__construct($registry, Message::class);
     }
 
-    public function getShortMessages(User $currentUser = null)
+    public function getShortMessages(User $currentUser, $isAdmin = false)
     {
         $queryBuilder = $this->createQueryBuilder('m')
-            ->select('PARTIAL m.{id, title, sender, created_at}, s.status, SUBSTRING(m.content, 1, 200) as short_content')
-            ->leftJoin('m.messageStatuses', 's')
-            ->leftJoin('m.sender', 'u')
-            ->andWhere('m.is_archived = :is_archived')
-            ->setParameter('is_archived', false)
-            ->orderBy('m.created_at', 'DESC');
+            ->select('PARTIAL m.{id, title, sender, created_at, is_archived}, s.status, SUBSTRING(m.content, 1, 200) as short_content');
 
-        if ($currentUser instanceof User) {
+        if ($isAdmin) {
+            $queryBuilder->leftJoin('m.messageStatuses', 's', 'WITH', 's.receiver = :receiverId');
+        } else {
             $queryBuilder
-                ->andWhere('s.receiver = :currentUser')
-                ->setParameter('currentUser', $currentUser);
+                ->innerJoin('m.messageStatuses', 's', 'WITH', 's.receiver = :receiverId')
+                ->andWhere('m.is_archived = :is_archived')
+                ->setParameter('is_archived', false);
         }
+
+        $queryBuilder
+            ->orderBy('m.created_at', 'DESC')
+            ->setParameter('receiverId', $currentUser);
 
         return $queryBuilder->getQuery()->getResult();
     }

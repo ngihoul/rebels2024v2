@@ -31,9 +31,27 @@
 
   .title {
     margin: 0.8rem 0 0.4rem 0;
+
+    .is_archived {
+      font-weight: bold;
+      color: $color-danger;
+    }
   }
 
   .content {
     margin-bottom: 0;
+  }
+
+  .actions {
+    display: flex;
+
+    .btn {
+      width: 50%;
+      margin-bottom: 0;
+
+      &:last-child {
+        margin-left: 0.8rem;
+      }
+    }
   }
 }

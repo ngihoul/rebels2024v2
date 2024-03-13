@@ -3,9 +3,14 @@
 {% block title %}{{ parent() }} | {{ message.title }}{% endblock %}
 
 {% block body %}
-    <div class="container container-message">
+    <div class="container container-message-detail">
         <div class="heading-container">
-            <h1>{{ message.title }}</h1>
+            <h1>
+                {% if message.isArchived %}
+                    <span class="is_archived">[Archivé] </span>
+                {% endif %}
+                {{ message.title }}
+            </h1>
             {% if is_granted('ROLE_ADMIN') %}
                 <a href="{{ path('app_message_update', { 'messageId' : message.id }) }}" class="btn-update">
                     <i class="fa-regular fa-pen-to-square"></i>
@@ -29,6 +34,12 @@
         <div class="content">
             <p>{{ message.content }}</p>
         </div>
+
+        {% if not message.isArchived and is_granted('ROLE_ADMIN') %}
+            <div class="actions">
+                <a href="{{ path('app_message_archive', { 'messageId' : message.id }) }}" class="btn btn-danger">Archiver</a>
+            </div>
+        {% endif %}
 
     </div>
 {% endblock %}
