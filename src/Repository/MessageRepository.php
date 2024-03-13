@@ -25,7 +25,7 @@ class MessageRepository extends ServiceEntityRepository
     public function getShortMessages(User $currentUser, $isAdmin = false)
     {
         $queryBuilder = $this->createQueryBuilder('m')
-            ->select('PARTIAL m.{id, title, sender, created_at, is_archived}, s.status, SUBSTRING(m.content, 1, 200) as short_content');
+            ->select('PARTIAL m.{id, title, content, sender, created_at, is_archived}, s.status');
 
         if ($isAdmin) {
             $queryBuilder->leftJoin('m.messageStatuses', 's', 'WITH', 's.receiver = :receiverId');

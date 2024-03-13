@@ -31,12 +31,20 @@ class MessageType extends AbstractType
                     ])
                 ]
             ])
+            ->add('titleEnglish', TextType::class, [
+                'required' => false,
+                'mapped' => false
+            ])
             ->add('content', TextareaType::class, [
                 'constraints' => [
                     new NotBlank([
                         'message' => 'validators.message.content.not_blank'
                     ])
                 ]
+            ])
+            ->add('contentEnglish', TextType::class, [
+                'required' => false,
+                'mapped' => false
             ])
             ->add('sentToTeams', EntityType::class, [
                 'class' => Team::class,

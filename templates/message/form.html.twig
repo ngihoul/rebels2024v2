@@ -20,9 +20,19 @@
             {{ form_widget(form.title) }}
         </div>
 
+        <div class="titleEnglish">
+            {{ form_label(form.titleEnglish, 'Titre en anglais')}}
+            {{ form_widget(form.titleEnglish) }}
+        </div>
+
         <div class="content">
             {{ form_label(form.content, 'Contenu')}}
             {{ form_widget(form.content) }}
+        </div>
+
+        <div class="contentEnglish">
+            {{ form_label(form.contentEnglish, 'Contenu en anglais')}}
+            {{ form_widget(form.contentEnglish) }}
         </div>
 
         <h2 class="teams-heading">Envoyer aux équipes <i class="fas fa-chevron-down"></i></h2>

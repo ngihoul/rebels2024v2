@@ -8,9 +8,10 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\Translatable\Translatable;
 
 #[ORM\Entity(repositoryClass: MessageRepository::class)]
-class Message
+class Message implements Translatable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -22,9 +23,11 @@ class Message
     private ?User $sender = null;
 
     #[ORM\Column(length: 255)]
+    #[Gedmo\Translatable]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Gedmo\Translatable]
     private ?string $content = null;
 
     #[ORM\Column]
@@ -39,6 +42,9 @@ class Message
 
     #[ORM\OneToMany(mappedBy: 'message', targetEntity: MessageStatus::class)]
     private Collection $messageStatuses;
+
+    #[Gedmo\Locale]
+    private $locale;
 
     public function __construct()
     {
@@ -151,5 +157,10 @@ class Message
         }
 
         return $this;
+    }
+
+    public function setTranslatableLocale($locale)
+    {
+        $this->locale = $locale;
     }
 }

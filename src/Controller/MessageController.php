@@ -68,6 +68,17 @@ class MessageController extends AbstractController
                 $message->setSender($this->getUser());
 
                 $this->entityManager->persist($message);
+                $this->entityManager->flush();
+
+                $titleEnglish = $form->get('titleEnglish')->getData();
+                $contentEnglish = $form->get('contentEnglish')->getData();
+
+                $message->setTranslatableLocale('en');
+                $message->setTitle($titleEnglish);
+                $message->setContent($contentEnglish);
+
+                $this->entityManager->persist($message);
+                $this->entityManager->flush();
 
                 // Send message to users
                 $this->sendMessage($form, $message);
