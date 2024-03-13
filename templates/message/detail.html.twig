@@ -7,7 +7,7 @@
         <div class="heading-container">
             <h1>
                 {% if message.isArchived %}
-                    <span class="is_archived">[Archivé] </span>
+                    <span class="is_archived">[{{ 'message.index.archived'|trans }}] </span>
                 {% endif %}
                 {{ message.title }}
             </h1>
@@ -37,7 +37,7 @@
 
         {% if not message.isArchived and is_granted('ROLE_ADMIN') %}
             <div class="actions">
-                <a href="{{ path('app_message_archive', { 'messageId' : message.id }) }}" class="btn btn-danger">Archiver</a>
+                <a href="{{ path('app_message_archive', { 'messageId' : message.id }) }}" class="btn btn-danger">{{ 'message.index.btn.archive'|trans }}</a>
             </div>
         {% endif %}
 
