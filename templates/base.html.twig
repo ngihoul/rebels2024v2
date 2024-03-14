@@ -114,7 +114,7 @@
                             </li>
                         {% endif %}
                         <li class="menu-item">
-                            <a href="{{ path('app_messages') }}"><i class="fa-solid fa-envelope"></i> Mes messages</a>
+                            <a href="{{ path('app_messages') }}"><i class="fa-solid fa-envelope"></i> {{ "nav.my_messages"|trans }}</a>
                             {% if unread_messages_count() > 0 %}
                                 <span class="badge badge-unread-count">{{ unread_messages_count() }}</span>
                             {% endif %}
