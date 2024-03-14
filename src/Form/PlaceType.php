@@ -71,6 +71,7 @@ class PlaceType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Place::class,
+            'translation_domain' => 'forms'
         ]);
     }
 }

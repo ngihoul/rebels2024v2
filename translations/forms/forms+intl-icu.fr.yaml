@@ -90,3 +90,12 @@ message:
   btn:
     add: "Créer"
     update: "Modifier"
+
+# Place
+place:
+  name: "Nom"
+  street: "Rue"
+  number: "Numéro"
+  zipcode: "Code postal"
+  locality: "Localité"
+  country: "Pays"

@@ -28,6 +28,9 @@ error:
     not_valid: "Le fichier n'est pas une image valide."
   message:
     not_found: "Le message n'existe pas."
+  place:
+    already_exist: "Un lieu avec le même nom de rue et le même code postal existe déjà."
+    not_found: "Le lieu n'existe pas."
 
 success:
   profile_updated: "Votre profil a été mis à jour."
@@ -51,6 +54,9 @@ success:
   message:
     created: "Le message a été créé."
     updated: "Le message a été mis à jour."
+  place:
+    created: "Le lieu a été créé."
+    updated: "Le lieu a été mis à jour."
 
 # Header
 header:
@@ -315,3 +321,20 @@ message:
     send_to_teams: "Envoyer aux équipes"
     send_to_players: "Envoyer aux joueurs"
     send_by_mail: "Envoyer par mail ?"
+
+# Place
+place:
+  index:
+    title: "Mes lieux"
+    name: "Nom"
+    street: "Rue"
+    locality: "Localité"
+    country: "Pays"
+    no_place: "Il n'y a aucun lieu à afficher."
+  form:
+    title:
+      create: "Créer un lieu"
+      update: "Modifier un lieu"
+    btn:
+      create: "Créer"
+      update: "Modifier"

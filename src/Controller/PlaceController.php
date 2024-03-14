@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/places')]
 #[IsGranted('ROLE_COACH')]
@@ -20,11 +21,13 @@ class PlaceController extends AbstractController
 {
     private EntityManagerInterface $entityManager;
     private PlaceRepository $placeRepository;
+    private TranslatorInterface $translator;
 
-    public function __construct(EntityManagerInterface $entityManager, PlaceRepository $placeRepository)
+    public function __construct(EntityManagerInterface $entityManager, PlaceRepository $placeRepository, TranslatorInterface $translator)
     {
         $this->entityManager = $entityManager;
         $this->placeRepository = $placeRepository;
+        $this->translator = $translator;
     }
 
     #[Route('/', name: 'app_places')]
@@ -61,15 +64,15 @@ class PlaceController extends AbstractController
                 ]);
 
                 if ($existingPlace) {
-                    $this->addFlash('error', 'Un lieu avec le même nom de rue et le même code postal existe déjà.');
+                    $this->addFlash('error', $this->translator->trans('error.place.already_exist'));
                     // TODO : Redirect to place profile of existingPlace
-                    return $this->redirectToRoute('app_places_create');
+                    return $this->redirectToRoute('app_place_detail', ['placeId' => $existingPlace->getId()]);
                 }
 
                 $this->entityManager->persist($place);
                 $this->entityManager->flush();
 
-                $this->addFlash('success', 'Lieu créé');
+                $this->addFlash('success', $this->translator->trans('success.place.created'));
                 return $this->redirectToRoute('app_places');
             }
 
@@ -89,11 +92,7 @@ class PlaceController extends AbstractController
         $action = 'update';
 
         try {
-            $place = $this->placeRepository->find($placeId);
-
-            if (!$place) {
-                throw new EntityNotFoundException('Le lieu n\'a pas été trouvé');
-            }
+            $place = $this->findPlace($placeId);
 
             $form = $this->createForm(PlaceType::class, $place);
 
@@ -105,7 +104,7 @@ class PlaceController extends AbstractController
                 $this->entityManager->persist($place);
                 $this->entityManager->flush();
 
-                $this->addFlash('success', 'Lieu modifié');
+                $this->addFlash('success', $this->translator->trans('success.place.updated'));
                 return $this->redirectToRoute('app_places');
             }
 
@@ -123,11 +122,7 @@ class PlaceController extends AbstractController
     public function detail($placeId): Response
     {
         try {
-            $place = $this->placeRepository->find($placeId);
-
-            if (!$place) {
-                throw new EntityNotFoundException('Le lieu n\'a pas été trouvé');
-            }
+            $place = $this->findPlace($placeId);
 
             return $this->render('place/detail.html.twig', [
                 'place' => $place
@@ -143,4 +138,15 @@ class PlaceController extends AbstractController
     // {
     //     return $this->render('place/index.html.twig', []);
     // }
+
+    private function findPlace($placeId)
+    {
+        $place = $this->placeRepository->find($placeId);
+
+        if (!$place) {
+            throw new EntityNotFoundException($this->translator->trans('error.place.not_found'));
+        }
+
+        return $place;
+    }
 }

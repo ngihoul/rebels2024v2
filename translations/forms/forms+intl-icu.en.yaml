@@ -89,3 +89,12 @@ message:
   btn:
     add: "Add"
     update: "Modify"
+
+# Place
+place:
+  name: "Name"
+  street: "Street"
+  number: "Number"
+  zipcode: "Zipcode"
+  locality: "Locality"
+  country: "Country"

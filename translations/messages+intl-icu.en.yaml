@@ -28,6 +28,9 @@ error:
     not_valid: "The file is not a valid image."
   message:
     not_found: "Message not found."
+  place:
+    already_exist: "A place with the same street name and zip code already exists."
+    not_found: "Place not found."
 
 success:
   profile_updated: "Your profile has been updated."
@@ -51,6 +54,9 @@ success:
   message:
     created: "The message has been created."
     updated: "The message has been updated."
+  place:
+    created: "The place has been created."
+    updated: "The place has been updated."
 
 # Header
 header:
@@ -315,3 +321,20 @@ message:
     send_to_teams: "Send to teams"
     send_to_players: "Send to players"
     send_by_mail: "Send by mail?"
+
+# Place
+place:
+  index:
+    title: "My places"
+    name: "Name"
+    street: "Address"
+    locality: "Locality"
+    country: "Country"
+    no_place: "There is no place to display."
+  form:
+    title:
+      create: "Create a place"
+      update: "Modify a place"
+    btn:
+      create: "Create"
+      update: "Modify"

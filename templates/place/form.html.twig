@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-{% set pageTitle = action == 'create' ? 'Créer un lieu' : 'Modifier un lieu' %}
+{% set pageTitle = action == 'create' ? 'place.form.title.create'|trans : 'place.form.title.update'|trans %}
 
 {% block title %}{{ parent() }} | {{ pageTitle }}{% endblock %}
 
@@ -17,37 +17,37 @@
         }}
 
             <div class="name">
-                {{ form_label(form.name, 'Nom') }}
+                {{ form_label(form.name, 'place.name') }}
                 {{ form_widget(form.name) }}
             </div>
 
             <div class="street">
-                {{ form_label(form.address_street, 'Rue') }}
+                {{ form_label(form.address_street, 'place.street') }}
                 {{ form_widget(form.address_street) }}
             </div>
 
             <div class="number">
-                {{ form_label(form.address_number, 'Numéro') }}
+                {{ form_label(form.address_number, 'place.number') }}
                 {{ form_widget(form.address_number) }}
             </div>
 
             <div class="zipcode">
-                {{ form_label(form.address_zipcode, 'Code postal') }}
+                {{ form_label(form.address_zipcode, 'place.zipcode') }}
                 {{ form_widget(form.address_zipcode) }}
             </div>
 
             <div class="locality">
-                {{ form_label(form.address_locality, 'Localité') }}
+                {{ form_label(form.address_locality, 'place.locality') }}
                 {{ form_widget(form.address_locality) }}
             </div>
 
             <div class="country">
-                {{ form_label(form.address_country, 'Pays') }}
+                {{ form_label(form.address_country, 'place.country') }}
                 {{ form_widget(form.address_country) }}
             </div>
 
             <div class="submit">
-                {{ form_row(form.submit, { 'label' : (action == 'create' ? 'Créer' : 'Modifier')}) }}
+                {{ form_row(form.submit, { 'label' : (action == 'create' ? 'place.form.btn.create'|trans : 'place.form.btn.update'|trans)}) }}
             </div>
         {{ form_end(form) }}
     </div>

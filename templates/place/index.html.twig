@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ parent() }} | Mes lieux{% endblock %}
+{% block title %}{{ parent() }} | {{ 'place.index.title'|trans }}{% endblock %}
 
 {% block body %}
     <div class="container place-container locale-container" data-locale="{{  app.request.locale }}">
         
         <div class="heading-container">
-            <h1>Mes lieux ({{ placesCount }})</h1>
+            <h1>{{ 'place.index.title'|trans }} ({{ placesCount }})</h1>
             <a href="{{ path('app_place_create') }}" class="btn-add"></a>
         </div>
 
@@ -16,10 +16,10 @@
             <table class="place-table">
                 <thead>
                     <tr>
-                        <th class="name">Nom</th>
-                        <th class="address">Rue</th>
-                        <th class="locality">Localité</th>
-                        <th class="country">Pays</th>
+                        <th class="name">{{ 'place.index.name'|trans }}</th>
+                        <th class="address">{{ 'place.index.street'|trans }}</th>
+                        <th class="locality">{{ 'place.index.locality'|trans }}</th>
+                        <th class="country">{{ 'place.index.country'|trans }}</th>
                         <th class="actions"></th>
                     </tr>
                 </thead>
@@ -40,7 +40,7 @@
                 </tbody>
             </table>
         {% else %}
-            <p class="alert alert-warning">Il n'y a aucun lieu à afficher</p>
+            <p class="alert alert-warning">{{ 'place.index.no_place'|trans }}</p>
         {% endif %}
     </div>
     {% block javascript %}
