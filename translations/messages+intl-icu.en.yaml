@@ -338,3 +338,5 @@ place:
     btn:
       create: "Create"
       update: "Modify"
+  detail:
+    address_not_found: "Address not found on map."

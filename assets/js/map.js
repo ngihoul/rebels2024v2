@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const address = `${street} ${number}, ${zipcode} ${locality}, ${country}`;
 
+  const mapContainer = document.getElementById("map");
   const map = L.map("map").setView([0, 0], 15);
 
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -17,8 +18,15 @@ document.addEventListener("DOMContentLoaded", () => {
   }).addTo(map);
 
   const geocoder = L.Control.Geocoder.nominatim();
+
   geocoder.geocode(address, (results) => {
-    map.setView(results[0].center);
-    L.marker(results[0].center).addTo(map);
+    if (results.length === 0) {
+      const errorMessage = document.querySelector(".error-message");
+      mapContainer.parentNode.replaceChild(errorMessage, mapContainer);
+      errorMessage.classList.add("show");
+    } else {
+      map.setView(results[0].center);
+      L.marker(results[0].center).addTo(map);
+    }
   });
 });
