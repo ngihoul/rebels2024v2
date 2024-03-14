@@ -57,7 +57,7 @@
                 {% endfor %}
             </div>
         {% else %}
-            <p class="alert alert-warning">Il n'y a aucun message à afficher</p>
+            <p class="alert alert-warning">{{ 'message.index.no_message'|trans }}</p>
         {% endif %}
     </div>
 {% endblock %}

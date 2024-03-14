@@ -307,6 +307,7 @@ message:
     btn:
       modify: "Modify"
       archive: "Archive"
+    no_message: "There is no message to display."
   form:
     title:
       create: "Create a message"
