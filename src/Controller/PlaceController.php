@@ -105,7 +105,7 @@ class PlaceController extends AbstractController
                 $this->entityManager->flush();
 
                 $this->addFlash('success', $this->translator->trans('success.place.updated'));
-                return $this->redirectToRoute('app_places');
+                return $this->redirectToRoute('app_place_detail', ['placeId' => $place->getId()]);
             }
 
             return $this->render('place/form.html.twig', [
