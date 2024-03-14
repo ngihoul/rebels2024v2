@@ -36,6 +36,7 @@
                 data-locality="{{ place.addressLocality|e('html_attr') }}"
                 data-country="{{ place.addressCountry.name|e('html_attr') }}">
             </div>
+            <div class="error-message">{{ 'place.detail.address_not_found'|trans }}</div>
         </div>
     </div>
 

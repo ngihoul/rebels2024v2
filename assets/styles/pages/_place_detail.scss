@@ -5,6 +5,14 @@
   #map {
     height: 360px;
   }
+
+  .error-message {
+    display: none;
+
+    &.show {
+      display: block;
+    }
+  }
 }
 
 @media screen and (min-width: $min-desktop) {
