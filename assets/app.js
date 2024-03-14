@@ -7,3 +7,5 @@
 
 // any CSS you import will output into a single css file (app.css in this case)
 import "./styles/app.scss";
+// Leaflet CSS for Open Street Map
+import "leaflet/dist/leaflet.css";

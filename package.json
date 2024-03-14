@@ -19,5 +19,9 @@
     "watch": "encore dev --watch",
     "build": "encore production --progress",
     "mailhog": "~/go/bin/MailHog"
+  },
+  "dependencies": {
+    "leaflet": "^1.9.4",
+    "leaflet-control-geocoder": "^2.4.0"
   }
 }

@@ -2,14 +2,6 @@
 
 {% block title %}{{ parent() }} | {{ place.name }}{% endblock %}
 
-{% block stylesheets %}
-    {{ parent() }}
-    {# Leaflet CSS #}
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-     crossorigin=""/>
-{% endblock %}
-
 {% block body %}
     <div class="container place-container">
         
@@ -42,14 +34,6 @@
 
     {% block javascripts %}
         {{ parent() }}
-
-        {# Leaflet Javascript #}
-        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-        crossorigin=""></script>
-
-        {# Leaflet Geocoder #}
-        <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
 
         {{ encore_entry_script_tags('map') }}
 

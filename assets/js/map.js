@@ -1,3 +1,6 @@
+import L from "leaflet";
+import "leaflet-control-geocoder/dist/Control.Geocoder.js";
+
 // Necessary Leaflet scripts & CSS are loaded from place/detail.html.twig
 document.addEventListener("DOMContentLoaded", () => {
   const street = document.getElementById("map").getAttribute("data-street");
