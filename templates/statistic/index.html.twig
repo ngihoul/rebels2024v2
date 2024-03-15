@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello StatisticController!{% endblock %}
+{% block title %}{{ parent() }} | {{ 'stat.title'|trans }}{% endblock %}
 
 {% block body %}
 <div class="container statistic-container locale-container" data-locale="{{  app.request.locale }}">
-    <h1>Statistiques</h1>
+    <h1>{{ 'stat.title'|trans }}</h1>
     <div class="training-container">
         <div class="heading-container">
-            <h2>Présences aux entrainements</h2>
+            <h2>{{ 'stat.presence_training'|trans }}</h2>
             {% if yearsForTrainingStats|length > 0 %}
                 <select id="yearTrainingSelect">
                 {% for year in yearsForTrainingStats %}
@@ -15,7 +15,7 @@
                 {% endfor %}
                 </select>
             {% else %}
-                <p class="alert alert-warning">Il n'y a pas de statistiques à afficher.</p>
+                <p class="alert alert-warning">{{ 'stat.no_stat'|trans }}</p>
             {% endif %}
         </div>
         <canvas id="trainingStat"></canvas>
@@ -23,7 +23,7 @@
 
     <div class="game-container">
         <div class="heading-container">
-            <h2>Présences aux matchs</h2>
+            <h2>{{ 'stat.presence_game'|trans }}</h2>
             {% if yearsForGameStats|length > 0 %}
                 <select id="yearGameSelect">
                 {% for year in yearsForGameStats %}
@@ -31,7 +31,7 @@
                 {% endfor %}
                 </select>
             {% else %}
-                <p class="alert alert-warning">Il n'y a pas de statistiques à afficher.</p>
+                <p class="alert alert-warning">{{ 'stat.no_stat'|trans }}</p>
             {% endif %}
         </div>
         <canvas id="gameStat"></canvas>

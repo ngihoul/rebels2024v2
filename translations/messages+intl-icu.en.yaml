@@ -68,7 +68,7 @@ nav:
   my_agenda: "My agenda"
   my_licenses: "My licenses"
   to_validate: "To validate"
-  statistics: "Statistics"
+  statistics: "My stats"
   my_profile: "My profile"
   my_teams: "My teams"
   my_places: "My places"
@@ -343,6 +343,10 @@ place:
 
 # Stats
 stat:
+  title: "My statistics"
+  presence_training: "Training attendance"
+  presence_game: "Game attendance"
+  no_stat: "There is no statistics to display."
   label:
     presence: "Presence"
     absence: "Absence"
