@@ -47,20 +47,25 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error(error.message);
       });
 
-  const yearTraining = document.getElementById("yearTrainingSelect");
-  yearTraining.addEventListener("change", () => {
-    fetchData(trainingChart, "training", yearTraining);
-  });
-
-  const yearGame = document.getElementById("yearGameSelect");
-  yearGame.addEventListener("change", () => {
-    fetchData(gameChart, "game", yearGame);
-  });
-
   const defaultLabels = ["Présent", "Absent", "Pas de réponse"];
   trainingChart = createChart("trainingStat", defaultLabels);
   gameChart = createChart("gameStat", defaultLabels);
 
-  fetchData(trainingChart, "training", yearTraining);
-  fetchData(gameChart, "game", yearGame);
+  const yearTraining = document.getElementById("yearTrainingSelect");
+  if (yearTraining) {
+    yearTraining.addEventListener("change", () => {
+      fetchData(trainingChart, "training", yearTraining);
+    });
+
+    fetchData(trainingChart, "training", yearTraining);
+  }
+
+  const yearGame = document.getElementById("yearGameSelect");
+  if (yearGame) {
+    yearGame.addEventListener("change", () => {
+      fetchData(gameChart, "game", yearGame);
+    });
+
+    fetchData(gameChart, "game", yearGame);
+  }
 });
