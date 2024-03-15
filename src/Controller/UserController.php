@@ -8,13 +8,16 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use App\Form\UserType;
+use App\Repository\EventRepository;
 use App\Repository\LicenseRepository;
+use App\Repository\MessageRepository;
 use App\Repository\UserRepository;
 use App\Service\ProfilePictureManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityNotFoundException;
 use Exception;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Bundle\MakerBundle\EventRegistry;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class UserController extends AbstractController
@@ -32,22 +35,32 @@ class UserController extends AbstractController
 
     #[Route(path: "/", name: "app_home")]
     #[IsGranted("ROLE_USER")]
-    public function index(LicenseRepository $licenseRepository): Response
+    public function index(LicenseRepository $licenseRepository, EventRepository $eventRepository, MessageRepository $messageRepository): Response
     {
         $user = $this->getUser();
 
+        // License
         $isProfileCompleted = $user->isProfileComplete();
 
         $pendingLicenses = $licenseRepository->getCurrentYearPendingLicenses($user);
-
         $pendingLicense = $pendingLicenses ? $pendingLicenses[0] : null;
-
         $activeLicenses = $licenseRepository->getCurrentYearActiveLicense($user);
+
+        // Events
+        $futureEvents = $eventRepository->findFutureEventsForThisUser($user);
+
+        // Messages
+        $messages = $messageRepository->findThreeLatest($user);
+
+        $isUnreadMessage = $messageRepository->countUnreadMessagesForThisUser($user);
 
         return $this->render('home/index.html.twig', [
             'isProfileComplete' => $isProfileCompleted,
             'pendingLicense' => $pendingLicense,
-            'activeLicenses' => $activeLicenses
+            'activeLicenses' => $activeLicenses,
+            'futureEvents' => $futureEvents,
+            'messages' => $messages,
+            'isUnreadMessage' => $isUnreadMessage,
         ]);
     }
 

@@ -55,4 +55,18 @@ class MessageRepository extends ServiceEntityRepository
             ->getQuery()
             ->getSingleScalarResult();
     }
+
+    public function findThreeLatest(User $user)
+    {
+        return $this->createQueryBuilder('m')
+            ->select('PARTIAL m.{id, title, content, sender, created_at, is_archived}, s.status')
+            ->innerJoin('m.messageStatuses', 's', 'WITH', 's.receiver = :receiver')
+            ->andWhere('m.is_archived = :is_archived')
+            ->setParameter('receiver', $user)
+            ->setParameter('is_archived', false)
+            ->orderBy('m.created_at', 'DESC')
+            ->setMaxResults(3)
+            ->getQuery()
+            ->getResult();
+    }
 }
