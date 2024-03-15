@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello StatisticController!{% endblock %}
+
+{% block body %}
+<div class="container statistic-container locale-container" data-locale="{{  app.request.locale }}"">
+<h1>Statistiques</h1>
+    <div class="training-container">
+        <div class="heading-container">
+            <h2>Présences aux entrainements</h2>
+            <select id="yearTrainingSelect">
+            {% for year in yearsForTrainingStats %}
+                <option value="{{ year }}">{{ year }}</option>
+            {% endfor %}
+            </select>
+        </div>
+        <canvas id="trainingStat"></canvas>
+    </div>
+
+    <div class="game-container">
+        <div class="heading-container">
+            <h2>Présences aux matchs</h2>
+            <select id="yearGameSelect">
+            {% for year in yearsForGameStats %}
+                <option value="{{ year }}">{{ year }}</option>
+            {% endfor %}
+            </select>
+        </div>
+        <canvas id="gameStat"></canvas>
+    </div>
+</div>
+
+{% block javascript %}
+    {{ encore_entry_script_tags('statistics') }}
+{% endblock %}
+
+{% endblock %}

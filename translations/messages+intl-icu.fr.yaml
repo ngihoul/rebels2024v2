@@ -340,3 +340,10 @@ place:
       update: "Modifier"
   detail:
     address_not_found: "L'adresse n'a pas été trouvée sur la carte."
+
+# Stats
+stat:
+  label:
+    presence: "Présence"
+    absence: "Absence"
+    no_reply: "Pas de réponse"

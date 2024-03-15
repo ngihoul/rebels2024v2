@@ -3,6 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\Event;
+use App\Entity\EventCategory;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -22,17 +24,15 @@ class EventRepository extends ServiceEntityRepository
         parent::__construct($registry, Event::class);
     }
 
-    public function findAllFuturePaginated(int $page = 1, int $perPage = 10)
+    public function findAll()
     {
-        $now = new \DateTime();
+        $currentDateTime = new \DateTimeImmutable();
 
         return $this->createQueryBuilder('e')
-            ->where('e.date > :now')
-            ->setParameter('now', $now)
+            ->where('e.date >= :currentDate')
             ->orderBy('e.date', 'ASC')
+            ->setParameter('currentDate', $currentDateTime)
             ->getQuery()
-            ->setFirstResult(($page - 1) * $perPage)
-            ->setMaxResults($perPage)
             ->getResult();
     }
 
@@ -68,28 +68,79 @@ class EventRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    //    /**
-    //     * @return Event[] Returns an array of Event objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('e')
-    //            ->andWhere('e.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('e.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    public function findYearsWithAttendeesForUser(User $user, EventCategory $category): array
+    {
+        $queryBuilder = $this->createQueryBuilder('e')
+            ->select('YEAR(e.date) AS year')
+            ->leftJoin('e.attendees', 'ea')
+            ->leftJoin('e.category', 'ec')
+            ->where('ea.user = :user')
+            ->andWhere('e.category = :category')
+            ->setParameter('user', $user)
+            ->setParameter('category', $category)
+            ->groupBy('year')
+            ->orderBy("year", "DESC");
 
-    //    public function findOneBySomeField($value): ?Event
-    //    {
-    //        return $this->createQueryBuilder('e')
-    //            ->andWhere('e.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+        $results = $queryBuilder->getQuery()->getResult();
+
+        $years = [];
+        foreach ($results as $result) {
+            $years[] = $result['year'];
+        }
+
+        return $years;
+    }
+
+    public function countUserResponses(User $user, int $year, EventCategory $category): array
+    {
+        $queryBuilder = $this->createQueryBuilder('e')
+            ->select('COUNT(ea.user_response) AS response_count, ea.user_response')
+            ->leftJoin('e.attendees', 'ea')
+            ->where('ea.user = :userId')
+            ->andWhere('e.category = :category')
+            ->andWhere('YEAR(e.date) = :date')
+            ->setParameter('userId', $user->getId())
+            ->setParameter('category', $category)
+            ->setParameter('date', $year)
+            ->groupBy('ea.user_response');
+
+        $results = $queryBuilder->getQuery()->getResult();
+
+        $formattedResults = [
+            'presence' => 0,
+            'absence' => 0,
+            'no_reply' => 0,
+        ];
+
+        foreach ($results as $result) {
+            if ($result['user_response'] === true) {
+                $formattedResults['presence'] = $result['response_count'];
+            } elseif ($result['user_response'] === false) {
+                $formattedResults['absence'] = $result['response_count'];
+            } else {
+                $formattedResults['no_reply'] = $result['response_count'];
+            }
+        }
+
+        return $formattedResults;
+    }
+
+    public function countTotalEvent(User $user, int $year, EventCategory $category)
+    {
+        $queryBuilder = $this->createQueryBuilder('e')
+            ->select('COUNT(e.id) AS total_events')
+            ->leftJoin('e.attendees', 'ea')
+            ->where('ea.user = :userId')
+            ->andWhere('e.category = :category')
+            ->andWhere('YEAR(e.date) = :date')
+            ->setParameter('userId', $user->getId())
+            ->setParameter('category', $category)
+            ->setParameter('date', $year);
+
+
+        $totalEventsResult = $queryBuilder->getQuery()->getSingleResult();
+        $totalEvents = $totalEventsResult['total_events'];
+
+        return $totalEvents;
+    }
 }

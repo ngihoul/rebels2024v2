@@ -100,7 +100,7 @@
                             </li>
                         {% endif %}
                         <li class="menu-item">
-                            <i class="fa-regular fa-chart-bar"></i> {{ "nav.statistics"|trans }}
+                            <a href="{{ path('app_statistics') }}"><i class="fa-regular fa-chart-bar"></i> {{ "nav.statistics"|trans }}</a>
                         </li>
                         <li class="menu-item">
                             <a href="{{ path('app_profile', { 'userId' : app.user.id }) }}"><i class="fa-regular fa-user"></i> {{ "nav.my_profile"|trans }}</a>
