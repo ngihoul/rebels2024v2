@@ -30,7 +30,12 @@ user:
   internal_rules: >-
     J'accepte le <a class="link-paragraph" 
     href="https://www.liegebaseball.be/wp-content/uploads/2022/12/LRCBS-ROI-v6.pdf" 
-    target="_blank">Règlement d'Ordre Intérieur</a> *'
+    target="_blank">Règlement d'Ordre Intérieur</a> *
+  privacy_policy: >-
+    J'accepte le <a class="link-paragraph" 
+    href="https://www.liegebaseball.be/confidentialite/" 
+    target="_blank">Politique de confidentialité</a> *
+
 # Team Form
 team:
   create:

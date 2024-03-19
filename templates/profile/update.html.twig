@@ -66,6 +66,13 @@
             }) }}
         </div>
 
+        <div class="custom-checkbox">
+            {{ form_row(form.privacy_policy, {
+                'label': 'user.privacy_policy',
+                'label_html': true,
+            }) }}
+        </div>
+
         {{ form_row(form.submit, {'label': 'user.update_profile.submit'}) }}
 
         {{ form_end(form) }}

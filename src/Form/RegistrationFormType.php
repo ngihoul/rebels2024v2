@@ -193,6 +193,9 @@ class RegistrationFormType extends AbstractType
             ->add('internal_rules', CheckboxType::class, [
                 'required' => true,
             ])
+            ->add('privacy_policy', CheckboxType::class, [
+                'required' => true,
+            ])
             ->add('submit', SubmitType::class);
     }
 

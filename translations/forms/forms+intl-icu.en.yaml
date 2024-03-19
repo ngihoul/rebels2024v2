@@ -29,7 +29,11 @@ user:
   internal_rules: >-
     I accept the <a class="link-paragraph" 
     href="https://www.liegebaseball.be/wp-content/uploads/2022/12/LRCBS-ROI-v6.pdf" 
-    target="_blank">Internal Rules</a> *'
+    target="_blank">Internal Rules</a> *
+  privacy_policy: >-
+    I accept the <a class="link-paragraph" 
+    href="https://www.liegebaseball.be/confidentialite/" 
+    target="_blank">Privacy Policy</a> *
 # Team Form
 team:
   create:
