@@ -88,6 +88,11 @@
 
       <p>
         {{ "profile.privacy_policy"|trans }}
+        {% if user.privacyPolicy %}
+              <i class="fas fa-check agree"></i>
+          {% else %}
+              <i class="fas fa-times disagree"></i>
+          {% endif %}
       </p>
       
     </section>
