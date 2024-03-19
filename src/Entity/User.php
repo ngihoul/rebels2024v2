@@ -134,6 +134,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->coach_of = new ArrayCollection();
         $this->events = new ArrayCollection();
         $this->messageStatuses = new ArrayCollection();
+        $this->unsuccessfull_attempts = 0;
     }
 
     public function getId(): ?int
