@@ -82,7 +82,7 @@
             {{ knp_pagination_render(futureEvents) }}
         </div>
     {% else %}
-        <p>{{ "agenda.no_event"|trans }}</p>
+        <p class="alert alert-warning">{{ "agenda.no_event"|trans }}</p>
     {% endif %}
 </div>
 {% endblock %}
