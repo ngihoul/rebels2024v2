@@ -4,7 +4,7 @@ license:
     title: "Hello ! Your license has been approved!"
     text_1: "You can now pay for your license online from the"
     link: '"My licenses"'
-    text_2: 'and then click on the "bank cards" logo.'
+    text_2: 'and then click on the "bank card" logo.'
   refused:
     subject: "License refused"
     title: "Hello ! Your license has been refused!"

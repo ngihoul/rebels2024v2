@@ -4,7 +4,7 @@ license:
     title: "Bonjour ! Ta licence a été approuvée !"
     text_1: "Tu as maintenant la possibilité de payer ta licence en ligne à partir de l'onglet"
     link: '"Mes licences"'
-    text_2: 'et ensuite en cliquant sur le logo "cartes de banque".'
+    text_2: 'et ensuite en cliquant sur le logo "carte de banque".'
   refused:
     subject: "Licence refusée"
     title: "Bonjour ! Ta licence a été refusé !"
