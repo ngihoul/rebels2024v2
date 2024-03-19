@@ -60,6 +60,11 @@ ul .menu-item {
   & a {
     padding: 1rem 0;
   }
+
+  &-bottom {
+    position: absolute;
+    bottom: 0.8rem;
+  }
 }
 
 @media screen and (min-width: $min-desktop) {

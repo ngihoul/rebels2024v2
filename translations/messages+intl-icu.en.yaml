@@ -73,6 +73,7 @@ nav:
   my_teams: "My teams"
   my_places: "My places"
   my_messages: "My messages"
+  log_off: "Log off"
 
 # Pages
 homepage:
