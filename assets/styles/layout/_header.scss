@@ -16,7 +16,10 @@ header {
 }
 
 .menu-logo {
-  text-align: center;
+  text-align: left;
+  &.connected {
+    text-align: center;
+  }
 }
 
 .logo {

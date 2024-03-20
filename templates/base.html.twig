@@ -34,7 +34,7 @@
                     <i class="fa-solid fa-bars icon icon-hamburger"></i>
                 </div>
             {% endif %}
-                <div class="menu-logo">
+                <div class="menu-logo {% if app.user %}connected{% endif %}">
                     <a href="{{ path('app_home') }}"
                     ><img class="logo" src="{{ asset('images/logo_R.png') }}" alt="Liege Rebels Logo"
                     /></a>
