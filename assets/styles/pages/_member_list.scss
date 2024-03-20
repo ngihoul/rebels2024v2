@@ -1,0 +1,128 @@
+.member-container {
+  .heading-container {
+    form {
+      display: none;
+    }
+  }
+
+  .advanced-search-engine {
+    display: none;
+
+    h2 {
+      margin-bottom: 1.6rem;
+    }
+
+    &.active {
+      display: block;
+      position: relative;
+
+      .close-btn {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        cursor: pointer;
+        font-size: 1.5rem;
+        z-index: 8888;
+      }
+    }
+  }
+
+  .member-table {
+    margin-top: 0.8rem;
+
+    .profile-picture,
+    .gender,
+    .date_of_birth,
+    .license {
+      display: none;
+    }
+  }
+}
+
+@media screen and (min-width: $min-desktop) {
+  .member-container {
+    .heading-container {
+      form {
+        display: flex;
+      }
+
+      .btn-update {
+        display: none;
+      }
+    }
+
+    .search-engine {
+      max-width: 40%;
+      display: flex;
+      justify-content: end;
+      margin-bottom: 1.6rem;
+
+      .search-input {
+        margin: 0;
+        width: 80%;
+      }
+      .search-btn {
+        margin: 0 0 0 0.8rem;
+        width: 50px;
+      }
+
+      .advanced-research-link {
+        font-size: 0.8rem;
+        margin-top: 0.4rem;
+        text-decoration: underline;
+        color: $color-primary;
+      }
+
+      &.inactive {
+        display: none;
+      }
+    }
+
+    .member-table {
+      .profile-picture,
+      .gender,
+      .date_of_birth,
+      .license {
+        display: table-cell;
+      }
+    }
+  }
+
+  .advanced-search-engine.active form {
+    .search-firstname,
+    .search-lastname {
+      width: 40%;
+    }
+
+    .search-lastname {
+      padding-left: 0.8rem;
+    }
+
+    .search-gender {
+      width: 20%;
+      padding-left: 0.8rem;
+    }
+
+    .search-age-min,
+    .search-age-max {
+      width: 20%;
+    }
+
+    .search-age-min {
+      padding-left: 0;
+    }
+
+    .search-age-max {
+      padding-left: 0.8rem;
+    }
+
+    .search-license-status {
+      width: 60%;
+      padding-left: 0.8rem;
+    }
+
+    button {
+      margin: 0 0 0.8rem 0;
+    }
+  }
+}

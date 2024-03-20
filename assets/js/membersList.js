@@ -77,15 +77,19 @@ document.addEventListener("DOMContentLoaded", () => {
   // Advanced Search Engine
 
   // Open advanced Search Engine
-  const advancedSearchLink = document.querySelector(".advanced-research-link");
+  const advancedSearchLinks = document.querySelectorAll(
+    ".advanced-research-link"
+  );
   const searchEngineBox = document.querySelector(".search-engine");
   const advancedSearchEngineBox = document.querySelector(
     ".advanced-search-engine"
   );
-  advancedSearchLink.addEventListener("click", (e) => {
-    e.preventDefault();
-    advancedSearchEngineBox.classList.add("active");
-    searchEngineBox.classList.add("inactive");
+  advancedSearchLinks.forEach((link) => {
+    link.addEventListener("click", (e) => {
+      e.preventDefault();
+      advancedSearchEngineBox.classList.add("active");
+      searchEngineBox.classList.add("inactive");
+    });
   });
 
   // Close advanced Search Engine

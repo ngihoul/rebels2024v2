@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block body %}
-    <div class="container license-container locale-container" data-locale="{{  app.request.locale }}">
+    <div class="container member-container locale-container" data-locale="{{  app.request.locale }}">
         <div class="heading-container">
             <h1>{{ "members.list.title"|trans }} ({{ count }})</h1>
             <form class="search-engine" action="" method="GET">
@@ -13,6 +13,9 @@
                 <button class="search-btn btn"><i class="fa-solid fa-magnifying-glass"></i></button>
                 <a href="#" class="advanced-research-link">{{ "members.list.advanced_search"|trans }}</a>
             </form>
+            <a class="btn-update advanced-research-link">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </a>
         </div>
 
         {{ parent() }}
@@ -33,7 +36,7 @@
                     <label for="gender">{{ "members.list.gender.label"|trans }}</label>
                     <select id="gender" name="gender">
                         <option value="" default></option>
-                        <option value="H">{{ "members.list.gender.male"|trans }}</option>
+                        <option value="M">{{ "members.list.gender.male"|trans }}</option>
                         <option value="F">{{ "members.list.gender.female"|trans }}</option>
                     </select>
                 </div>
@@ -64,12 +67,12 @@
             <thead>
                 <tr>
                     <th class="profile-picture"></th>
-                    <th data-order="u.lastname" data-direction="ASC">{{ "members.list.lastname"|trans }} <i class="fa-solid fa-sort"></i></th>
-                    <th data-order="u.firstname">{{ "members.list.firstname"|trans }} <i class="fa-solid fa-sort"></i></th>
-                    <th data-order="u.gender">{{ "members.list.gender.label"|trans }} <i class="fa-solid fa-sort"></i></th>
-                    <th data-order="u.date_of_birth">{{ "members.list.age"|trans }} <i class="fa-solid fa-sort"></i></th>
-                    <th>{{ "members.list.license"|trans }} {{ 'now'|date('Y') }}</th>
-                    <th data-order="l.status">{{ "members.list.license_status"|trans }} {{ 'now'|date('Y') }} <i class="fa-solid fa-sort"></i></th>
+                    <th class="lastname" data-order="u.lastname" data-direction="ASC">{{ "members.list.lastname"|trans }} <i class="fa-solid fa-sort"></i></th>
+                    <th class="firstname" data-order="u.firstname">{{ "members.list.firstname"|trans }} <i class="fa-solid fa-sort"></i></th>
+                    <th class="gender" data-order="u.gender">{{ "members.list.gender.label"|trans }} <i class="fa-solid fa-sort"></i></th>
+                    <th class="date_of_birth" data-order="u.date_of_birth">{{ "members.list.age"|trans }} <i class="fa-solid fa-sort"></i></th>
+                    <th class="license">{{ "members.list.license"|trans }} {{ 'now'|date('Y') }}</th>
+                    <th class="license_status" data-order="l.status">{{ "members.list.license_status"|trans }} {{ 'now'|date('Y') }} <i class="fa-solid fa-sort"></i></th>
                 </tr>
             </thead>
             <tbody>
@@ -82,13 +85,13 @@
                                 <img class="profile-member-picture" src="{{ asset('uploads/user_pictures/' ~ member.profilePicture) }}" alt="Profile picture of {{ member.firstname }}">
                             {% endif %}
                         </td>
-                        <td>{{ member.lastname }}</td>
-                        <td>{{ member.firstname }}</td>
-                        <td>{{ member.gender }}</td>
+                        <td class="lastname">{{ member.lastname }}</td>
+                        <td class="firstname">{{ member.firstname }}</td>
+                        <td class="gender">{{ member.gender }}</td>
                         {# Age calculation #}
                         {% set age = date().diff(member.dateOfBirth).y %}
-                        <td>{{ age }}</td>
-                        <td>
+                        <td class="date_of_birth">{{ age }}</td>
+                        <td class="license">
                             <ul>
                                 {% for license in member.licenses %}
                                     {% for sub_category in license.subCategories %}
@@ -97,7 +100,7 @@
                                 {% endfor %}
                             </ul>
                         </td>
-                        <td>
+                        <td class="license_status">
                             {% for license in member.licenses %}
                                 {% set licenseStatus = license.status %}
                                 {% set licenseStatusTrans = {

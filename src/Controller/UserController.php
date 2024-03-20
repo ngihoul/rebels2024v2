@@ -162,7 +162,7 @@ class UserController extends AbstractController
             $MEMBERS_PER_PAGE
         );
 
-        return $this->render('members/list.html.twig', [
+        return $this->render('member/list.html.twig', [
             'members' => $membersPaginated,
             'count' => $countMembers
         ]);
