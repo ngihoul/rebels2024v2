@@ -336,6 +336,9 @@ class EventController extends AbstractController
     {
         try {
             if (!$event->getAttendees()->isEmpty()) {
+                // Change status is_cancelled to true
+
+                // Send mail to attendees
                 throw new Exception($this->translator->trans('error.event.delete'));
             }
             $this->entityManager->remove($event);
