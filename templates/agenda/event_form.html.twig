@@ -19,7 +19,9 @@
         <div></div>
 
         <div class="custom-checkbox">
-            {{ form_row(form.is_recurrent, {'label': 'event.recurring'}) }}
+            {{ form_row(form.is_recurrent, {'label': 'event.recurring', 'attr': {
+                'class' : 'is_recurrent'
+            }}) }}
         </div>
         
         {{ form_row(form.end_date, {'label': 'event.end_date'}) }}
@@ -35,28 +37,8 @@
     {{ form_end(form) }}
 </div>
 
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-    const checkbox = document.getElementById('{{ form.is_recurrent.vars.id }}');
-    const startDateLabel = document.querySelector('label[for="event_start_date"]');
-    const endDateLabel = document.querySelector('label[for="event_end_date"]');
-    const frequencyLabel = document.querySelector('label[for="event_frequency"]');
-    const endDateField = document.getElementById('event_end_date');
-    const frequencyField = document.getElementById('event_frequency');
+{% block javascript %}
+    {{ encore_entry_script_tags('eventForm') }}
+{% endblock %}
 
-    const toggleFields = () => {
-        const isRecurrentChecked = checkbox.checked;
-
-        endDateField.style.display = isRecurrentChecked ? 'block' : 'none';
-        frequencyField.style.display = isRecurrentChecked ? 'block' : 'none';
-
-        endDateLabel.style.display = isRecurrentChecked ? 'block' : 'none';
-        frequencyLabel.style.display = isRecurrentChecked ? 'block' : 'none';
-    };
-
-    checkbox.addEventListener('change', toggleFields);
-
-    toggleFields();
-});
-</script>
 {% endblock %}
