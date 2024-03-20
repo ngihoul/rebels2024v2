@@ -14,6 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Length;
@@ -60,7 +61,7 @@ class UserType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('jersey_number', TextType::class, [
+            ->add('jersey_number', NumberType::class, [
                 'required' => false,
                 'constraints' => [
                     new Type([
