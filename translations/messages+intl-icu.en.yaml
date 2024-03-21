@@ -160,6 +160,7 @@ agenda:
   teams: "Teams"
   players: "Players"
   no_player_to_invite: "No players to invite."
+  cancelled: "CANCELLED"
 
 license:
   status:

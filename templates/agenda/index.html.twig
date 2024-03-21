@@ -53,7 +53,7 @@
                 <section class="card-event-container {{ customClass }}">
                     <div class="info-event">
                         <a href="{{ path('app_agenda_detail', { 'id' : futureEvent.id }) }}">
-                            <p class="event-date {% if futureEvent.isCancelled %}cancelled{% endif %}">{% if futureEvent.isCancelled %}<span class="cancelled-label">[CANCELLED]</span> {% endif %}{{ futureEvent.date|date("d/m/Y") }} - {{ futureEvent.timeFrom|format_datetime('none', 'short') }}</p>
+                            <p class="event-date {% if futureEvent.isCancelled %}cancelled{% endif %}">{% if futureEvent.isCancelled %}<span class="cancelled-label">[{{ 'agenda.cancelled'|trans }}] </span> {% endif %}{{ futureEvent.date|date("d/m/Y") }} - {{ futureEvent.timeFrom|format_datetime('none', 'short') }}</p>
                             <p class="event-type {% if futureEvent.isCancelled %}cancelled{% endif %}">[{{ futureEvent.team.name }}] {{ futureEvent.name }}</p>
                         </a>
                     </div>

@@ -4,13 +4,13 @@
 
 {% block body %}
 <div class="container container-detail-event">
-    <h1>[{{ event.team.name }}] {{ event.name }} @ {{ event.date|date('d/m/Y') }}</h1>
+    <h1>{% if event.isCancelled %}<span class="cancelled-label">[{{ 'agenda.cancelled'|trans }}] </span>{% endif %}[{{ event.team.name }}] {{ event.name }} @ {{ event.date|date('d/m/Y') }}</h1>
 
     {{ parent() }}
 
     <div class="response">
         {% for attendee in event.attendees %}
-            {% if attendee.user == app.user %}
+            {% if attendee.user == app.user and event.isCancelled == false %}
 
                 <a class="btn response-btn response-event-yes {{ attendee.userResponse == '1' or ( attendee.userResponse == NULL and attendee.userResponse != '0' ) ? '' : 'disabled' }}" href="{{ path('app_agenda_response', { 'id' : event.id, 'result' : 'accept' }) }}">{{ "agenda.present"|trans }}</a>
 
@@ -45,7 +45,7 @@
             </a>
         {% endif %}
 
-        {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_COACH') %}
+        {% if ( is_granted('ROLE_ADMIN') or is_granted('ROLE_COACH') ) and event.isCancelled == false %}
             <a class="btn btn-invite" href="{{ path('app_agenda_invitation', { 'id' : event.id } ) }}">{{ "agenda.invite"|trans }}</a>
         {% endif %}
 
@@ -83,7 +83,7 @@
         </div>
     {% endif %}
 
-    {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_COACH') %}
+    {% if ( is_granted('ROLE_ADMIN') or is_granted('ROLE_COACH') ) and event.isCancelled == false %}
         <div class="admin">
             <a class="btn" href="{{ path('app_agenda_update', { 'id' : event.id }) }}">{{ "agenda.edit"|trans }}</a>
             <a class="btn btn-danger" href="{{ path('app_agenda_delete', { 'id' : event.id }) }}">{{ "agenda.delete"|trans }}</a>

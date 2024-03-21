@@ -86,6 +86,7 @@ homepage:
   license_to_validate: "Un administrateur va bientôt valider ta licence"
   pay_license: "Dernière étape : paye ta licence"
 
+# Login
 login:
   login: "Se connecter"
   password: "Mot de passe"
@@ -93,9 +94,11 @@ login:
   not_member: "Pas encore membre ?"
   signup: "S'inscrire !"
 
+# Register
 register:
   title: "S'enregistrer"
 
+# profile
 profile:
   title: "Profil"
   my_profile: "Mon profil"
@@ -112,6 +115,7 @@ profile:
   picture:
     disclaimer: "Cette photo sera utilisée pour ta licence auprès de la Ligue Francophone Belge de Baseball et Softball. Utilise donc une photo d'identité ou une photo officielle du club."
 
+# Team
 team:
   title: "Mes équipes"
   detail:
@@ -130,6 +134,7 @@ team:
   delete: "Supprimer"
   no_team: "Vous n'avez pas encore d'équipe !"
 
+# Agenda
 agenda:
   title: "Mon agenda"
   create:
@@ -160,6 +165,7 @@ agenda:
   teams: "Equipes"
   players: "Joueurs"
   no_player_to_invite: "Aucun joueur à inviter."
+  cancelled: "ANNULE"
 
 license:
   status:
