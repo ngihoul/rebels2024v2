@@ -86,7 +86,7 @@ class UserController extends AbstractController
             return $this->redirectToRoute('app_profile', ['userId' => $user->getId()]);
         }
 
-        return $this->render('profile/update.html.twig', [
+        return $this->render('profile/form.html.twig', [
             'form' => $form->createView(),
             'image' => $user->getProfilePicture()
         ]);
