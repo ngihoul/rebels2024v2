@@ -292,6 +292,7 @@ members:
     license: "License"
     license_status: "License status"
     search_btn: "Search"
+    all: "All"
 
 password:
   # Request new password
