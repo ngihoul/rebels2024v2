@@ -108,6 +108,7 @@
   .card-event-container {
     width: calc(33% - 0.8rem);
     min-width: 350px;
+    min-height: 155px;
 
     &:not(:nth-child(3n)) {
       margin-right: 0.8rem;

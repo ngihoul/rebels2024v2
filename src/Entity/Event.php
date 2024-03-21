@@ -57,9 +57,13 @@ class Event
     #[Gedmo\Timestampable(on: 'update')]
     private ?\DateTimeImmutable $updated_at = null;
 
+    #[ORM\Column]
+    private ?bool $is_cancelled = null;
+
     public function __construct()
     {
         $this->attendees = new ArrayCollection();
+        $this->is_cancelled = false;
     }
 
     public function getId(): ?int
@@ -225,6 +229,18 @@ class Event
     public function setUpdatedAt(\DateTimeImmutable $updated_at): static
     {
         $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    public function isIsCancelled(): ?bool
+    {
+        return $this->is_cancelled;
+    }
+
+    public function setIsCancelled(bool $is_cancelled): static
+    {
+        $this->is_cancelled = $is_cancelled;
 
         return $this;
     }

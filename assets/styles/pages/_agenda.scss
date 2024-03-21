@@ -9,6 +9,14 @@
   }
 }
 
+.cancelled {
+  text-decoration: line-through;
+}
+
+.cancelled-label {
+  color: red;
+}
+
 @media screen and (min-width: $min-desktop) {
   .card-event-container {
     display: flex;

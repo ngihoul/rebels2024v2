@@ -332,19 +332,27 @@ class EventController extends AbstractController
 
     #[Route('/delete/{id}', name: 'app_agenda_delete')]
     #[IsGranted('ROLE_COACH')]
-    public function delete(Request $request, Event $event): Response
+    public function delete(Request $request, EmailManager $emailManager, Event $event): Response
     {
         try {
+            // Cancel the event
             if (!$event->getAttendees()->isEmpty()) {
                 // Change status is_cancelled to true
+                $event->setIsCancelled(true);
 
                 // Send mail to attendees
-                throw new Exception($this->translator->trans('error.event.delete'));
-            }
-            $this->entityManager->remove($event);
-            $this->entityManager->flush();
+                foreach ($event->getAttendees() as $attendee) {
+                    $emailManager->sendEmail($attendee->getUser()->getEmail(), $this->translator->trans('event.cancellation.subject', [], 'emails'), 'event_cancellation', ['event' => $event]);
+                }
 
-            $this->addFlash('success', $this->translator->trans('success.event.delete'));
+                $this->addFlash('success', $this->translator->trans('success.event.cancelled'));
+            } else {
+                // Delete the event
+                $this->entityManager->remove($event);
+                $this->addFlash('success', $this->translator->trans('success.event.delete'));
+            }
+
+            $this->entityManager->flush();
         } catch (Exception $e) {
             $this->addFlash('error', $e->getMessage());
         }

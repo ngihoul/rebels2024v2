@@ -53,13 +53,13 @@
                 <section class="card-event-container {{ customClass }}">
                     <div class="info-event">
                         <a href="{{ path('app_agenda_detail', { 'id' : futureEvent.id }) }}">
-                            <p class="event-date">{{ futureEvent.date|date("d/m/Y") }} - {{ futureEvent.timeFrom|format_datetime('none', 'short') }}</p>
-                            <p class="event-type">[{{ futureEvent.team.name }}] {{ futureEvent.name }}</p>
+                            <p class="event-date {% if futureEvent.isCancelled %}cancelled{% endif %}">{% if futureEvent.isCancelled %}<span class="cancelled-label">[CANCELLED]</span> {% endif %}{{ futureEvent.date|date("d/m/Y") }} - {{ futureEvent.timeFrom|format_datetime('none', 'short') }}</p>
+                            <p class="event-type {% if futureEvent.isCancelled %}cancelled{% endif %}">[{{ futureEvent.team.name }}] {{ futureEvent.name }}</p>
                         </a>
                     </div>
                     
                     {% for attendee in futureEvent.attendees %}
-                        {% if attendee.user == app.user and ( attendee.userResponse == '1' or attendee.userResponse == '0' ) %}
+                        {% if attendee.user == app.user and ( attendee.userResponse == '1' or attendee.userResponse == '0' ) and futureEvent.isCancelled == false %}
                         <div class="response-event">
                             <a class="btn response-event-yes {{ attendee.userResponse == true ? '' : 'disabled' }}" href="{{ path('app_agenda_response', { 'id' : futureEvent.id, 'result' : 'accept' }) }}">V</a>
                             <a class="btn response-event-no {{ attendee.userResponse == false ? '' : 'disabled' }}" href="{{ path('app_agenda_response', { 'id' : futureEvent.id, 'result' : 'decline' }) }}">X</a>
@@ -67,7 +67,7 @@
                         {% endif %}
                     {% endfor %}
 
-                    {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_COACH') %}
+                    {% if ( is_granted('ROLE_ADMIN') or is_granted('ROLE_COACH') ) and futureEvent.isCancelled == false %}
                         <div class="admin-btn">
                             <a class="btn btn-invite" href="{{ path('app_agenda_invitation', { 'id' : futureEvent.id } ) }}">{{ "agenda.invite"|trans }}</a>
                             <a class="icon icon-edit" href="{{ path('app_agenda_update', { 'id' : futureEvent.id }) }}"><i class="fa-regular fa-pen-to-square"></i></a>

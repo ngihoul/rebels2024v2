@@ -22,6 +22,11 @@ event:
       Tu es invité pour le prochain évènement : {event_name} le {event_date} à {event_time_from}.
       Le rendez-vous est fixé à {event_time_meeting}. </br> </br>
       Confirme ta présence dès maintenant dans <a href="{agenda_url}">ton espace personnel</a> !
+  cancellation:
+    subject: "Evènement annulé"
+    title: "Bonjour ! L'évènement {event_name} a été annulé!"
+    text: >-
+      L'évènement "{event_name}" initialement prévu le {event_date} à {event_timeFrom} a été annulé !
 
 registration:
   subject: "Confirme ton adresse e-mail"

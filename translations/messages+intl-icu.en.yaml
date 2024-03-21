@@ -9,7 +9,6 @@ error:
     creation: "An error occurred while creating the event."
     not_found: "The event does not exist."
     response: "An error has occurred while processing the response to the invitation."
-    delete: "Impossible to delete an event with invitation."
   invitation_not_found: "The invitation to the event was not found."
   license:
     not_found: "License not found."
@@ -44,6 +43,7 @@ success:
     decline: "You refused to take part in the {name} event."
     delete: "The event has been deleted."
     update: "The event has been modified."
+    cancelled: "The event has been cancelled."
   license:
     sent: "Your license was sent successfully. An administrator will check the document and validate your request."
     no_file_uploaded: "No file uploaded"

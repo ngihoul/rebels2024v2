@@ -1,0 +1,13 @@
+<h1>{{ 'event.cancellation.title'|trans({'event_name': event.name}, 'emails') }}</h1>
+
+<p>
+    {{ 'event.cancellation.text'|trans({
+        'event_name': event.name,
+        'event_date': event.date|date("d/m/Y"),
+        'event_timeFrom': event.timeFrom|format_datetime('none', 'short'),
+    }, 'emails' )|raw }}
+</p>
+
+<p>
+    {{ 'signature'|trans({}, 'emails') }}
+</p>

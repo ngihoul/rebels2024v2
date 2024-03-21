@@ -9,7 +9,6 @@ error:
     creation: "Une erreur s'est produite lors de la création de l'événement."
     not_found: "L'évèment n'existe pas."
     response: "Une erreur s'est produite lors du traitement de la réponse à l'invitation."
-    delete: "Impossible de supprimer un évènement avec invitation."
   invitation_not_found: "L'invitation à l'évènement n'a pas été trouvée."
   license:
     not_found: "La license n'existe pas."
@@ -44,6 +43,7 @@ success:
     decline: "Tu as refusé de participer à l'évènement {name}"
     delete: "L'évènement a bien été supprimé."
     update: "L'évènement a bien été modifié."
+    cancelled: "L'évènement a bien été annulé."
   license:
     sent: "Ta licence a été envoyée avec succès. Un administrateur vérifiera le document et validera ta demande."
     no_file_uploaded: "Aucun fichier uploadé"
