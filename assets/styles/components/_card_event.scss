@@ -89,12 +89,12 @@
 }
 
 .disabled {
-  color: #383d41;
-  background-color: #e2e3e5;
-  border-color: #d6d8db;
+  color: $color-disabled;
+  background-color: $color-bg-disabled;
+  border-color: $color-border-disabled;
 
   &:visited {
-    color: #383d41;
+    color: $color-disabled;
   }
 }
 

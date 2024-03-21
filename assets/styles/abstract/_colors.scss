@@ -5,15 +5,18 @@ $color-background-table-success: #c3e6cb;
 $color-primary: #0b5aa6;
 $color-primary-hover: #0a7cc1;
 $color-secondary: #ff810a;
-
+// Red palette
 $color-danger: #721c24;
 $color-bg-danger: #f8d7da;
 $color-border-danger: #f5c6cb;
-
+// Green palette
 $color-success: #155724;
 $color-bg-success: #d4edda;
 $color-border-success: #c3e6cb;
-
+// Grey palette
+$color-disabled: #383d41;
+$color-bg-disabled: #e2e3e5;
+$color-border-disabled: #d6d8db;
 // Borders
 $color-border: darken(
   $color: #e6e6e6,
