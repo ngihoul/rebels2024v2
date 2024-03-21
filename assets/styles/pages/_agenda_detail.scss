@@ -11,7 +11,7 @@
   }
 
   .attendees {
-    section {
+    .card {
       display: flex;
       justify-content: space-between;
       text-align: center;
@@ -32,7 +32,7 @@
     }
   }
 
-  .meeting section {
+  .meeting .card {
     display: flex;
     justify-content: center;
     align-items: center;

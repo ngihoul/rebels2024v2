@@ -13,7 +13,7 @@
 
         {% for team in form.invitedTeams %}
             <div class="checkbox-pair">
-                {{ form_widget(team, {'attr': {'id': 'custom_id_teams_' ~ team.vars.value}}) }}
+                {{ form_widget(team) }}
                 {{ form_label(team) }}
             </div>
         {% endfor %}
@@ -22,12 +22,12 @@
         
         {% for user in form.invitedUsers %}
             <div class="checkbox-pair">
-                {{ form_widget(user, {'attr': {'id': 'custom_id_users_' ~ user.vars.value}}) }}
+                {{ form_widget(user) }}
                 {{ form_label(user) }}
             </div>
         {% endfor %}
         
-        <input type="hidden" name="referer" value="{{app.request.headers.get('referer')}}"/>
+        <input type="hidden" name="referer" value="{{app.request.headers.get('referer')}}">
         
         {{ form_row(form.invite, { 'label': 'event.invite' }) }}
         {{ form_end(form) }}

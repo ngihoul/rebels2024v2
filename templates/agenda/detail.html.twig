@@ -4,18 +4,20 @@
 
 {% block body %}
 <div class="container container-detail-event">
-    <h1>{% if event.isCancelled %}<span class="cancelled-label">[{{ 'agenda.cancelled'|trans }}] </span>{% endif %}[{{ event.team.name }}] {{ event.name }} @ {{ event.date|date('d/m/Y') }}</h1>
+    <h1>
+        {% if event.isCancelled %}
+        <span class="cancelled-label">[{{ 'agenda.cancelled'|trans }}] </span>
+        {% endif %}
+        [{{ event.team.name }}] {{ event.name }} @ {{ event.date|date('d/m/Y') }}
+    </h1>
 
     {{ parent() }}
 
     <div class="response">
         {% for attendee in event.attendees %}
             {% if attendee.user == app.user and event.isCancelled == false %}
-
-                <a class="btn response-btn response-event-yes {{ attendee.userResponse == '1' or ( attendee.userResponse == NULL and attendee.userResponse != '0' ) ? '' : 'disabled' }}" href="{{ path('app_agenda_response', { 'id' : event.id, 'result' : 'accept' }) }}">{{ "agenda.present"|trans }}</a>
-
-                <a class="btn response-btn response-event-no {{ attendee.userResponse == '0' or attendee.userResponse == NULL ? '' : 'disabled' }}" href="{{ path('app_agenda_response', { 'id' : event.id, 'result' : 'decline' }) }}">{{ "agenda.absent"|trans }}</a>
-
+            <a class="btn response-btn response-event-yes {{ attendee.userResponse == '1' or ( attendee.userResponse == NULL and attendee.userResponse != '0' ) ? '' : 'disabled' }}" href="{{ path('app_agenda_response', { 'id' : event.id, 'result' : 'accept' }) }}">{{ "agenda.present"|trans }}</a>
+            <a class="btn response-btn response-event-no {{ attendee.userResponse == '0' or attendee.userResponse == NULL ? '' : 'disabled' }}" href="{{ path('app_agenda_response', { 'id' : event.id, 'result' : 'decline' }) }}">{{ "agenda.absent"|trans }}</a>
             {% endif %}
         {% endfor %}
     </div>
@@ -23,9 +25,9 @@
     <div class="attendees">
         <h2>{{ "agenda.attendees"|trans }}</h2>
         {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_COACH') %}
-            <a href="{{ path('app_agenda_attendance', { 'id' : event.id }) }}">
+        <a href="{{ path('app_agenda_attendance', { 'id' : event.id }) }}">
         {% endif %}
-            <section>
+            <div class="card">
                 <div class="attendees">
                         <p class="number">{{ attendees }}</p>
                         <p class="text">{{ "agenda.attendee"|trans }}{{ attendees > 1 ? 's' : '' }}</p>
@@ -40,29 +42,28 @@
                     <p class="number">{{ unavailable }}</p>
                     <p class="text">{{ "agenda.unavailable"|trans }}{{ unavailable > 1 ? 's' : '' }}</p>
                 </div>
-            </section>
+            </div>
         {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_COACH') %}
-            </a>
+        </a>
         {% endif %}
 
         {% if ( is_granted('ROLE_ADMIN') or is_granted('ROLE_COACH') ) and event.isCancelled == false %}
-            <a class="btn btn-invite" href="{{ path('app_agenda_invitation', { 'id' : event.id } ) }}">{{ "agenda.invite"|trans }}</a>
+        <a class="btn btn-invite" href="{{ path('app_agenda_invitation', { 'id' : event.id } ) }}">{{ "agenda.invite"|trans }}</a>
         {% endif %}
-
     </div>
 
     {% if event.timeMeeting %}
-        <div class="meeting">
-            <h2>{{ "agenda.meeting_at"|trans }}</h2>
-            <section>
-                <p class="time">{{ event.timeMeeting|format_datetime('none', 'short') }}</p>
-            </section>
+    <div class="meeting">
+        <h2>{{ "agenda.meeting_at"|trans }}</h2>
+        <div class="card">
+            <p class="time">{{ event.timeMeeting|format_datetime('none', 'short') }}</p>
         </div>
+    </div>
     {% endif %}
 
     <div class="info">
         <h2>{{ "agenda.practical_info"|trans }}</h2>
-        <section>
+        <div class="card">
             <p>{{ "agenda.starts_at"|trans }} <span class="time">{{ event.timeFrom|format_datetime('none', 'short') }}</span></p>
             <p>{{ "agenda.ends_at"|trans }} <span class="time">{{ event.timeTo|format_datetime('none', 'short') }}</span></p>
             <div class="address">
@@ -71,23 +72,23 @@
                 <p>{{ event.place.addressZipcode }} {{ event.place.addressLocality }}</p>
                 <p>{{ event.place.addressCountry.name }}</p>
             </div>
-        </section>
+        </div>
     </div>
 
     {% if event.description %}
-        <div class="description">
-            <h2>{{ "agenda.description"|trans }}</h2>
-            <section>
-                <p>{{ event.description }}</p>
-            </section>
+    <div class="description">
+        <h2>{{ "agenda.description"|trans }}</h2>
+        <div class="card">
+            <p>{{ event.description }}</p>
         </div>
+    </div>
     {% endif %}
 
     {% if ( is_granted('ROLE_ADMIN') or is_granted('ROLE_COACH') ) and event.isCancelled == false %}
-        <div class="admin">
-            <a class="btn" href="{{ path('app_agenda_update', { 'id' : event.id }) }}">{{ "agenda.edit"|trans }}</a>
-            <a class="btn btn-danger" href="{{ path('app_agenda_delete', { 'id' : event.id }) }}">{{ "agenda.delete"|trans }}</a>
-        </div>           
+    <div class="admin">
+        <a class="btn" href="{{ path('app_agenda_update', { 'id' : event.id }) }}">{{ "agenda.edit"|trans }}</a>
+        <a class="btn btn-danger" href="{{ path('app_agenda_delete', { 'id' : event.id }) }}">{{ "agenda.delete"|trans }}</a>
+    </div>           
     {% endif %}
 </div>
 {% endblock %}
