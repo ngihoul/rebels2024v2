@@ -32,11 +32,8 @@
         </div>
     </div>
 
-    {% block javascripts %}
-        {{ parent() }}
-
+    {% block javascript %}
         {{ encore_entry_script_tags('map') }}
-
     {% endblock %}
 
 {% endblock %}
