@@ -78,8 +78,10 @@ class EventRepository extends ServiceEntityRepository
             ->leftJoin('e.category', 'ec')
             ->where('ea.user = :user')
             ->andWhere('e.category = :category')
+            ->andWhere('e.is_cancelled = :is_cancelled')
             ->setParameter('user', $user)
             ->setParameter('category', $category)
+            ->setParameter('is_cancelled', false)
             ->groupBy('year')
             ->orderBy("year", "DESC");
 
@@ -101,9 +103,11 @@ class EventRepository extends ServiceEntityRepository
             ->where('ea.user = :userId')
             ->andWhere('e.category = :category')
             ->andWhere('YEAR(e.date) = :date')
+            ->andWhere('e.is_cancelled = :is_cancelled')
             ->setParameter('userId', $user->getId())
             ->setParameter('category', $category)
             ->setParameter('date', $year)
+            ->setParameter('is_cancelled', false)
             ->groupBy('ea.user_response');
 
         $results = $queryBuilder->getQuery()->getResult();
@@ -135,9 +139,11 @@ class EventRepository extends ServiceEntityRepository
             ->where('ea.user = :userId')
             ->andWhere('e.category = :category')
             ->andWhere('YEAR(e.date) = :date')
+            ->andWhere('e.is_cancelled = :is_cancelled')
             ->setParameter('userId', $user->getId())
             ->setParameter('category', $category)
-            ->setParameter('date', $year);
+            ->setParameter('date', $year)
+            ->setParameter('is_cancelled', false);
 
 
         $totalEventsResult = $queryBuilder->getQuery()->getSingleResult();
