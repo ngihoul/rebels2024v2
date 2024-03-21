@@ -47,7 +47,7 @@ class TeamController extends AbstractController
             $allTeams = $this->teamRepository->findAll();
         }
 
-        return $this->render('teams/index.html.twig', [
+        return $this->render('team/index.html.twig', [
             'teamsAsPlayer' => $teamsAsPlayer,
             'teamsAsCoach' => $teamsAsCoach,
             'allTeams' => $allTeams
@@ -83,7 +83,7 @@ class TeamController extends AbstractController
                 return $this->redirectToRoute('app_teams');
             }
 
-            return $this->render('teams/form.html.twig', [
+            return $this->render('team/form.html.twig', [
                 'form' => $form->createView(),
                 'action' => $action
             ]);
@@ -128,7 +128,7 @@ class TeamController extends AbstractController
                 return $this->redirectToRoute('app_teams');
             }
 
-            return $this->render('teams/form.html.twig', [
+            return $this->render('team/form.html.twig', [
                 'form' => $form->createView(),
                 'action' => $action,
                 'logo' => $logo
@@ -185,7 +185,7 @@ class TeamController extends AbstractController
                 }
             }
 
-            return $this->render('teams/detail.html.twig', [
+            return $this->render('team/detail.html.twig', [
                 'team' => $team,
                 'players' => $players,
                 'form' => $form
