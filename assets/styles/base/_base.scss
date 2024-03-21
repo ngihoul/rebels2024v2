@@ -66,6 +66,10 @@ label {
   text-decoration: underline;
   color: $color-secondary;
   text-decoration: underline;
+
+  &:visited {
+    color: $color-secondary;
+  }
 }
 
 .container {

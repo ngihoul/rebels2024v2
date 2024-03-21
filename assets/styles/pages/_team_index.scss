@@ -4,7 +4,7 @@
     flex-direction: column;
   }
 
-  section {
+  .card {
     text-align: center;
 
     h2:before {
@@ -63,7 +63,7 @@
       flex-wrap: wrap;
     }
 
-    section {
+    .card {
       width: 30%;
       display: flex;
       flex-direction: column;
