@@ -25,7 +25,8 @@ class InvitationType extends AbstractType
                     return $er->createQueryBuilder('t')
                         ->leftJoin('t.events', 'te')
                         ->andWhere('te.id IS NULL OR te.id != :eventId')
-                        ->setParameter('eventId', $eventId);
+                        ->setParameter('eventId', $eventId)
+                        ->orderBy('t.name', 'ASC');
                 },
                 'choice_label' => 'name',
                 'multiple' => true,
@@ -40,10 +41,11 @@ class InvitationType extends AbstractType
                     return $er->createQueryBuilder('u')
                         ->leftJoin('u.events', 'ea', 'WITH', 'ea.event = :eventId')
                         ->andWhere('ea.event IS NULL')
-                        ->setParameter('eventId', $eventId);
+                        ->setParameter('eventId', $eventId)
+                        ->orderBy('u.lastname', 'ASC');
                 },
                 'choice_label' => function ($user) {
-                    return $user->getFirstname() . ' ' . $user->getLastname();
+                    return $user->getLastname() . ' ' . $user->getFirstname();
                 },
                 'multiple' => true,
                 'expanded' => true,
