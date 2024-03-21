@@ -1,5 +1,5 @@
 .place-container {
-  .place-content section p:last-child {
+  .place-content .card p:last-child {
     margin-bottom: 0;
   }
   #map {
@@ -19,7 +19,7 @@
   .place-container .place-content {
     display: flex;
 
-    section {
+    .card {
       width: 50vw;
       display: flex;
       order: 2;

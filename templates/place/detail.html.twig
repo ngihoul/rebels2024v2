@@ -15,11 +15,11 @@
         {{ parent() }}
 
         <div class="place-content">
-            <section>
+            <div class="card">
                 <p>{{ place.addressStreet }} {{ place.addressNumber }}</p>
                 <p>{{ place.addressZipcode }} {{ place.addressLocality }}</p>
                 <p>{{ place.addressCountry.name }}</p>
-            </section>
+            </div>
 
             <div id="map" class="" 
                 data-street="{{ place.addressStreet|e('html_attr') }}"
