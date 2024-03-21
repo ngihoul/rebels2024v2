@@ -12,116 +12,124 @@
 
     <div class="section-container">
         {% if activeLicenses|length == 0 %}
-            <h2>To Do list</h2>
-            <section>
-                <ul>
-                    {% if isProfileComplete != true %}
-                        <li><a href="{{ path('app_profile_update') }}">{{ "homepage.fill_in_profile"|trans }}</a></li>
-                    {% endif %}
+        <h2>To Do list</h2>
+        <div class="card">
+            <ul>
+                {% if isProfileComplete != true %}
+                <li>
+                    <a href="{{ path('app_profile_update') }}">{{ "homepage.fill_in_profile"|trans }}</a>
+                </li>
+                {% endif %}
 
-                    {% if pendingLicense is null %}
-                        <li><a href="{{ path('app_license_create') }}">{{ "homepage.ask_license"|trans }}</a></li>
-                    {% elseif pendingLicense.status == 1 %}
-                        <li><a href="{{ path('app_license_download', { 'licenseId' : pendingLicense.id }) }}">{{ "homepage.download_license"|trans }}</a></li>
-                    {% elseif pendingLicense.status == 2 %}
-                        <li><a href="{{ path('app_license_upload', { 'licenseId' : pendingLicense.id }) }}">{{ "homepage.send_back_license"|trans }}</a></li>
-                    {% elseif pendingLicense.status == 3 %}
-                        <li>{{ "homepage.license_to_validate"|trans }}</li>
-                    {% elseif pendingLicense.status == 4 %}
-                        <li><a href="{{ path('app_license', { 'licenseId' : pendingLicense.id }) }}">{{ "homepage.pay_license"|trans }}</a></li>
-                    {% endif %}
+                {% if pendingLicense is null %}
+                <li>
+                    <a href="{{ path('app_license_create') }}">{{ "homepage.ask_license"|trans }}</a>
+                </li>
+                {% elseif pendingLicense.status == 1 %}
+                <li>
+                    <a href="{{ path('app_license_download', { 'licenseId' : pendingLicense.id }) }}">{{ "homepage.download_license"|trans }}</a>
+                </li>
+                {% elseif pendingLicense.status == 2 %}
+                <li>
+                    <a href="{{ path('app_license_upload', { 'licenseId' : pendingLicense.id }) }}">{{ "homepage.send_back_license"|trans }}</a>
+                </li>
+                {% elseif pendingLicense.status == 3 %}
+                <li>{{ "homepage.license_to_validate"|trans }}</li>
+                {% elseif pendingLicense.status == 4 %}
+                <li>
+                    <a href="{{ path('app_license', { 'licenseId' : pendingLicense.id }) }}">{{ "homepage.pay_license"|trans }}</a>
+                </li>
+                {% endif %}
 
-                    {% if isUnreadMessage > 0 %}
-                        <li><a href="{{ path('app_messages') }}">Lire tes messages non-lus</a></li>
-                    {% endif %}
-
-
-                </ul>
-            </section>
+                {% if isUnreadMessage > 0 %}
+                <li>
+                    <a href="{{ path('app_messages') }}">Lire tes messages non-lus</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
         {% endif %}
 
         <h2>{{ "homepage.next_event"|trans }}</h2>
+
         {% if futureEvents|length > 0 %}
-            <div class="card-event-wrapper">
-                {% for futureEvent in futureEvents %}
-                    {% set customClass = '' %}
-                    {% for attendee in futureEvent.attendees %}
-                        {% if attendee.user == app.user and attendee.userResponse == '1' %}
-                            {% set customClass = 'present' %}
-                        {% elseif attendee.user == app.user and attendee.userResponse == '0' %}
-                            {% set customClass = 'absent' %}
-                        {% endif %}
-                    {% endfor %}
-                    
-                    <section class="card-event-container {{ customClass }}">
-                        <div class="info-event">
-                            <a href="{{ path('app_agenda_detail', { 'id' : futureEvent.id }) }}">
-                                <p class="event-date">{{ futureEvent.date|date("d/m/Y") }} - {{ futureEvent.timeFrom|format_datetime('none', 'short') }}</p>
-                                <p class="event-type">[{{ futureEvent.team.name }}] {{ futureEvent.name }}</p>
-                            </a>
-                        </div>
-                        
-                        {% for attendee in futureEvent.attendees %}
-                            {% if attendee.user == app.user and ( attendee.userResponse == '1' or attendee.userResponse == '0' ) %}
-                            <div class="response-event">
-                                <a class="btn response-event-yes {{ attendee.userResponse == true ? '' : 'disabled' }}" href="{{ path('app_agenda_response', { 'id' : futureEvent.id, 'result' : 'accept' }) }}">V</a>
-                                <a class="btn response-event-no {{ attendee.userResponse == false ? '' : 'disabled' }}" href="{{ path('app_agenda_response', { 'id' : futureEvent.id, 'result' : 'decline' }) }}">X</a>
-                            </div>
-                            {% endif %}
-                        {% endfor %}
-
-                    </section>
-                {% endfor %}
-            </div>
-        {% else %}
-            <p class="alert alert-warning">{{ 'agenda.no_event'|trans }}</p>
-        {% endif %}
-        <h2>Derniers messages</h2>
-        {% if messages|length > 0 %}
-            <div class="message-cards-container">
-                {% for message in messages %}
-                    
-                    <div class="message-card">
-                        <a href="{{ path('app_message_detail', { 'messageId' : message.0.id }) }}">
-                        {% if message.status is same as(false) %}
-                            <div class="badge badge-unread"></div>
-                        {% endif %}
-
-                            <div class="message-data">
-
-                                <div class="author-container">
-                                    <i class="fa-solid fa-user"></i>
-                                    <p>{{  message.0.sender.firstname }} {{ message.0.sender.lastname }}
-                                </div>
-
-                                <div class="date-container">
-                                    <i class="fa-solid fa-calendar-days"></i>
-                                    <p>{{ message.0.createdAt|format_datetime(locale=app.request.locale) }}</p>
-                                </div>
-
-                            </div>
-
-                            <h2 class="title">
-                                {% if message.0.isArchived %}
-                                    <span class="is_archived">[{{ 'message.index.archived'|trans }}] </span>
-                                {% endif %}
-                                {{ message.0.title }}
-                            </h2>
-
-                            <p class="content">{{ message.0.content|slice(0,200) }} ...</p>
-
-                            {% if not message.0.isArchived  and is_granted('ROLE_ADMIN') %}
-                                <div class="actions">
-                                    <a href="{{ path('app_message_update', { 'messageId' : message.0.id }) }}" class="btn">{{ 'message.index.btn.modify'|trans }}</a>
-                                    <a href="{{ path('app_message_archive', { 'messageId' : message.0.id }) }}" class="btn btn-danger">{{ 'message.index.btn.archive'|trans }}</a>
-                                </div>
-                            {% endif %}
-                        </a>
+        <div class="card-event-wrapper">
+        {% for futureEvent in futureEvents %}
+            {% set customClass = '' %}
+            {% for attendee in futureEvent.attendees %}
+                {% if attendee.user == app.user and attendee.userResponse == '1' %}
+                    {% set customClass = 'present' %}
+                {% elseif attendee.user == app.user and attendee.userResponse == '0' %}
+                    {% set customClass = 'absent' %}
+                {% endif %}
+            {% endfor %}
+                
+            <div class="card card-event-container {{ customClass }}">
+                <div class="info-event">
+                    <a href="{{ path('app_agenda_detail', { 'id' : futureEvent.id }) }}">
+                        <p class="event-date">{{ futureEvent.date|date("d/m/Y") }} - {{ futureEvent.timeFrom|format_datetime('none', 'short') }}</p>
+                        <p class="event-type">[{{ futureEvent.team.name }}] {{ futureEvent.name }}</p>
+                    </a>
+                </div>
+                
+                {% for attendee in futureEvent.attendees %}
+                    {% if attendee.user == app.user and ( attendee.userResponse == '1' or attendee.userResponse == '0' ) %}
+                    <div class="response-event">
+                        <a class="btn response-event-yes {{ attendee.userResponse == true ? '' : 'disabled' }}" href="{{ path('app_agenda_response', { 'id' : futureEvent.id, 'result' : 'accept' }) }}">V</a>
+                        <a class="btn response-event-no {{ attendee.userResponse == false ? '' : 'disabled' }}" href="{{ path('app_agenda_response', { 'id' : futureEvent.id, 'result' : 'decline' }) }}">X</a>
                     </div>
+                    {% endif %}
                 {% endfor %}
+
             </div>
+            {% endfor %}
+        </div>
         {% else %}
-            <p class="alert alert-warning">{{ 'message.index.no_message'|trans }}</p>
+        <p class="alert alert-warning">{{ 'agenda.no_event'|trans }}</p>
+        {% endif %}
+
+        <h2>Derniers messages</h2>
+
+        {% if messages|length > 0 %}
+        <div class="message-cards-container">
+            {% for message in messages %}
+                <div class="message-card">
+                    <a href="{{ path('app_message_detail', { 'messageId' : message.0.id }) }}">
+                        {% if message.status is same as(false) %}
+                        <div class="badge badge-unread"></div>
+                        {% endif %}
+                        <div class="message-data">
+                            <div class="author-container">
+                                <i class="fa-solid fa-user"></i>
+                                <p>{{  message.0.sender.firstname }} {{ message.0.sender.lastname }}
+                            </div>
+
+                            <div class="date-container">
+                                <i class="fa-solid fa-calendar-days"></i>
+                                <p>{{ message.0.createdAt|format_datetime(locale=app.request.locale) }}</p>
+                            </div>
+                        </div>
+
+                        <h2 class="title">
+                            {% if message.0.isArchived %}
+                            <span class="is_archived">[{{ 'message.index.archived'|trans }}] </span>
+                            {% endif %}
+                            {{ message.0.title }}
+                        </h2>
+
+                        <p class="content">{{ message.0.content|slice(0,200) }} ...</p>
+                    </a>
+                    {% if not message.0.isArchived  and is_granted('ROLE_ADMIN') %}
+                    <div class="actions">
+                        <a href="{{ path('app_message_update', { 'messageId' : message.0.id }) }}" class="btn">{{ 'message.index.btn.modify'|trans }}</a>
+                        <a href="{{ path('app_message_archive', { 'messageId' : message.0.id }) }}" class="btn btn-danger">{{ 'message.index.btn.archive'|trans }}</a>
+                    </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="alert alert-warning">{{ 'message.index.no_message'|trans }}</p>
         {% endif %}
     </div>
 </div>

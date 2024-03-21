@@ -50,13 +50,6 @@ h2 {
   }
 }
 
-section {
-  border: 1px solid $color-border;
-  border-radius: $border-radius;
-  margin: 0.8rem 0;
-  padding: 0.8rem;
-}
-
 p {
   margin-bottom: 0.8rem;
 }
@@ -77,6 +70,13 @@ label {
 
 .container {
   padding: 1.8rem;
+}
+
+.card {
+  border: 1px solid $color-border;
+  border-radius: $border-radius;
+  margin: 0.8rem 0;
+  padding: 0.8rem;
 }
 
 @media screen and (min-width: $min-desktop) {
