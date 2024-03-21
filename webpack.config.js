@@ -23,7 +23,7 @@ Encore
   .addEntry("app", "./assets/app.js")
   .addEntry("spinner", "./assets/js/spinner.js")
   .addEntry("menu", "./assets/js/menu.js")
-  .addEntry("picture_preview", "./assets/js/picture_preview.js")
+  .addEntry("picturePreview", "./assets/js/picturePreview.js")
   .addEntry("teamDropdown", "./assets/js/teamDropdown.js")
   .addEntry("languageDropdown", "./assets/js/languageDropdown.js")
   .addEntry("membersList", "./assets/js/membersList.js")

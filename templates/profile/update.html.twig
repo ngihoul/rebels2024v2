@@ -77,4 +77,8 @@
 
         {{ form_end(form) }}
     </div>
+
+    {% block javascript %}
+        {{ encore_entry_script_tags('picturePreview') }}
+    {% endblock %}
 {% endblock %}

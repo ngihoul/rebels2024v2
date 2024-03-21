@@ -4,27 +4,31 @@
 {% block title %}{{ parent() }} | {{ pageTitle }}{% endblock %}
 
 {% block body %}
-<div class="container container-create-team">
-    <h1>{{ pageTitle }}</h1>
+    <div class="container container-create-team">
+        <h1>{{ pageTitle }}</h1>
 
-    {{ parent() }}
+        {{ parent() }}
 
-    {{ form_start(form) }}
-    
-    {{ form_row(form.name, {'label': 'team.name'}) }}
-    {{ form_row(form.coach, {'label': 'team.coach'}) }}
-    {{ form_row(form.assistant, {'label': 'team.assistant'}) }}
-    {{ form_row(form.logo, {'label': 'team.logo', 'id': 'profile_picture_input'}) }}
+        {{ form_start(form) }}
+        
+        {{ form_row(form.name, {'label': 'team.name'}) }}
+        {{ form_row(form.coach, {'label': 'team.coach'}) }}
+        {{ form_row(form.assistant, {'label': 'team.assistant'}) }}
+        {{ form_row(form.logo, {'label': 'team.logo', 'id': 'profile_picture_input'}) }}
 
-    <div id="previewPicture">
-        {% if action == 'update' %}
-            <img id="previewImage" src="{{ asset('uploads/logo_teams/' ~ logo) }}">
-        {% else %}
-            <img id="previewImage" src="">
-        {% endif %}
+        <div id="previewPicture">
+            {% if action == 'update' %}
+                <img id="previewImage" src="{{ asset('uploads/logo_teams/' ~ logo) }}">
+            {% else %}
+                <img id="previewImage" src="">
+            {% endif %}
+        </div>
+        
+        {{ form_row(form.save, {'label': (action == 'update' ? 'team.update.btn' : 'team.create.btn') }) }}
+        {{ form_end(form) }}
     </div>
-    
-    {{ form_row(form.save, {'label': (action == 'update' ? 'team.update.btn' : 'team.create.btn') }) }}
-    {{ form_end(form) }}
-</div>
+
+    {% block javascript %}
+        {{ encore_entry_script_tags('picturePreview') }}
+    {% endblock %}
 {% endblock %}

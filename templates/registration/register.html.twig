@@ -80,4 +80,8 @@
 
         {{ form_end(registrationForm) }}
     </div>
+
+    {% block javascript %}
+        {{ encore_entry_script_tags('picturePreview') }}
+    {% endblock %}
 {% endblock %}
