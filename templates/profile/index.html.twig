@@ -23,16 +23,16 @@
       <div class="profile-picture-container">
 
         {% if user.profilePicture starts with 'http' %}
-          <img class="profile-member-picture" src="{{ user.profilePicture }}" alt="Profile picture of {{ user.firstname }}">
+        <img class="profile-member-picture" src="{{ user.profilePicture }}" alt="Profile picture of {{ user.firstname }}">
         {% else %}
-          <img class="profile-member-picture" src="{{ asset('uploads/user_pictures/' ~ user.profilePicture) }}" alt="Profile picture of {{ user.firstname }}">
+        <img class="profile-member-picture" src="{{ asset('uploads/user_pictures/' ~ user.profilePicture) }}" alt="Profile picture of {{ user.firstname }}">
         {% endif %}
-        <img class="profile-flag" src="{{ asset('images/flags/' ~ user.nationality.alpha2 ~ '.png') }}" alt="{{ user.nationality.name }} flag" title="{{ user.nationality.name }} flag" />
+        <img class="profile-flag" src="{{ asset('images/flags/' ~ user.nationality.alpha2 ~ '.png') }}" alt="{{ user.nationality.name }} flag" title="{{ user.nationality.name }} flag">
 
       </div>
     </div>
 
-    <section class="profile-member-info">
+    <div class="card profile-member-info">
 
       <div class="profile-member-name">
         <p class="profile-member-lastname">{{ user.lastname }}</p>
@@ -47,55 +47,55 @@
         <p>{{ user.licenseNumber }}</p>
       </div>
 
-    </section>
+    </div>
   </div>
 
   <div class="flex-container">
 
-    <section class="profile-member-contact">
+    <div class="card profile-member-contact">
       <h2>{{ "profile.contact_information"|trans }}</h2>
       <p>Email: {{ user.email }}</p>
       <p>{{ "profile.phone"|trans }} {{ user.phoneNumber }}</p>
       <p>{{ "profile.mobile"|trans }} {{ user.mobileNumber }}</p>
-    </section>
+    </div>
 
-    <section class="profile-member-address">
+    <div class="card profile-member-address">
       <h2>{{ "profile.address"|trans }}</h2>
       <p>{{ user.addressStreet }} {{ user.addressNumber }}</p>
       <p>{{ user.zipCode }} {{ user.locality }}</p>
       <p>{{ user.country.name }}</p>
-    </section>
+    </div>
 
-    <section class="profile-member-agreements">
+    <div class="card profile-member-agreements">
       <h2>{{ "profile.agreements"|trans }}</h2>
       <p>
-          Newsletter LFBBS:
-          {% if user.newsletterLFBBS %}
-              <i class="fas fa-check agree"></i>
-          {% else %}
-              <i class="fas fa-times disagree"></i>
-          {% endif %}
+        Newsletter LFBBS:
+        {% if user.newsletterLFBBS %}
+        <i class="fas fa-check agree"></i>
+        {% else %}
+        <i class="fas fa-times disagree"></i>
+        {% endif %}
       </p>
 
       <p>
-          {{ "profile.internal_rules"|trans }}
-          {% if user.internalRules %}
-              <i class="fas fa-check agree"></i>
-          {% else %}
-              <i class="fas fa-times disagree"></i>
-          {% endif %}
+        {{ "profile.internal_rules"|trans }}
+        {% if user.internalRules %}
+        <i class="fas fa-check agree"></i>
+        {% else %}
+        <i class="fas fa-times disagree"></i>
+        {% endif %}
       </p>
 
       <p>
         {{ "profile.privacy_policy"|trans }}
         {% if user.privacyPolicy %}
-              <i class="fas fa-check agree"></i>
-          {% else %}
-              <i class="fas fa-times disagree"></i>
-          {% endif %}
+        <i class="fas fa-check agree"></i>
+        {% else %}
+        <i class="fas fa-times disagree"></i>
+        {% endif %}
       </p>
       
-    </section>
+    </div>
   </div>
 </div>
 {% endblock %}
