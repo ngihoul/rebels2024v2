@@ -71,6 +71,9 @@ header {
 
   .menu-logo {
     text-align: left;
+    &.connected {
+      text-align: left;
+    }
   }
 
   .profile-icon-desktop {
