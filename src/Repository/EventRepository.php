@@ -63,8 +63,10 @@ class EventRepository extends ServiceEntityRepository
             ->where('e.date >= :currentDate')
             ->andWhere('a.user = :user')
             ->andWhere('a.user_response IS NOT NULL')
+            ->andWhere('e.is_cancelled = :is_cancelled')
             ->setParameter('currentDate', $currentDateTime)
             ->setParameter('user', $user)
+            ->setParameter('is_cancelled', false)
             ->orderBy('e.date', 'ASC')
             ->getQuery()
             ->getResult();
