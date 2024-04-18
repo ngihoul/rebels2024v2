@@ -3,9 +3,8 @@
 // !!!!!!!!!!!!!!!!!!!!!!!! TODO : A refactoriser !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 namespace App\Service;
 
-use Exception;
+// Copyrigth Setasign FDPI : https://www.setasign.com/products/fpdi/about/#p-228
 use setasign\Fpdi\Fpdi;
-use Symfony\Component\HttpFoundation\Request;
 
 class LicensePDFGenerator
 {
