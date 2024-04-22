@@ -57,9 +57,10 @@ class PlaceController extends AbstractController
             if ($form->isSubmitted() && $form->isValid()) {
                 $place = $form->getData();
 
-                // Check if new place is not already in DB based on street & zipcode
+                // Check if new place is not already in DB based on street , number & zipcode
                 $existingPlace = $this->placeRepository->findOneBy([
                     'address_street' => $place->getAddressStreet(),
+                    'address_number' => $place->getAddressNumber(),
                     'address_zipcode' => $place->getAddressZipcode(),
                 ]);
 
