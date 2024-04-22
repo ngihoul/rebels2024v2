@@ -11,6 +11,10 @@
   z-index: 9999;
   transition: left 0.3s ease-in-out;
   overflow-y: auto;
+
+  a {
+    color: $color-background;
+  }
 }
 
 .menu-open {
