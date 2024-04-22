@@ -28,12 +28,14 @@ class StatisticController extends AbstractController
     public function index(): Response
     {
         $user = $this->getUser();
+        $training = 'Entrainement';
+        $game = 'Match';
 
-        $trainingCategory = $this->eventCategoryRepository->findOneBy(['name' => 'Entrainement']);
+        $trainingCategory = $this->eventCategoryRepository->findOneBy(['name' => $training]);
         // Fetch years whith data to populate <select>
         $yearsForTrainingStats = $this->eventRepository->findYearsWithAttendeesForUser($user, $trainingCategory);
 
-        $gameCategory = $this->eventCategoryRepository->findOneBy(['name' => 'Match']);
+        $gameCategory = $this->eventCategoryRepository->findOneBy(['name' => $game]);
         // Fetch years whith data to populate <select>
         $yearsForGameStats = $this->eventRepository->findYearsWithAttendeesForUser($user, $gameCategory);
 
