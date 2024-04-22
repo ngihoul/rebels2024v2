@@ -175,8 +175,6 @@ class EventController extends AbstractController
         } catch (\Exception $e) {
             $this->entityManager->rollback();
 
-            dd($e);
-
             $this->addFlash('error', $this->translator->trans('error.event.creation'));
             return $this->redirectToRoute('app_agenda');
         }
