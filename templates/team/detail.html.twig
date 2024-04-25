@@ -7,7 +7,7 @@
     <h1>{{ "team.detail.title"|trans }} {{ team.name }}</h1>
     {{ parent() }}
 
-    {% if is_granted('ROLE_ADMIN') %}
+    {% if is_granted('ROLE_COACH') %}
     <div class="card add_user_to_team">
         {{ form_start(form) }}
             {{ form_widget(form) }}
