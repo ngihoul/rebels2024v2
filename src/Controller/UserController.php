@@ -106,7 +106,7 @@ class UserController extends AbstractController
 
             $currentUser = $this->getUser();
 
-            if ($user !== $currentUser && (!$this->isGranted("ROLE_COACH") || !$this->isGranted('ROLE_ADMIN'))) {
+            if ($user !== $currentUser && (!$this->isGranted("ROLE_COACH"))) {
                 $this->addFlash('error', $this->translator->trans('error.profile_not_found'));
                 return $this->redirectToRoute('app_home');
             }
