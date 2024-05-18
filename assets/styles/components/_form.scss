@@ -66,6 +66,10 @@ form {
     flex-wrap: wrap;
   }
 
+  .submit {
+    width: 100%;
+  }
+
   // Form-user (resgitration & update profile)
   .form-user {
     .firstname,
@@ -92,8 +96,7 @@ form {
     .country,
     .email,
     .profile-picture,
-    .disclaimer-picture,
-    .submit {
+    .disclaimer-picture {
       width: 100%;
     }
 
@@ -138,8 +141,7 @@ form {
   .form-event {
     .name,
     .place,
-    .description,
-    .submit {
+    .description {
       width: 100%;
     }
 
@@ -183,10 +185,6 @@ form {
 
     .custom-checkbox {
       width: 33.33%;
-    }
-
-    .submit {
-      width: 100%;
     }
   }
 

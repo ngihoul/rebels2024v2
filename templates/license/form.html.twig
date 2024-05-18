@@ -13,7 +13,7 @@
     {{ form_start(form) }}
     {{ form_row(form.season, {'label' : 'license.season.label'}) }}
     {{ form_row(form.subCategories, { 'label' : 'license.sub_category.label'}) }}
-    {{ form_row(form.submit, { 'label' : 'license.request.btn'}) }}
+    {{ form_row(form.submit, { 'label' : 'license.request.btn', 'row_attr': { 'class': 'submit' }}) }}
 
     {{ form_end(form) }}
 </div>
