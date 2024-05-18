@@ -9,19 +9,19 @@
         {# Display flash messages #}
         {{ parent() }}
 
-        {{ form_start(form) }}
+        {{ form_start(form, {
+            'attr' : {
+                'class' : 'form-user'
+            }
+        }) }}
 
         {{ form_errors(form) }}
 
-        {{ form_row(form.firstname, {'label': 'user.firstname'}) }}
+        {{ form_row(form.firstname, {'label': 'user.firstname', 'row_attr': { 'class': 'firstname' }}) }}
 
-        {{ form_row(form.lastname, {'label': 'user.lastname'}) }}
+        {{ form_row(form.lastname, {'label': 'user.lastname', 'row_attr': { 'class': 'lastname' }}) }}
 
-        {{ form_row(form.nationality, {'label': 'user.nationality'}) }}
-
-        {{ form_row(form.license_number, {'label': 'user.license_number', 'required': false}) }}
-
-        {{ form_row(form.jersey_number, {'label': 'user.jersey_number', 'required': false}) }}
+        {{ form_row(form.gender, {'label': 'user.gender.label', 'row_attr': { 'class': 'gender' }}) }}
 
         {{ form_row(form.date_of_birth, {
             'label': 'user.date_of_birth',
@@ -29,31 +29,36 @@
             'format': 'yyyy-MM-dd',
             'attr': {
                 'class': 'datepicker',
-            },
-        }) }}
+            }, 
+            'row_attr': { 'class': 'date-of-birth' }}) 
+        }}
 
-        {{ form_row(form.gender, {'label': 'user.gender.label'}) }}
+        {{ form_row(form.nationality, {'label': 'user.nationality', 'row_attr': { 'class': 'nationality' }}) }}
 
-        {{ form_row(form.address_street, {'label': 'user.address_street'}) }}
+        {{ form_row(form.license_number, {'label': 'user.license_number', 'required': false, 'row_attr': { 'class': 'license-number' }}) }}
 
-        {{ form_row(form.address_number, {'label': 'user.address_number'}) }}
+        {{ form_row(form.jersey_number, {'label': 'user.jersey_number', 'required': false, 'row_attr': { 'class': 'jersey-number' }}) }}
 
-        {{ form_row(form.zipcode, {'label': 'user.zipcode'}) }}
-
-        {{ form_row(form.locality, {'label': 'user.locality'}) }}
-
-        {{ form_row(form.country, {'label': 'user.country'}) }}
-
-        {{ form_row(form.phone_number, {'label': 'user.phone_number', 'required': false}) }}
-
-        {{ form_row(form.mobile_number, {'label': 'user.mobile_number', 'required': false}) }}
-
-        {{ form_row(form.profile_picture, {'label': 'user.profile_picture.label', 'id': 'profile_picture_input'}) }}
+        {{ form_row(form.profile_picture, {'label': 'user.profile_picture.label', 'id': 'profile_picture_input', 'row_attr': { 'class': 'profile-picture' }}) }}
         <p class="disclaimer-picture alert alert-warning">{{ 'profile.picture.disclaimer'|trans }}</p>
 
         <div id="previewPicture">
             <img id="previewImage" src="{{ asset('uploads/user_pictures/' ~ image) }}">
         </div>
+
+        {{ form_row(form.address_street, {'label': 'user.address_street', 'row_attr': { 'class': 'street' }}) }}
+
+        {{ form_row(form.address_number, {'label': 'user.address_number', 'row_attr': { 'class': 'number' }}) }}
+
+        {{ form_row(form.zipcode, {'label': 'user.zipcode', 'row_attr': { 'class': 'zipcode' }}) }}
+
+        {{ form_row(form.locality, {'label': 'user.locality', 'row_attr': { 'class': 'locality' }}) }}
+
+        {{ form_row(form.country, {'label': 'user.country', 'row_attr': { 'class': 'country' }}) }}
+
+        {{ form_row(form.phone_number, {'label': 'user.phone_number', 'required': false, 'row_attr': { 'class': 'phone-number' }}) }}
+
+        {{ form_row(form.mobile_number, {'label': 'user.mobile_number', 'required': false, 'row_attr': { 'class': 'mobile-number' }}) }}
 
         <div class="custom-checkbox">
             {{ form_row(form.newsletter_lfbbs, {'label': 'user.newsletter_lfbbs', 'required': false}) }}
@@ -73,7 +78,7 @@
             }) }}
         </div>
 
-        {{ form_row(form.submit, {'label': 'user.update_profile.submit'}) }}
+        {{ form_row(form.submit, {'label': 'user.update_profile.submit', 'row_attr': { 'class': 'submit' }}) }}
 
         {{ form_end(form) }}
     </div>

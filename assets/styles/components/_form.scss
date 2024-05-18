@@ -64,23 +64,70 @@ form {
   form {
     flex-direction: row;
     flex-wrap: wrap;
+  }
 
-    & > div {
+  // Form-user (resgitration & update profile)
+  .form-user {
+    .firstname,
+    .lastname,
+    .gender {
+      width: 33.33%;
+    }
+
+    .date-of-birth,
+    .nationality,
+    .license-number,
+    .jersey-number,
+    .street,
+    .number,
+    .zipcode,
+    .locality,
+    .phone-number,
+    .mobile-number,
+    .password,
+    .password-confirmation {
       width: 50%;
-
-      // Submit button
-      &:last-of-type {
-        width: 100%;
-        padding-left: 0;
-      }
     }
 
-    // PreviexImage & checkboxes
-    div#previewPicture,
-    div.custom-checkbox {
+    .country,
+    .email,
+    .profile-picture,
+    .disclaimer-picture,
+    .submit {
       width: 100%;
-      padding-left: 0;
     }
+
+    .firstname,
+    .date-of-birth,
+    .license-number,
+    .street,
+    .zipcode,
+    .phone-number,
+    .password {
+      padding-right: 0.4rem;
+    }
+
+    .lastname {
+      padding-left: 0.2rem;
+      padding-right: 0.2rem;
+    }
+
+    .gender,
+    .nationality,
+    .jersey-number,
+    .number,
+    .locality,
+    .mobile-number,
+    .password-confirmation {
+      padding-left: 0.4rem;
+    }
+  }
+
+  // PreviewImage & checkboxes
+  div#previewPicture,
+  div.custom-checkbox {
+    width: 100%;
+    padding-left: 0;
   }
 
   .container-license-list-to-validate form > div {

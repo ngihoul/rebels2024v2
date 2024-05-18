@@ -4,64 +4,66 @@
   align-items: baseline;
 }
 
-.profile-important-info {
-  display: flex;
-  align-items: center;
-}
-
-.profile-picture {
-  display: flex;
-}
-
-.profile-picture-container {
-  display: flex;
-  align-items: center;
-  position: relative;
-  margin-right: 1rem;
-
-  .profile-flag {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    width: 40px;
+.profile-container {
+  .profile-important-info {
+    display: flex;
+    align-items: center;
   }
-}
 
-.profile-member-picture {
-  max-height: 8rem;
-}
+  .profile-picture {
+    display: flex;
+  }
 
-.profile-member-info {
-  width: 100%;
-  min-height: 8rem;
-  padding: 0 0 0 0.8rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
+  .profile-picture-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+    margin-right: 1rem;
 
-.profile-member-lastname,
-.profile-member-firstname {
-  font-family: $font-heading;
-}
+    .profile-flag {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      width: 40px;
+    }
+  }
 
-.profile-member-lastname {
-  margin-top: 0.8rem;
-  font-size: 1.5rem;
-}
+  .profile-member-picture {
+    max-height: 8rem;
+  }
 
-.profile-member-info .profile-member-firstname {
-  font-size: 1.3rem;
-  padding-bottom: 0.6rem;
-}
+  .profile-member-info {
+    width: 100%;
+    min-height: 8rem;
+    padding: 0 0 0 0.8rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
 
-.profile-member-numbers {
-  padding-top: 0.6rem;
-  display: flex;
-}
+  .profile-member-lastname,
+  .profile-member-firstname {
+    font-family: $font-heading;
+  }
 
-.jersey-number {
-  margin-right: 0.8rem;
+  .profile-member-lastname {
+    margin-top: 0.8rem;
+    font-size: 1.5rem;
+  }
+
+  .profile-member-info .profile-member-firstname {
+    font-size: 1.3rem;
+    padding-bottom: 0.6rem;
+  }
+
+  .profile-member-numbers {
+    padding-top: 0.6rem;
+    display: flex;
+  }
+
+  .jersey-number {
+    margin-right: 0.8rem;
+  }
 }
 
 /* 
