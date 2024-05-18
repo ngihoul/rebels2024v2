@@ -121,6 +121,10 @@ form {
     .password-confirmation {
       padding-left: 0.4rem;
     }
+
+    #previewPicture img {
+      max-width: 128px;
+    }
   }
 
   // PreviewImage & checkboxes
