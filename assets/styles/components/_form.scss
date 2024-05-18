@@ -176,6 +176,20 @@ form {
     }
   }
 
+  // Event invitation
+  .form-event-invitation {
+    display: flex;
+    flex-wrap: wrap;
+
+    .custom-checkbox {
+      width: 33.33%;
+    }
+
+    .submit {
+      width: 100%;
+    }
+  }
+
   .container-license-list-to-validate form > div {
     width: 100%;
   }
