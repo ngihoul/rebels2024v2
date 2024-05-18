@@ -59,6 +59,24 @@ form {
   }
 }
 
+// License form
+.container-add-license p {
+  padding: 0.8rem 0;
+}
+
+#license_subCategories {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 1.2rem;
+
+  label {
+    width: calc(100% - 50px);
+    margin-left: 0.8rem;
+  }
+}
+
 // Desktop form styling
 @media screen and (min-width: $min-desktop) {
   form {
@@ -188,7 +206,12 @@ form {
     }
   }
 
+  // License forms
   .container-license-list-to-validate form > div {
     width: 100%;
+  }
+
+  #license_subCategories label {
+    width: calc(33.33% - 50px);
   }
 }

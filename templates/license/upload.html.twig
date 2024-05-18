@@ -25,7 +25,7 @@
             {{ form_row(form.confirm_data, { 'label' : 'license.upload.confirm_data' }) }}
         </div>
 
-        {{ form_row(form.submit, { 'label' : 'license.upload.btn' }) }}
+        {{ form_row(form.submit, { 'label' : 'license.upload.btn', 'row_attr': { 'class': 'submit' }}) }}
         {{ form_end(form) }}
     </div>
 {% endblock %}
