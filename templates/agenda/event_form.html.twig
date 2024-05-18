@@ -9,30 +9,39 @@
 
     {{ parent() }}
 
-    {{ form_start(form) }}
+    {{ form_start(form, { 'attr' : { 'class': 'form-event' }}) }}
 
-        {{ form_row(form.name, {'label': 'event.name'}) }}
-        {{ form_row(form.description, {'label': 'event.description'}) }}
-        {{ form_row(form.category, {'label': 'event.category'}) }}
-        {{ form_row(form.team, {'label': 'event.team'}) }}
-        {{ form_row(form.date, {'label': 'event.date'}) }}
-        <div></div>
+    {{ form_errors(form) }}
 
-        <div class="custom-checkbox">
-            {{ form_row(form.is_recurrent, {'label': 'event.recurring', 'attr': {
-                'class' : 'is_recurrent'
-            }}) }}
-        </div>
-        
-        {{ form_row(form.end_date, {'label': 'event.end_date'}) }}
-        {{ form_row(form.frequency, {'label': 'event.frequency.label'}) }}
+    {{ form_row(form.name, {'label': 'event.name', 'row_attr': { 'class': 'name'}}) }}
 
-        {{ form_row(form.time_meeting, {'label': 'event.meeting_time'}) }}
-        {{ form_row(form.time_from, {'label': 'event.start_time'}) }}
-        {{ form_row(form.time_to, {'label': 'event.end_time'}) }}
-        {{ form_row(form.place, {'label': 'event.place'}) }}
+    {{ form_row(form.date, {'label': 'event.date', 'row_attr': { 'class': 'date'}}) }}
 
-        {{ form_row(form.submit, { 'label': (action == 'update' ? 'event.btn.update' : 'event.btn.create') }) }}
+    {{ form_row(form.team, {'label': 'event.team', 'row_attr': { 'class': 'team'}}) }}
+
+    {{ form_row(form.category, {'label': 'event.category', 'row_attr': { 'class': 'category'}}) }}
+
+    {{ form_row(form.time_meeting, {'label': 'event.meeting_time', 'row_attr': { 'class': 'time-meeting'}}) }}
+
+    {{ form_row(form.time_from, {'label': 'event.start_time', 'row_attr': { 'class': 'time-from'}}) }}
+
+    {{ form_row(form.time_to, {'label': 'event.end_time', 'row_attr': { 'class': 'time-to'}}) }}
+
+    {{ form_row(form.place, {'label': 'event.place', 'row_attr': { 'class': 'place'}}) }}
+
+    {{ form_row(form.description, {'label': 'event.description', 'row_attr': { 'class': 'description'}}) }}
+
+    <div class="custom-checkbox">
+        {{ form_row(form.is_recurrent, {'label': 'event.recurring', 'attr': {
+            'class' : 'is_recurrent'
+        }}) }}
+    </div>
+    
+    {{ form_row(form.end_date, {'label': 'event.end_date', 'row_attr': { 'class': 'end-date'}}) }}
+
+    {{ form_row(form.frequency, {'label': 'event.frequency.label', 'row_attr': { 'class': 'frequency'}}) }}
+
+    {{ form_row(form.submit, { 'label': (action == 'update' ? 'event.btn.update' : 'event.btn.create') , 'row_attr': { 'class': 'submit'}}) }}
 
     {{ form_end(form) }}
 </div>

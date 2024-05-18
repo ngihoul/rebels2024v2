@@ -59,7 +59,7 @@ form {
   }
 }
 
-// Styling register & edit-profile form for desktop
+// Desktop form styling
 @media screen and (min-width: $min-desktop) {
   form {
     flex-direction: row;
@@ -128,6 +128,48 @@ form {
   div.custom-checkbox {
     width: 100%;
     padding-left: 0;
+  }
+
+  // Event form
+  .form-event {
+    .name,
+    .place,
+    .description,
+    .submit {
+      width: 100%;
+    }
+
+    .date,
+    .team,
+    .category,
+    .time-meeting,
+    .time-from,
+    .time-to {
+      width: 33.33%;
+    }
+
+    .end-date,
+    .frequency {
+      width: 50%;
+    }
+
+    .date,
+    .end-date,
+    .time-meeting {
+      padding-right: 0.4rem;
+    }
+
+    .team,
+    .time-from {
+      padding-left: 0.2rem;
+      padding-right: 0.2rem;
+    }
+
+    .category,
+    .frequency,
+    .time-to {
+      padding-left: 0.4rem;
+    }
   }
 
   .container-license-list-to-validate form > div {
