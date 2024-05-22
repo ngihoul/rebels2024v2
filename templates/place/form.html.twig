@@ -11,6 +11,8 @@
 
         {{ form_start(form, {'attr' : { 'class' : 'form-place' } }) }}
 
+        {{ form_errors(form) }}
+
         {{ form_row(form.name, { 'label': 'place.name', 'row_attr': { 'class': 'name'} }) }}
 
         {{ form_row(form.address_street, { 'label': 'place.street', 'row_attr': { 'class': 'street'} }) }}
