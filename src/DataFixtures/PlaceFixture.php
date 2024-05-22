@@ -57,7 +57,7 @@ class PlaceFixture extends Fixture implements FixtureGroupInterface
 
     public static function getGroups(): array
     {
-        return ['place'];
+        return ['place', 'production'];
     }
 
     // public function getDependencies()

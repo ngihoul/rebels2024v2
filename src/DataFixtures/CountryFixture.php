@@ -3,7 +3,6 @@
 namespace App\DataFixtures;
 
 use App\Entity\Country;
-use App\Entity\EventCategory;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -37,6 +36,6 @@ class CountryFixture extends Fixture implements FixtureGroupInterface
 
     public static function getGroups(): array
     {
-        return ['country'];
+        return ['country', 'production'];
     }
 }

@@ -79,6 +79,6 @@ class LicenseCategoryFixture extends Fixture implements FixtureGroupInterface
 
     public static function getGroups(): array
     {
-        return ['license_category'];
+        return ['license_category', 'production'];
     }
 }

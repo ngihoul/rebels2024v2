@@ -38,6 +38,6 @@ class EventCategoryFixture extends Fixture implements FixtureGroupInterface
 
     public static function getGroups(): array
     {
-        return ['event_category'];
+        return ['event_category', 'production'];
     }
 }
