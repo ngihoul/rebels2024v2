@@ -1,3 +1,4 @@
+// Using Chart.js
 import Chart from "chart.js/auto";
 
 document.addEventListener("DOMContentLoaded", () => {

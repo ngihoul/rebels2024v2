@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const alertSpecial = document.querySelector(".special");
   const alertIdentical = document.querySelector(".identical");
 
+  // Define password rules
   const hasMin8chars = (string) => string.length >= 8;
   const hasMinOneCapital = (string) => /[A-Z]/.test(string);
   const hasMinOneLowerCase = (string) => /[a-z]/.test(string);
@@ -17,6 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return password.value === passwordConfirmation.value;
   };
 
+  // Adapt css class
   const addOrRemoveValidatedClass = (element, test) => {
     if (element) {
       element.classList.toggle("validated", test);

@@ -1,3 +1,4 @@
+// Using Leaflet.js to display Open Street Maps
 import L from "leaflet";
 import "leaflet-control-geocoder/dist/Control.Geocoder.js";
 
