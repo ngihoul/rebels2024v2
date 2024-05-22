@@ -30,6 +30,8 @@ error:
   place:
     already_exist: "A place with the same street name and zip code already exists."
     not_found: "Place not found."
+  page:
+    not_found: "Page not found."
 
 success:
   profile_updated: "Your profile has been updated."

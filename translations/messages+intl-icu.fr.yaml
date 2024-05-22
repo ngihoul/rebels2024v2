@@ -30,6 +30,8 @@ error:
   place:
     already_exist: "Un lieu avec le même nom de rue et le même code postal existe déjà."
     not_found: "Le lieu n'existe pas."
+  page:
+    not_found: "Cette page n'existe pas."
 
 success:
   profile_updated: "Votre profil a été mis à jour."
