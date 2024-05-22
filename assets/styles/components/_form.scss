@@ -214,4 +214,25 @@ form {
   #license_subCategories label {
     width: calc(33.33% - 50px);
   }
+
+  // Team form
+  .container-form-team {
+    .name,
+    .team-logo {
+      width: 100%;
+    }
+
+    .coach,
+    .assistant {
+      width: 50%;
+    }
+
+    .coach {
+      padding-right: 0.4rem;
+    }
+
+    .assistant {
+      padding-left: 0.4rem;
+    }
+  }
 }
