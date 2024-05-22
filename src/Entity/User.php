@@ -121,9 +121,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(options: ["default" => 0])]
     private ?bool $privacy_policy = null;
 
-    #[ORM\Column(type: Types::SMALLINT, options: ["default" => 0])]
-    private ?int $unsuccessfull_attempts = null;
-
     #[ORM\OneToMany(mappedBy: 'receiver', targetEntity: MessageStatus::class)]
     private Collection $messageStatuses;
 
@@ -134,7 +131,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->coach_of = new ArrayCollection();
         $this->events = new ArrayCollection();
         $this->messageStatuses = new ArrayCollection();
-        $this->unsuccessfull_attempts = 0;
     }
 
     public function getId(): ?int
@@ -618,18 +614,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPrivacyPolicy(bool $privacy_policy): static
     {
         $this->privacy_policy = $privacy_policy;
-
-        return $this;
-    }
-
-    public function getUnsuccessfullAttempts(): ?int
-    {
-        return $this->unsuccessfull_attempts;
-    }
-
-    public function setUnsuccessfullAttempts(int $unsuccessfull_attempts): static
-    {
-        $this->unsuccessfull_attempts = $unsuccessfull_attempts;
 
         return $this;
     }
