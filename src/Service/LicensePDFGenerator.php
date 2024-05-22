@@ -9,6 +9,7 @@ class LicensePDFGenerator
 {
     const STATUS_ON_DEMAND = 0;
 
+    // Value also define in DB Table LicenceSubCategories
     const SUBCAT_BASEBALL = 1,
         SUBCAT_SOFTBALL = 2,
         SUBCAT_SLOWPITCH = 3,
