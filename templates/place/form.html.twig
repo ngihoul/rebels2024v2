@@ -9,46 +9,22 @@
 
         {{ parent() }}
 
-        {{ form_start(form, { 
-            'attr' : { 
-                'class' : 'place-form' 
-                }
-            }) 
-        }}
+        {{ form_start(form, {'attr' : { 'class' : 'form-place' } }) }}
 
-            <div class="name">
-                {{ form_label(form.name, 'place.name') }}
-                {{ form_widget(form.name) }}
-            </div>
+        {{ form_row(form.name, { 'label': 'place.name', 'row_attr': { 'class': 'name'} }) }}
 
-            <div class="street">
-                {{ form_label(form.address_street, 'place.street') }}
-                {{ form_widget(form.address_street) }}
-            </div>
+        {{ form_row(form.address_street, { 'label': 'place.street', 'row_attr': { 'class': 'street'} }) }}
 
-            <div class="number">
-                {{ form_label(form.address_number, 'place.number') }}
-                {{ form_widget(form.address_number) }}
-            </div>
+        {{ form_row(form.address_number, { 'label': 'place.number', 'row_attr': { 'class': 'number'} }) }}
 
-            <div class="zipcode">
-                {{ form_label(form.address_zipcode, 'place.zipcode') }}
-                {{ form_widget(form.address_zipcode) }}
-            </div>
+        {{ form_row(form.address_zipcode, { 'label': 'place.zipcode', 'row_attr': { 'class': 'zipcode'} }) }}
 
-            <div class="locality">
-                {{ form_label(form.address_locality, 'place.locality') }}
-                {{ form_widget(form.address_locality) }}
-            </div>
+        {{ form_row(form.address_locality, { 'label': 'place.locality', 'row_attr': { 'class': 'locality'} }) }}
 
-            <div class="country">
-                {{ form_label(form.address_country, 'place.country') }}
-                {{ form_widget(form.address_country) }}
-            </div>
+        {{ form_row(form.address_country, { 'label': 'place.country', 'row_attr': { 'class': 'country'} }) }}
 
-            <div class="submit">
-                {{ form_row(form.submit, { 'label' : (action == 'create' ? 'place.form.btn.create'|trans : 'place.form.btn.update'|trans)}) }}
-            </div>
+        {{ form_row(form.submit, { 'label' : (action == 'create' ? 'place.form.btn.create'|trans : 'place.form.btn.update'|trans)}) }}
+
         {{ form_end(form) }}
     </div>
 {% endblock %}

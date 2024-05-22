@@ -9,11 +9,7 @@
         {# Display flash messages #}
         {{ parent() }}
 
-        {{ form_start(form, {
-            'attr' : {
-                'class' : 'form-user'
-            }
-        }) }}
+        {{ form_start(form, { 'attr' : { 'class' : 'form-user' } }) }}
 
         {{ form_errors(form) }}
 

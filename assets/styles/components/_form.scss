@@ -215,6 +215,32 @@ form {
     width: calc(33.33% - 50px);
   }
 
+  //Place form
+  .form-place {
+    .name,
+    .country {
+      width: 100%;
+    }
+
+    .street {
+      width: 80%;
+    }
+
+    .number {
+      width: 20%;
+      padding-left: 0.8rem;
+    }
+
+    .zipcode {
+      width: 40%;
+    }
+
+    .locality {
+      width: 60%;
+      padding-left: 0.8rem;
+    }
+  }
+
   // Team form
   .container-form-team {
     .name,
