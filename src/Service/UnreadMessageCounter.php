@@ -5,6 +5,8 @@ namespace App\Service;
 use App\Repository\MessageRepository;
 use Symfony\Bundle\SecurityBundle\Security;
 
+// Service to display in the mav bar a badge with the number of unread messages
+// Linked to /Twig/UnreadMessagesExtension
 class UnreadMessageCounter
 {
     private MessageRepository $messageRepository;
@@ -20,7 +22,6 @@ class UnreadMessageCounter
     {
         $currentUser = $this->security->getUser();
         if ($currentUser === null) {
-            // Gérer le cas où l'utilisateur n'est pas connecté, si nécessaire
             return 0;
         }
 

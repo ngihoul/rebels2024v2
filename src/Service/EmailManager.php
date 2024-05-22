@@ -13,18 +13,14 @@ class EmailManager
     const ADMIN_NAME = 'Liege Rebels Baseball & Softball Club';
 
     private $mailer;
-    private $twig;
 
     public function __construct(MailerInterface $mailer, Environment $twig)
     {
         $this->mailer = $mailer;
-        $this->twig = $twig;
     }
 
     public function sendEmail(string $to, string $subject, string $template, array $parameters = []): void
     {
-        // $htmlBody = $this->twig->render("emails/$template.html.twig", $parameters);
-
         $email = (new TemplatedEmail())
             ->from(new Address(self::ADMIN_MAIL, self::ADMIN_NAME))
             ->to($to)

@@ -1,6 +1,5 @@
 <?php
 
-// !!!!!!!!!!!!!!!!!!!!!!!! TODO : A refactoriser !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 namespace App\Service;
 
 // Copyrigth Setasign FDPI : https://www.setasign.com/products/fpdi/about/#p-228
@@ -178,9 +177,9 @@ class LicensePDFGenerator
             $pdf->Rect(13.65, 156.55, 1, 1);
         }
 
-        // Générez le PDF modifié en mémoire
+        // Generate PDF
         ob_start();
-        // Enregistrez le PDF modifié sur le serveur
+        // Save PDF on server
         $pdf->Output('F', $outputPath);
         $output = ob_get_clean();
 

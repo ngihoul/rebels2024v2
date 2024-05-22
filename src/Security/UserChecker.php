@@ -28,7 +28,7 @@ class UserChecker implements UserCheckerInterface
     public function checkPreAuth(UserInterface $user)
     {
         if (!$user->isVerified()) {
-            // Generate a signed url and email it to the user
+            // Generate a signed url and email it to the user if his email is not verified
             $this->emailVerifier->sendEmailConfirmation(
                 'app_verify_email',
                 $user,
