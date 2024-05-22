@@ -9,39 +9,24 @@
 
         {{ parent() }}
 
-        {{ form_start(form, {
-            'attr' : {
-                'class' : 'message-form'
-            }
-        })}}
+        {{ form_start(form, { 'attr' : { 'class' : 'message-form' }})}}
 
-        <div class="title">
-            {{ form_label(form.title, 'message.title')}}
-            {{ form_widget(form.title) }}
-        </div>
+        {{ form_errors(form) }}
 
-        <div class="titleEnglish">
-            {{ form_label(form.titleEnglish, 'message.title_english')}}
-            {{ form_widget(form.titleEnglish) }}
-        </div>
+        {{ form_row(form.title, {'label': 'message.title', 'row_attr': { 'class': 'title' }}) }}
 
-        <div class="content">
-            {{ form_label(form.content, 'message.content')}}
-            {{ form_widget(form.content) }}
-        </div>
+        {{ form_row(form.titleEnglish, {'label': 'message.title_english', 'row_attr': { 'class': 'titleEnglish' }}) }}
 
-        <div class="contentEnglish">
-            {{ form_label(form.contentEnglish, 'message.content_english')}}
-            {{ form_widget(form.contentEnglish) }}
-        </div>
+        {{ form_row(form.content, {'label': 'message.content', 'row_attr': { 'class': 'content' }}) }}
+
+        {{ form_row(form.contentEnglish, {'label': 'message.content_english', 'row_attr': { 'class': 'contentEnglish' }}) }}
 
         <h2 class="teams-heading">{{ 'message.form.send_to_teams'|trans }} <i class="fas fa-chevron-down"></i></h2>
 
         <div class="list teams-list">
             {% for team in form.sentToTeams %}
-                <div class="checkbox-pair">
-                    {{ form_widget(team, {'attr': {'id': 'custom_id_teams_' ~ team.vars.value}}) }}
-                    {{ form_label(team) }}
+                <div class="custom-checkbox">
+                    {{  form_row(team, { 'row_attr': { 'class': 'checkbox' }})}}
                 </div>
             {% endfor %}
         </div>
@@ -50,23 +35,19 @@
 
         <div class="list users-list">
             {% for user in form.sentToUsers %}
-                <div class="checkbox-pair">
-                    {{ form_widget(user, {'attr': {'id': 'custom_id_users_' ~ user.vars.value}}) }}
-                    {{ form_label(user) }}
+                <div class="custom-checkbox">
+                    {{  form_row(user, { 'row_attr': { 'class': 'checkbox' }})}}
                 </div>
             {% endfor %}
         </div>
 
         <h2>{{ 'message.form.send_by_mail'|trans }}</h2>
 
-        <div class="sent_by_mail checkbox-pair">
-            {{ form_widget(form.sent_by_mail) }}
-            {{ form_label(form.sent_by_mail, 'message.sent_by_mail')}}
+        <div class="sent_by_mail custom-checkbox">
+            {{  form_row(form.sent_by_mail, { 'row_attr': { 'class': 'check-box' }}) }}
         </div>
 
-        <div class="submit">
-            {{ form_row(form.submit, { 'label' : (action == 'create' ? 'message.btn.add' : 'message.btn.modify')}) }}
-        </div>
+        {{ form_row(form.submit, { 'label' : (action == 'create' ? 'message.btn.add' : 'message.btn.modify'), 'row_attr': { 'class': 'submit'}}) }}
 
         {{ form_end(form) }}
     </div>

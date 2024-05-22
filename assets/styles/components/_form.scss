@@ -77,6 +77,16 @@ form {
   }
 }
 
+// Message form
+.teams-list,
+.users-list {
+  display: none;
+
+  &.show {
+    display: block;
+  }
+}
+
 // Desktop form styling
 @media screen and (min-width: $min-desktop) {
   form {
@@ -259,6 +269,37 @@ form {
 
     .assistant {
       padding-left: 0.4rem;
+    }
+  }
+
+  // Message form
+  .message-form {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    .title,
+    .content {
+      width: 50%;
+      padding-right: 0.4rem;
+    }
+    .titleEnglish,
+    .contentEnglish {
+      width: 50%;
+      padding-left: 0.4rem;
+    }
+
+    .teams-list,
+    .users-list {
+      &.show {
+        display: flex;
+        flex-wrap: wrap;
+        width: 100%;
+
+        .custom-checkbox {
+          width: 33.33%;
+        }
+      }
     }
   }
 }
