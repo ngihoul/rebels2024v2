@@ -31,6 +31,7 @@ Encore
   .addEntry("map", "./assets/js/map.js")
   .addEntry("statistics", "./assets/js/statistics.js")
   .addEntry("eventForm", "./assets/js/eventForm.js")
+  .addEntry("registerPassword", "./assets/js/registerPassword.js")
 
   // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
   .splitEntryChunks()

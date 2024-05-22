@@ -45,6 +45,7 @@ validators:
     match: "Password fields must match."
     not_blank: "Please enter a password."
     length: "Your password must contain at least {{ limit }} characters."
+    regex: "Your password must contain at least one upper case letter, one lower case letter, one number and one special character from among ! ? # @ , . :;"
   logo:
     size: "Logo size must not exceed 1MB."
     mime_types: "Logo photo format must be jpg, jpeg, gif or png"

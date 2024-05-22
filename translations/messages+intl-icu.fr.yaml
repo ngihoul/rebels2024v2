@@ -97,6 +97,16 @@ login:
 # Register
 register:
   title: "S'enregistrer"
+  disclaimer:
+    password: >-
+      Le mot de passe doit contenir au moins/et :
+      <ul class="password-specs">
+        <li class="chars">8 caractères</li>
+        <li class="capital">1 majuscule</li>
+        <li class="lower">1 minuscule</li>
+        <li class="special">1 caractère spécial parmi ! ? # @ , . : ;</li>
+        <li class="identical">être identique</li>
+      </ul>
 
 # profile
 profile:

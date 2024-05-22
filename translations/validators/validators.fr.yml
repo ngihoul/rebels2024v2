@@ -45,6 +45,7 @@ validators:
     match: "Les champs de mot de passe doivent correspondre."
     not_blank: "Entre un mot de passe."
     length: "Ton mot de passe doit contenir au moins {{ limit }} caractères."
+    regex: "Votre mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre et un caractère spécial parmi ! ? # @ , . :;"
   logo:
     size: "La taille du logo ne doit pas dépasser 1Mo."
     mime_types: "Le format de la photo du logo doit être jpg, jpeg, gif ou png"

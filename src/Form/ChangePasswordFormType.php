@@ -9,6 +9,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Regex;
 
 class ChangePasswordFormType extends AbstractType
 {
@@ -31,6 +32,10 @@ class ChangePasswordFormType extends AbstractType
                             'min' => 6,
                             'minMessage' => 'validators.password.length',
                             'max' => 4096,
+                        ]),
+                        new Regex([
+                            'pattern' => '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!?#@,.:;]).{8,}$/',
+                            'message' => 'validators.password.regex',
                         ]),
                     ],
                     'label' => 'user.password',

@@ -95,6 +95,16 @@ login:
 
 register:
   title: "Register"
+  disclaimer:
+    password: >-
+      The password must contain at least/and:
+      <ul class="password-specs">
+        <li class="chars">8 characters</li>
+        <li class="capital">1 capital letter</li>
+        <li class="lower">1 lower-case letter</li>
+        <li class="special">1 special characters among ! ? # @ , . : ;</li>
+        <li class="identical">be identical</li>
+      </ul>
 
 profile:
   title: "Profile"

@@ -6,11 +6,7 @@
     <div class="container container-register">
         <h1>{{ "register.title"|trans }}</h1>
 
-        {{ form_start(form, {
-            'attr': {
-                'class' : 'form-user'
-            }
-        }) }}
+        {{ form_start(form, {'attr': {'class' : 'form-user'}}) }}
         
         {{ form_errors(form) }}
 
@@ -63,6 +59,8 @@
 
         {{ form_row(form.password.second, {'label': 'user.password_confirmation', 'row_attr': { 'class': 'password-confirmation'}}) }}
 
+        <p class="disclaimer-password alert alert-warning">{{ 'register.disclaimer.password'|trans|raw }}</p>
+
         <div class="custom-checkbox">
             {{ form_row(form.newsletter_lfbbs, {'label': 'user.newsletter_lfbbs' }) }}
         </div>
@@ -88,5 +86,6 @@
 
     {% block javascript %}
         {{ encore_entry_script_tags('picturePreview') }}
+        {{ encore_entry_script_tags('registerPassword') }}
     {% endblock %}
 {% endblock %}

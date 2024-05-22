@@ -56,6 +56,12 @@ form {
     color: $color-danger;
     background-color: $color-bg-danger;
     border-color: $color-border-danger;
+
+    &.validated {
+      color: $color-success;
+      background-color: $color-bg-success;
+      border-color: $color-border-success;
+    }
   }
 }
 
@@ -121,11 +127,25 @@ form {
       width: 50%;
     }
 
+    .password,
+    .password-confirmation {
+      margin-bottom: 0;
+    }
+
+    .disclaimer-password {
+      width: 100%;
+      margin-bottom: 0;
+    }
+
     .country,
     .email,
     .profile-picture,
     .disclaimer-picture {
       width: 100%;
+    }
+
+    .profile-picture {
+      margin-bottom: 0;
     }
 
     .firstname,
