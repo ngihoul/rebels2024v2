@@ -61,6 +61,7 @@ class LicensePDFGenerator
             $pdf->Cell(0, 10, $license->getUser()->getLicenseNumber(), 0, 1);
         }
 
+        // Tick licence categories
         foreach ($license->getSubCategories() as $subCategory) {
             if ($subCategory->getValue() === self::SUBCAT_BASEBALL) {
                 $pdf->SetXY(48, 42);
@@ -128,6 +129,7 @@ class LicensePDFGenerator
             }
         }
 
+        // Fill in the PDF with user data
         $pdf->SetXY(35, 79.25);
         $pdf->Cell(0, 10, 'Liege Rebels Baseball & Softball Club', 0, 1);
 
