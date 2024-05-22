@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Team;
+use App\Repository\UserRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -21,13 +22,21 @@ class TeamType extends AbstractType
             ->add('coach', EntityType::class, [
                 'class' => 'App\Entity\User',
                 'choice_label' => function ($user) {
-                    return $user->getFirstname() . ' ' . $user->getLastname();
+                    return $user->getLastname() . ' ' . $user->getFirstname();
+                },
+                'query_builder' => function (UserRepository $er) {
+                    return $er->createQueryBuilder('u')
+                        ->orderBy('u.lastname', 'ASC');
                 },
             ])
             ->add('assistant', EntityType::class, [
                 'class' => 'App\Entity\User',
                 'choice_label' => function ($user) {
-                    return $user->getFirstname() . ' ' . $user->getLastname();
+                    return $user->getLastname() . ' ' . $user->getFirstname();
+                },
+                'query_builder' => function (UserRepository $er) {
+                    return $er->createQueryBuilder('u')
+                        ->orderBy('u.lastname', 'ASC');
                 },
             ])
             ->add('logo', FileType::class, [
