@@ -22,6 +22,7 @@ class MessageRepository extends ServiceEntityRepository
         parent::__construct($registry, Message::class);
     }
 
+    // get short message to display in homepage summary and messages list
     public function getShortMessages(User $currentUser, $isAdmin = false)
     {
         $queryBuilder = $this->createQueryBuilder('m')

@@ -24,6 +24,7 @@ class EventRepository extends ServiceEntityRepository
         parent::__construct($registry, Event::class);
     }
 
+    // Override of findAll method => find only current or future event and order by date
     public function findAll()
     {
         $currentDateTime = new \DateTimeImmutable();
@@ -36,6 +37,7 @@ class EventRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    // Find event waiting for a response for a specific user
     public function findPendingEventsForThisUser(UserInterface $user)
     {
         $currentDateTime = new \DateTimeImmutable();
@@ -54,6 +56,7 @@ class EventRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    // Find all future event for a specific user
     public function findFutureEventsForThisUser(UserInterface $user)
     {
         $currentDateTime = new \DateTimeImmutable();
@@ -72,6 +75,7 @@ class EventRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    // Find years with invitation to event for a specific user - Needed to generate <select> in statistics page
     public function findYearsWithAttendeesForUser(User $user, EventCategory $category): array
     {
         $queryBuilder = $this->createQueryBuilder('e')
@@ -97,6 +101,7 @@ class EventRepository extends ServiceEntityRepository
         return $years;
     }
 
+    // Count user response to a event category for a specific year - Needed in statistics page
     public function countUserResponses(User $user, int $year, EventCategory $category): array
     {
         $queryBuilder = $this->createQueryBuilder('e')
@@ -133,6 +138,7 @@ class EventRepository extends ServiceEntityRepository
         return $formattedResults;
     }
 
+    // Count total event for a specific user, year and category of event
     public function countTotalEvent(User $user, int $year, EventCategory $category)
     {
         $queryBuilder = $this->createQueryBuilder('e')
