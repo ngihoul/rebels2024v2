@@ -38,6 +38,7 @@ class LicenseController extends AbstractController
         $this->translator = $translator;
     }
 
+    // Display all licences for the user
     #[Route('/', name: 'app_license')]
     #[IsGranted('ROLE_USER')]
     public function index(): Response
@@ -57,6 +58,7 @@ class LicenseController extends AbstractController
         ]);
     }
 
+    // Create a licence request
     #[Route('/create', name: 'app_license_create')]
     #[IsGranted('ROLE_USER')]
     public function create(Request $request): Response
@@ -84,6 +86,7 @@ class LicenseController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Setup basic licence information
             $license->setSeason(date('Y'));
             $license->setStatus(License::ON_DEMAND);
             $timestamp = new DateTimeImmutable();
@@ -102,11 +105,13 @@ class LicenseController extends AbstractController
         ]);
     }
 
+    // Generate the licence request document and download it
     #[Route('/download/{licenseId}', name: 'app_license_download')]
     #[IsGranted('ROLE_USER')]
     public function download(Request $request, ServiceLicensePDFGenerator $pdfGenerator): Response
     {
         try {
+            // We generate the document each time this route is called because the profile data can be updated between steps
             $licenseId = $request->get('licenseId');
             $license = $this->findLicense($licenseId);
 
@@ -139,6 +144,7 @@ class LicenseController extends AbstractController
         }
     }
 
+    // Form to upload the filled licence request
     #[Route('/upload/{licenseId}', name: 'app_license_upload')]
     #[IsGranted('ROLE_USER')]
     public function upload(Request $request, FileUploader $fileUploader, EmailManager $emailManager): Response
@@ -183,6 +189,7 @@ class LicenseController extends AbstractController
         }
     }
 
+    // Route to pay the licence via Stripe
     #[Route('/checkout/{licenseId}', name: 'app_license_checkout')]
     #[IsGranted('ROLE_USER')]
     public function checkout(Request $request)
@@ -216,6 +223,7 @@ class LicenseController extends AbstractController
         }
     }
 
+    // Stripe payment success
     #[Route('/success-url/{licenseId}', name: 'app_success_payment')]
     public function successUrl(Request $request): Response
     {
@@ -238,12 +246,14 @@ class LicenseController extends AbstractController
         }
     }
 
+    // Stripe payement refused or cancelled
     #[Route('/cancel-url', name: 'app_cancel_payment')]
     public function cancelUrl(): Response
     {
         return $this->render('payment/cancel.html.twig', []);
     }
 
+    // Find a licence
     private function findLicense(string $licenseId)
     {
         $license = $this->licenseRepository->find($licenseId);

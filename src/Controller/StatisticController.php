@@ -24,6 +24,8 @@ class StatisticController extends AbstractController
         $this->eventCategoryRepository = $eventCategoryRepository;
     }
 
+    // Display the basic page for Statistics
+    // Only years with data are displayed in <select> tags
     #[Route('/', name: 'app_statistics')]
     public function index(): Response
     {
@@ -45,9 +47,11 @@ class StatisticController extends AbstractController
         ]);
     }
 
+    // API to fetch data from user selection
     #[Route('/api/{category}/{year}', name: 'api_stats')]
     public function getData(TranslatorInterface $translator, int $year, string $category)
     {
+        // Currently, only "Training" or "Game" are accepted as category
         if (!in_array($category, ['training', 'game'])) {
             return new JsonResponse(['error' => 'Invalid category. It must be "training" or "game".'], Response::HTTP_NOT_FOUND);
         }
@@ -61,8 +65,11 @@ class StatisticController extends AbstractController
         $total = $this->eventRepository->countTotalEvent($user, $year, $category);
 
         $result = [
+            // Presence
             $translator->trans('stat.label.presence') => $data['presence'],
+            // Absence
             $translator->trans('stat.label.absence') => $data['absence'],
+            // No reply
             $translator->trans('stat.label.no_reply') => $total - ($data['presence'] + $data['absence']),
         ];
 

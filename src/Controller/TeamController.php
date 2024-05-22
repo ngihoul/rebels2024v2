@@ -34,6 +34,7 @@ class TeamController extends AbstractController
         $this->translator = $translator;
     }
 
+    // Display teams list
     #[Route('/teams', name: 'app_teams')]
     #[IsGranted('ROLE_USER')]
     public function index(): Response
@@ -43,6 +44,7 @@ class TeamController extends AbstractController
         $teamsAsCoach = $user->getCoachOf();
         $allTeams = [];
 
+        // Only ADMIN can see all the teams of the club
         if ($this->isGranted('ROLE_ADMIN')) {
             $allTeams = $this->teamRepository->findAll();
         }
@@ -54,6 +56,7 @@ class TeamController extends AbstractController
         ]);
     }
 
+    // Create a new team
     #[Route('/team/create', name: 'app_team_create')]
     #[IsGranted('ROLE_ADMIN')]
     public function new(Request $request, FileUploader $fileUploader): Response
@@ -71,6 +74,7 @@ class TeamController extends AbstractController
             if ($form->isSubmitted() && $form->isValid()) {
                 $logo = $form->get('logo')->getData();
 
+                // Save logo on server & filename in DB
                 if ($logo) {
                     $logoFileName = $fileUploader->save($logo, 'logos_directory');
                     $team->setLogo($logoFileName);
@@ -96,6 +100,7 @@ class TeamController extends AbstractController
         }
     }
 
+    // Update an existing team
     #[Route('/team/{teamId}/update', name: 'app_team_update')]
     #[IsGranted('ROLE_ADMIN')]
     public function update(Request $request, FileUploader $fileUploader): Response
@@ -117,6 +122,7 @@ class TeamController extends AbstractController
             if ($form->isSubmitted() && $form->isValid()) {
                 $logo = $form->get('logo')->getData();
 
+                // Save logo on server & filename in DB
                 if ($logo) {
                     $logoFileName = $fileUploader->save($logo, 'logos_directory');
                     $team->setLogo($logoFileName);
@@ -142,6 +148,7 @@ class TeamController extends AbstractController
         }
     }
 
+    // Display team detail and add a new player to the team
     #[Route('/team/{teamId}', name: 'app_team_detail')]
     #[IsGranted('ROLE_USER')]
     public function detail(Request $request): Response
@@ -166,8 +173,10 @@ class TeamController extends AbstractController
 
                 if ($form->isSubmitted() && $form->isValid()) {
                     $data = $form->getData();
+                    // Find player to add
                     $user = $this->userRepository->findOneBy(['id' => $data['user']]);
 
+                    // Add player to the team
                     $team->addPlayer($user);
 
                     $this->entityManager->persist($team);
@@ -196,6 +205,7 @@ class TeamController extends AbstractController
         }
     }
 
+    // Remove player from the team
     #[Route('/team/{teamId}/remove/{userId}', name: 'app_team_remove')]
     #[IsGranted('ROLE_COACH')]
     public function removeUserFromTeam(Request $request): Response
@@ -227,6 +237,7 @@ class TeamController extends AbstractController
         return $this->redirectToRoute('app_team_detail', ['teamId' => $team->getId()]);
     }
 
+    // Find a team
     private function findTeam(string $teamId): Team
     {
         $team = $this->teamRepository->find($teamId);

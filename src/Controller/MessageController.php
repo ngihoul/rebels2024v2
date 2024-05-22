@@ -37,6 +37,7 @@ class MessageController extends AbstractController
         $this->translator = $translator;
     }
 
+    // Display all messages for the user depending his role
     #[Route('/', name: 'app_messages')]
     public function index(): Response
     {
@@ -47,14 +48,13 @@ class MessageController extends AbstractController
 
         $messagesCount = count($messages);
 
-        // dd($messages);
-
         return $this->render('message/index.html.twig', [
             'messages' => $messages,
             'messageCount' => $messagesCount
         ]);
     }
 
+    // Create a new message
     #[Route('/create', name: 'app_message_create')]
     public function create(Request $request): Response
     {
@@ -73,6 +73,7 @@ class MessageController extends AbstractController
                 $this->entityManager->persist($message);
                 $this->entityManager->flush();
 
+                // Save english data
                 $titleEnglish = $form->get('titleEnglish')->getData();
                 $contentEnglish = $form->get('contentEnglish')->getData();
 
@@ -106,6 +107,7 @@ class MessageController extends AbstractController
         }
     }
 
+    // Update an existing message
     #[Route('/update/{messageId}', name: 'app_message_update')]
     public function update(Request $request, $messageId): Response
     {
@@ -140,6 +142,7 @@ class MessageController extends AbstractController
         }
     }
 
+    // Display message detail
     #[Route('/{messageId}', name: 'app_message_detail')]
     public function detail($messageId): Response
     {
@@ -149,7 +152,6 @@ class MessageController extends AbstractController
             // Mark message as read
             $messageStatus = $this->messageStatusRepository->findOneBy(['message' => $message, 'receiver' => $this->getUser()]);
 
-            // Message can be not sent to an admin so no MessageStatus exist
             if ($messageStatus) {
                 $messageStatus->setStatus(true);
 
@@ -166,6 +168,7 @@ class MessageController extends AbstractController
         }
     }
 
+    // Archive an existing message
     #[Route('/archive/{messageId}', name: 'app_message_archive')]
     public function archive(Request $request, $messageId): Response
     {
@@ -185,6 +188,7 @@ class MessageController extends AbstractController
         }
     }
 
+    // Find a message
     private function findMessage($messageId)
     {
         $message = $this->messageRepository->findOneBy(['id' => $messageId]);
@@ -196,6 +200,7 @@ class MessageController extends AbstractController
         return $message;
     }
 
+    // Send message (and mail) to users
     private function sendMessage($form, Message $message)
     {
         $sentToTeams = $form->get('sentToTeams')->getData();

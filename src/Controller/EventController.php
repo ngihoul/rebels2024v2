@@ -35,6 +35,7 @@ class EventController extends AbstractController
         $this->translator = $translator;
     }
 
+    // Display events for user with pagination
     #[Route('/{page<\d+>?1}', name: 'app_agenda')]
     #[IsGranted('ROLE_USER')]
     public function index(Request $request, PaginatorInterface $paginator, Security $security): Response
@@ -44,7 +45,9 @@ class EventController extends AbstractController
         $user = $this->getUser();
         $page = (int) $request->get('page');
 
+        // For COACH & ADMIN
         if ($security->isGranted('ROLE_COACH')) {
+            // Fetch all events
             $futureEvents = $this->eventRepository->findAll();
         } else {
             // Fetch future events which the user is invited to (with reply)
@@ -66,17 +69,14 @@ class EventController extends AbstractController
         ]);
     }
 
+    // Display event detail
     #[Route('/event/{id}', name: 'app_agenda_detail')]
     #[IsGranted('ROLE_USER')]
     public function detail(Request $request): Response
     {
         try {
             $eventId = $request->get('id');
-            $event = $this->eventRepository->find($eventId);
-
-            if (!$event) {
-                throw new EntityNotFoundException($this->translator->trans('error.event.not_found'));
-            }
+            $event = $this->findEvent($eventId);
 
             $attendees = 0;
             $awaiting = 0;
@@ -104,17 +104,14 @@ class EventController extends AbstractController
         }
     }
 
+    // Display invitation response summary
     #[Route('/event/{id}/attendance', name: 'app_agenda_attendance')]
     #[IsGranted('ROLE_COACH')]
     public function attendance(Request $request): Response
     {
         try {
             $eventId = $request->get('id');
-            $event = $this->eventRepository->find($eventId);
-
-            if (!$event) {
-                throw new EntityNotFoundException($this->translator->trans('error.event.not_found'));
-            }
+            $event = $this->findEvent($eventId);
 
             return $this->render('agenda/attendance.html.twig', [
                 'event' => $event
@@ -125,6 +122,7 @@ class EventController extends AbstractController
         }
     }
 
+    // Create a new event
     #[Route('/create', name: 'app_create_event')]
     #[IsGranted('ROLE_COACH')]
     public function create(Request $request): Response
@@ -148,6 +146,7 @@ class EventController extends AbstractController
                     $this->entityManager->persist($event);
                 } else {
                     $currentDate = $startDate;
+                    // Creating mrecurring event according to the frequency select by the user
                     while ($currentDate <= $endDate) {
                         $newEvent = clone $event;
                         $newEvent->setDate($currentDate);
@@ -185,19 +184,17 @@ class EventController extends AbstractController
         ]);
     }
 
+    // Update an existing event
     #[Route('/update/{id}', name: 'app_agenda_update')]
     #[IsGranted('ROLE_COACH')]
     public function update(Request $request): Response
     {
+        // Only one event can be updated. Not possible to update recurring event in batch.
         $action = 'update';
 
         try {
             $eventId = $request->get('id');
-            $event = $this->eventRepository->find($eventId);
-
-            if (!$event) {
-                throw new EntityNotFoundException($this->translator->trans('error.event.not_found'));
-            }
+            $event = $this->findEvent($eventId);
 
             $form = $this->createForm(EventType::class, $event);
 
@@ -221,17 +218,14 @@ class EventController extends AbstractController
         }
     }
 
+    // Invite players to an existing event
     #[Route('/invitation/{id}', name: 'app_agenda_invitation')]
     #[IsGranted('ROLE_COACH')]
     public function invite(Request $request, EmailManager $emailManager, EventAttendeeRepository $eventAttendeeRepository): Response
     {
         try {
             $eventId = $request->get('id');
-            $event = $this->eventRepository->find($eventId);
-
-            if (!$event) {
-                throw new EntityNotFoundException($this->translator->trans('error.event.not_found'));
-            }
+            $event = $this->findEvent($eventId);
 
             $form = $this->createForm(InvitationType::class, null, ['event' => $event]);
 
@@ -241,12 +235,14 @@ class EventController extends AbstractController
                 $invitedTeams = $form->get('invitedTeams')->getData();
                 $invitedUsers = $form->get('invitedUsers')->getData();
 
+                // Add players from teams to invited Users Array
                 foreach ($invitedTeams as $team) {
                     foreach ($team->getPlayers() as $player) {
                         $invitedUsers[] = $player;
                     }
                 }
 
+                // Invite all players to the event
                 foreach ($invitedUsers as $user) {
                     // Check if the user is already invited to the event
                     $existingAttendee = $eventAttendeeRepository->findOneBy(['event' => $event, 'user' => $user]);
@@ -261,7 +257,7 @@ class EventController extends AbstractController
 
                         // TODO : fetch locale from $user
 
-                        // Send a message to User
+                        // Send an email to User
                         $emailManager->sendEmail($user->getEmail(), $this->translator->trans('event.invitation.subject', [], 'emails'), 'invitation_confirmation', ['event' => $event]);
                     }
                 }
@@ -281,25 +277,24 @@ class EventController extends AbstractController
         }
     }
 
+    // Answer to an invitation
     #[Route('/invitation/{id}/{result}', name: 'app_agenda_response')]
     #[IsGranted('ROLE_USER')]
     public function response(Request $request, EventAttendeeRepository $eventAttendeeRepository): Response
     {
         try {
             $eventId = $request->get('id');
-            $event = $this->eventRepository->find($eventId);
-
-            if (!$event) {
-                throw new EntityNotFoundException($this->translator->trans('error.event.not_found'));
-            }
+            $event = $this->findEvent($eventId);
 
             $response = $request->get('result');
 
+            // Fetch the invitation for this user and this event
             $eventAttendee = $eventAttendeeRepository->findOneBy(['user' => $this->getUser(), 'event' => $event]);
             if (!$eventAttendee) {
                 throw new EntityNotFoundException($this->translator->trans('error.invitation_not_found'));
             }
 
+            // Process the reply from the user
             if ($response === 'accept') {
                 $eventAttendee->setUserResponse(true);
                 $messageType = 'success';
@@ -317,6 +312,7 @@ class EventController extends AbstractController
 
             $this->addFlash($messageType, $message);
 
+            // Back to the previous page
             $route = $request->headers->get('referer');
             return $this->redirect($route);
         } catch (EntityNotFoundException $e) {
@@ -328,24 +324,25 @@ class EventController extends AbstractController
         }
     }
 
+    // Delet or cancel an existing event
     #[Route('/delete/{id}', name: 'app_agenda_delete')]
     #[IsGranted('ROLE_COACH')]
     public function delete(Request $request, EmailManager $emailManager, Event $event): Response
     {
         try {
-            // Cancel the event
+            // Cancel (status change) the event if players already invited. If no, delete (from db) the event
             if (!$event->getAttendees()->isEmpty()) {
                 // Change status is_cancelled to true
                 $event->setIsCancelled(true);
 
-                // Send mail to attendees
+                // Send mail to all invited players
                 foreach ($event->getAttendees() as $attendee) {
                     $emailManager->sendEmail($attendee->getUser()->getEmail(), $this->translator->trans('event.cancellation.subject', [], 'emails'), 'event_cancellation', ['event' => $event]);
                 }
 
                 $this->addFlash('success', $this->translator->trans('success.event.cancelled'));
             } else {
-                // Delete the event
+                // Delete the event from db
                 $this->entityManager->remove($event);
                 $this->addFlash('success', $this->translator->trans('success.event.delete'));
             }
@@ -357,5 +354,16 @@ class EventController extends AbstractController
 
         $route = $request->headers->get('referer');
         return $this->redirect($route);
+    }
+
+    // Find a licence from licence id
+    private function findEvent(string $eventId)
+    {
+        $event = $this->eventRepository->find($eventId);
+        if (!$event) {
+            throw new EntityNotFoundException($this->translator->trans('error.event.not_found'));
+        }
+
+        return $event;
     }
 }

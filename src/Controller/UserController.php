@@ -32,23 +32,24 @@ class UserController extends AbstractController
         $this->translator = $translator;
     }
 
+    // Homepage for authenticated user. If not authenticated, redirected to login page
     #[Route(path: "/", name: "app_home")]
     #[IsGranted("ROLE_USER")]
     public function index(LicenseRepository $licenseRepository, EventRepository $eventRepository, MessageRepository $messageRepository): Response
     {
         $user = $this->getUser();
 
-        // License
+        // License summary
         $isProfileCompleted = $user->isProfileComplete();
 
         $pendingLicenses = $licenseRepository->getCurrentYearPendingLicenses($user);
         $pendingLicense = $pendingLicenses ? $pendingLicenses[0] : null;
         $activeLicenses = $licenseRepository->getCurrentYearActiveLicense($user);
 
-        // Events
+        // Events summary
         $futureEvents = $eventRepository->findFutureEventsForThisUser($user);
 
-        // Messages
+        // Messages summary
         $messages = $messageRepository->findThreeLatest($user);
 
         $isUnreadMessage = $messageRepository->countUnreadMessagesForThisUser($user);
@@ -63,6 +64,7 @@ class UserController extends AbstractController
         ]);
     }
 
+    // Update his own profile
     #[Route('/profile/update', name: 'app_profile_update')]
     #[IsGranted('ROLE_USER')]
     public function update(Request $request, ProfilePictureManager $profilePictureManager): Response
@@ -92,6 +94,7 @@ class UserController extends AbstractController
         ]);
     }
 
+    // Display his own profile for USER and a user's profile for COACH/ADMIN
     #[Route('/profile/{userId}', name: 'app_profile')]
     #[IsGranted('ROLE_USER')]
     public function profile(Request $request): Response
@@ -106,11 +109,13 @@ class UserController extends AbstractController
 
             $currentUser = $this->getUser();
 
+            // Only coaches or admins can view a profile other than their own 
             if ($user !== $currentUser && (!$this->isGranted("ROLE_COACH"))) {
                 $this->addFlash('error', $this->translator->trans('error.profile_not_found'));
                 return $this->redirectToRoute('app_home');
             }
 
+            // Generate title : My profile or Name's profile
             $pageTitle = ($user === $currentUser) ? $this->translator->trans('profile.my_profile') : $this->translator->trans('profile.profile_of') . $user->getFirstname() . ' ' . $user->getLastname();
 
             return $this->render('profile/index.html.twig', [
@@ -123,6 +128,7 @@ class UserController extends AbstractController
         }
     }
 
+    // Display users list
     #[Route('/members/{page<\d+>?1}', name: 'app_members')]
     #[IsGranted('ROLE_ADMIN')]
     public function members(Request $request, PaginatorInterface $paginator): Response

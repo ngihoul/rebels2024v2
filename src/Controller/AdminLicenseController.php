@@ -27,6 +27,7 @@ class AdminLicenseController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
+    // Display all licences to validate
     #[Route('/admin/licenses', name: 'admin_license_to_validate')]
     #[IsGranted('ROLE_ADMIN')]
     public function index(): Response
@@ -38,6 +39,7 @@ class AdminLicenseController extends AbstractController
         ]);
     }
 
+    // Validate or refuse a licence request
     #[Route('/admin/validate-license/{licenseId}', name: 'admin_validate_license')]
     #[IsGranted('ROLE_ADMIN')]
     public function validate(Request $request, EmailManager $emailManager, TranslatorInterface $translator): Response

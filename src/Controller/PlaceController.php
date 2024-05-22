@@ -30,6 +30,7 @@ class PlaceController extends AbstractController
         $this->translator = $translator;
     }
 
+    // Display places
     #[Route('/', name: 'app_places')]
     public function index(): Response
     {
@@ -43,6 +44,7 @@ class PlaceController extends AbstractController
         ]);
     }
 
+    // Create a new place
     #[Route('/create', name: 'app_place_create')]
     public function create(Request $request): response
     {
@@ -66,7 +68,7 @@ class PlaceController extends AbstractController
 
                 if ($existingPlace) {
                     $this->addFlash('error', $this->translator->trans('error.place.already_exist'));
-                    // TODO : Redirect to place profile of existingPlace
+                    // Redirect to place profile of existingPlace
                     return $this->redirectToRoute('app_place_detail', ['placeId' => $existingPlace->getId()]);
                 }
 
@@ -87,6 +89,7 @@ class PlaceController extends AbstractController
         }
     }
 
+    // Update an existing place
     #[Route('/update/{placeId}', name: 'app_place_update')]
     public function update(Request $request, $placeId): response
     {
@@ -119,6 +122,7 @@ class PlaceController extends AbstractController
         }
     }
 
+    // Display place detail
     #[Route('/{placeId}', name: 'app_place_detail')]
     public function detail($placeId): Response
     {
