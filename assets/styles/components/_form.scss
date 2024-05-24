@@ -65,6 +65,21 @@ form {
   }
 }
 
+// register form
+.form-user {
+  div.password-confirmation {
+    margin-bottom: 0;
+  }
+
+  #previewPicture img {
+    max-width: 128px;
+  }
+
+  .disclaimer-password {
+    margin-bottom: 0;
+  }
+}
+
 // License form
 .container-add-license p {
   padding: 0.8rem 0;
@@ -171,10 +186,6 @@ form {
     .mobile-number,
     .password-confirmation {
       padding-left: 0.4rem;
-    }
-
-    #previewPicture img {
-      max-width: 128px;
     }
   }
 
