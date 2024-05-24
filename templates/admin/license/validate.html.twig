@@ -9,7 +9,11 @@
     {{ parent() }}
 
     <h2>{{ "license.validation.check.sub_title"|trans({'firstname' : license.user.firstname, 'lastname' : license.user.lastname }) }}</h2>
-    <a class="btn" href="{{ asset('uploads/licenses/' ~ license.uploadedFile) }}" target="_blank">{{ "license.validation.check.btn"|trans }}</a>
+    {% if license.uploadedFile %}
+        <a class="btn" href="{{ asset('uploads/licenses/' ~ license.uploadedFile) }}" target="_blank">{{ "license.validation.check.btn"|trans }}</a>
+    {% else %}
+        <p class="alert alert-error">{{ "license.validation.no_document"|trans }}</p>
+    {% endif %}
 
     {{ form_start(form, { "attr": { "class" : "validate_license" } }) }}
 

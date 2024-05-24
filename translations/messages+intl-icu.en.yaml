@@ -262,6 +262,7 @@ license:
   validation:
     page_title: "{firstname} {lastname}'s license validation"
     title: "License validation"
+    no_document: "There is no document to validate. License to refuse."
     check:
       sub_title: "1. Check {firstname} {lastname}'s license application"
       btn: "See the application"

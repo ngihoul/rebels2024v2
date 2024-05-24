@@ -267,6 +267,7 @@ license:
   validation:
     page_title: "Validation licence de {firstname} {lastname}"
     title: "Validation licence"
+    no_document: "Il n'y a pas de document à vérifier. Demande à refuser."
     check:
       sub_title: "1. Vérifiez la demande de licence de {firstname} {lastname}"
       btn: "Voir la demande"
