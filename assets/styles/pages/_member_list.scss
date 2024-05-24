@@ -33,7 +33,8 @@
     .profile-picture,
     .gender,
     .date_of_birth,
-    .license {
+    .license,
+    .license_document {
       display: none;
     }
   }
@@ -82,8 +83,13 @@
       .profile-picture,
       .gender,
       .date_of_birth,
-      .license {
+      .license,
+      .license_document {
         display: table-cell;
+      }
+
+      .license_document {
+        width: 40px;
       }
     }
   }

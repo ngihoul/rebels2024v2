@@ -28,7 +28,17 @@ document.addEventListener("DOMContentLoaded", () => {
   // Link on <tr> redirectin to member's profile
   const tableRows = document.querySelectorAll(".member-row");
   tableRows.forEach((row) => {
-    row.addEventListener("click", () => {
+    row.addEventListener("click", (e) => {
+      // Check if the click happened on a <td class="license_document">
+      let targetElement = e.target;
+      while (targetElement && targetElement !== row) {
+        if (targetElement.classList.contains("license_document")) {
+          e.stopPropagation();
+          return;
+        }
+        targetElement = targetElement.parentElement;
+      }
+
       const memberId = row.dataset.memberId;
       if (memberId) {
         window.location.href = `/${locale}/profile/${memberId}`;
