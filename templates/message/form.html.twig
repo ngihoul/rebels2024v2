@@ -47,7 +47,7 @@
             {{  form_row(form.sent_by_mail, { 'row_attr': { 'class': 'check-box' }}) }}
         </div>
 
-        {{ form_row(form.submit, { 'label' : (action == 'create' ? 'message.btn.add' : 'message.btn.modify'), 'row_attr': { 'class': 'submit'}}) }}
+        {{ form_row(form.submit, { 'label' : (action == 'create' ? 'message.btn.add' : 'message.btn.update'), 'row_attr': { 'class': 'submit'}}) }}
 
         {{ form_end(form) }}
     </div>
