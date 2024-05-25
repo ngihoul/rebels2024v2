@@ -135,10 +135,10 @@ class LicensePDFGenerator
         $pdf->Cell(0, 10, 'Liege Rebels Baseball & Softball Club', 0, 1);
 
         $pdf->SetXY(35, 85);
-        $pdf->Cell(0, 10, $license->getUser()->getLastname(), 0, 1);
+        $pdf->Cell(0, 10, iconv('UTF-8', 'ASCII//TRANSLIT', $license->getUser()->getLastname()), 0, 1);
 
         $pdf->SetXY(35, 90.75);
-        $pdf->Cell(0, 10, $license->getUser()->getFirstname(), 0, 1);
+        $pdf->Cell(0, 10, iconv('UTF-8', 'ASCII//TRANSLIT', $license->getUser()->getFirstname()), 0, 1);
 
         $pdf->SetXY(35, 96.50);
         $pdf->Cell(0, 10, $license->getUser()->getDateOfBirth()->format("d-m-Y"), 0, 1);
@@ -147,7 +147,7 @@ class LicensePDFGenerator
         $pdf->Cell(0, 10, $license->getUser()->getGender(), 0, 1);
 
         $pdf->SetXY(35, 102.25);
-        $pdf->Cell(0, 10, $license->getUser()->getAddressStreet(), 0, 1);
+        $pdf->Cell(0, 10, iconv('UTF-8', 'ASCII//TRANSLIT', $license->getUser()->getAddressStreet()), 0, 1);
 
         $pdf->SetXY(118.5, 102.25);
         $pdf->Cell(0, 10, $license->getUser()->getAddressNumber(), 0, 1);
@@ -156,10 +156,10 @@ class LicensePDFGenerator
         $pdf->Cell(0, 10, $license->getUser()->getZipcode(), 0, 1);
 
         $pdf->SetXY(96.5, 108);
-        $pdf->Cell(0, 10, $license->getUser()->getLocality(), 0, 1);
+        $pdf->Cell(0, 10, iconv('UTF-8', 'ASCII//TRANSLIT', $license->getUser()->getLocality()), 0, 1);
 
         $pdf->SetXY(35, 113.75);
-        $pdf->Cell(0, 10, $license->getUser()->getCountry()->getName(), 0, 1);
+        $pdf->Cell(0, 10, iconv('UTF-8', 'ASCII//TRANSLIT', $license->getUser()->getCountry()->getName()), 0, 1);
 
         $pdf->SetXY(108, 113.75);
         $pdf->Cell(0, 10, $license->getUser()->getNationality()->getName(), 0, 1);
@@ -183,7 +183,7 @@ class LicensePDFGenerator
         // Generate PDF
         ob_start();
         // Save PDF on server
-        $pdf->Output('F', $outputPath);
+        $pdf->Output('F', $outputPath, 'UTF-8');
         $output = ob_get_clean();
 
         return $outputFileName;
