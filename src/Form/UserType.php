@@ -169,12 +169,6 @@ class UserType extends AbstractType
             ->add('newsletter_lfbbs', CheckboxType::class, [
                 'required' => false,
             ])
-            ->add('internal_rules', CheckboxType::class, [
-                'required' => true,
-            ])
-            ->add('privacy_policy', CheckboxType::class, [
-                'required' => true,
-            ])
             ->add('submit', SubmitType::class);
     }
 

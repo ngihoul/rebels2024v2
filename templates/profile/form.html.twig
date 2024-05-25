@@ -60,20 +60,6 @@
             {{ form_row(form.newsletter_lfbbs, {'label': 'user.newsletter_lfbbs', 'required': false}) }}
         </div>
 
-        <div class="custom-checkbox">
-            {{ form_row(form.internal_rules, {
-                'label': 'user.internal_rules',
-                'label_html': true,
-            }) }}
-        </div>
-
-        <div class="custom-checkbox">
-            {{ form_row(form.privacy_policy, {
-                'label': 'user.privacy_policy',
-                'label_html': true,
-            }) }}
-        </div>
-
         {{ form_row(form.submit, {'label': 'user.update_profile.submit', 'row_attr': { 'class': 'submit' }}) }}
 
         {{ form_end(form) }}
