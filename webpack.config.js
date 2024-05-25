@@ -10,7 +10,12 @@ Encore
   // directory where compiled assets will be stored
   .setOutputPath("public/build/")
   // public path used by the web server to access the output path
+<<<<<<< HEAD
   .setPublicPath("/clubhouse/build")
+=======
+  // PROD : To be updated
+  .setPublicPath("/clubhouse/public/build")
+>>>>>>> 18f18ef572814d13c6d5f2e41250e47269feb5f0
   // only needed for CDN's or subdirectory deploy
   .setManifestKeyPrefix("build/")
 

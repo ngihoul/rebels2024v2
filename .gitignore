@@ -9,6 +9,7 @@
 /public/licenses/download/
 /var/
 /vendor/
+.htaccess
 ###< symfony/framework-bundle ###
 
 ###> phpunit/phpunit ###
