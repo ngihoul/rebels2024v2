@@ -1,9 +1,9 @@
 twig:
   default_path: "%kernel.project_dir%/templates"
   globals:
-    pictures_directory: "http://localhost:8000/uploads/user_pictures/"
-    licenses_download_directory: "https://localhost:8000/licenses/download/"
-    logo_teams_directory: "http://localhost:8000/uploads/logo_teams/"
+    pictures_directory: "https://gihoul.be/clubhouse/public/uploads/user_pictures/"
+    licenses_download_directory: "https://gihoul.be/clubhouse/public/licenses/download/"
+    logo_teams_directory: "https://gihoul.be/clubhouse/public/uploads/logo_teams/"
 
 when@test:
   twig:

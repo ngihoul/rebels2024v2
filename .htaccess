@@ -1,0 +1,10 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Rediriger toutes les requêtes vers le répertoire public
+    RewriteCond %{REQUEST_URI} !^/clubhouse/public/
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ /clubhouse/public/$1 [L,QSA]
+
+</IfModule>
