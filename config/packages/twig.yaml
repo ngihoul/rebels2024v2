@@ -1,7 +1,6 @@
 twig:
   default_path: "%kernel.project_dir%/templates"
   globals:
-    # PROD : To be updated
     pictures_directory: "https://gihoul.be/clubhouse/public/uploads/user_pictures/"
     licenses_download_directory: "https://gihoul.be/clubhouse/public/licenses/download/"
     logo_teams_directory: "https://gihoul.be/clubhouse/public/uploads/logo_teams/"
