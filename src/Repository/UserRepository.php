@@ -112,4 +112,18 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
         return $queryBuilder->getQuery()->getResult();
     }
+
+    public function getUnverified()
+    {
+        $date = new \DateTime();
+        $date->modify('-24 hour');
+
+        return $this->createQueryBuilder('u')
+            ->select('u')
+            ->andWhere('u.created_at < :date')
+            ->andWhere('u.isVerified = 0')
+            ->setParameter(':date', $date)
+            ->getQuery()
+            ->getResult();
+    }
 }
