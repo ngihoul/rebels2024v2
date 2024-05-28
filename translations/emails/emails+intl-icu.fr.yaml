@@ -31,7 +31,7 @@ event:
 registration:
   subject: "Confirme ton adresse e-mail"
   title: "Bonjour ! Confirme ton adresse e-mail !"
-  message: "Confirme ton adresse e-mail en cliquant sur le lien suivant :"
+  message: "Confirme ton adresse e-mail en cliquant sur le lien suivant."
   link: "Confirmer mon e-mail"
   expires: "Ce lien expirera dans"
 
