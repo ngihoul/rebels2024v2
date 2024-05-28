@@ -6,6 +6,7 @@ use App\Entity\Message;
 use App\Entity\Team;
 use App\Entity\User;
 use Doctrine\ORM\EntityRepository;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -35,14 +36,14 @@ class MessageType extends AbstractType
                 'required' => false,
                 'mapped' => false
             ])
-            ->add('content', TextareaType::class, [
+            ->add('content', CKEditorType::class, [
                 'constraints' => [
                     new NotBlank([
                         'message' => 'validators.message.content.not_blank'
                     ])
                 ]
             ])
-            ->add('contentEnglish', TextareaType::class, [
+            ->add('contentEnglish', CKEditorType::class, [
                 'required' => false,
                 'mapped' => false
             ])

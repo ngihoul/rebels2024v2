@@ -32,7 +32,7 @@
         </div>
 
         <div class="content">
-            <p>{{ message.content }}</p>
+            <p>{{ message.content|raw }}</p>
         </div>
 
         {% if not message.isArchived and is_granted('ROLE_ADMIN') %}
