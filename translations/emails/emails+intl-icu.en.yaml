@@ -1,13 +1,13 @@
 license:
   approved:
     subject: "License validated"
-    title: "Hello ! Your license has been approved!"
+    title: "Your license has been approved!"
     text_1: "You can now pay for your license online from the"
     link: '"My licenses"'
     text_2: 'and then click on the "bank card" logo.'
   refused:
     subject: "License refused"
-    title: "Hello ! Your license has been refused!"
+    title: "Your license has been refused!"
     text: >-
       Ouch! Apparently, your license request has been denied by an administrator. </br>
       Here's why: <b>{reason}</b> </br></br>
@@ -24,13 +24,13 @@ event:
       Confirm your presence now in <a href="{agenda_url}">your personal area</a> !
   cancellation:
     subject: "Event cancelled"
-    title: "Hello! The event {event_name} has been cancelled!"
+    title: "The event {event_name} has been cancelled!"
     text: >-
       The event "{event_name}" originally scheduled for {event_date} at {event_timeFrom} has been cancelled!
 
 registration:
   subject: "Confirm your e-mail address"
-  title: "Hello ! Confirm your e-mail address!"
+  title: "Confirm your e-mail address!"
   message: "Confirm your e-mail address by clicking on the following link."
   link: "Confirm my e-mail"
   expires: "This link will expire in"
@@ -43,6 +43,6 @@ reset_password:
 
 message:
   subject: "New message received"
-  title: "Hello ! You've received a new message !"
+  title: "You've received a new message !"
 
 signature: "Sportively"

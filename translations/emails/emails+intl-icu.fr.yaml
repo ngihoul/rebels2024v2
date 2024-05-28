@@ -1,13 +1,13 @@
 license:
   approved:
     subject: "Licence validée"
-    title: "Bonjour ! Ta licence a été approuvée !"
+    title: "Ta licence a été approuvée !"
     text_1: "Tu as maintenant la possibilité de payer ta licence en ligne à partir de l'onglet"
     link: '"Mes licences"'
     text_2: 'et ensuite en cliquant sur le logo "carte de banque".'
   refused:
     subject: "Licence refusée"
-    title: "Bonjour ! Ta licence a été refusé !"
+    title: "Ta licence a été refusé !"
     text: >-
       Aïe ! Apparemment, ta demande de licence a été refusée par un administrateur. </br>
       Voici la raison : <b>{reason}</b> </br></br>
@@ -24,13 +24,13 @@ event:
       Confirme ta présence dès maintenant dans <a href="{agenda_url}">ton espace personnel</a> !
   cancellation:
     subject: "Evènement annulé"
-    title: "Bonjour ! L'évènement {event_name} a été annulé!"
+    title: "L'évènement {event_name} a été annulé!"
     text: >-
       L'évènement "{event_name}" initialement prévu le {event_date} à {event_timeFrom} a été annulé !
 
 registration:
   subject: "Confirme ton adresse e-mail"
-  title: "Bonjour ! Confirme ton adresse e-mail !"
+  title: "Confirme ton adresse e-mail !"
   message: "Confirme ton adresse e-mail en cliquant sur le lien suivant."
   link: "Confirmer mon e-mail"
   expires: "Ce lien expirera dans"
@@ -43,6 +43,6 @@ reset_password:
 
 message:
   subject: "Nouveau message reçu"
-  title: "Bonjour ! Vous avez reçu un nouveau message !"
+  title: "Vous avez reçu un nouveau message !"
 
 signature: "Sportivement"
