@@ -5,6 +5,8 @@ twig:
     pictures_directory: "https://gihoul.be/clubhouse/public/uploads/user_pictures/"
     licenses_download_directory: "https://gihoul.be/clubhouse/public/licenses/download/"
     logo_teams_directory: "https://gihoul.be/clubhouse/public/uploads/logo_teams/"
+  form_themes:
+    - "@FOSCKEditor/Form/ckeditor_widget.html.twig"
 
 when@test:
   twig:
