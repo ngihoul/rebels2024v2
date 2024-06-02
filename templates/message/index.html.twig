@@ -6,7 +6,7 @@
     <div class="container container-message">
         <div class="heading-container">
             <h1>{{ 'message.index.title'|trans }} ({{ messageCount }})</h1>
-            {% if is_granted('ROLE_ADMIN') %}
+            {% if is_granted('ROLE_COACH') %}
             <a href="{{ path('app_message_create') }}" class="btn-add"></a>
             {% endif %}
         </div>
@@ -43,7 +43,7 @@
 
                         <p class="content">{{ message.0.content|slice(0,200)|raw }} ...</p>
                     </a>
-                    {% if not message.0.isArchived  and is_granted('ROLE_ADMIN') %}
+                    {% if not message.0.isArchived and is_granted('ROLE_COACH') and message.0.sender == app.user %}
                     <div class="actions">
                         <a href="{{ path('app_message_update', { 'messageId' : message.0.id }) }}" class="btn">{{ 'message.index.btn.modify'|trans }}</a>
                         <a href="{{ path('app_message_archive', { 'messageId' : message.0.id }) }}" class="btn btn-danger">{{ 'message.index.btn.archive'|trans }}</a>

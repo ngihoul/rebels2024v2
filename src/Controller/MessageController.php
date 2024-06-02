@@ -41,7 +41,7 @@ class MessageController extends AbstractController
     #[Route('/', name: 'app_messages')]
     public function index(): Response
     {
-        // If User is admin, all messages are displayed, if not, only messages sent to him are displayed
+        // If User is admin, all messages are displayed, if not, only messages sent to him or write by him (only for coaches) are displayed
         $user = $this->getUser();
         $isAdmin = $this->isGranted('ROLE_ADMIN') ? true : false;
         $messages = $this->messageRepository->getShortMessages($user, $isAdmin);
