@@ -9,16 +9,16 @@
     {# Display flash messages #}
     {{ parent() }}
 
-    {{ form_start(requestForm) }}
+    {{ form_start(requestForm, { 'attr' : { 'class' : 'reset-form' }}) }}
         <div>
             <h2 class="reset-password disclamer">
                 {{ "password.request.disclamer"|trans }}
             </h2>
         </div>
 
-        {{ form_row(requestForm.email) }}
+        {{ form_row(requestForm.email, { 'row_attr': { 'class': 'email' }}) }}
 
-        <button class="btn btn-primary">{{ "password.reset.title"|trans }}</button>
+        <button class="btn btn-primary submit">{{ "password.reset.title"|trans }}</button>
     {{ form_end(requestForm) }}
 </div>
 {% endblock %}

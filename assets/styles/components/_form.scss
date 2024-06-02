@@ -333,4 +333,23 @@ form {
       }
     }
   }
+
+  // Reset password form
+  .reset-form {
+    display: flex;
+    flex-direction: column;
+
+    .reset-password.disclamer {
+      margin-bottom: 0;
+    }
+
+    .email {
+      width: 50%;
+      margin-bottom: 0;
+    }
+
+    .submit {
+      width: 50%;
+    }
+  }
 }
