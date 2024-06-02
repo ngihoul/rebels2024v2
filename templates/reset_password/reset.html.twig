@@ -6,9 +6,9 @@
     <div class="container container-reset-password">
         <h1>{{ "password.reset.title"|trans }}</h1>
 
-        {{ form_start(resetForm) }}
-            {{ form_row(resetForm.plainPassword) }}
-            <button class="btn btn-primary">{{ "password.reset.title"|trans }}</button>
+        {{ form_start(resetForm, { 'attr': { 'class': 'reset-form' } }) }}
+            {{ form_row(resetForm.plainPassword, { 'row_attr' : { 'class' : 'email' } }) }}
+            <button class="btn btn-primary submit">{{ "password.reset.title"|trans }}</button>
         {{ form_end(resetForm) }}
     </div>
 {% endblock %}

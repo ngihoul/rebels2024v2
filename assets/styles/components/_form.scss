@@ -339,11 +339,18 @@ form {
     display: flex;
     flex-direction: column;
 
+    > div {
+      display: flex;
+      flex-direction: column;
+    }
+
     .reset-password.disclamer {
       margin-bottom: 0;
     }
 
-    .email {
+    .email,
+    #change_password_form_plainPassword_first,
+    #change_password_form_plainPassword_second {
       width: 50%;
       margin-bottom: 0;
     }
