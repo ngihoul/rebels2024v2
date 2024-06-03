@@ -26,6 +26,15 @@ header {
   max-height: 32px;
 }
 
+.profile-icon-mobile {
+  .member-picture {
+    width: 36px;
+    height: 36px;
+    border-radius: 36px;
+    object-fit: cover;
+  }
+}
+
 .profile-icon-desktop {
   display: none;
 }
@@ -83,6 +92,14 @@ header {
 
     .icon-profile {
       padding-right: 0.4rem;
+    }
+
+    .member-picture {
+      width: 36px;
+      height: 36px;
+      border-radius: 36px;
+      margin-right: 0.4rem;
+      object-fit: cover;
     }
 
     .profile-user-data {
