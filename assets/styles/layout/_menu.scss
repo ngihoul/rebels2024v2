@@ -82,6 +82,7 @@ ul .menu-item {
     background-color: $color-primary;
     padding: 0.8rem;
     overflow-y: auto;
+    // Placing menu under header (z-index header: 9999)
     z-index: 9000;
   }
 
