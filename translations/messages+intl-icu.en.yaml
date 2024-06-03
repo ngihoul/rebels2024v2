@@ -87,6 +87,7 @@ homepage:
   send_back_license: "Send us back your completed and signed license application"
   license_to_validate: "An administrator will soon validate your license"
   pay_license: "Last step: pay your license"
+  last_messages: "Last messages"
 
 login:
   login: "Login"
