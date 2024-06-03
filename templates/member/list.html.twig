@@ -94,9 +94,9 @@
                 <tr class="member-row" data-member-id="{{ member.id }}" data-locale="{{ app.request.locale }}">
                     <td class="profile-picture">
                         {% if member.profilePicture starts with 'http' %}
-                        <img class="profile-member-picture" src="{{ member.profilePicture }}" alt="Profile picture of {{ member.firstname }}">
+                            <img class="profile-member-picture" src="{{ member.profilePicture }}" alt="Profile picture of {{ member.firstname }}">
                         {% else %}
-                        <img class="profile-member-picture" src="{{ asset('uploads/user_pictures/' ~ member.profilePicture) }}" alt="Profile picture of {{ member.firstname }}">
+                            <img class="profile-member-picture" src="{{ asset('uploads/user_pictures/' ~ member.profilePicture) }}" alt="Profile picture of {{ member.firstname }}">
                         {% endif %}
                     </td>
                     <td class="lastname">{{ member.lastname }}</td>
