@@ -117,7 +117,7 @@
                             {{ message.0.title }}
                         </h2>
 
-                        <p class="content">{{ message.0.content|slice(0,200) }} ...</p>
+                        <p class="content">{{ message.0.content|slice(0,200)|raw }} ...</p>
                     </a>
                     {% if not message.0.isArchived  and is_granted('ROLE_ADMIN') %}
                     <div class="actions">
