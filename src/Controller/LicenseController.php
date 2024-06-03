@@ -61,7 +61,7 @@ class LicenseController extends AbstractController
     // Create a licence request
     #[Route('/create', name: 'app_license_create')]
     #[IsGranted('ROLE_USER')]
-    public function create(Request $request): Response
+    public function create(Request $request, EmailManager $emailManager): Response
     {
         $user = $this->getUser();
 
@@ -96,6 +96,8 @@ class LicenseController extends AbstractController
 
             $this->entityManager->persist($license);
             $this->entityManager->flush();
+
+            $emailManager->sendEmail(EmailManager::ADMIN_MAIL, 'Nouvelle demande de licence', 'new_license', ['user' => $user]);
 
             return $this->redirectToRoute('app_license');
         }
