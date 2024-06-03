@@ -2,6 +2,14 @@
 import L from "leaflet";
 import "leaflet-control-geocoder/dist/Control.Geocoder.js";
 
+var customIcon = L.icon({
+  iconUrl: "/images/pin.png",
+
+  iconSize: [52, 75], // size of the icon
+  iconAnchor: [26, 75], // point of the icon which will correspond to marker's location
+  // popupAnchor: [-3, -76], // point from which the popup should open relative to the iconAnchor
+});
+
 document.addEventListener("DOMContentLoaded", () => {
   const street = document.getElementById("map").getAttribute("data-street");
   const number = document.getElementById("map").getAttribute("data-number");
@@ -28,8 +36,9 @@ document.addEventListener("DOMContentLoaded", () => {
       mapContainer.parentNode.replaceChild(errorMessage, mapContainer);
       errorMessage.classList.add("show");
     } else {
-      map.setView(results[0].center);
-      L.marker(results[0].center).addTo(map);
+      const { center } = results[0];
+      map.setView(center);
+      L.marker(center, { icon: customIcon }).addTo(map);
     }
   });
 });
