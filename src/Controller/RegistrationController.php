@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Repository\UserRepository;
 use App\Security\EmailVerifier;
+use App\Service\EmailManager;
 use App\Service\ProfilePictureManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -80,7 +81,7 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/verify/email', name: 'app_verify_email')]
-    public function verifyUserEmail(Request $request, TranslatorInterface $translator, UserRepository $userRepository): Response
+    public function verifyUserEmail(Request $request, TranslatorInterface $translator, UserRepository $userRepository, EmailManager $emailManager): Response
     {
         $id = $request->query->get('id');
 
@@ -104,6 +105,9 @@ class RegistrationController extends AbstractController
 
             return $this->redirectToRoute('app_login');
         }
+
+        // Send an e-mail to admins to inform them of a new registration - Mail can stay in french
+        $emailManager->sendEmail(EmailManager::ADMIN_MAIL, "Nouvelle inscription", "new_member", ['user' => $user]);
 
         $this->addFlash('success', $this->translator->trans('success.email_verified'));
 
