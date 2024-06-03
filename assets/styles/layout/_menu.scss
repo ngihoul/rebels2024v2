@@ -44,7 +44,7 @@ ul {
 
 ul .menu-item {
   font-size: 1rem;
-  padding: 1rem 2rem;
+  //
   text-transform: capitalize;
   border-radius: 0.5rem;
   transition: background-color 0.3s ease-in-out;
@@ -58,11 +58,12 @@ ul .menu-item {
   }
 
   &.sub-menu-item {
-    padding-left: 3.2rem;
+    padding-left: 1.4rem;
   }
 
   & a {
-    padding: 1rem 0;
+    display: block;
+    padding: 1rem 2rem;
   }
 
   &-bottom {
