@@ -23,9 +23,9 @@
       <div class="profile-picture-container">
 
         {% if user.profilePicture starts with 'http' %}
-        <img class="profile-member-picture" src="{{ user.profilePicture }}" alt="Profile picture of {{ user.firstname }}">
+          <img class="profile-member-picture" src="{{ user.profilePicture }}" alt="Profile picture of {{ user.firstname }}">
         {% else %}
-        <img class="profile-member-picture" src="{{ asset('uploads/user_pictures/' ~ user.profilePicture) }}" alt="Profile picture of {{ user.firstname }}">
+          <img class="profile-member-picture" src="{{ asset('uploads/user_pictures/' ~ user.profilePicture) }}" alt="Profile picture of {{ user.firstname }}">
         {% endif %}
         <img class="profile-flag" src="{{ asset('images/flags/' ~ user.nationality.alpha2 ~ '.png') }}" alt="{{ user.nationality.name }} flag" title="{{ user.nationality.name }} flag">
 

@@ -25,11 +25,13 @@
       right: 0;
       bottom: 0;
       width: 40px;
+      border-bottom-right-radius: $border-radius;
     }
   }
 
   .profile-member-picture {
-    max-height: 8rem;
+    max-height: 146px;
+    border-radius: $border-radius;
   }
 
   .profile-member-info {
@@ -65,15 +67,6 @@
     margin-right: 0.8rem;
   }
 }
-
-/* 
-  .profile-flag {
-      position: absolute;
-      max-height: 2rem;
-      bottom: -.5rem;
-      right: -.5rem;
-  }
-  */
 
 @media screen and (min-width: $min-desktop) {
   .profile-important-info {
