@@ -12,6 +12,7 @@ Avant de commencer, assurez-vous d'avoir les éléments suivants installés sur 
 - [Git](https://git-scm.com/)
 - [MySQL](https://dev.mysql.com/downloads/mysql/)
 - [MailHog](https://github.com/mailhog/MailHog) ou un serveur SMTP
+- [Node.js](https://nodejs.org/) (pour `npm`)
 
 ## Installation
 
