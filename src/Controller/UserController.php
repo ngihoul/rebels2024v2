@@ -46,6 +46,9 @@ class UserController extends AbstractController
         $pendingLicense = $pendingLicenses ? $pendingLicenses[0] : null;
         $activeLicenses = $licenseRepository->getCurrentYearActiveLicense($user);
 
+        // Pending events
+        $pendingEvents = $eventRepository->findPendingEventsForThisUser($user);
+
         // Events summary
         $futureEvents = $eventRepository->findFutureEventsForThisUser($user);
 
@@ -61,6 +64,7 @@ class UserController extends AbstractController
             'futureEvents' => $futureEvents,
             'messages' => $messages,
             'isUnreadMessage' => $isUnreadMessage,
+            'pendingEvents' => $pendingEvents
         ]);
     }
 
