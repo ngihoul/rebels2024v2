@@ -1,6 +1,8 @@
 # Rebels' Clubhouse
 
 Application web pour la gestion d'un club de baseball
+Projet réalisé dans le cadre de l'épreuve intégrée du Brevet d'Enseignement Supérieur de l'Institut Saint-Laurent
+Année scolaire 2023 - 2024
 
 ## Prérequis
 
