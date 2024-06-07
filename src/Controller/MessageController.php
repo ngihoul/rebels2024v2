@@ -19,7 +19,6 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/messages')]
-#[IsGranted('ROLE_USER')]
 class MessageController extends AbstractController
 {
     private EntityManagerInterface $entityManager;
@@ -39,6 +38,7 @@ class MessageController extends AbstractController
 
     // Display all messages for the user depending his role
     #[Route('/', name: 'app_messages')]
+    #[IsGranted('ROLE_USER')]
     public function index(): Response
     {
         // If User is admin, all messages are displayed, if not, only messages sent to him or write by him (only for coaches) are displayed
@@ -56,6 +56,7 @@ class MessageController extends AbstractController
 
     // Create a new message
     #[Route('/create', name: 'app_message_create')]
+    #[IsGranted('ROLE_COACH')]
     public function create(Request $request): Response
     {
         $action = 'create';
@@ -109,6 +110,7 @@ class MessageController extends AbstractController
 
     // Update an existing message
     #[Route('/update/{messageId}', name: 'app_message_update')]
+    #[IsGranted('ROLE_COACH')]
     public function update(Request $request, $messageId): Response
     {
         $action = 'update';
@@ -144,6 +146,7 @@ class MessageController extends AbstractController
 
     // Display message detail
     #[Route('/{messageId}', name: 'app_message_detail')]
+    #[IsGranted('ROLE_USER')]
     public function detail($messageId): Response
     {
         try {
@@ -170,6 +173,7 @@ class MessageController extends AbstractController
 
     // Archive an existing message
     #[Route('/archive/{messageId}', name: 'app_message_archive')]
+    #[IsGranted('ROLE_COACH')]
     public function archive(Request $request, $messageId): Response
     {
         try {

@@ -262,7 +262,7 @@ class TeamController extends AbstractController
 
     // Delete a team
     #[Route('/team/{teamId}/delete', name: 'app_team_delete')]
-    #[IsGranted('ROLE_COACH')]
+    #[IsGranted('ROLE_ADMIN')]
     public function delete(Request $request): Response
     {
         $teamId = $request->get('teamId');
