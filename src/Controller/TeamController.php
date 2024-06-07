@@ -260,6 +260,32 @@ class TeamController extends AbstractController
         return $this->redirectToRoute('app_team_detail', ['teamId' => $team->getId()]);
     }
 
+    // Delete a team
+    #[Route('/team/{teamId}/delete', name: 'app_team_delete')]
+    #[IsGranted('ROLE_COACH')]
+    public function delete(Request $request): Response
+    {
+        $teamId = $request->get('teamId');
+        $team = $this->findTeam($teamId);
+
+        try {
+            // Delete Roles for coach & assistant
+            $team->getCoach()->setRoles(['ROLE_USER']);
+            $team->getAssistant()->setRoles(['ROLE_USER']);
+
+            // Delete the team from db
+            $this->entityManager->remove($team);
+            $this->entityManager->flush();
+
+            $this->addFlash('success', $this->translator->trans('success.team.delete'));
+        } catch (Exception $e) {
+            $this->addFlash('error', $e->getMessage());
+        }
+
+        $route = $request->headers->get('referer');
+        return $this->redirect($route);
+    }
+
     // Find a team
     private function findTeam(string $teamId): Team
     {

@@ -53,6 +53,7 @@ success:
     update: "The team has been updated."
     player_added: "Player {firstname} {lastname} has been added to team {teamName}."
     player_remove: "Player {firstname} {lastname} has been deleted from team {teamName}."
+    delete: "The team has been deleted."
   message:
     created: "The message has been created."
     updated: "The message has been updated."
