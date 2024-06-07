@@ -84,8 +84,9 @@ class TeamController extends AbstractController
                 $coach = $form->get('coach')->getData();
                 $assistant = $form->get('assistant')->getData();
 
-                $coach->setRoles(['ROLE_COACH']);
-                $assistant->setRoles(['ROLE_COACH']);
+                // If coach or assistant is ADMIN, do not change his role
+                $this->updateRoles($coach, 'ROLE_COACH');
+                $this->updateRoles($assistant, 'ROLE_COACH');
 
                 $this->entityManager->persist($team);
                 $this->entityManager->flush();
@@ -141,14 +142,15 @@ class TeamController extends AbstractController
                 $newCoach = $form->get('coach')->getData();
                 $newAssistant = $form->get('assistant')->getData();
 
-                if ($oldCoach != $newCoach) {
-                    $oldCoach->setRoles(['ROLE_USER']);
-                    $newCoach->setRoles(['ROLE_COACH']);
+                // If coach or assistant are different than the previous one AND coach or assistant is ADMIN, do not change his role
+                if ($oldCoach !== $newCoach) {
+                    $this->updateRoles($oldCoach, 'ROLE_USER');
+                    $this->updateRoles($newCoach, 'ROLE_COACH');
                 }
 
-                if ($oldAssistant != $newAssistant) {
-                    $oldAssistant->setRoles(['ROLE_USER']);
-                    $newAssistant->setRoles(['ROLE_COACH']);
+                if ($oldAssistant !== $newAssistant) {
+                    $this->updateRoles($oldAssistant, 'ROLE_USER');
+                    $this->updateRoles($newAssistant, 'ROLE_COACH');
                 }
 
                 $this->entityManager->flush();
@@ -270,8 +272,9 @@ class TeamController extends AbstractController
 
         try {
             // Delete Roles for coach & assistant
-            $team->getCoach()->setRoles(['ROLE_USER']);
-            $team->getAssistant()->setRoles(['ROLE_USER']);
+            // Only if coach or assistant are not ADMIN
+            $this->updateRoles($team->getCoach(), 'ROLE_USER');
+            $this->updateRoles($team->getAssistant(), 'ROLE_USER');
 
             // Delete the team from db
             $this->entityManager->remove($team);
@@ -296,5 +299,13 @@ class TeamController extends AbstractController
         }
 
         return $team;
+    }
+
+    //Update role only if user is not admin
+    private function updateRoles($person, $role)
+    {
+        if (!in_array('ROLE_ADMIN', $person->getRoles())) {
+            $person->setRoles([$role]);
+        }
     }
 }
