@@ -2,9 +2,9 @@ twig:
   default_path: "%kernel.project_dir%/templates"
   globals:
     # PROD : To be updated
-    pictures_directory: "https://gihoul.be/clubhouse/public/uploads/user_pictures/"
-    licenses_download_directory: "https://gihoul.be/clubhouse/public/licenses/download/"
-    logo_teams_directory: "https://gihoul.be/clubhouse/public/uploads/logo_teams/"
+    pictures_directory: "%env(PICTURES_DIRECTORY)%"
+    licenses_download_directory: "%env(LICENSES_DOWNLOAD_DIRECTORY)%"
+    logo_teams_directory: "%env(LOGO_TEAMS_DIRECTORY)%"
   form_themes:
     - "@FOSCKEditor/Form/ckeditor_widget.html.twig"
 

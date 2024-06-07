@@ -7,6 +7,9 @@ parameters:
   pictures_directory: "%kernel.project_dir%/public/uploads/user_pictures"
   logos_directory: "%kernel.project_dir%/public/uploads/logo_teams"
   uploaded_licenses_directory: "%kernel.project_dir%/public/uploads/licenses"
+  env(PICTURES_DIRECTORY): ""
+  env(LICENSES_DOWNLOAD_DIRECTORY): ""
+  env(LOGO_TEAMS_DIRECTORY): ""
 
   locale: fr
   app_locales: "fr|en"
