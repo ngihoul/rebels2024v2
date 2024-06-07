@@ -80,6 +80,13 @@ class TeamController extends AbstractController
                     $team->setLogo($logoFileName);
                 }
 
+                // Assign ROLE_COACH to coach and assistant
+                $coach = $form->get('coach')->getData();
+                $assistant = $form->get('assistant')->getData();
+
+                $coach->setRoles(['ROLE_COACH']);
+                $assistant->setRoles(['ROLE_COACH']);
+
                 $this->entityManager->persist($team);
                 $this->entityManager->flush();
 
@@ -116,8 +123,10 @@ class TeamController extends AbstractController
 
             $form = $this->createForm(TeamType::class, $team);
 
-            $form->handleRequest($request);
+            $oldCoach = $team->getCoach();
+            $oldAssistant = $team->getAssistant();
 
+            $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
                 $logo = $form->get('logo')->getData();
@@ -126,6 +135,20 @@ class TeamController extends AbstractController
                 if ($logo) {
                     $logoFileName = $fileUploader->save($logo, 'logos_directory');
                     $team->setLogo($logoFileName);
+                }
+
+                // Modify ROLE
+                $newCoach = $form->get('coach')->getData();
+                $newAssistant = $form->get('assistant')->getData();
+
+                if ($oldCoach != $newCoach) {
+                    $oldCoach->setRoles(['ROLE_USER']);
+                    $newCoach->setRoles(['ROLE_COACH']);
+                }
+
+                if ($oldAssistant != $newAssistant) {
+                    $oldAssistant->setRoles(['ROLE_USER']);
+                    $newAssistant->setRoles(['ROLE_COACH']);
                 }
 
                 $this->entityManager->flush();
