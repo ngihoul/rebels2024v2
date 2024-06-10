@@ -9,12 +9,7 @@ h2 {
 }
 
 .to-do-list ul li {
-  &:first-child {
-    margin: 0.4rem 0 0.8rem;
-  }
-  &:last-child {
-    margin: 0.8rem 0 0.4rem;
-  }
+  margin: 0.8rem 0;
 }
 
 .card-content ul li {
