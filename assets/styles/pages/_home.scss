@@ -2,6 +2,15 @@
   margin-bottom: 1.6rem;
 }
 
+.to-do-list ul li {
+  &:first-child {
+    margin: 0.4rem 0 0.8rem;
+  }
+  &:last-child {
+    margin: 0.8rem 0 0.4rem;
+  }
+}
+
 .card-content ul li {
   list-style-type: disc;
   margin: 0.8rem 1.8rem;
