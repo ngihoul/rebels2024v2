@@ -43,7 +43,7 @@
 
                 {% if isUnreadMessage > 0 %}
                 <li>
-                    <a href="{{ path('app_messages') }}">Lire tes messages non-lus</a>
+                    <a href="{{ path('app_messages') }}">{{ "homepage.read_messages"|trans }}</a>
                 </li>
                 {% endif %}
             </ul>

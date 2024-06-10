@@ -89,6 +89,7 @@ homepage:
   license_to_validate: "Un administrateur va bientôt valider ta licence"
   pay_license: "Dernière étape : paye ta licence"
   last_messages: "Derniers messages"
+  read_messages: "Lis tes messages"
 
 # Login
 login:

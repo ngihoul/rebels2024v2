@@ -89,6 +89,7 @@ homepage:
   license_to_validate: "An administrator will soon validate your license"
   pay_license: "Last step: pay your license"
   last_messages: "Last messages"
+  read_messages: "Read your messages"
 
 login:
   login: "Login"
