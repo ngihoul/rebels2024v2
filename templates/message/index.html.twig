@@ -18,14 +18,14 @@
             {% for message in messages %}
                 <div class="message-card">
                     <a href="{{ path('app_message_detail', { 'messageId' : message.0.id }) }}">
-                        {% if message.status is same as(false) %}
+                        {% if message.0.status is same as(false) %}
                         <div class="badge badge-unread"></div>
                         {% endif %}
 
                         <div class="message-data">
                             <div class="author-container">
                                 <i class="fa-solid fa-user"></i>
-                                <p>{{  message.0.sender.firstname }} {{ message.0.sender.lastname }}
+                                <p>{{ message.0.sender.firstname }} {{ message.0.sender.lastname }}</p>
                             </div>
 
                             <div class="date-container">
@@ -43,12 +43,13 @@
 
                         <p class="content">{{ message.0.content|slice(0,200)|raw }} ...</p>
                     </a>
-                    {% if not message.0.isArchived and is_granted('ROLE_COACH') and message.0.sender == app.user %}
-                    <div class="actions">
-                        <a href="{{ path('app_message_update', { 'messageId' : message.0.id }) }}" class="btn">{{ 'message.index.btn.modify'|trans }}</a>
-                        <a href="{{ path('app_message_archive', { 'messageId' : message.0.id }) }}" class="btn btn-danger">{{ 'message.index.btn.archive'|trans }}</a>
-                    </div>
+                    {% if not message.0.isArchived and ((is_granted('ROLE_COACH') and message.0.sender == app.user) or is_granted('ROLE_ADMIN')) %}
+                        <div class="actions">
+                            <a href="{{ path('app_message_update', { 'messageId' : message.0.id }) }}" class="btn">{{ 'message.index.btn.modify'|trans }}</a>
+                            <a href="{{ path('app_message_archive', { 'messageId' : message.0.id }) }}" class="btn btn-danger">{{ 'message.index.btn.archive'|trans }}</a>
+                        </div>
                     {% endif %}
+                    </div>
                 </div>
             {% endfor %}
         </div>
