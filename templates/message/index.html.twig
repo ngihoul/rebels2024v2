@@ -18,7 +18,7 @@
             {% for message in messages %}
                 <div class="message-card">
                     <a href="{{ path('app_message_detail', { 'messageId' : message.0.id }) }}">
-                        {% if message.0.status is same as(false) %}
+                        {% if message.status is same as(false) %}
                         <div class="badge badge-unread"></div>
                         {% endif %}
 
