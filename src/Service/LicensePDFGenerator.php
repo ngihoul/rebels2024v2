@@ -162,7 +162,7 @@ class LicensePDFGenerator
         $pdf->Cell(0, 10, iconv('UTF-8', 'ASCII//TRANSLIT', $license->getUser()->getCountry()->getName()), 0, 1);
 
         $pdf->SetXY(108, 113.75);
-        $pdf->Cell(0, 10, $license->getUser()->getNationality()->getName(), 0, 1);
+        $pdf->Cell(0, 10, iconv('UTF-8', 'ASCII//TRANSLIT', $license->getUser()->getNationality()->getName()), 0, 1);
 
         $pdf->SetXY(35, 119.5);
         $pdf->Cell(0, 10, $license->getUser()->getPhoneNumber(), 0, 1);

@@ -6,8 +6,12 @@ table th.column-actions {
   text-align: center;
 }
 
-.license-table td {
-  vertical-align: middle;
+.license-table {
+  margin-bottom: 1.6rem;
+
+  td {
+    vertical-align: middle;
+  }
 }
 
 .container-download-license img {
