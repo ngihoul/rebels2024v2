@@ -2,6 +2,12 @@
   margin-bottom: 1.6rem;
 }
 
+h2 {
+  &:not(:first-child) {
+    margin-top: 2.4rem;
+  }
+}
+
 .to-do-list ul li {
   &:first-child {
     margin: 0.4rem 0 0.8rem;

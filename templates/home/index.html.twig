@@ -50,6 +50,29 @@
         </div>
         {% endif %}
 
+        {% if pendingEvents|length > 0 %}
+            <h2>{{ "agenda.waiting_reply"|trans }}</h2>
+            <div class="card-event-wrapper">
+            {% for pendingEvent in pendingEvents %}
+                <div class="card card-event-container">
+                    
+                    <div class="info-event">
+                        <a href="{{ path('app_agenda_detail', { 'id' : pendingEvent.id }) }}">
+                            <p class="event-date">{{ pendingEvent.date|date("d/m/Y") }} - {{ pendingEvent.timeFrom|format_datetime('none', 'short') }}</p>
+                            <p class="event-type">[{{ pendingEvent.team.name }}] {{ pendingEvent.name }}</p>
+                        </a>    
+                    </div>
+                    
+                    <div class="response-event">
+                        <a class="btn response-event-yes" href="{{ path('app_agenda_response', { 'id' : pendingEvent.id, 'result' : 'accept' }) }}" title="{{ "agenda.accept"|trans }}">V</a>
+                        <a class="btn response-event-no" href="{{ path('app_agenda_response', { 'id' : pendingEvent.id, 'result' : 'decline' }) }}" title="{{ "agenda.decline"|trans }}">X</a>
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+        {% endif %}
+
+
         <h2>{{ "homepage.next_event"|trans }}</h2>
 
         {% if futureEvents|length > 0 %}
