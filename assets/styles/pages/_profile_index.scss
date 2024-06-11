@@ -15,10 +15,15 @@
   }
 
   .profile-picture-container {
+    width: 120px;
+    height: 162px;
+    overflow: hidden;
     display: flex;
     align-items: center;
+    justify-content: center;
     position: relative;
     margin-right: 1rem;
+    border-radius: $border-radius;
 
     .profile-flag {
       position: absolute;
@@ -30,7 +35,10 @@
   }
 
   .profile-member-picture {
-    max-height: 162px;
+    height: 100%;
+    width: auto;
+    object-fit: cover;
+    object-position: center;
     border-radius: $border-radius;
   }
 
