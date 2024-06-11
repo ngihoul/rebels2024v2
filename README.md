@@ -79,6 +79,7 @@ php bin/console doctrine:migrations:migrate
 ```
 
 5. Importez les données de base
+   Ou importer les fichiers dans l'odre via [phpMyAdmin](http://localhost/phpmyadmin)
 
 ```bash
 mysql -u votre_utilisateur -p votre_base_de_donnees < /chemin/vers/votre_projet/db/country.sql
@@ -88,8 +89,6 @@ mysql -u votre_utilisateur -p votre_base_de_donnees < /chemin/vers/votre_projet/
 mysql -u votre_utilisateur -p votre_base_de_donnees < /chemin/vers/votre_projet/db/place.sql
 mysql -u votre_utilisateur -p votre_base_de_donnees < /chemin/vers/votre_projet/db/user.sql
 ```
-
-Ou importer les fichiers dans l'odre via [phpMyAdmin](http://localhost/phpmyadmin)
 
 6. Installez les assets
 
@@ -102,14 +101,16 @@ npm run dev
 ## Execution
 
 1. Démarrez le serveur web
-
-Pour démarrer le serveur web Symfony, utilisez la commande suivante :
+   Pour démarrer le serveur web Symfony, utilisez la commande suivante :
 
 ```bash
 symfony serve
 ```
 
 Votre application sera accessible à l'adresse http://localhost:8000.
+
+2. Accéder à l'application  
+   Utilisez les identifiants et mots de passe fournis dans l'email reçu.
 
 # Rebels' Clubhouse en production
 
