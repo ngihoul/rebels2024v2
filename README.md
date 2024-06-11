@@ -17,7 +17,7 @@ Avant de commencer, assurez-vous d'avoir les éléments suivants installés sur 
 - [MailHog](https://github.com/mailhog/MailHog) ou un serveur SMTP
 - [Node.js](https://nodejs.org/) (pour `npm`)
 
-## Installation
+## Installation en local sur Linux
 
 1. Clonez le repertoire  
    Clonez ce dépôt sur votre machine locale en utilisant la commande suivante :
@@ -110,6 +110,10 @@ symfony serve
 ```
 
 Votre application sera accessible à l'adresse http://localhost:8000.
+
+## Rebels' Clubhouse en production
+
+L'application rebels' Clubhouse est accessible via ce lien https://clubhouse.liegebaseball.be
 
 ---
 
