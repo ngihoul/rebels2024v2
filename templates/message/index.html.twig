@@ -41,7 +41,7 @@
                             {{ message.0.title }}
                         </h2>
 
-                        <p class="content">{{ message.0.content|slice(0,200)|raw }} ...</p>
+                        <p class="content">{{ message.0.content|slice(0,200)|striptags|raw }} ...</p>
                     </a>
                     {% if not message.0.isArchived and is_granted('ROLE_COACH') and message.0.sender == app.user %}
                     <div class="actions">
@@ -49,7 +49,6 @@
                         <a href="{{ path('app_message_archive', { 'messageId' : message.0.id }) }}" class="btn btn-danger">{{ 'message.index.btn.archive'|trans }}</a>
                     </div>
                     {% endif %}
-                </div>
             </div>
             {% endfor %}
         </div>
