@@ -43,7 +43,7 @@ Avant de commencer, assurez-vous d'avoir les éléments suivants installés sur 
 php -r 'echo bin2hex(random_bytes(16));'
 ```
 
-Ajoutez cette clé à votre fichier .env :
+- Ajoutez cette clé à votre fichier .env :
 
 ```bash
 APP_SECRET=change_me
