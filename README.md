@@ -111,9 +111,9 @@ symfony serve
 
 Votre application sera accessible à l'adresse http://localhost:8000.
 
-## Rebels' Clubhouse en production
+# Rebels' Clubhouse en production
 
-L'application rebels' Clubhouse est accessible via ce lien https://clubhouse.liegebaseball.be
+L'application Rebels' Clubhouse est accessible via ce lien https://clubhouse.liegebaseball.be
 
 ---
 
