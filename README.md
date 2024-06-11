@@ -18,7 +18,7 @@ Avant de commencer, assurez-vous d'avoir les éléments suivants installés sur 
 
 ## Installation
 
-1. Clonez le repertoire
+1. Clonez le repertoire  
    Clonez ce dépôt sur votre machine locale en utilisant la commande suivante :
 
 ```bash
@@ -26,7 +26,7 @@ Avant de commencer, assurez-vous d'avoir les éléments suivants installés sur 
   git clone https://github.com/ngihoul/rebels2024v2.git
 ```
 
-2. Installez les dépendances
+2. Installez les dépendances  
    Utilisez Composer pour installer les dépendances nécessaires :
 
 ```bash
@@ -35,7 +35,7 @@ Avant de commencer, assurez-vous d'avoir les éléments suivants installés sur 
 
 3. Configuration de l'environnement
 
-- Générez une clé APP_SECRET :
+- Générez une clé APP_SECRET :  
   Utilisez la commande suivante pour générer une clé secrète :
 
 ```bash
@@ -48,21 +48,21 @@ Ajoutez cette clé à votre fichier .env :
 APP_SECRET=change_me
 ```
 
-- Configurez votre base de données MySQL :
+- Configurez votre base de données MySQL :  
   Ajoutez les informations de connexion à votre base de données MySQL dans votre fichier .env :
 
 ```bash
 DATABASE_URL="mysql://app:!ChangeMe!@127.0.0.1:3306/app?serverVersion=10.11.2-MariaDB&charset=utf8mb4"
 ```
 
-- Configurez votre serveur SMTP :
+- Configurez votre serveur SMTP :  
   Pour l'envoi de mails, configurez votre serveur SMTP dans votre fichier .env :
 
 ```bash
 MAILER_DSN=smtp://localhost:1025
 ```
 
-- Configurez vos clés Stripe :
+- Configurez vos clés Stripe :  
   Ajoutez vos clés Stripe dans votre fichier .env :
 
 ```bash
@@ -72,15 +72,12 @@ STRIPE_SECRET_KEY=change_me
 
 4. Créez la base de données et exécutez les migrations
 
-Créez la base de données et exécutez les migrations :
-
 ```bash
 php bin/console doctrine:database:create
 php bin/console doctrine:migrations:migrate
 ```
 
 5. Importez les données de base
-   Importez les données de base depuis les fichiers SQL :
 
 ```bash
 mysql -u votre_utilisateur -p votre_base_de_donnees < /chemin/vers/votre_projet/db/country.sql
@@ -88,10 +85,12 @@ mysql -u votre_utilisateur -p votre_base_de_donnees < /chemin/vers/votre_projet/
 mysql -u votre_utilisateur -p votre_base_de_donnees < /chemin/vers/votre_projet/db/ext_translation.sql
 mysql -u votre_utilisateur -p votre_base_de_donnees < /chemin/vers/votre_projet/db/license_category.sql
 mysql -u votre_utilisateur -p votre_base_de_donnees < /chemin/vers/votre_projet/db/place.sql
+mysql -u votre_utilisateur -p votre_base_de_donnees < /chemin/vers/votre_projet/db/user.sql
 ```
 
+Ou importer les fichiers dans l'odre via [phpMyAdmin](http://localhost/phpmyadmin)
+
 6. Installez les assets
-   Installez les assets avec les commandes suivantes :
 
 ```bash
 php bin/console assets:install
@@ -99,7 +98,7 @@ npm install
 npm run dev
 ```
 
-# Execution
+## Execution
 
 1. Démarrez le serveur web
 
