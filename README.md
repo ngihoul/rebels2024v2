@@ -112,6 +112,8 @@ Votre application sera accessible à l'adresse http://localhost:8000.
 2. Accéder à l'application  
    Utilisez les identifiants et mots de passe fournis dans l'email reçu.
 
+---
+
 # Rebels' Clubhouse en production
 
 L'application Rebels' Clubhouse est accessible en production via ce lien https://clubhouse.liegebaseball.be
