@@ -76,7 +76,7 @@
                 <div class="admin-btn">
                     <a class="btn btn-invite" href="{{ path('app_agenda_invitation', { 'id' : futureEvent.id } ) }}">{{ "agenda.invite"|trans }}</a>
                     <a class="icon icon-edit" href="{{ path('app_agenda_update', { 'id' : futureEvent.id }) }}"><i class="fa-regular fa-pen-to-square"></i></a>
-                    <a class="icon icon-delete delete-button" data-action-url="{{ path('app_agenda_delete', { 'id' : futureEvent.id, '_token': csrf_token('delete_event' ~ futureEvent.id)}) }}"><i class="fa-solid fa-trash"></i></a>
+                    <a class="icon icon-delete delete-button" data-action-url="{{ path('app_agenda_delete', { 'id' : futureEvent.id }) }}"><i class="fa-solid fa-trash"></i></a>
                 </div>
                 {% endif %}
 
