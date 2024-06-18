@@ -32,6 +32,7 @@ error:
     not_found: "Place not found."
   page:
     not_found: "Page not found."
+  invalid_csrf_token: "The CSRF token is invalid. Please try again."
 
 success:
   profile_updated: "Your profile has been updated."

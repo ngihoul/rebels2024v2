@@ -7,13 +7,14 @@ document.addEventListener("DOMContentLoaded", function () {
   document.querySelectorAll(".delete-button").forEach(function (button) {
     button.addEventListener("click", function (event) {
       event.preventDefault();
-      const teamId = this.getAttribute("data-team-id");
-      const playerId = this.getAttribute("data-player-id");
+      // const teamId = this.getAttribute("data-team-id");
+      // const playerId = this.getAttribute("data-player-id");
+      const actionUrl = this.getAttribute("data-action-url");
 
       modal.classList.add("open");
 
       confirmButton.onclick = function () {
-        window.location.href = `${teamId}/remove/${playerId}`;
+        window.location.href = actionUrl;
       };
 
       closeButton.onclick = cancelButton.onclick = function () {

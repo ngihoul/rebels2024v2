@@ -235,11 +235,18 @@ class TeamController extends AbstractController
     #[IsGranted('ROLE_COACH')]
     public function removeUserFromTeam(Request $request): Response
     {
+        $teamId = $request->get('teamId');
+        $userId = $request->get('userId');
+        $token = $request->query->get('_token');
+
+        if (!$this->isCsrfTokenValid('delete_player' . $userId, $token)) {
+            $this->addFlash('error', $this->translator->trans('error.invalid_csrf_token'));
+            return $this->redirectToRoute('app_team_detail', ['teamId' => $teamId]);
+        }
+
         try {
-            $teamId = $request->get('teamId');
             $team = $this->findTeam($teamId);
 
-            $userId = $request->get('userId');
             $user = $this->userRepository->find($userId);
             if (!$user) {
                 throw new EntityNotFoundException($this->translator->trans('error.team.user_not_found'));
@@ -261,6 +268,7 @@ class TeamController extends AbstractController
 
         return $this->redirectToRoute('app_team_detail', ['teamId' => $team->getId()]);
     }
+
 
     // Delete a team
     #[Route('/team/{teamId}/delete', name: 'app_team_delete')]
