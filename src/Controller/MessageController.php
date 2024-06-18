@@ -174,7 +174,7 @@ class MessageController extends AbstractController
     // Archive an existing message
     #[Route('/archive/{messageId}', name: 'app_message_archive')]
     #[IsGranted('ROLE_COACH')]
-    public function archive(Request $request, $messageId): Response
+    public function archive(Request $request, string $messageId): Response
     {
         try {
             $message = $this->findMessage($messageId);

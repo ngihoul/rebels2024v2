@@ -89,6 +89,7 @@ modal:
     add: "Etes-vous sûr de vouloir retirer ce joueur de cette équipe ?"
   team: "Etes-vous sûr de vouloir supprimer cette équipe ?"
   event: "Etes-vous sûr de vouloir annuler cet évènement ?"
+  message: "Etes-vous sûr de vouloir archiver ce message ?"
 
 # Pages
 homepage:
