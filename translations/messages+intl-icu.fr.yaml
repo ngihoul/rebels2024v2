@@ -52,7 +52,7 @@ success:
   team:
     update: "L'équipe a été mise à jour."
     player_added: "Le joueur {firstname} {lastname} a été ajouté à l'équipe {teamName}."
-    player_remove: "Le joueur {firstname} {lastname} a été supprimé à l'équipe {teamName}."
+    player_remove: "Le joueur {firstname} {lastname} a été supprimé de l'équipe {teamName}."
     delete: "L'équipe a été supprimée."
   message:
     created: "Le message a été créé."
