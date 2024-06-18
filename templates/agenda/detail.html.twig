@@ -4,6 +4,10 @@
 
 {% block body %}
 <div class="container container-detail-event">
+
+    {# Confirmation modal when deleting an event #}
+    {% include 'shared/modal_confirmation.html.twig' with { 'message' : "modal.event"|trans } %}
+
     <h1>
         {% if event.isCancelled %}
         <span class="cancelled-label">[{{ 'agenda.cancelled'|trans }}] </span>
@@ -87,8 +91,13 @@
     {% if ( is_granted('ROLE_ADMIN') or is_granted('ROLE_COACH') ) and event.isCancelled == false %}
     <div class="admin">
         <a class="btn" href="{{ path('app_agenda_update', { 'id' : event.id }) }}">{{ "agenda.edit"|trans }}</a>
-        <a class="btn btn-danger" href="{{ path('app_agenda_delete', { 'id' : event.id }) }}">{{ "agenda.delete"|trans }}</a>
+        <a class="btn btn-danger delete-button" data-action-url="{{ path('app_agenda_delete', { 'id' : event.id, '_token': csrf_token('delete_event' ~ event.id)}) }}">{{ "agenda.delete"|trans }}</a>
     </div>           
     {% endif %}
 </div>
+
+{% block javascript %}
+    {{ encore_entry_script_tags('modalConfirmation') }}
+{% endblock %}
+
 {% endblock %}
