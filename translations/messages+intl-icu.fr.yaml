@@ -151,6 +151,10 @@ team:
     title: "Equipe"
     name: "Nom"
     role: "Rôle"
+    player_M: "Joueur"
+    player_F: "Joueuse"
+    assistant_M: "Assistant"
+    assistant_F: "Assistante"
   create:
     title: "Créer une équipe"
   update:

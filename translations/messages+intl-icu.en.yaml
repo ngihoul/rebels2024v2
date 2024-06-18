@@ -147,6 +147,10 @@ team:
     title: "Team"
     name: "Name"
     role: "Role"
+    player_M: "Player"
+    player_F: "Player"
+    assistant_M: "Assistant"
+    assistant_F: "Assistant"
   create:
     title: "Create a team"
   update:
