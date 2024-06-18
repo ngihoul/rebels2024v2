@@ -237,6 +237,8 @@ class TeamController extends AbstractController
     {
         $teamId = $request->get('teamId');
         $userId = $request->get('userId');
+
+        // CSRF protection as the action URL is in clear in html
         $token = $request->query->get('_token');
 
         if (!$this->isCsrfTokenValid('delete_player' . $userId, $token)) {
@@ -277,6 +279,8 @@ class TeamController extends AbstractController
     {
         $teamId = $request->get('teamId');
         $team = $this->findTeam($teamId);
+
+        // CSRF protection as the action URL is in clear in html
         $token = $request->query->get('_token');
 
         if (!$this->isCsrfTokenValid('delete_team' . $teamId, $token)) {
