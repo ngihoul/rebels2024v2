@@ -4,6 +4,10 @@
 
 {% block body %}
 <div class="container container-agenda">
+
+    {# Confirmation modal when deleting player from team #}
+    {% include 'shared/modal_confirmation.html.twig' with { 'message' : "modal.event"|trans } %}
+
     <div class="heading-container">
         <h1>{{ "agenda.title"|trans }}</h1>
         {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_COACH') %}
@@ -72,7 +76,7 @@
                 <div class="admin-btn">
                     <a class="btn btn-invite" href="{{ path('app_agenda_invitation', { 'id' : futureEvent.id } ) }}">{{ "agenda.invite"|trans }}</a>
                     <a class="icon icon-edit" href="{{ path('app_agenda_update', { 'id' : futureEvent.id }) }}"><i class="fa-regular fa-pen-to-square"></i></a>
-                    <a class="icon icon-delete" href="{{ path('app_agenda_delete', { 'id' : futureEvent.id }) }}"><i class="fa-solid fa-trash"></i></a>
+                    <a class="icon icon-delete delete-button" data-action-url="{{ path('app_agenda_delete', { 'id' : futureEvent.id, '_token': csrf_token('delete_event' ~ futureEvent.id)}) }}"><i class="fa-solid fa-trash"></i></a>
                 </div>
                 {% endif %}
 
@@ -86,4 +90,9 @@
     <p class="alert alert-warning">{{ "agenda.no_event"|trans }}</p>
     {% endif %}
 </div>
+
+{% block javascript %}
+    {{ encore_entry_script_tags('modalConfirmation') }}
+{% endblock %}
+
 {% endblock %}

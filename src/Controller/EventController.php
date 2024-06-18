@@ -329,6 +329,16 @@ class EventController extends AbstractController
     #[IsGranted('ROLE_COACH')]
     public function delete(Request $request, EmailManager $emailManager, Event $event): Response
     {
+        // CSRF protection as the action URL is in clear in html
+        $token = $request->query->get('_token');
+
+        if (!$this->isCsrfTokenValid('delete_event' . $event->getId(), $token)) {
+            $this->addFlash('error', $this->translator->trans('error.invalid_csrf_token'));
+
+            $route = $request->headers->get('referer');
+            return $this->redirect($route);
+        }
+
         try {
             // Cancel (status change) the event if players already invited. If no, delete (from db) the event
             if (!$event->getAttendees()->isEmpty()) {
