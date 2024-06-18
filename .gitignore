@@ -4,6 +4,7 @@
 /.env.local.php
 /.env.*.local
 /config/secrets/prod/prod.decrypt.private.php
+/licenses/
 /public/bundles/
 /public/uploads/
 /public/licenses/download/

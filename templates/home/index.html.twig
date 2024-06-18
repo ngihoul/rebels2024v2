@@ -27,7 +27,7 @@
                 </li>
                 {% elseif pendingLicense.status == 1 %}
                 <li>
-                    <a href="{{ path('app_license_download', { 'licenseId' : pendingLicense.id }) }}">{{ "homepage.download_license"|trans }}</a>
+                    <a href="{{ path('app_license_generate', { 'licenseId' : pendingLicense.id }) }}">{{ "homepage.download_license"|trans }}</a>
                 </li>
                 {% elseif pendingLicense.status == 2 %}
                 <li>

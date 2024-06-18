@@ -16,11 +16,14 @@ use Exception;
 use Stripe\Checkout\Session;
 use Stripe\Stripe;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -108,9 +111,9 @@ class LicenseController extends AbstractController
     }
 
     // Generate the licence request document and download it
-    #[Route('/download/{licenseId}', name: 'app_license_download')]
+    #[Route('/generate/{licenseId}', name: 'app_license_generate')]
     #[IsGranted('ROLE_USER')]
-    public function download(Request $request, ServiceLicensePDFGenerator $pdfGenerator): Response
+    public function generate(Request $request, ServiceLicensePDFGenerator $pdfGenerator): Response
     {
         try {
             // We generate the document each time this route is called because the profile data can be updated between steps
@@ -142,6 +145,37 @@ class LicenseController extends AbstractController
             return $this->redirectToRoute('app_license');
         } catch (FileException $e) {
             $this->addFlash('error', $this->translator->trans('error.license.file_not_found', ['message' => $e->getMessage()]));
+            return $this->redirectToRoute('app_license');
+        }
+    }
+
+    // Download licence request
+    #[Route('/download/{licenseId}', name: 'app_license_download')]
+    public function download(Request $request, string $licenseId)
+    {
+        try {
+            $licenseId = $request->get('licenseId');
+            $license = $this->findLicense($licenseId);
+
+            if (!$this->isGranted('ROLE_ADMIN') && $this->getUser() !== $license->getUser()) {
+                $this->addFlash('error', 'Vous n\'avez pas accès à ce fichier');
+                return $this->redirectToRoute('app_license');
+            }
+
+            $absolutePath = $this->getParameter('kernel.project_dir') . '/licenses/download/' . $license->getDemandFile();
+
+            $response = new BinaryFileResponse($absolutePath);
+
+            $disposition = HeaderUtils::makeDisposition(
+                HeaderUtils::DISPOSITION_ATTACHMENT,
+                $license->getDemandFile()
+            );
+
+            $response->headers->set('Content-Disposition', $disposition);
+
+            return $response;
+        } catch (Exception $e) {
+            $this->addFlash('error', $e->getMessage());
             return $this->redirectToRoute('app_license');
         }
     }
@@ -259,8 +293,14 @@ class LicenseController extends AbstractController
     private function findLicense(string $licenseId)
     {
         $license = $this->licenseRepository->find($licenseId);
-        if (!$license || $license->getUser() !== $this->getUser()) {
+
+        if (!$license) {
             throw new EntityNotFoundException($this->translator->trans('error.license.not_found'));
+        }
+
+        // Vérification si l'utilisateur est autorisé à accéder à la licence
+        if (!$this->isGranted('ROLE_ADMIN') && $license->getUser() !== $this->getUser()) {
+            throw new AccessDeniedException('Vous n\'êtes pas autorisé à accéder à cette licence.');
         }
 
         return $license;

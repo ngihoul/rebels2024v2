@@ -32,7 +32,7 @@ services:
   App\Service\LicensePDFGenerator:
     arguments:
       $pdfPath: "%kernel.project_dir%/public/licenses/source/"
-      $outputPath: "%kernel.project_dir%/public/licenses/download/"
+      $outputPath: "%kernel.project_dir%/licenses/download/"
 
   App\Service\ProfilePictureManager:
     arguments:

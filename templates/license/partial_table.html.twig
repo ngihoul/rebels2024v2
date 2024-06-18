@@ -33,8 +33,8 @@
             {% if include_actions %}
                 <td class="table-data-actions">
                     {% if license.status < 3 %}
-                        <a href="{{ path('app_license_download', {'licenseId': license.id}) }}"><i class="fa-regular fa-pen-to-square icon"></i></a>
-                        {# <a href="{{ path('app_license_download', {'idLicense': license.id}) }}"><i class="fas fa-trash icon"></i></a> #}
+                        <a href="{{ path('app_license_generate', {'licenseId': license.id}) }}"><i class="fa-regular fa-pen-to-square icon"></i></a>
+                        {# <a href="{{ path('app_license_generate', {'idLicense': license.id}) }}"><i class="fas fa-trash icon"></i></a> #}
                     {% elseif license.status == 3 %}
                         <i class="fa-regular fa-hourglass icon" title="{{ "license.index.pending_validation"|trans }}"></i>
                     {% elseif license.status == 4 %}
