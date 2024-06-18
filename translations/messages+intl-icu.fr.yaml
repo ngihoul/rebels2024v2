@@ -78,6 +78,15 @@ nav:
   my_messages: "Mes messages"
   log_off: "Se déconnecter"
 
+# Modals
+modal:
+  title: "Etes-vous sûr ?"
+  btn:
+    delete: "Supprimer"
+    cancel: "Annuler"
+  player:
+    add: "Etes-vous sur de vouloir retirer ce joueur de cette équipe ?"
+
 # Pages
 homepage:
   title: "Se connecter"

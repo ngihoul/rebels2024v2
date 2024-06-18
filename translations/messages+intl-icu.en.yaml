@@ -78,6 +78,15 @@ nav:
   my_messages: "My messages"
   log_off: "Log off"
 
+# Modals
+modal:
+  title: "Are you sure?"
+  btn:
+    delete: "Delete"
+    cancel: "Cancel"
+  player:
+    add: "Are you sure you want to take this player off the team?"
+
 # Pages
 homepage:
   title: "Login"

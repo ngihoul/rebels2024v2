@@ -4,6 +4,10 @@
 
 {% block body %}
 <div class="container container-team-detail">
+
+    {# Confirmation modal when deleting player from team #}
+    {% include 'shared/modal_confirmation.html.twig' with { 'message' : "modal.player.add"|trans } %}
+
     <h1>{{ "team.detail.title"|trans }} {{ team.name }}</h1>
     {{ parent() }}
 
@@ -55,7 +59,7 @@
                 <td>Joueur</td>
                 {% if is_granted('ROLE_COACH') %}
                 <td class="action-remove">
-                    <a href="{{ path('app_team_remove', { 'teamId': team.id, 'userId': player.id }) }}"><i class="fa-solid fa-trash icon icon-trash disagree"></i></a>
+                    <a class="delete-button" data-team-id="{{ team.id }}" data-player-id="{{ player.id }}"><i class="fa-solid fa-trash icon icon-trash disagree"></i></a>
                 </td>
                 {% endif %}
             </tr>
@@ -63,4 +67,9 @@
         
     </table>
 </div>
+
+{% block javascript %}
+    {{ encore_entry_script_tags('modalConfirmation') }}
+{% endblock %}
+
 {% endblock %}
