@@ -87,6 +87,7 @@ modal:
     cancel: "Cancel"
   player:
     add: "Are you sure you want to take this player off the team?"
+  team: "Are you sure you want to delete this team?"
 
 # Pages
 homepage:

@@ -277,6 +277,12 @@ class TeamController extends AbstractController
     {
         $teamId = $request->get('teamId');
         $team = $this->findTeam($teamId);
+        $token = $request->query->get('_token');
+
+        if (!$this->isCsrfTokenValid('delete_team' . $teamId, $token)) {
+            $this->addFlash('error', $this->translator->trans('error.invalid_csrf_token'));
+            return $this->redirectToRoute('app_teams');
+        }
 
         try {
             // Delete Roles for coach & assistant

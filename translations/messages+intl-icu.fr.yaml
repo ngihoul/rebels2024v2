@@ -86,7 +86,8 @@ modal:
     delete: "Supprimer"
     cancel: "Annuler"
   player:
-    add: "Etes-vous sur de vouloir retirer ce joueur de cette équipe ?"
+    add: "Etes-vous sûr de vouloir retirer ce joueur de cette équipe ?"
+  team: "Etes-vous sûr de vouloir supprimer cette équipe ?"
 
 # Pages
 homepage:
