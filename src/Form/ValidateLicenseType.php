@@ -16,7 +16,8 @@ class ValidateLicenseType extends AbstractType
         $builder
             ->add('price', NumberType::class, [
                 'label' => ' ',
-                'required' => false
+                'required' => false,
+                'html5' => true
             ])
             ->add('comment', TextareaType::class, [
                 'label' => ' ',
