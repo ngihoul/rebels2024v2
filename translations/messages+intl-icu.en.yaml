@@ -85,6 +85,7 @@ modal:
   btn:
     delete: "Delete"
     cancel: "Cancel"
+    archive: "Archive"
   player:
     add: "Are you sure you want to take this player off the team?"
   team: "Are you sure you want to delete this team?"

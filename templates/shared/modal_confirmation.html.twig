@@ -4,7 +4,7 @@
         <h2 id="modal-title">{{ "modal.title"|trans }}</h2>
         <p id="modal-text">{{ message }}</p>
         <div class="button-container">
-            <button id="confirm-button" class="btn btn-danger">{{ "modal.btn.delete"|trans }}</button>
+            <button id="confirm-button" class="btn btn-danger">{{ confirmButtonText|default('modal.btn.delete'|trans) }}</button>
             <button id="cancel-button" class="btn">{{ "modal.btn.cancel"|trans }}</button>
         </div>
     </div>

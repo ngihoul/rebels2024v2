@@ -36,5 +36,17 @@
       font-size: 1.1rem;
       line-height: 1.5rem;
     }
+
+    .actions {
+      display: flex;
+
+      .btn {
+        width: 50%;
+      }
+
+      .btn-modify {
+        margin-right: 0.8rem;
+      }
+    }
   }
 }
