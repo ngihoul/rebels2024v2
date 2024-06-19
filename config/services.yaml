@@ -9,6 +9,7 @@ parameters:
   uploaded_licenses_directory: "%kernel.project_dir%/var/licenses/upload/"
   downloaded_licenses_directory: "%kernel.project_dir%/var/licenses/demand/"
   env(PICTURES_DIRECTORY): ""
+  env(LICENSES_DOWNLOAD_DIRECTORY): ""
   env(LOGO_TEAMS_DIRECTORY): ""
 
   locale: fr
