@@ -35,6 +35,7 @@ Encore
   .addEntry("eventForm", "./assets/js/eventForm.js")
   .addEntry("registerPassword", "./assets/js/registerPassword.js")
   .addEntry("modalConfirmation", "./assets/js/modalConfirmation.js")
+  .addEntry("autoCompletionAddPlayer", "./assets/js/autoCompletionAddPlayer.js")
 
   // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
   .splitEntryChunks()
