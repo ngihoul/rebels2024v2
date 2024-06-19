@@ -1,0 +1,35 @@
+#user-autocomplete {
+  margin-bottom: 0;
+}
+
+#autocomplete-list {
+  display: none;
+
+  &.active {
+    display: block;
+  }
+}
+
+.autocomplete-results {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  border: 1px solid #fff;
+  background-color: #fff;
+  z-index: 1000;
+  width: 100%;
+
+  li {
+    padding: 0.8rem 1.2rem;
+    margin: 0;
+    border-radius: 0;
+    background-color: #fff;
+    color: $color-text;
+    border: none;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $color-bg-disabled;
+    }
+  }
+}

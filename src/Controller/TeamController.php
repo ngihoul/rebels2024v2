@@ -13,6 +13,7 @@ use Doctrine\ORM\EntityNotFoundException;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -289,6 +290,27 @@ class TeamController extends AbstractController
 
         $route = $request->headers->get('referer');
         return $this->redirect($route);
+    }
+
+    // API for autocompletion in "Add player to team"
+    #[Route('/search_player', name: 'app_search_player')]
+    public function search(Request $request, UserRepository $userRepository): JsonResponse
+    {
+        $query = $request->query->get('q');
+        $users = $userRepository->findByNameOrLastName($query);
+
+        $results = [];
+        foreach ($users as $user) {
+            $results[] = [
+                'id' => $user->getId(),
+                'lastname' => $user->getLastName(),
+                'firstname' => $user->getFirstname(),
+                'gender' => $user->getGender(),
+                'date_of_birth' => $user->getDateOfBirth()
+            ];
+        }
+
+        return new JsonResponse($results);
     }
 
     // Find a team
