@@ -13,7 +13,7 @@
     <div class="section-container">
 
         {# Confirmation modal when archiving a message #}
-        {% include 'shared/modal_confirmation.html.twig' with { 'message' : "modal.message"|trans } %}
+        {% include 'shared/modal_confirmation.html.twig' with { 'message' : "modal.message"|trans, "confirmButtonText" : "modal.btn.archive"|trans } %}
 
         {% if activeLicenses|length == 0 %}
         <h2>To Do list</h2>
