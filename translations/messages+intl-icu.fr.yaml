@@ -15,6 +15,7 @@ error:
     profile_incomplete: "Ton profil est incomplet. Complète d'abord ton profil et ensuite demande une licence."
     already_exist: "Tu as déjà une licence active ou en cours de demande pour cette année. tu ne peux pas en demander une nouvelle."
     file_not_found: "Le fichier n'a pas pu être généré car {message}"
+    not_authorized: "Vous n'êtes pas autorisé à accéder à cette licence."
   team:
     not_found: "L'équipe n'existe pas."
     logo: "Une erreur est survenue lors de l'upload du logo."

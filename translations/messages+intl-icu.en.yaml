@@ -14,7 +14,8 @@ error:
     not_found: "License not found."
     profile_incomplete: "Your profile is incomplete. First complete your profile and then apply for a license."
     already_exist: "You already have an active or pending license for this year. You cannot apply for a new one."
-    file_not_found: "The file could not be generated because {message}"
+    file_not_found: "The file could not be generated because {message}."
+    not_authorized: "You are not authorized to access this license."
   team:
     not_found: "Team not found"
     logo: "An error occurred while uploading the logo."

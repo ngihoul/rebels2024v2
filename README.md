@@ -71,14 +71,23 @@ STRIPE_PUBLIC_KEY=change_me
 STRIPE_SECRET_KEY=change_me
 ```
 
-4. Créez la base de données et exécutez les migrations
+4. Créez les répertoires nécessaires
+
+Avant d'utiliser le projet, assurez-vous de créer les répertoires suivants :
+
+```bash
+sudo mkdir -p /var/licenses/demand
+sudo mkdir -p /var/licenses/upload
+```
+
+5. Créez la base de données et exécutez les migrations
 
 ```bash
 php bin/console doctrine:database:create
 php bin/console doctrine:migrations:migrate
 ```
 
-5. Importez les données de base
+6. Importez les données de base
    Ou importer les fichiers dans l'odre via [phpMyAdmin](http://localhost/phpmyadmin)
 
 ```bash
@@ -90,7 +99,7 @@ mysql -u votre_utilisateur -p votre_base_de_donnees < /chemin/vers/votre_projet/
 mysql -u votre_utilisateur -p votre_base_de_donnees < /chemin/vers/votre_projet/db/user.sql
 ```
 
-6. Installez les assets
+7. Installez les assets
 
 ```bash
 php bin/console assets:install

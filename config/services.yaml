@@ -6,9 +6,9 @@
 parameters:
   pictures_directory: "%kernel.project_dir%/public/uploads/user_pictures"
   logos_directory: "%kernel.project_dir%/public/uploads/logo_teams"
-  uploaded_licenses_directory: "%kernel.project_dir%/public/uploads/licenses"
+  uploaded_licenses_directory: "%kernel.project_dir%/var/licenses/upload/"
+  downloaded_licenses_directory: "%kernel.project_dir%/var/licenses/demand/"
   env(PICTURES_DIRECTORY): ""
-  env(LICENSES_DOWNLOAD_DIRECTORY): ""
   env(LOGO_TEAMS_DIRECTORY): ""
 
   locale: fr
@@ -32,7 +32,7 @@ services:
   App\Service\LicensePDFGenerator:
     arguments:
       $pdfPath: "%kernel.project_dir%/public/licenses/source/"
-      $outputPath: "%kernel.project_dir%/licenses/download/"
+      $outputPath: "%kernel.project_dir%/var/licenses/demand/"
 
   App\Service\ProfilePictureManager:
     arguments:

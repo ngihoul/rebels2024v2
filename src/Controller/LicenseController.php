@@ -150,7 +150,7 @@ class LicenseController extends AbstractController
     }
 
     // Download licence request
-    #[Route('/download/{licenseId}', name: 'app_license_download')]
+    #[Route('/download/{licenseId}/{type}', name: 'app_license_download')]
     public function download(Request $request, string $licenseId)
     {
         try {
@@ -162,7 +162,12 @@ class LicenseController extends AbstractController
                 return $this->redirectToRoute('app_license');
             }
 
-            $absolutePath = $this->getParameter('kernel.project_dir') . '/licenses/download/' . $license->getDemandFile();
+            $typeDoc = $request->get('type');
+            if ($typeDoc == 'demand') {
+                $absolutePath = $this->getParameter('downloaded_licenses_directory') . $license->getDemandFile();
+            } else if ($typeDoc == 'upload') {
+                $absolutePath = $this->getParameter('uploaded_licenses_directory') . $license->getUploadedFile();
+            }
 
             $response = new BinaryFileResponse($absolutePath);
 
@@ -298,9 +303,9 @@ class LicenseController extends AbstractController
             throw new EntityNotFoundException($this->translator->trans('error.license.not_found'));
         }
 
-        // Vérification si l'utilisateur est autorisé à accéder à la licence
+        // Check if the user is authorized to access the license
         if (!$this->isGranted('ROLE_ADMIN') && $license->getUser() !== $this->getUser()) {
-            throw new AccessDeniedException('Vous n\'êtes pas autorisé à accéder à cette licence.');
+            throw new AccessDeniedException($this->translator->trans('error.license.not_authorized'));
         }
 
         return $license;
