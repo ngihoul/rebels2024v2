@@ -11,6 +11,10 @@
     {{ parent() }}
 
     <div class="section-container">
+
+        {# Confirmation modal when archiving a message #}
+        {% include 'shared/modal_confirmation.html.twig' with { 'message' : "modal.message"|trans } %}
+
         {% if activeLicenses|length == 0 %}
         <h2>To Do list</h2>
         <div class="card to-do-list">
@@ -145,7 +149,7 @@
                     {% if not message.0.isArchived and is_granted('ROLE_ADMIN') %}
                     <div class="actions">
                         <a href="{{ path('app_message_update', { 'messageId' : message.0.id }) }}" class="btn">{{ 'message.index.btn.modify'|trans }}</a>
-                        <a href="{{ path('app_message_archive', { 'messageId' : message.0.id }) }}" class="btn btn-danger">{{ 'message.index.btn.archive'|trans }}</a>
+                        <a data-action-url=" {{ path('app_message_archive', { 'messageId' : message.0.id }) }}" class="btn btn-danger delete-button">{{ 'message.index.btn.archive'|trans }}</a>
                     </div>
                     {% endif %}
             </div>
@@ -156,4 +160,9 @@
         {% endif %}
     </div>
 </div>
+
+{% block javascript %}
+    {{ encore_entry_script_tags('modalConfirmation') }}
+{% endblock %}
+
 {% endblock %}
