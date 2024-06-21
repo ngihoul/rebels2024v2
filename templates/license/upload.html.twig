@@ -9,9 +9,13 @@
         <h1>{{ "license.upload.title"|trans }}</h1>
         
         {{ form_start(form) }}
+
+        {{ form_errors(form) }}
         
         <h2>{{ "license.upload.add.title"|trans }}</h2>
+        {{ form_errors(form.uploaded_file) }}
         {{ form_widget(form.uploaded_file) }}
+        
 
         <h2>{{ "license.upload.validation.title"|trans }}</h2>
 
