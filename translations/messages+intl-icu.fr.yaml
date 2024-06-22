@@ -186,7 +186,7 @@ agenda:
   attendees: "Participants"
   attendee: "participant"
   awaiting: "en attente"
-  unavailable: "Indisponible"
+  unavailable: "Indisponibles"
   meeting_at: "Rendez-vous à"
   practical_info: "Informations pratiques"
   starts_at: "Commence à"

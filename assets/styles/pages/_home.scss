@@ -1,18 +1,20 @@
-.section-container {
-  margin-bottom: 1.6rem;
-}
-
-h2 {
-  &:not(:first-child) {
-    margin-top: 2.4rem;
+.container-home {
+  .section-container {
+    margin-bottom: 1.6rem;
   }
-}
 
-.to-do-list ul li {
-  margin: 0.8rem 0;
-}
+  h2 {
+    &:not(:first-of-type) {
+      margin-top: 2.4rem;
+    }
+  }
 
-.card-content ul li {
-  list-style-type: disc;
-  margin: 0.8rem 1.8rem;
+  .to-do-list ul li {
+    margin: 0.8rem 0;
+  }
+
+  .card-content ul li {
+    list-style-type: disc;
+    margin: 0.8rem 1.8rem;
+  }
 }
