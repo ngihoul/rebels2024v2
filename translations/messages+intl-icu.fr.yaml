@@ -1,396 +1,448 @@
 # Flash messages
 error:
-  already_logged: "Tu es déjà connecté."
-  profile_not_found: "Le profil demandé n'a pas été trouvé."
-  email_validation: "Un problème est survenu lors de la validation."
-  reset_password:
-    no_token: "Aucun jeton de réinitialisation du mot de passe n'a été trouvé dans l'URL ou dans la session."
-  event:
-    creation: "Une erreur s'est produite lors de la création de l'événement."
-    not_found: "L'évèment n'existe pas."
-    response: "Une erreur s'est produite lors du traitement de la réponse à l'invitation."
-  invitation_not_found: "L'invitation à l'évènement n'a pas été trouvée."
-  license:
-    not_found: "La license n'existe pas."
-    profile_incomplete: "Ton profil est incomplet. Complète d'abord ton profil et ensuite demande une licence."
-    already_exist: "Tu as déjà une licence active ou en cours de demande pour cette année. tu ne peux pas en demander une nouvelle."
-    file_not_found: "Le fichier n'a pas pu être généré car {message}"
-    not_authorized: "Vous n'êtes pas autorisé à accéder à cette licence."
-  team:
-    not_found: "L'équipe n'existe pas."
-    logo: "Une erreur est survenue lors de l'upload du logo."
-    player_added: "Le joueur n'a pas pu être ajouté."
-    user_not_found: "L'utilisateur n'existe pas."
-  verify_email:
-    not_verified: "Ton compte n'a pas encore été verifié. Un nouveau mail de confirmation t'a été envoyé."
-    banned: "Tu es banni. Tu ne peux donc plus utiliser ce site !"
-  file:
-    not_valid: "Le fichier n'est pas une image valide."
-  message:
-    not_found: "Le message n'existe pas."
-  place:
-    already_exist: "Un lieu avec le même nom de rue et le même code postal existe déjà."
-    not_found: "Le lieu n'existe pas."
-  page:
-    not_found: "Cette page n'existe pas."
-  invalid_csrf_token: "Le jeton CSRF est invalide. Veuillez réessayer."
+    already_logged: 'Tu es déjà connecté.'
+    profile_not_found: "Le profil demandé n'a pas été trouvé."
+    email_validation: 'Un problème est survenu lors de la validation.'
+    reset_password:
+        no_token:
+            "Aucun jeton de réinitialisation du mot de passe n'a été trouvé dans
+            l'URL ou dans la session."
+    event:
+        creation:
+            "Une erreur s'est produite lors de la création de l'événement."
+        not_found: "L'évèment n'existe pas."
+        response:
+            "Une erreur s'est produite lors du traitement de la réponse à
+            l'invitation."
+    invitation_not_found: "L'invitation à l'évènement n'a pas été trouvée."
+    license:
+        not_found: "La license n'existe pas."
+        profile_incomplete:
+            "Ton profil est incomplet. Complète d'abord ton profil et ensuite
+            demande une licence."
+        already_exist:
+            'Tu as déjà une licence active ou en cours de demande pour cette
+            année. tu ne peux pas en demander une nouvelle.'
+        file_not_found: "Le fichier n'a pas pu être généré car {message}"
+        not_authorized: "Vous n'êtes pas autorisé à accéder à cette licence."
+    team:
+        not_found: "L'équipe n'existe pas."
+        logo: "Une erreur est survenue lors de l'upload du logo."
+        player_added: "Le joueur n'a pas pu être ajouté."
+        user_not_found: "L'utilisateur n'existe pas."
+    verify_email:
+        not_verified:
+            "Ton compte n'a pas encore été verifié. Un nouveau mail de
+            confirmation t'a été envoyé."
+        banned: 'Tu es banni. Tu ne peux donc plus utiliser ce site !'
+    file:
+        not_valid: "Le fichier n'est pas une image valide."
+    message:
+        not_found: "Le message n'existe pas."
+    place:
+        already_exist:
+            'Un lieu avec le même nom de rue et le même code postal existe déjà.'
+        not_found: "Le lieu n'existe pas."
+    page:
+        not_found: "Cette page n'existe pas."
+    invalid_csrf_token: 'Le jeton CSRF est invalide. Veuillez réessayer.'
 
 success:
-  profile_updated: "Votre profil a été mis à jour."
-  account_created: "Ton compte a bien été créé. Merci de confirmer ton adresse mail en consultant ta boîte mail."
-  email_verified: "Ton adresse email a été vérifiée."
-  team_created: "L'équipe a été créée."
-  password_changed: "Ton mot de passe a été mis à jour."
-  event:
-    created: "L'évènement a été créé."
-    accept: "Tu es bien inscrit à l'évènement {name}"
-    decline: "Tu as refusé de participer à l'évènement {name}"
-    delete: "L'évènement a bien été supprimé."
-    update: "L'évènement a bien été modifié."
-    cancelled: "L'évènement a bien été annulé."
-  license:
-    sent: "Ta licence a été envoyée avec succès. Un administrateur vérifiera le document et validera ta demande."
-    no_file_uploaded: "Aucun fichier uploadé"
-  team:
-    update: "L'équipe a été mise à jour."
-    player_added: "Le joueur {firstname} {lastname} a été ajouté à l'équipe {teamName}."
-    player_remove: "Le joueur {firstname} {lastname} a été supprimé de l'équipe {teamName}."
-    delete: "L'équipe a été supprimée."
-  message:
-    created: "Le message a été créé."
-    updated: "Le message a été mis à jour."
-  place:
-    created: "Le lieu a été créé."
-    updated: "Le lieu a été mis à jour."
+    profile_updated: 'Votre profil a été mis à jour.'
+    account_created:
+        'Ton compte a bien été créé. Merci de confirmer ton adresse mail en
+        consultant ta boîte mail.'
+    email_verified: 'Ton adresse email a été vérifiée.'
+    team_created: "L'équipe a été créée."
+    password_changed: 'Ton mot de passe a été mis à jour.'
+    event:
+        created: "L'évènement a été créé."
+        accept: "Tu es bien inscrit à l'évènement {name}"
+        decline: "Tu as refusé de participer à l'évènement {name}"
+        delete: "L'évènement a bien été supprimé."
+        update: "L'évènement a bien été modifié."
+        cancelled: "L'évènement a bien été annulé."
+    license:
+        sent:
+            'Ta licence a été envoyée avec succès. Un administrateur vérifiera
+            le document et validera ta demande.'
+        no_file_uploaded: 'Aucun fichier uploadé'
+    team:
+        update: "L'équipe a été mise à jour."
+        player_added:
+            "Le joueur {firstname} {lastname} a été ajouté à l'équipe
+            {teamName}."
+        player_remove:
+            "Le joueur {firstname} {lastname} a été supprimé de l'équipe
+            {teamName}."
+        delete: "L'équipe a été supprimée."
+    message:
+        created: 'Le message a été créé.'
+        updated: 'Le message a été mis à jour.'
+    place:
+        created: 'Le lieu a été créé.'
+        updated: 'Le lieu a été mis à jour.'
 
 # Header
 header:
-  log_off: "Se déconnecter"
+    log_off: 'Se déconnecter'
 
 # Navbar
 nav:
-  my_members: "Mes membres"
-  my_agenda: "Mon agenda"
-  my_licenses: "Mes licences"
-  to_validate: "A valider"
-  statistics: "Mes stats"
-  my_profile: "Mon profil"
-  my_teams: "Mes équipes"
-  my_places: "Mes lieux"
-  my_messages: "Mes messages"
-  log_off: "Se déconnecter"
+    my_members: 'Mes membres'
+    my_agenda: 'Mon agenda'
+    my_licenses: 'Mes licences'
+    to_validate: 'A valider'
+    statistics: 'Mes stats'
+    my_profile: 'Mon profil'
+    my_teams: 'Mes équipes'
+    my_places: 'Mes lieux'
+    my_messages: 'Mes messages'
+    log_off: 'Se déconnecter'
 
 # Modals
 modal:
-  title: "Etes-vous sûr ?"
-  btn:
-    delete: "Supprimer"
-    cancel: "Annuler"
-    archive: "Archiver"
-  player:
-    add: "Etes-vous sûr de vouloir retirer ce joueur de cette équipe ?"
-  team: "Etes-vous sûr de vouloir supprimer cette équipe ?"
-  event: "Etes-vous sûr de vouloir annuler cet évènement ?"
-  message: "Etes-vous sûr de vouloir archiver ce message ?"
+    title: 'Etes-vous sûr ?'
+    btn:
+        delete: 'Supprimer'
+        cancel: 'Annuler'
+        archive: 'Archiver'
+    player:
+        add: 'Etes-vous sûr de vouloir retirer ce joueur de cette équipe ?'
+    team: 'Etes-vous sûr de vouloir supprimer cette équipe ?'
+    event: 'Etes-vous sûr de vouloir annuler cet évènement ?'
+    message: 'Etes-vous sûr de vouloir archiver ce message ?'
 
 # Pages
 homepage:
-  title: "Se connecter"
-  next_event: "Prochains évènements"
-  fill_in_profile: "Complète ton profil"
-  ask_license: "Demande une licence"
-  download_license: "Télécharge ta demande de license"
-  send_back_license: "Renvoie-nous ta demande complétée et signée"
-  license_to_validate: "Un administrateur va bientôt valider ta licence"
-  pay_license: "Dernière étape : paye ta licence"
-  last_messages: "Derniers messages"
-  read_messages: "Lis tes messages"
+    title: 'Se connecter'
+    next_event: 'Prochains évènements'
+    fill_in_profile: 'Complète ton profil'
+    ask_license: 'Demande une licence'
+    download_license: 'Télécharge ta demande de license'
+    send_back_license: 'Renvoie-nous ta demande complétée et signée'
+    license_to_validate: 'Un administrateur va bientôt valider ta licence'
+    pay_license: 'Dernière étape : paye ta licence'
+    last_messages: 'Derniers messages'
+    read_messages: 'Lis tes messages'
 
 # Login
 login:
-  login: "Se connecter"
-  password: "Mot de passe"
-  forgot_password: "Mot de passe oublié ?"
-  not_member: "Pas encore membre ?"
-  signup: "S'inscrire !"
+    login: 'Se connecter'
+    password: 'Mot de passe'
+    forgot_password: 'Mot de passe oublié ?'
+    not_member: 'Pas encore membre ?'
+    signup: "S'inscrire !"
 
 # Register
 register:
-  title: "S'enregistrer"
-  disclaimer:
-    password: >-
-      Le mot de passe doit contenir au moins/et :
-      <ul class="password-specs">
-        <li class="chars">8 caractères</li>
-        <li class="capital">1 majuscule</li>
-        <li class="lower">1 minuscule</li>
-        <li class="special">1 caractère spécial parmi ! ? # @ , . : ;</li>
-        <li class="identical">être identique</li>
-      </ul>
+    title: "S'enregistrer"
+    disclaimer:
+        password: >-
+            Le mot de passe doit contenir au moins/et : <ul
+            class="password-specs">
+              <li class="chars">8 caractères</li>
+              <li class="capital">1 majuscule</li>
+              <li class="lower">1 minuscule</li>
+              <li class="special">1 caractère spécial parmi ! ? # @ , . : ;</li>
+              <li class="identical">être identique</li>
+            </ul>
 
 # profile
 profile:
-  title: "Profil"
-  my_profile: "Mon profil"
-  profile_of: "Profil de "
-  contact_information: "Données de contact"
-  phone: "Téléphone fixe :"
-  mobile: "Mobile :"
-  address: "Adresse"
-  agreements: "Accords"
-  internal_rules: "Règlement d'ordre Intérieur :"
-  privacy_policy: "Politique de confidentialité :"
-  update:
-    title: "Modifier mon profil"
-  picture:
-    disclaimer: "Cette photo sera utilisée pour ta licence auprès de la Ligue Francophone Belge de Baseball et Softball. Utilise donc une photo d'identité ou une photo officielle du club."
+    title: 'Profil'
+    my_profile: 'Mon profil'
+    profile_of: 'Profil de '
+    contact_information: 'Données de contact'
+    phone: 'Téléphone fixe :'
+    mobile: 'Mobile :'
+    address: 'Adresse'
+    agreements: 'Accords'
+    internal_rules: "Règlement d'ordre Intérieur :"
+    privacy_policy: 'Politique de confidentialité :'
+    update:
+        title: 'Modifier mon profil'
+    picture:
+        disclaimer:
+            "Cette photo sera utilisée pour ta licence auprès de la Ligue
+            Francophone Belge de Baseball et Softball. Utilise donc une photo
+            d'identité ou une photo officielle du club."
 
 # Team
 team:
-  title: "Mes équipes"
-  detail:
-    title: "Equipe"
-    name: "Nom"
-    role: "Rôle"
-    player_M: "Joueur"
-    player_F: "Joueuse"
-    assistant_M: "Assistant"
-    assistant_F: "Assistante"
-  create:
-    title: "Créer une équipe"
-  update:
-    title: "Modifier une équipe"
-  all: "Toutes les équipes"
-  player: "Joueur"
-  logo: "Logo de l'équipe"
-  see_members: "Voir les membres"
-  edit: "Modifier"
-  delete: "Supprimer"
-  no_team: "Vous n'avez pas encore d'équipe !"
+    title: 'Mes équipes'
+    detail:
+        title: 'Equipe'
+        name: 'Nom'
+        role: 'Rôle'
+        player_M: 'Joueur'
+        player_F: 'Joueuse'
+        assistant_M: 'Assistant'
+        assistant_F: 'Assistante'
+    create:
+        title: 'Créer une équipe'
+    update:
+        title: 'Modifier une équipe'
+    all: 'Toutes les équipes'
+    player: 'Joueur'
+    logo: "Logo de l'équipe"
+    see_members: 'Voir les membres'
+    edit: 'Modifier'
+    delete: 'Supprimer'
+    no_team: "Vous n'avez pas encore d'équipe !"
 
 # Agenda
 agenda:
-  title: "Mon agenda"
-  create:
-    title: "Créer un événement"
-  update:
-    title: "Modifier un évènement"
-  waiting_reply: "En attente de réponse"
-  accept: "Accepter"
-  decline: "Refuser"
-  next_events: "Prochains évènements"
-  invite: "Inviter"
-  no_event: "Aucun événement à venir."
-  present: "Présent"
-  absent: "Absent"
-  attendees: "Participants"
-  attendee: "participant"
-  awaiting: "en attente"
-  unavailable: "Indisponibles"
-  meeting_at: "Rendez-vous à"
-  practical_info: "Informations pratiques"
-  starts_at: "Commence à"
-  ends_at: "Finit à"
-  description: "Description"
-  edit: "Modifier"
-  delete: "Supprimer"
-  profile_picture_of: "Photo de profil de"
-  invite_to: "Inviter à"
-  teams: "Equipes"
-  players: "Joueurs"
-  no_player_to_invite: "Aucun joueur à inviter."
-  cancelled: "ANNULE"
+    title: 'Mon agenda'
+    create:
+        title: 'Créer un événement'
+    update:
+        title: 'Modifier un évènement'
+    waiting_reply: 'En attente de réponse'
+    accept: 'Accepter'
+    decline: 'Refuser'
+    next_events: 'Prochains évènements'
+    invite: 'Inviter'
+    no_event: 'Aucun événement à venir.'
+    present: 'Présent'
+    absent: 'Absent'
+    attendees: 'Participants'
+    attendee: 'participant'
+    awaiting: 'en attente'
+    unavailable: 'Indisponibles'
+    meeting_at: 'Rendez-vous à'
+    practical_info: 'Informations pratiques'
+    starts_at: 'Commence à'
+    ends_at: 'Finit à'
+    description: 'Description'
+    edit: 'Modifier'
+    delete: 'Supprimer'
+    profile_picture_of: 'Photo de profil de'
+    invite_to: 'Inviter à'
+    teams: 'Equipes'
+    players: 'Joueurs'
+    no_player_to_invite: 'Aucun joueur à inviter.'
+    cancelled: 'ANNULE'
 
 license:
-  status:
-    demanded: "Demandé"
-    document_downloaded: "Document téléchargé"
-    document_received: "Document reçu"
-    document_validated: "Document validé"
-    in_order: "En ordre"
-  index:
-    title: "Mes licences"
-    none_current_year: "Tu n'as pas de licence chez les Rebels pour cette année !"
-    request_btn: "Demande une licence"
-    none: "Tu n'as pas encore de licence chez les Rebels !"
-    request_first: "Demande ta première licence"
-    active: >-
-      {number, plural,
-        =1 {Active}
-        other {Actives}
-      }
-    pending: >-
-      {number, plural,
-        =1 {Demande en attente}
-        other {Demandes en attente}
-      }
-    expired: >-
-      {number, plural, 
-        =1 {Echue}
-        other {Echues}
-      }
-    pay: "Paye ta licence"
-    pending_validation: "En attente de validation"
-  table:
-    season: "Saison"
-    status: "Statut"
-    details: "Détails"
-  request:
-    title: "Demander une licence"
-    text: >-
-      <p>Tu es nouveau, la casquette officielle de notre club est intégrée dans la cotisation.</p>
-      <p>Les U12 et U15 bénéficient également du t-shirt officiel du club.</p>
-      <p>MONTANT DE LA COTISATION (ANNÉE CIVILE) : </br> -18 ANS : 220€ </br>> 19 ans et + : 280€</p>
-      <p>Si tu nous rejoins entre juillet et septembre : le montant est de 160€.</p>
-      <p>Pour le dernier trimestre d’octobre à décembre, il est de 100€.</p>
-      <h2>Tu veux nous rejoindre ? Complète le formulaire ci-dessous !</h2>
-  download:
-    title: "Télécharge ta licence"
-    title_here: "1. Télécharge ta demande de licence ici"
-    btn: "Télécharger"
-    check_data:
-      title: "2. Vérifie les données pré-encodées"
-      text_1: "Si elles ne sont pas correctes :"
-      text_link: "adapte ton profil"
-      text_2: 'et reclique sur le bouton "Télécharger" ci-dessus'
-    complete:
-      title: "3. Complète ta demande"
-      left: "a. Partie gauche"
-      right: "b. Partie droite à faire compléter par ton médecin"
+    status:
+        demanded: 'Demandé'
+        document_downloaded: 'Document téléchargé'
+        document_received: 'Document reçu'
+        document_validated: 'Document validé'
+        in_order: 'En ordre'
+    index:
+        title: 'Mes licences'
+        none_current_year:
+            "Tu n'as pas de licence chez les Rebels pour cette année !"
+        request_btn: 'Demande une licence'
+        none: "Tu n'as pas encore de licence chez les Rebels !"
+        request_first: 'Demande ta première licence'
+        active: >-
+            {number, plural,
+              =1 {Active}
+              other {Actives}
+            }
+        pending: >-
+            {number, plural,
+              =1 {Demande en attente}
+              other {Demandes en attente}
+            }
+        expired: >-
+            {number, plural, 
+              =1 {Echue}
+              other {Echues}
+            }
+        pay: 'Paye ta licence'
+        pending_validation: 'En attente de validation'
+    table:
+        season: 'Saison'
+        status: 'Statut'
+        details: 'Détails'
+    card:
+        price: 'Prix :'
+        price-helper: 'Minimes : 180€ / Cadets : 220€ / Seniors : 280€'
+        tbd: 'A définir'
+        asked: 'Demandée le :'
+        download: 'Télécharge ta licence'
+        upload: 'Renvoie ta licence'
+        pay: 'Paye ta licence'
+    request:
+        title: 'Demander une licence'
+        text: >-
+            <p>Tu es nouveau, la casquette officielle de notre club est intégrée
+            dans la cotisation.</p> <p>Les U12 et U15 bénéficient également du
+            t-shirt officiel du club.</p> <p>MONTANT DE LA COTISATION (ANNÉE
+            CIVILE) : </br> -18 ANS : 220€ </br>> 19 ans et + : 280€</p> <p>Si
+            tu nous rejoins entre juillet et septembre : le montant est de
+            160€.</p> <p>Pour le dernier trimestre d’octobre à décembre, il est
+            de 100€.</p> <h2>Tu veux nous rejoindre ? Complète le formulaire
+            ci-dessous !</h2>
+    download:
+        title: 'Télécharge ta licence'
+        title_here: '1. Télécharge ta demande de licence ici'
+        btn: 'Télécharger'
+        check_data:
+            title: '2. Vérifie les données pré-encodées'
+            text_1: 'Si elles ne sont pas correctes :'
+            text_link: 'adapte ton profil'
+            text_2: 'et reclique sur le bouton "Télécharger" ci-dessus'
+        complete:
+            title: '3. Complète ta demande'
+            left: 'a. Partie gauche'
+            right: 'b. Partie droite à faire compléter par ton médecin'
+        upload:
+            title: '4. Renvoie-nous ta demande ici'
+            btn: 'Renvoyer'
     upload:
-      title: "4. Renvoie-nous ta demande ici"
-      btn: "Renvoyer"
-  upload:
-    title: "Renvoie ta licence"
-    add:
-      title: "1. Ajoute ta licence ici"
+        title: 'Renvoie ta licence'
+        add:
+            title: '1. Ajoute ta licence ici'
+        validation:
+            title: '2. Un administrateur valide ta licence (ou pas)'
+        payment:
+            title: '3. Tu effectues le paiement en ligne'
+            text: >-
+                <p>
+                  Dès la validation de ta licence par un administrateur, tu
+                auras accès au module de paiement en ligne.</br></br>
+                  Pour rappel, tout envoi de licence équivaut pour accord avec
+                le tarif : </br>
+                  MONTANT DE LA COTISATION (ANNÉE CIVILE) : </br> -18 ANS : 220€
+                </br>> 19 ans et + : 280€</br></br>
+                  Si tu nous rejoins entre juillet et septembre : le montant est
+                de 160€.</br>
+                  Pour le dernier trimestre d’octobre à décembre, il est de
+                100€. </p>
+    to_validate:
+        title: >-
+            {number, plural,
+              =0 {License à valider}
+              =1 {Licence à valider}
+              other {Licences à valider}
+            }
+        player: 'Joueur'
+        details: 'Détails'
+        none: 'Aucune licence à valider'
     validation:
-      title: "2. Un administrateur valide ta licence (ou pas)"
-    payment:
-      title: "3. Tu effectues le paiement en ligne"
-      text: >-
-        <p>
-          Dès la validation de ta licence par un administrateur, tu auras accès au module de paiement en ligne.</br></br>
-          Pour rappel, tout envoi de licence équivaut pour accord avec le tarif : </br>
-          MONTANT DE LA COTISATION (ANNÉE CIVILE) : </br> -18 ANS : 220€ </br>> 19 ans et + : 280€</br></br>
-          Si tu nous rejoins entre juillet et septembre : le montant est de 160€.</br>
-          Pour le dernier trimestre d’octobre à décembre, il est de 100€.
-        </p>
-  to_validate:
-    title: >-
-      {number, plural,
-        =0 {License à valider}
-        =1 {Licence à valider}
-        other {Licences à valider}
-      }
-    player: "Joueur"
-    details: "Détails"
-    none: "Aucune licence à valider"
-  validation:
-    page_title: "Validation licence de {firstname} {lastname}"
-    title: "Validation licence"
-    no_document: "Il n'y a pas de document à vérifier. Demande à refuser."
-    check:
-      sub_title: "1. Vérifiez la demande de licence de {firstname} {lastname}"
-      btn: "Voir la demande"
-    price: "2. Si la demande est complète et correcte, introduisez le prix demandé pour cette licence :"
-    validate:
-      sub_title: "3. Validez la licence en cliquant sur ce bouton :"
-      btn: "Valider"
-    incomplete: "2b. Si la demande est incomplête ou incorrecte, veuillez introduire la raison :"
-    decline:
-      sub_title: "3. Refusez la licence en cliquant sur ce bouton :"
-      btn: "Refuser"
+        page_title: 'Validation licence de {firstname} {lastname}'
+        title: 'Validation licence'
+        no_document: "Il n'y a pas de document à vérifier. Demande à refuser."
+        check:
+            sub_title:
+                '1. Vérifiez la demande de licence de {firstname} {lastname}'
+            btn: 'Voir la demande'
+        price:
+            '2. Si la demande est complète et correcte, introduisez le prix
+            demandé pour cette licence :'
+        validate:
+            sub_title: '3. Validez la licence en cliquant sur ce bouton :'
+            btn: 'Valider'
+        incomplete:
+            '2b. Si la demande est incomplête ou incorrecte, veuillez introduire
+            la raison :'
+        decline:
+            sub_title: '3. Refusez la licence en cliquant sur ce bouton :'
+            btn: 'Refuser'
 
 payment:
-  approved:
-    title: "Paiement accepté"
-    welcome: "Bienvenue chez les Rebels !"
-    text: "Merci pour ton paiement.</br> Ta licence est maintenant en ordre."
-  cancel:
-    title: "Paiement refusé"
-    text: >-
-      <p>
-        Vérifie ton moyen de paiement et réessaye. </br> 
-        Si le problème persiste, contacte un administrateur ou ton coach pour trouver une solution.
-      <p>
-  back: "Revenir à la liste de mes licences"
+    approved:
+        title: 'Paiement accepté'
+        welcome: 'Bienvenue chez les Rebels !'
+        text:
+            'Merci pour ton paiement.</br> Ta licence est maintenant en ordre.'
+    cancel:
+        title: 'Paiement refusé'
+        text: >-
+            <p>
+              Vérifie ton moyen de paiement et réessaye. </br> 
+              Si le problème persiste, contacte un administrateur ou ton coach
+            pour trouver une solution. <p>
+    back: 'Revenir à la liste de mes licences'
 
 members:
-  list:
-    title: "Mes membres"
-    advanced_search: "Recherché avancée"
-    firstname: "Prénom"
-    lastname: "Nom"
-    gender:
-      label: "Genre"
-      male: "Homme"
-      female: "Femme"
-    age: "Age"
-    age_min: "Age minimum"
-    age_max: "Age maximum"
-    license: "Licence"
-    license_status: "Statut licence"
-    search_btn: "Rechercher"
-    all: "Tous"
+    list:
+        title: 'Mes membres'
+        advanced_search: 'Recherché avancée'
+        firstname: 'Prénom'
+        lastname: 'Nom'
+        gender:
+            label: 'Genre'
+            male: 'Homme'
+            female: 'Femme'
+        age: 'Age'
+        age_min: 'Age minimum'
+        age_max: 'Age maximum'
+        license: 'Licence'
+        license_status: 'Statut licence'
+        search_btn: 'Rechercher'
+        all: 'Tous'
 
 password:
-  # Request New password
-  request:
-    title: "Nouveau mot de passe"
-    disclamer: "Saisis ton adresse e-mail, et nous t'enverrons un lien pour réinitialiser ton mot de passe."
+    # Request New password
+    request:
+        title: 'Nouveau mot de passe'
+        disclamer:
+            "Saisis ton adresse e-mail, et nous t'enverrons un lien pour
+            réinitialiser ton mot de passe."
 
-  # Reset password
-  reset:
-    title: "Réinitialiser mon mot de passe"
-    email:
-      title: "Email de réinitialisation de mot de passe envoyé"
-      text: "Si un compte correspondant à ton adresse e-mail existe, alors un e-mail vient d'être envoyé, contenant un lien que tu peux utiliser pour réinitialiser ton mot de passe. </br>Ce lien expirera dans "
-      not_received: "Si tu ne reçois pas d'e-mail, vérifie ton dossier de courrier indésirable"
+    # Reset password
+    reset:
+        title: 'Réinitialiser mon mot de passe'
+        email:
+            title: 'Email de réinitialisation de mot de passe envoyé'
+            text:
+                "Si un compte correspondant à ton adresse e-mail existe, alors
+                un e-mail vient d'être envoyé, contenant un lien que tu peux
+                utiliser pour réinitialiser ton mot de passe. </br>Ce lien
+                expirera dans "
+            not_received:
+                "Si tu ne reçois pas d'e-mail, vérifie ton dossier de courrier
+                indésirable"
 
 # Message
 message:
-  index:
-    title: "Mes messages"
-    archived: "Archivé"
-    btn:
-      modify: "Modifier"
-      archive: "Archiver"
-    no_message: "Il n'y a aucun message à afficher."
-  form:
-    title:
-      create: "Créer un message"
-      update: "Modifier un message"
-    send_to_teams: "Envoyer aux équipes"
-    send_to_players: "Envoyer aux joueurs"
-    send_by_mail: "Envoyer par mail ?"
+    index:
+        title: 'Mes messages'
+        archived: 'Archivé'
+        btn:
+            modify: 'Modifier'
+            archive: 'Archiver'
+        no_message: "Il n'y a aucun message à afficher."
+    form:
+        title:
+            create: 'Créer un message'
+            update: 'Modifier un message'
+        send_to_teams: 'Envoyer aux équipes'
+        send_to_players: 'Envoyer aux joueurs'
+        send_by_mail: 'Envoyer par mail ?'
 
 # Place
 place:
-  index:
-    title: "Mes lieux"
-    name: "Nom"
-    street: "Rue"
-    locality: "Localité"
-    country: "Pays"
-    no_place: "Il n'y a aucun lieu à afficher."
-  form:
-    title:
-      create: "Créer un lieu"
-      update: "Modifier un lieu"
-    btn:
-      create: "Créer"
-      update: "Modifier"
-  detail:
-    address_not_found: "L'adresse n'a pas été trouvée sur la carte."
+    index:
+        title: 'Mes lieux'
+        name: 'Nom'
+        street: 'Rue'
+        locality: 'Localité'
+        country: 'Pays'
+        no_place: "Il n'y a aucun lieu à afficher."
+    form:
+        title:
+            create: 'Créer un lieu'
+            update: 'Modifier un lieu'
+        btn:
+            create: 'Créer'
+            update: 'Modifier'
+    detail:
+        address_not_found: "L'adresse n'a pas été trouvée sur la carte."
 
 # Stats
 stat:
-  title: "Mes statistiques"
-  presence_training: "Présences aux entrainements"
-  presence_game: "Présences aux matchs"
-  no_stat: "Il n'y a pas de statistiques à afficher."
-  label:
-    presence: "Présence"
-    absence: "Absence"
-    no_reply: "Pas de réponse"
+    title: 'Mes statistiques'
+    presence_training: 'Présences aux entrainements'
+    presence_game: 'Présences aux matchs'
+    no_stat: "Il n'y a pas de statistiques à afficher."
+    label:
+        presence: 'Présence'
+        absence: 'Absence'
+        no_reply: 'Pas de réponse'
