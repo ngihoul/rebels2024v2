@@ -1,0 +1,57 @@
+{% for license in licenses %}
+    <div class="license-card">
+        <div class="season">
+            <p class="label-season">{{ "license.table.season"|trans }}</p>
+            <p class="data-season">{{ license.season }}</p>
+        </div>
+        <div class="status">
+            <p class="label-status">{{ "license.table.status"|trans }} :</p>
+            <p class="data-status">
+                {% if license.status == 1 %}
+                    {{ 'license.status.demanded'|trans }}
+                {% elseif license.status == 2 %}
+                    {{ 'license.status.document_downloaded'|trans }}
+                {% elseif license.status == 3 %}
+                    {{ 'license.status.document_received'|trans }}
+                {% elseif license.status == 4 %}
+                    {{ 'license.status.document_validated'|trans }}
+                {% elseif license.status == 5 %}
+                    {{ 'license.status.in_order'|trans }}
+                {% endif %}
+            </p>
+        </div>
+        <div class="details">
+            <p class="label-details">{{ "license.table.details"|trans }} :</p>
+            <div class="data-details">
+                <ul>
+                    {% for sub_category in license.subcategories %}
+                        <li>{{ sub_category.name }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <div class="price">
+            <p class="label-price">{{ "license.card.price"|trans }}</p>
+            {% if license.price is not null %}
+                <p class="data-price">{{ license.price }}€</p>
+            {% else %}
+                <p class="data-price">{{ "license.card.tbd"|trans }}</p>
+                <p class="price-helper" title="{{ "license.card.price-helper"|trans }}">?<p>
+            {% endif %}
+        </div>
+        <div class="created-date">
+            <p class="label-created-date">{{ "license.card.asked"|trans }}</p>
+            <p class="data-created-date">{{ license.createdAt|date("d/m/Y") }}</p>
+        </div>
+    </div>
+    <div class="actions">
+        {% if license.status == 1 %}
+            <a class="btn" href="{{ path('app_license_generate', {'licenseId': license.id}) }}">{{ "license.card.download"|trans }}</a>
+        {% elseif license.status == 2 %}
+            <a class="btn" href="{{ path('app_license_generate', {'licenseId': license.id}) }}">{{ "license.card.download"|trans }}</a>
+            <a class="btn cta" href="{{ path('app_license_upload', {'licenseId': license.id}) }}">{{ "license.card.upload"|trans }}</a>
+        {% elseif license.status == 4 %}
+            <a class="btn" href="{{ path('app_license_checkout', {'licenseId': license.id}) }}">{{ "license.card.pay"|trans }}</a>
+        {% endif %}
+    </div>
+{% endfor %}

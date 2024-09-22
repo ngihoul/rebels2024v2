@@ -1,7 +1,82 @@
 .no-license,
 .no-license-this-year {
-  .btn,
-  .cta {
-    margin-top: 0;
-  }
+    .btn,
+    .cta {
+        margin-top: 0;
+    }
+}
+.license-container {
+    .license-card {
+        border: 1px solid $color-border;
+        border-radius: $border-radius;
+        padding: 1.6rem 0.8rem;
+        margin-bottom: 1.6rem;
+
+        > div {
+            display: flex;
+        }
+
+        p[class^='label-'] {
+            font-weight: bolder;
+            min-width: 120px;
+        }
+
+        p[class^='data-'],
+        div[class^='data-'] {
+            margin-bottom: 0.8rem;
+        }
+
+        div[class^='data-'] ul li {
+            margin-bottom: 0.4rem;
+        }
+
+        .price-helper {
+            text-align: center;
+            line-height: 16px;
+            display: inline-block;
+            font-size: 0.6rem;
+            background-color: #fff;
+            color: blue;
+            width: 16px;
+            height: 16px;
+            border: 1px solid blue;
+            border-radius: 50%;
+            font-weight: bold;
+            margin-left: 0.5rem;
+            cursor: pointer;
+
+            &:hover {
+                background-color: lightblue;
+            }
+        }
+    }
+
+    .actions {
+        margin-bottom: 3rem;
+
+        .btn,
+        .btn-cta {
+            margin-top: 0;
+        }
+    }
+}
+
+@media screen and (min-width: $min-desktop) {
+    .license-container {
+        .license-card {
+            display: inline-block;
+            width: 33%;
+            min-width: 320px;
+            padding-right: 5rem;
+        }
+    }
+
+    .actions {
+        .btn,
+        .btn-cta {
+            margin-top: 0;
+            width: 33%;
+            min-width: 320px;
+        }
+    }
 }

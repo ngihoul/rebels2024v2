@@ -33,12 +33,12 @@
 
         {% if currentYearActiveLicenses|length > 0 %}
             <h2>{{ "license.index.active"|trans({'number' : currentYearActiveLicenses|length }) }}</h2>
-            {{ include('/license/partial_table.html.twig', {'licenses' : currentYearActiveLicenses, 'include_actions' : false}) }}
+            {{ include('/license/partial_card.html.twig', {'licenses' : currentYearActiveLicenses, 'include_actions' : false}) }}
         {% endif %}
 
         {% if currentYearPendingLicenses|length > 0 %}
             <h2>{{ "license.index.pending"|trans({'number' : currentYearPendingLicenses|length} ) }}</h2>
-            {{ include('/license/partial_table.html.twig', {'licenses' : currentYearPendingLicenses, 'include_actions' : true}) }}
+            {{ include('/license/partial_card.html.twig', {'licenses' : currentYearPendingLicenses, 'include_actions' : true}) }}
         {% endif %}
 
         {% if pastYearsLicenses|length > 0 %}
