@@ -29,16 +29,12 @@ let deferredPrompt;
 
 window.addEventListener("beforeinstallprompt", (event) => {
   event.preventDefault();
-  deferredPrompt = event; // stocker l'événement pour l'utiliser plus tard
+  deferredPrompt = event;
   console.log("BeforeInstall : OK");
 });
 
-function showInstallPromotion() {
-  // Afficher un message ou un bouton pour inviter à installer l'application
-  alert("L'application n'est pas installée. Cliquez ici pour installer.");
-}
+function showInstallPromotion() {}
 
-// Quand l'utilisateur clique sur le bouton d'installation
 document.getElementById("installButton").addEventListener("click", () => {
   console.log("Click Install btn");
   if (deferredPrompt) {
