@@ -267,6 +267,9 @@ license:
         download: 'Télécharge ta licence'
         upload: 'Renvoie ta licence'
         pay: 'Paye ta licence'
+        waiting_validation:
+            "Ta licence est en cours de validation. Tu recevras un mail
+            lorsqu'elle sera validée (ou pas)."
     request:
         title: 'Demander une licence'
         text: >-

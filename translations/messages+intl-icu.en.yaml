@@ -257,6 +257,9 @@ license:
         download: 'Download your license'
         upload: 'Send back your license'
         pay: 'Pay your license'
+        waiting_validation:
+            'Your license is being validated. You will receive an e-mail when it
+            is validated (or not).'
     request:
         title: 'Request a license'
         text: >-

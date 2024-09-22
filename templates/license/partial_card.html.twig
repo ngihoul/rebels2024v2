@@ -20,6 +20,9 @@
                 {% endif %}
             </p>
         </div>
+        {% if license.status == 3 %}
+            <p class="alert alert-warning">{{ "license.card.waiting_validation"|trans }}</p>
+        {% endif %}
         <div class="details">
             <p class="label-details">{{ "license.table.details"|trans }} :</p>
             <div class="data-details">
