@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{  parent() }} | {{ "license.to_validate.title"|trans }}{% endblock %}
+{% block title %}{{  parent() }} | {{ "license.to_validate.title"|trans({"number" : licenses|length}) }}{% endblock %}
 
 {% block body %}
 <div class="container container-license-list-to-validate">
