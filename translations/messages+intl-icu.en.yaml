@@ -111,7 +111,7 @@ modal:
 
 # Pages
 homepage:
-    title: 'Login'
+    title: 'Clubhouse'
     next_event: 'Next events'
     fill_in_profile: 'Complete your profile'
     ask_license: 'Apply for a license'
