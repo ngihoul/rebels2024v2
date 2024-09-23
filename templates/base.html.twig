@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width">
         <title>{% block title %}Rebels Clubhouse{% endblock %}</title>
-        <link rel="icon" type="image/x-icon" href="{{ asset('images/favicon.svg') }}">
+        <link rel="icon" type="image/x-icon" href="{{ asset('images/favicon.ico') }}">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Lato&family=Raleway&display=swap" rel="stylesheet">
@@ -30,7 +30,7 @@
             {% endif %}
             <div class="menu-logo {% if app.user %}connected{% endif %}">
                 <a href="{{ path('app_home') }}">
-                    <img class="logo" src="{{ asset('images/logo_R.png') }}" alt="Liege Rebels Logo">
+                    <img class="logo" src="{{ asset('images/logo_R_72x64.png') }}" alt="Liege Rebels Logo">
                 </a>
             </div>
             <div class="header-options">
