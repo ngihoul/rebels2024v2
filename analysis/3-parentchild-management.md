@@ -1,5 +1,8 @@
 # #3-parentchild-management
 
+Le but de cette fonctionnalité est de permettre aux parents de gérer 
+le compte de leur enfants mineurs.
+
 ## Entités
 
 ### Création d'une nouvelle entité "Relation" composée de :
