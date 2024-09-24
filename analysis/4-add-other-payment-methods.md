@@ -1,4 +1,4 @@
-# #4-add-other-payment-methods
+# [#4-add-other-payment-methods](https://github.com/ngihoul/rebels2024v2/issues/4)
 
 Le but de cette analyse est d'ajouter d'autres moyens de paiement dans
 l'application Rebels' Clubhouse pour le paiement des licences. Actuellement, les
@@ -7,7 +7,6 @@ faudrait que les utilisateurs puissent également payer par :
 
 -   virement bancaire
 -   via un plan de paiement personnalisé
--   via Paypal ?
 
 ## Entités
 
@@ -36,6 +35,8 @@ paiement
 -   `value_date` date nullable
 -   `comment` text nullable
 -   `validated_by` = User.id nullable
+
+Le champ `due_date` sera toujours une fin de mois.
 
 ## Paiement des licences
 
@@ -96,10 +97,11 @@ Lorsque l'utilisateur choisi cette option :
     -   `value_date` = NULL
     -   `comment` = NULL
     -   `validated_by` = NULL
--   Il est redirigé vers la page de résumé de la licence et à la place des boutons de paiement, on affiche :
+-   Il est redirigé vers la page de résumé de la licence et à la place des
+    boutons de paiement, on affiche :
 
     ```
-    Effectuer le virement comme suit :
+    Effectue le virement comme suit :
 
     Liège Rebels Baseball & Softball Club
     IBAN : BE22 3601 0058 3447
@@ -109,13 +111,80 @@ Lorsque l'utilisateur choisi cette option :
 
 ### Demander un plan de paiement
 
+Lorsque l'utilisateur choisi cette option, il est redirigé vers un formulaire
+`PaymentPlanRequestType` composé uniquement d'un <u>textarea</u>.
+
+Dans ce formulaire, le membre peut décrire le plan de paiement qu'il souhaite.
+
+Un disclaimer reprendra les information importante :
+
+```
+- Le premier versement doit être au minimum de 80€.
+- Le plan de paiement ne peut jamais dépasser l'année en cours (aucun paiement en {année + 1}).
+```
+
+Après envoi du formulaire `PaymentPlanRequestType`, un objet `Payment` est créé
+comme suit :
+
+-   `id_license` = licence sélectionnée
+-   `id_paymentType` = plan de paiement
+-   `is_complete` = false
+
+Et, un mail est envoyé aux administrateurs pour les informer qu'une demande de
+plan de paiement est arrivée.
+
+Ensuite, l'utilisateur est redirigé vers la page résumé de licence. A la place
+des boutons de choix de paiement, on affiche :
+
+```
+Demande de plan de paiement en cours de validation
+```
+
+Un administrateur devra ensuite valider ou refuser le plan de paiement (cf.
+[Validation des paiements > Paiements via un plan](#paiements-via-un-plan))
+
+-   Si le plan de paiement est refusé, on affiche les boutons de choix de mode
+    de paiements initiaux.
+
+-   Si le plan de paiement est accepté, on affiche la liste des `PaymentOrder`.
+    Pour chaque ordre de paiement, le membre à la possibilité de le payer par
+    carte de banque directement via l'application et Stripe en cliquant sur
+    `Payer par carte` à droite de l'ordre.
+
+    Les ordres de paiements pour lesquels la `due_date` est dépassée s'affiche
+    en rouge avec un logo `/!\` (cf. [Cron jobs](#cron-jobs))
+
+Etant donné que le membre peut payer ses échéances par virement, on reprend, en
+dessous de la liste des ordres, les modalités pour le virement :
+
+```
+    Effectue tes virements comme suit :
+
+    Liège Rebels Baseball & Softball Club
+    IBAN : BE22 3601 0058 3447
+    Communication : {NOM JOUEUR} {Prénom joueur} - COTISATION {année}
+    Montant : Montant de tonéchéance
+
+    ----
+
+    Pense à créer un ordre permanent ;-)
+```
+
+Dès que toutes les échéances sont payées, que le statut de la licence est
+`IN_ORDER ( = 5 )` et que le champ `is_complete` de l'objet `Payment` est à
+`true`, on n'affiche plus rien d'autre que le résumé de la licence.
+
 ## Validation des paiements
 
-Dans le menu administrateur, un sous-item "Paiements" se trouve sous Licence - au
-même niveau que "A valider". Ce lien permet d'accéder à un tableau composé de
+Dans le menu administrateur, un sous-item "Paiements" se trouve sous Licence -
+au même niveau que "A valider". Ce lien permet d'accéder à un tableau composé de
 tous les ordres de paiement.
 
-Les administrateurs peuvent créer des `PaymentOrder` manuellement. Par exemple, lorsqu'un membre arbitre ou score un match, il peut bénéficier d'une réduction de 10€ sur sa licence (actuelle si pas encore complètement payée ou suivante). Il faut donc laisser la possibilité d'introduire cette "réduction" => ajouter un nouvel ordre avec en commentaire "Arbitrage" ou "Scoring".
+Les administrateurs peuvent créer des `PaymentOrder` manuellement. Par exemple,
+lorsqu'un membre arbitre ou score un match, il peut bénéficier d'une réduction
+de 10€ sur sa licence (actuelle si pas encore complètement payée ou suivante).
+Il faut donc laisser la possibilité d'introduire cette "réduction" => ajouter un
+nouvel ordre avec en commentaire "Arbitrage" ou "Scoring".
 
 ### Paiements par carte en ligne
 
@@ -127,8 +196,8 @@ licence et le `Payment` est considéré comme complet.
 Dans ce cas, il n'y a qu'un seul ordre de paiement (`PaymentOrder`) créé. Sur la
 ligne de l'ordre, l'administrateur a la possibilité de valider l'ordre (bouton
 "Reçu", par exemple). A la validation, l'administrateur peut compléter la date
-valeur (champ `value_date` = date de réception sur compte bancaire) et ajouter un
-commentaire (champ `comment`).
+valeur (champ `value_date` = date de réception sur compte bancaire) et
+éventuellement ajouter un commentaire (champ `comment`).
 
 Ensuite, l'objet `PaymentOrder` correspondant est modifié comme suit :
 
@@ -136,8 +205,63 @@ Ensuite, l'objet `PaymentOrder` correspondant est modifié comme suit :
 -   `comment` = commentaire s'il y en a un
 -   `validated_by` = Id de l'administrateur qui valide
 
-Et, le champ `is_complete` de l objet `Payment` passe à `true` et le statut de la
-licence passe à `IN_ORDER ( = 5 )`.  
-Un email est envoyé au membre dont le paiement a été validé pour lui confirmer la mise en ordre de sa licence.
+Et, le champ `is_complete` de l objet `Payment` passe à `true` et le statut de
+la licence passe à `IN_ORDER ( = 5 )`.  
+Un email est envoyé au membre dont le paiement a été validé pour lui confirmer
+la mise en ordre de sa licence.
 
 ### Paiements via un plan
+
+Dès l'envoi d'une demande de plan de paiement par un utilisateur, un email est
+envoyé aux administrateurs pour les informer qu'une demande de plan de paiement
+a été envoyée.
+
+Les administrateurs retrouvent toutes les demandes de plan de paiement
+personnalisé dans un tableau séparé des ordres de paiements sur la page
+`Paiements` accessible via le menu administrateur sous `Licence`, au même niveau
+que `A valider`.
+
+Le tableau reprend les champs suivants :
+
+-   Nom du demandeur
+-   Prenom du demandeur
+-   Montant de la licence
+
+En cliquant sur la ligne, l'administrateur accède aux details de la demande
+reprenant :
+
+-   Nom du demandeur
+-   Prenom du demandeur
+-   Détails de la licence
+-   Montant de la licence
+-   Texte de demande de plan de paiement
+
+L'administrateur peut ensuite accepter ou refuser la demande de paiement :
+
+-   S'il refuse, il indique la raison du refus. Un message (avec mail) est
+    envoyé au membre pour l'informer du refus - avec la raison du refus.
+-   S'il accepte, il est redirigé vers le formulaire `PaymentOrderType` d'ajout
+    manuel de `PaymentOrder`.  
+    Sur la même page, il créé autant d'ordres que demandés. Chaque ordre se
+    compose :
+
+    -   `amount` = montant de l'échéance
+    -   `due_date` = fin du mois de l'échéance
+    -   `value_date` = NULL
+    -   `comment` = NULL
+    -   `validated_by` = NULL
+
+    Une vérification est faite afin que le premier ordre soit au minimum 80€ et
+    que la totalité des ordres égale bien `licence.price`.
+
+Après validation, l'administrateur est redirigé vers la page des `Paiements`.
+les ordres sont visibles dans la liste des ordres.  
+La validation des ordres individuels se fait comme pour les virements (cf.
+[Paiement par virement](#paiements-par-virement)).
+
+## Cron jobs
+
+-   Etant donné que les échéances des paiements sont toujours en fin de mois, on
+    exécute un job tous les premier de chaque mois qui vérifie si des
+    `PaymentOrder` sont impayés ( `value_date` = NULL). Pour tous les impayés,
+    un message de rappel (avec mail) est envoyé aux membres concernés.
