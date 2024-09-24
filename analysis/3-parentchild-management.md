@@ -1,4 +1,4 @@
-# #3-parentchild-management
+# [#3-parentchild-management](#3-parentchild-management)
 
 Le but de cette fonctionnalité est de permettre aux parents de gérer le compte
 de leur enfants mineurs.
