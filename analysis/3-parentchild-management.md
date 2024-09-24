@@ -8,6 +8,9 @@
 -   id_enfant = User.id
 -   id_relationType = relationType.id
 
+// Un enfant peut avoir plusieurs parents ou représentants légaux
+// Un parent peut avoir plusieurs enfants
+
 ### Création d'une nouvelle entité "RelationType" composée de :
 
 -   id
@@ -68,6 +71,7 @@
 4. Si autorisation d'utilisation de l'app seul :
     - Le jeune reçoit un mail avec un lien qui lui permet de choisir son propre
       mot de passe
+    - Dès que l'autorisation est accordée, elle ne peut plus être retirée.
 
 ## Connexion - LoginController
 
@@ -81,22 +85,41 @@
 
 -   Supprimer le ActiveUserId de la session !
 
+## Securité
+
+-   Lorsque l'utilisateur change de profil pour utiliser le compte de l'un de
+    ses enfants, le ActiveUserId dans la session est modifié.
+    Il faudra donc ne plus se baser sur $this->getUser() pour vérifier quel 
+    utilisateur est connecté dans nos controllers.
+    Il sera nécessaire de créer un <b>service</b> permettant d'utiliser getActiveUser().
+-   Si l'utilisateur principal (= parent) est administrateur ou coach, il ne
+    doit pas avoir accès aux parties réservées à son type de rôle lorsqu'il
+    utilise le compte de son enfant.
+-   Pour augmenter la securité, on diminuera la durée de vie des sessions :
+    ```
+    // config/packages/framework.yaml
+    framework:
+        session:
+            cookie_lifetime: 3600
+    ```
+
 ## Navigation - base.html.twig
 
 ### Généralités
 
--   Lorsque l'utilisateur change de profil pour utiliser le compte de l'un de
-    ses enfants, le ActiveUserId dans la session est modifié.
--   Si l'utilisateur principal (= parent) est administrateur ou coach, il ne
-    doit pas avoir accès aux parties réservées à son type de rôle lorsqu'il
-    utilise le compte de son enfant.
 -   S'il y a un évènement en attente de réponse <b>ou</b> un message non lu dans
     la messagerie <b>ou</b> un todo pour les enfants, un badge doit être visible
     à côté du chevron vers le bas (⌄) et également à coté du profil de l'enfant
     dans la liste dropdown sur desktop ou dans le menu mobile (cf. navigation).
+-   Au moment du changement de compte, une modal apparait et demande la 
+    confirmation du changement de compte (cf. modal de confirmation de suppression).
+    Ce message expliquera aux utilisateurs ayant un role COACH et/ou ADMIN qu'ils 
+    n'auront plus accès à leurs privilèges : il sera necessaire de rebasculer sur 
+    leur profil pour récupérer ses privilèges.
 -   Après le changement de compte une alert-warning indiuant que l utilisateur
     utilise le compte de Jason ou Brandon reste visible tout le long de la
     navigation en dessous du h1 de la page et au dessus des messages flashes.
+
 
 ### Desktop
 
@@ -123,6 +146,8 @@
             -   Un espace conséquent
             -   un lien "voir mon profil"
             -   un lien "se déconnecter"
+-   Ajout d'un bouton rond (fond bleu, comme les bouton ajout, modifier, supprimer)
+    qui afficherait la liste des autres comptes possibles à utiliser.
 
 ## Clubhouse
 
@@ -136,14 +161,25 @@
 
 -   Dans son profil, l'utilisateur principal (= parent) peut voir la liste de
     ses enfants (prenom, nom, date de naissance et miniature de la photo de
-    profil)
+    profil) avec un badge si une action est requise.
 -   En cliquant sur un élément de la liste, il accède au profil de son enfant
     sans pour autant changer d'utilisateur.
 -   Un bouton "Ajouter un enfant" est accessible par TOUS les membres ce qui
     leur permet à tout moment d'ajouter un enfant à son profil
 
+## Roles
+
+-   Si l'enfant a plusieurs parents, tous les parents ont les mêmes "pouvoirs" 
+    càd qu'ils peuvent tous les deux accepter des évènements, lire les messages, 
+    demander une licence ou donner l'autorisation d'utiliser l'app à leur enfant
+    de >= 16 ans.
+
 ## Cron job
 
+-   Un cron job sera effectué tous les mois verifiant si des jeunes ont 
+    canUseAppFromDate > 1 mois mais n'ont toujours pas de mot de passe. 
+    Dans ce cas, les parents recevront un message via l'app Rebels Clubhouse 
+    leur proposant d'envoyer un rappel par mail à leur enfant.
 -   Un cron job sera effectué toutes les semaines le dimanche à 01:00 (pourquoi
     pas tous les jours ?) pour vérifier si des membres ont eu leur 18e
     anniversaire pendant la semaine précédente. Si c'est le cas, la liste des
@@ -154,140 +190,41 @@
     majeur.  
     Pour ce faire, il pourra choisir un mot de passe et devra accepter les : -
     Newsletter - ROI - Privacy Policy
+    Un mail sera également envoyé à ses parents afin de les informer que le jeune
+    doit maintenant gérer son compte seul.
+-   Un cron job sera effectué tous les mois pour vérifier si des membres 
+    de > 18 ans n'ont pas de mot de passe et leur anniversaire il y a > 1 mois.
+    Dans ce cas, ils recevront un rappel pour choisir un mot de passe et utiliser
+    leur compte seul.
 
-## Avis de ChatGPT
+## Idées optionnelles (Merci ChatGPT)
 
-### Gestion des Relations multiples :
+### Enregistrement des logs :
 
-        Précision sur les permissions des relations multiples : Si un enfant a plusieurs représentants légaux ou tuteurs, il serait utile de définir quel parent peut donner des permissions pour l'usage de l'application. Est-ce que les deux parents ont les mêmes droits ? Ou un seul peut gérer cela ?
-        Envisage d’ajouter des permissions ou un système de priorités pour gérer des cas où plusieurs parents ou tuteurs peuvent vouloir administrer le compte de l’enfant.
-
-### Utilisation de l’application à partir de 16 ans :
-
-        Gestion du consentement pour les 16 ans : Que se passe-t-il si un enfant de 16 ans ne répond pas à l'email d'activation de compte ? Proposer une relance automatique via un cron job, par exemple.
-        Il serait utile d’ajouter des règles ou des notifications automatiques au parent si l’enfant n’a pas activé son compte après un certain temps.
-
-### Sécurité et ActiveUserId :
-
-        L'utilisation de ActiveUserId pour suivre quel compte est actif est pratique, mais assure-toi d'inclure une vérification stricte dans chaque contrôleur pour garantir que les parents ne peuvent pas accéder aux sections sensibles (comme l’administration) lorsqu’ils utilisent le compte de leur enfant. Cela nécessite une vigilance supplémentaire sur les autorisations (isGranted).
-        Pour renforcer la sécurité, envisage un timeout pour les sessions plus courtes si un parent utilise le compte d'un enfant, par exemple. Cela réduit le risque qu'un parent laisse son compte ouvert sous celui de l'enfant par inadvertance.
-
-### Notifications et permissions :
-
-        Prévois d'implémenter un système de notifications plus détaillé pour les parents. Par exemple, quand un enfant reçoit une invitation à un événement ou à un entraînement, le parent peut choisir de recevoir ces alertes par e-mail ou SMS en plus des notifications dans l'application.
-        Gestion des permissions à 16 ans : Quand un enfant atteint 16 ans et obtient un accès à l'application, peut-être que les parents devraient encore avoir un contrôle partiel (au moins pour des informations critiques, comme les événements ou les changements dans les données).
-
-### UX pour basculement de comptes (Parent/Enfant) :
-
-        Bien que le menu déroulant soit clair pour basculer entre les comptes, il pourrait être utile d’ajouter une page de confirmation ou une alerte lors du changement de compte pour rappeler au parent qu’il agit maintenant sous un autre compte, afin d'éviter les erreurs potentielles.
-
-### Scalabilité de l'enregistrement des logs :
-
-        Si tu envisages de suivre les actions des parents lorsqu'ils agissent pour le compte de leurs enfants (pour des raisons légales ou de transparence), il serait peut-être judicieux de réfléchir à un système de log externe ou à un système d'archivage. Les logs peuvent devenir volumineux avec le temps et affecter les performances de ta base de données. Une alternative pourrait être d'utiliser un système comme ElasticSearch ou Logstash pour gérer et analyser ces logs de manière plus efficace.
-
-### Gestion des utilisateurs (Parent/Admin/Coach) :
-
-        Assure-toi que lorsqu'un parent est également un administrateur ou un coach, les droits d'accès aux fonctionnalités de ces rôles sont bien désactivés lorsqu'il agit sous le compte de son enfant. Tu l’as mentionné, mais cela demandera une vérification rigoureuse dans les contrôleurs et services.
-        Envisage un message explicatif lors du basculement entre les rôles pour clarifier que certaines fonctionnalités ne sont plus accessibles en tant que représentant de l'enfant.
-
-## Suggestions supplémentaires :
+-   Si tu envisages de suivre les actions des parents lorsqu'ils agissent pour le 
+    compte de leurs enfants (pour des raisons légales ou de transparence), il 
+    serait peut-être judicieux de réfléchir à un système de log externe ou à un 
+    système d'archivage. Les logs peuvent devenir volumineux avec le temps et 
+    affecter les performances de ta base de données. Une alternative pourrait être
+    d'utiliser un système comme ElasticSearch ou Logstash pour gérer et analyser 
+    ces logs de manière plus efficace.
 
 ### Intégration de tutoriels ou guides :
 
-        Étant donné la complexité des fonctionnalités (en particulier pour les nouveaux utilisateurs), tu pourrais envisager d'intégrer des tutoriels interactifs ou des guides pour montrer comment gérer les comptes enfants, changer d'utilisateur, ou donner accès à un enfant de plus de 16 ans.
+-   Étant donné la complexité des fonctionnalités (en particulier pour les 
+    nouveaux utilisateurs), tu pourrais envisager d'intégrer des tutoriels 
+    interactifs ou des guides pour montrer comment gérer les comptes enfants, 
+    changer d'utilisateur, ou donner accès à un enfant de plus de 16 ans. 
 
-### Mobile-First Design :
+### Suivi d’activité plus granulaire
 
-        Étant donné l'utilisation probable sur mobile par de nombreux parents, assure-toi que toutes les fonctionnalités, y compris le basculement de compte et la gestion des enfants, soient mobile-friendly. Un menu bien optimisé et des boutons de navigation clairs sont essentiels pour éviter toute confusion.
-
-1. Personnalisation des Notifications
-
-    Système de préférences de notifications : Permettre aux parents de
-    configurer les types de notifications qu'ils souhaitent recevoir pour
-    eux-mêmes et pour chaque enfant. Par exemple : Recevoir des notifications
-    par email ou SMS pour des événements comme les matchs, entraînements,
-    messages d'entraîneur, etc. Activer des rappels automatisés pour les
-    événements de leurs enfants (par exemple, une notification la veille d’un
-    match). Pour les enfants de 16 ans et plus, permettre aussi à l’enfant de
-    définir ses propres préférences.
-
-L'idée est de donner plus de contrôle aux utilisateurs sur les informations
-qu'ils souhaitent recevoir, réduisant ainsi la surcharge de notifications non
-pertinentes. 2. Meilleure Visualisation des Comptes Associés
-
-    Dashboard visuel pour les parents : Au lieu d'une simple liste des enfants associés dans un menu déroulant, envisage un tableau de bord centralisé où les parents peuvent voir tous leurs enfants et leur statut en un coup d'œil. Ce dashboard pourrait inclure :
-        Photo de l'enfant
-        Statut des événements (matchs à venir, entraînements)
-        Messages non lus
-        Tâches ou actions urgentes (par exemple, informations manquantes pour l’inscription)
-
-Ce tableau de bord permettrait aux parents de gérer plus efficacement plusieurs
-comptes sans avoir à basculer constamment entre les profils. 3. Feedback visuel
-sur le changement de compte
-
-    Ajouter un feedback visuel plus fort lors du changement de compte, comme :
-        Un changement de couleur dans la barre de navigation ou autour de l’avatar pour bien indiquer que l’utilisateur utilise un autre profil.
-        Un encart fixe ou une bannière en haut de la page indiquant clairement "Vous agissez en tant que [nom de l'enfant]". Ce feedback visuel peut réduire les risques d’erreurs de navigation ou d’action sous le mauvais compte.
-
-4. Multi-comptes pour un même enfant
-
-    Autoriser plusieurs comptes parents pour un enfant : Dans certains cas, un
-    enfant peut avoir plusieurs tuteurs ou représentants légaux (parents
-    divorcés, par exemple). Il pourrait être intéressant de permettre aux deux
-    parents de gérer le même compte enfant tout en ayant des profils séparés
-    pour chaque parent. Il serait aussi utile de prévoir un système de
-    permissions par parent, permettant à l'un des parents d'avoir plus de droits
-    (par exemple, pour donner l’autorisation d’utiliser l’application seul à
-    partir de 16 ans).
-
-5. Amélioration du Cron Job
-
-    Notifications pour le parent après 18 ans : Une fois que l'enfant atteint 18
-    ans, tu as déjà prévu d'envoyer un email à l'enfant pour l’informer qu’il
-    doit gérer son compte. En plus de cela, il serait judicieux d’envoyer un
-    email de notification au parent pour l’informer de ce changement. Ajoute des
-    vérifications régulières pour des événements similaires, comme l’arrivée à
-    la date d’expiration de la licence d’un enfant ou un manque de documents.
-
-6. Amélioration de l’expérience mobile
-
-    Sur mobile, il serait intéressant de rendre le changement de compte encore
-    plus fluide, par exemple via un geste de swipe ou un menu flottant
-    permettant de basculer entre les comptes sans devoir passer par le menu
-    complet. Sur des écrans plus petits, la navigation doit rester rapide et
-    intuitive.
-
-7. Meilleure gestion des autorisations après 16 ans
-
-    Pour les enfants à partir de 16 ans, lorsque le parent donne l'autorisation
-    d'utiliser l'application, une interface de contrôle parental pourrait être
-    ajoutée. Cette interface permettrait aux parents de : Choisir quelles
-    sections de l’application l’enfant peut gérer seul. Avoir un droit de veto
-    sur certaines actions (par exemple, la participation à un événement).
-    Recevoir des notifications spécifiquement liées aux actions que l’enfant a
-    prises dans l’application (comme une signature de licence ou une réponse à
-    un événement).
-
-8. Suivi d’activité plus granulaire
-
-    Améliore le suivi d’activité des parents qui agissent au nom de leurs
+-   Améliore le suivi d’activité des parents qui agissent au nom de leurs
     enfants en stockant des informations plus granuleuses. Par exemple : Quelle
     action spécifique a été réalisée (participation à un événement, modification
-    de profil, etc.) Date et heure exactes de l’action. IP de connexion (utile
-    en cas de litige ou d'abus).
+    de profil, etc.) Date et heure exactes de l’action. ID du parent ayant réalisé
+    l'opération.
 
-Tu pourrais envisager une solution hybride pour le stockage des logs : stocker
-uniquement les actions critiques dans la base de données (pour permettre un
-audit rapide), et les autres actions mineures dans un système de log externe
-(comme ElasticSearch). 9. Gérer les permissions temporaires
-
-    Tu pourrais aussi envisager un système de permissions temporaires. Par exemple, un parent peut autoriser temporairement son enfant à accéder à certaines parties de l'application pendant une période donnée (par exemple, pendant une compétition ou une saison).
-
-10. Faciliter l’ajout d’enfants à posteriori
-
-    Actuellement, tu proposes un formulaire d’ajout d’enfant lors de
-    l’inscription, mais il serait aussi intéressant de permettre d’ajouter un
-    enfant à tout moment via une option bien visible dans le profil parent.
-    Simplification pour l’ajout d’enfants : Pour les parents ayant déjà des
-    enfants inscrits, tu pourrais pré-remplir certains champs (comme l'adresse,
-    le numéro de téléphone) pour faciliter l'ajout d’un nouvel enfant.
+-   Tu pourrais envisager une solution hybride pour le stockage des logs : stocker
+    uniquement les actions critiques dans la base de données (pour permettre un
+    audit rapide), et les autres actions mineures dans un système de log externe
+    (comme ElasticSearch). 
