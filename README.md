@@ -2,20 +2,33 @@
 
 Application web pour la gestion d'un club de baseball
 
-Projet réalisé dans le cadre de l'épreuve intégrée du Brevet d'Enseignement Supérieur de l'Institut Saint-Laurent  
+Projet réalisé dans le cadre de l'épreuve intégrée du Brevet d'Enseignement
+Supérieur de l'Institut Saint-Laurent  
 Année scolaire 2023 - 2024
+
+## Mockup / Prototype
+
+Le mockup / prototype de l'application Rebels' Clubhouse est accessible sur
+Figma :
+[https://www.figma.com/design/mV3wrPXcunNllXv5KoDiWt/RebelsWebApp?node-id=0-1&t=MylOyerHG0whdNnY-1](https://www.figma.com/design/mV3wrPXcunNllXv5KoDiWt/RebelsWebApp?node-id=0-1&t=MylOyerHG0whdNnY-1)
+
+## Schéma de base de données
+
+Le schéma de base de données du projet est accessible sur dbdiagram.io :
+[https://dbdiagram.io/d/Rebels-2024-6571bc8556d8064ca094c2b8](https://dbdiagram.io/d/Rebels-2024-6571bc8556d8064ca094c2b8)
 
 ## Prérequis
 
-Avant de commencer, assurez-vous d'avoir les éléments suivants installés sur votre machine :
+Avant de commencer, assurez-vous d'avoir les éléments suivants installés sur
+votre machine :
 
-- [PHP](https://www.php.net/) (version 8.1 ou supérieure)
-- [Composer](https://getcomposer.org/)
-- [Symfony CLI](https://symfony.com/download)
-- [Git](https://git-scm.com/)
-- [MySQL](https://dev.mysql.com/downloads/mysql/)
-- [MailHog](https://github.com/mailhog/MailHog) ou un serveur SMTP
-- [Node.js](https://nodejs.org/) (pour `npm`)
+-   [PHP](https://www.php.net/) (version 8.1 ou supérieure)
+-   [Composer](https://getcomposer.org/)
+-   [Symfony CLI](https://symfony.com/download)
+-   [Git](https://git-scm.com/)
+-   [MySQL](https://dev.mysql.com/downloads/mysql/)
+-   [MailHog](https://github.com/mailhog/MailHog) ou un serveur SMTP
+-   [Node.js](https://nodejs.org/) (pour `npm`)
 
 ## Installation en local sur Linux
 
@@ -36,35 +49,37 @@ Avant de commencer, assurez-vous d'avoir les éléments suivants installés sur 
 
 3. Configuration de l'environnement
 
-- Générez une clé APP_SECRET :  
-  Utilisez la commande suivante pour générer une clé secrète :
+-   Générez une clé APP_SECRET :  
+    Utilisez la commande suivante pour générer une clé secrète :
 
 ```bash
 php -r 'echo bin2hex(random_bytes(16));'
 ```
 
-- Ajoutez cette clé à votre fichier .env :
+-   Ajoutez cette clé à votre fichier .env :
 
 ```bash
 APP_SECRET=change_me
 ```
 
-- Configurez votre base de données MySQL :  
-  Ajoutez les informations de connexion à votre base de données MySQL dans votre fichier .env :
+-   Configurez votre base de données MySQL :  
+    Ajoutez les informations de connexion à votre base de données MySQL dans
+    votre fichier .env :
 
 ```bash
 DATABASE_URL="mysql://app:!ChangeMe!@127.0.0.1:3306/app?serverVersion=10.11.2-MariaDB&charset=utf8mb4"
 ```
 
-- Configurez votre serveur SMTP :  
-  Pour l'envoi de mails, configurez votre serveur SMTP dans votre fichier .env :
+-   Configurez votre serveur SMTP :  
+    Pour l'envoi de mails, configurez votre serveur SMTP dans votre fichier .env
+    :
 
 ```bash
 MAILER_DSN=smtp://localhost:1025
 ```
 
-- Configurez vos clés Stripe :  
-  Ajoutez vos clés Stripe dans votre fichier .env :
+-   Configurez vos clés Stripe :  
+    Ajoutez vos clés Stripe dans votre fichier .env :
 
 ```bash
 STRIPE_PUBLIC_KEY=change_me
@@ -87,8 +102,8 @@ php bin/console doctrine:database:create
 php bin/console doctrine:migrations:migrate
 ```
 
-6. Importez les données de base
-   Ou importer les fichiers dans l'odre via [phpMyAdmin](http://localhost/phpmyadmin)
+6. Importez les données de base Ou importer les fichiers dans l'odre via
+   [phpMyAdmin](http://localhost/phpmyadmin)
 
 ```bash
 mysql -u votre_utilisateur -p votre_base_de_donnees < /chemin/vers/votre_projet/db/country.sql
@@ -109,8 +124,8 @@ npm run dev
 
 ## Execution
 
-1. Démarrez le serveur web
-   Pour démarrer le serveur web Symfony, utilisez la commande suivante :
+1. Démarrez le serveur web Pour démarrer le serveur web Symfony, utilisez la
+   commande suivante :
 
 ```bash
 symfony serve
@@ -125,7 +140,8 @@ Votre application sera accessible à l'adresse http://localhost:8000.
 
 # Rebels' Clubhouse en production
 
-L'application Rebels' Clubhouse est accessible en production via ce lien https://clubhouse.liegebaseball.be
+L'application Rebels' Clubhouse est accessible en production via ce lien
+https://clubhouse.liegebaseball.be
 
 ---
 
