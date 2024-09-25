@@ -15,7 +15,12 @@ faudrait que les utilisateurs puissent également payer par :
 -   `id`
 -   `id_license`
 -   `id_paymentType`
--   `is_complete` ? bool default=false
+-   `status` // Accepted (1), refused (2) & completed (3) nullable
+-   `comment` text nullable
+-   `created_at` DateTime not null - Géré automatiquement par
+    `Gedmo\Timestampable`
+-   `updated_at` DateTime nullable - Géré automatiquement par
+    `Gedmo\Timestampable`
 
 ### Création d'une entité `PaymentType` composée de :
 
@@ -26,7 +31,7 @@ faudrait que les utilisateurs puissent également payer par :
 paiement  
 // Prévoir traduction des PaymentType via `Gedmo\Translatable\Translatable`;
 
-### Création d'une entité PaymentOrder composée de :
+### Création d'une entité `PaymentOrder` composée de :
 
 -   `id`
 -   `id_payment`
@@ -41,18 +46,18 @@ Le champ `due_date` sera toujours une fin de mois.
 ## Paiement des licences
 
 Lorsque la licence d'un membre est validée par un administrateur, elle obtient
-le statut `DOC_VALIDATED ( = 4 )`. Pour obtenir le statut `IN_ORDER ( = 5 )`, la
-licence doit être payée.
+le statut `DOC_VALIDATED ( = 4 )`.  
+Pour obtenir le statut `IN_ORDER ( = 5 )`, la licence doit être payée.
 
 Sur l'écran de résumé de la license, il y a plusieurs boutons accessibles
 lorsque le statut est `DOC_VALIDATED ( = 4 )` et qu'il n'existe aucun objet
 `Payment` avec `id_license` = id de la license sélectionnée :
 
--   payer la totalité par carte
+-   payer la totalité en ligne par carte de banque
 -   payer la totalité par virement bancaire
 -   demander un plan de paiement
 
-### Payer la totalité par carte de banque
+### Payer la totalité en ligne par carte de banque
 
 Lorsque l'utilisateur choisi cette option, il est redirigé directement vers
 Stripe.
@@ -60,9 +65,9 @@ Stripe.
 -   Si le paiement réussi, on créé :
 
     -   un objet `Payment` avec :
-        -   `id_license` = licence sélectionnée
+        -   `id_license` = id licence sélectionnée
         -   `id_paymentType` = paiement par carte de banque
-        -   `is_complete` = true
+        -   `status` = COMPLETED ( = 3 )
     -   un objet `PaymentOrder` avec :
         -   `id_payment` = Objet `Payment` créé ci-dessus
         -   `amount` = `license.price`
@@ -87,9 +92,9 @@ Stripe.
 Lorsque l'utilisateur choisi cette option :
 
 -   On créé un objet `Payment` avec :
-    -   `id_license` = licence sélectionnée
+    -   `id_license` = id licence sélectionnée
     -   `id_paymentType` = paiement par virement
-    -   `is_complete` = false
+    -   `status` = ACCEPTED ( = 2 )
 -   On créé un objet `PaymentOrder` avec :
     -   `id_payment` = Id de l'objet `Payment` créé ci-dessus
     -   `amount` = `license.price`
@@ -109,6 +114,11 @@ Lorsque l'utilisateur choisi cette option :
     Montant : {license.price}
     ```
 
+    Un boutton `Changer de méthode de paiement` est visible. S'il est cliqué,
+    l'objet `Payment` et les `PaymentOrder` référants sont supprimés. La page
+    résumé est rafraichie et est de nouveau visible avec le choix de la méthode
+    de paiement.
+
 ### Demander un plan de paiement
 
 Lorsque l'utilisateur choisi cette option, il est redirigé vers un formulaire
@@ -123,12 +133,12 @@ Un disclaimer reprendra les information importante :
 - Le plan de paiement ne peut jamais dépasser l'année en cours (aucun paiement en {année + 1}).
 ```
 
-Après envoi du formulaire `PaymentPlanRequestType`, un objet `Payment` est créé
-comme suit :
+Après l'envoi du formulaire `PaymentPlanRequestType`, un objet `Payment` est
+créé comme suit :
 
 -   `id_license` = licence sélectionnée
 -   `id_paymentType` = plan de paiement
--   `is_complete` = false
+-   `status` = NULL
 
 Et, un mail est envoyé aux administrateurs pour les informer qu'une demande de
 plan de paiement est arrivée.
@@ -170,14 +180,18 @@ dessous de la liste des ordres, les modalités pour le virement :
     Pense à créer un ordre permanent ;-)
 ```
 
-Dès que toutes les échéances sont payées, que le statut de la licence est
-`IN_ORDER ( = 5 )` et que le champ `is_complete` de l'objet `Payment` est à
-`true`, on n'affiche plus rien d'autre que le résumé de la licence.
+A chaque paiement d'ordre (effectué par le membre lui-même ou validé d'un
+administrateur), on vérifie s'il reste des ordre à payer.
+
+Si toutes les échéances sont payées, le champ `status` de l'objet `Payment` est
+mis à `COMPLETED ( = 3 )` et le statut de la licence est mis à
+`IN_ORDER ( = 5 )`. Ensuite, on n'affiche plus rien d'autre que le résumé de la
+licence.
 
 ## Validation des paiements
 
-Dans le menu administrateur, un sous-item "Paiements" se trouve sous Licence -
-au même niveau que "A valider". Ce lien permet d'accéder à un tableau composé de
+Dans le menu administrateur, un sous-item `Paiements` se trouve sous `Licence` -
+au même niveau que `A valider`. Ce lien permet d'accéder à un tableau composé de
 tous les ordres de paiement.
 
 Les administrateurs peuvent créer des `PaymentOrder` manuellement. Par exemple,
@@ -193,11 +207,11 @@ licence et le `Payment` est considéré comme complet.
 
 ### Paiements par virement
 
-Dans ce cas, il n'y a qu'un seul ordre de paiement (`PaymentOrder`) créé. Sur la
+Dans ce cas, il n'y a qu'un seul ordre de paiement `PaymentOrder` créé. Sur la
 ligne de l'ordre, l'administrateur a la possibilité de valider l'ordre (bouton
-"Reçu", par exemple). A la validation, l'administrateur peut compléter la date
-valeur (champ `value_date` = date de réception sur compte bancaire) et
-éventuellement ajouter un commentaire (champ `comment`).
+"Validé"). A la validation, l'administrateur peut compléter la date valeur
+(champ `value_date` = date de réception sur compte bancaire) et éventuellement
+ajouter un commentaire (champ `comment`).
 
 Ensuite, l'objet `PaymentOrder` correspondant est modifié comme suit :
 
@@ -205,8 +219,8 @@ Ensuite, l'objet `PaymentOrder` correspondant est modifié comme suit :
 -   `comment` = commentaire s'il y en a un
 -   `validated_by` = Id de l'administrateur qui valide
 
-Et, le champ `is_complete` de l objet `Payment` passe à `true` et le statut de
-la licence passe à `IN_ORDER ( = 5 )`.  
+Et, le champ `status` de l objet `Payment` passe à `COMPLETED ( = 3 )` et le
+statut de la licence passe à `IN_ORDER ( = 5 )`.  
 Un email est envoyé au membre dont le paiement a été validé pour lui confirmer
 la mise en ordre de sa licence.
 
@@ -216,8 +230,8 @@ Dès l'envoi d'une demande de plan de paiement par un utilisateur, un email est
 envoyé aux administrateurs pour les informer qu'une demande de plan de paiement
 a été envoyée.
 
-Les administrateurs retrouvent toutes les demandes de plan de paiement
-personnalisé dans un tableau séparé des ordres de paiements sur la page
+Les administrateurs retrouvent toutes les demandes de plan de paiement avec un
+`status` = NULL dans un tableau séparé des ordres de paiements sur la page
 `Paiements` accessible via le menu administrateur sous `Licence`, au même niveau
 que `A valider`.
 
@@ -238,8 +252,10 @@ reprenant :
 
 L'administrateur peut ensuite accepter ou refuser la demande de paiement :
 
--   S'il refuse, il indique la raison du refus. Un message (avec mail) est
-    envoyé au membre pour l'informer du refus - avec la raison du refus.
+-   S'il refuse, il indique la raison du refus (placé dans le champ `comment` de
+    l'objet `Payment`). Un message (avec mail) est envoyé au membre pour
+    l'informer du refus et de la raison.  
+    Le `status` de l'objet `Payment` est passé à `REFUSED ( = 2 )`.
 -   S'il accepte, il est redirigé vers le formulaire `PaymentOrderType` d'ajout
     manuel de `PaymentOrder`.  
     Sur la même page, il créé autant d'ordres que demandés. Chaque ordre se
@@ -251,11 +267,12 @@ L'administrateur peut ensuite accepter ou refuser la demande de paiement :
     -   `comment` = NULL
     -   `validated_by` = NULL
 
-    Une vérification est faite afin que le premier ordre soit au minimum 80€ et
-    que la totalité des ordres égale bien `licence.price`.
+    Une vérification est faite (côté frontend & backend) afin que le premier
+    ordre soit au minimum 80€ et que la totalité des ordres soit égale à
+    `licence.price`.
 
-Après validation, l'administrateur est redirigé vers la page des `Paiements`.
-les ordres sont visibles dans la liste des ordres.  
+Après validation, l'administrateur est redirigé vers la page des `Paiements`.  
+Les ordres sont visibles dans la liste des ordres.  
 La validation des ordres individuels se fait comme pour les virements (cf.
 [Paiement par virement](#paiements-par-virement)).
 
