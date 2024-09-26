@@ -1,72 +1,80 @@
 validators:
-  firstname:
-    not_blank: "Enter your first name."
-    length: "The first name must not exceed {{ limit }} characters."
-  lastname:
-    not_blank: "Enter your last name."
-    length: "The last name must not exceed {{ limit }} characters."
-  nationality:
-    not_blank: "Enter your nationality."
-    length: "The nationality must not exceed {{ limit }} characters."
-  license_number:
-    length: "The license number must not exceed {{ limit }} characters."
-  jersey_number:
-    type: "The jersey number must be a number."
-  date_of_birth:
-    not_blank: "Please select your date of birth."
-  gender:
-    choice: "Please select a valid gender."
-  address_street:
-    not_blank: "Enter your address."
-    length: "The address must not exceed {{ limit }} characters."
-  address_number:
-    not_blank: "Enter your address number."
-    length: "The address number must not exceed {{ limit }} characters."
-  zipcode:
-    not_blank: "Enter your postal code."
-    length: "The postal code must not exceed {{ limit }} characters."
-  locality:
-    not_blank: "Enter your locality."
-    length: "The locality must not exceed {{ limit }} characters."
-  country:
-    not_blank: "Enter your country."
-    length: "The country must not exceed {{ limit }} characters."
-  phone_number:
-    length: "The phone number must not exceed {{ limit }} characters."
-  mobile_number:
-    length: "The mobile number must not exceed {{ limit }} characters."
-  profile_picture:
-    max_size: "The profile picture size must not exceed 1MB."
-    mime_types: "The profile picture format must be jpg, jpeg, gif, or png."
-  email:
-    not_blank: "Enter your email."
-    valid: "Invalid e-mail."
-  password:
-    match: "Password fields must match."
-    not_blank: "Please enter a password."
-    length: "Your password must contain at least {{ limit }} characters."
-    regex: "Your password must contain at least one upper case letter, one lower case letter, one number and one special character from among ! ? # @ , . :;"
-  logo:
-    size: "Logo size must not exceed 1MB."
-    mime_types: "Logo photo format must be jpg, jpeg, gif or png"
-  event:
-    not_blank: "Enter an event name"
-    date: "Select event date"
-    start_time: "Select start time"
-    end_time: "Select end time"
-  season: "Please select a season"
-  license:
-    sub_category:
-      not_blank: "Please select at least one sub-category"
-    upload:
-      size: "The size of the license application must not exceed 2MB."
-      mime_types: "License application format must be jpg, jpeg, gif, png or pdf"
-  place:
-    not_blank: "Enter a place name."
-    length: "The place name must not exceed {{ limit }} characters."
-  message:
-    title:
-      not_blank: "Enter a title"
-      length: "The title must not exceed {{ limit }} characters."
-    content:
-      not_blank: "Enter a content"
+    firstname:
+        not_blank: 'Enter your first name.'
+        length: 'The first name must not exceed {{ limit }} characters.'
+    lastname:
+        not_blank: 'Enter your last name.'
+        length: 'The last name must not exceed {{ limit }} characters.'
+    nationality:
+        not_blank: 'Enter your nationality.'
+        length: 'The nationality must not exceed {{ limit }} characters.'
+    license_number:
+        length: 'The license number must not exceed {{ limit }} characters.'
+    jersey_number:
+        type: 'The jersey number must be a number.'
+    date_of_birth:
+        not_blank: 'Please select your date of birth.'
+        too_young: 'You must be over 18 to register.'
+        too_old:
+            'Children who have reached the age of majority must register on
+            their own.'
+    gender:
+        choice: 'Please select a valid gender.'
+    address_street:
+        not_blank: 'Enter your address.'
+        length: 'The address must not exceed {{ limit }} characters.'
+    address_number:
+        not_blank: 'Enter your address number.'
+        length: 'The address number must not exceed {{ limit }} characters.'
+    zipcode:
+        not_blank: 'Enter your postal code.'
+        length: 'The postal code must not exceed {{ limit }} characters.'
+    locality:
+        not_blank: 'Enter your locality.'
+        length: 'The locality must not exceed {{ limit }} characters.'
+    country:
+        not_blank: 'Enter your country.'
+        length: 'The country must not exceed {{ limit }} characters.'
+    phone_number:
+        length: 'The phone number must not exceed {{ limit }} characters.'
+    mobile_number:
+        length: 'The mobile number must not exceed {{ limit }} characters.'
+    profile_picture:
+        max_size: 'The profile picture size must not exceed 1MB.'
+        mime_types: 'The profile picture format must be jpg, jpeg, gif, or png.'
+    email:
+        not_blank: 'Enter your email.'
+        valid: 'Invalid e-mail.'
+    password:
+        match: 'Password fields must match.'
+        not_blank: 'Please enter a password.'
+        length: 'Your password must contain at least {{ limit }} characters.'
+        regex:
+            'Your password must contain at least one upper case letter, one
+            lower case letter, one number and one special character from among !
+            ? # @ , . :;'
+    logo:
+        size: 'Logo size must not exceed 1MB.'
+        mime_types: 'Logo photo format must be jpg, jpeg, gif or png'
+    event:
+        not_blank: 'Enter an event name'
+        date: 'Select event date'
+        start_time: 'Select start time'
+        end_time: 'Select end time'
+    season: 'Please select a season'
+    license:
+        sub_category:
+            not_blank: 'Please select at least one sub-category'
+        upload:
+            size: 'The size of the license application must not exceed 2MB.'
+            mime_types:
+                'License application format must be jpg, jpeg, gif, png or pdf'
+    place:
+        not_blank: 'Enter a place name.'
+        length: 'The place name must not exceed {{ limit }} characters.'
+    message:
+        title:
+            not_blank: 'Enter a title'
+            length: 'The title must not exceed {{ limit }} characters.'
+        content:
+            not_blank: 'Enter a content'

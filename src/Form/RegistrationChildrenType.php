@@ -9,12 +9,10 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -25,10 +23,23 @@ use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Choice;
 use Symfony\Component\Validator\Constraints\Type;
 use Symfony\Component\Validator\Constraints\File;
-use Symfony\Component\Validator\Constraints\LessThanOrEqual;
-use Symfony\Component\Validator\Constraints\Regex;
+use Symfony\Component\Validator\Constraints\GreaterThan;
 
-class RegistrationFormType extends AbstractType
+class RegistrationChildrenType extends AbstractType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder
+            ->add('children', CollectionType::class, [
+                'entry_type' => ChildType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+            ]);
+    }
+}
+
+class ChildType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -80,9 +91,9 @@ class RegistrationFormType extends AbstractType
                 'widget' => 'single_text',
                 'constraints' => [
                     new NotBlank(['message' => 'validators.date_of_birth.not_blank']),
-                    new LessThanOrEqual([
+                    new GreaterThan([
                         'value' => (new \DateTime())->sub(new \DateInterval('P18Y')),
-                        'message' => 'validators.date_of_birth.too_young',
+                        'message' => 'validators.date_of_birth.too_old',
                     ]),
                 ],
             ])
@@ -165,22 +176,6 @@ class RegistrationFormType extends AbstractType
                     new Email(['message' => 'validators.email.valid']),
                 ],
             ])
-            ->add('password', RepeatedType::class, [
-                'type' => PasswordType::class,
-                'invalid_message' => 'validators.password.match',
-                'required' => true,
-                'constraints' => [
-                    new NotBlank(['message' => 'validators.password.not_blank']),
-                    new Length([
-                        'min' => 6,
-                        'minMessage' => 'validators.password.length',
-                    ]),
-                    new Regex([
-                        'pattern' => '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!?#@,.:;]).{8,}$/',
-                        'message' => 'validators.password.regex',
-                    ]),
-                ],
-            ])
             ->add('profile_picture', FileType::class, [
                 'multiple' => false,
                 'mapped' => false,
@@ -197,15 +192,6 @@ class RegistrationFormType extends AbstractType
                         'mimeTypesMessage' => 'validators.profile_picture.mime_types',
                     ])
                 ],
-            ])
-            ->add('newsletter_lfbbs', CheckboxType::class, [
-                'required' => false,
-            ])
-            ->add('internal_rules', CheckboxType::class, [
-                'required' => true,
-            ])
-            ->add('privacy_policy', CheckboxType::class, [
-                'required' => true,
             ])
             ->add('submit', SubmitType::class);
     }

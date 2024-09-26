@@ -1,106 +1,112 @@
 # User Form
 user:
-  update_profile:
-    submit: "Modifier mon profil"
-  register:
-    submit: "M'inscrire"
-  email: "Adresse email *"
-  password: "Mot de passe *"
-  password_confirmation: "Répeter le mot de passe *"
-  firstname: "Prénom *"
-  lastname: "Nom de famille *"
-  nationality: "Nationalité *"
-  license_number: "Numéro de licence"
-  jersey_number: "Numéro de maillot"
-  date_of_birth: "Date de naissance *"
-  gender:
-    label: "Genre *"
-    male: "Homme"
-    female: "Femme"
-  address_street: "Adresse *"
-  address_number: "Numéro de rue *"
-  zipcode: "Code postal *"
-  locality: "Localité *"
-  country: "Pays *"
-  phone_number: "Numéro de téléphone"
-  mobile_number: "Numéro de portable"
-  profile_picture:
-    label: "Photo de profil"
-  newsletter_lfbbs: "J'accepte de recevoir la newsletter de la LFBBS"
-  internal_rules: >-
-    J'accepte le <a class="link-paragraph" 
-    href="https://www.liegebaseball.be/wp-content/uploads/2022/12/LRCBS-ROI-v6.pdf" 
-    target="_blank">Règlement d'Ordre Intérieur</a> *
-  privacy_policy: >-
-    J'accepte le <a class="link-paragraph" 
-    href="https://www.liegebaseball.be/confidentialite/" 
-    target="_blank">Politique de confidentialité</a> *
+    update_profile:
+        submit: 'Modifier mon profil'
+    register:
+        submit: "M'inscrire"
+    email: 'Adresse email *'
+    password: 'Mot de passe *'
+    password_confirmation: 'Répeter le mot de passe *'
+    firstname: 'Prénom *'
+    lastname: 'Nom de famille *'
+    nationality: 'Nationalité *'
+    license_number: 'Numéro de licence'
+    jersey_number: 'Numéro de maillot'
+    date_of_birth: 'Date de naissance *'
+    gender:
+        label: 'Genre *'
+        male: 'Homme'
+        female: 'Femme'
+    address_street: 'Adresse *'
+    address_number: 'Numéro de rue *'
+    zipcode: 'Code postal *'
+    locality: 'Localité *'
+    country: 'Pays *'
+    phone_number: 'Numéro de téléphone'
+    mobile_number: 'Numéro de portable'
+    profile_picture:
+        label: 'Photo de profil'
+    newsletter_lfbbs: "J'accepte de recevoir la newsletter de la LFBBS"
+    internal_rules: >-
+        J'accepte le <a class="link-paragraph"
+        href="https://www.liegebaseball.be/wp-content/uploads/2022/12/LRCBS-ROI-v6.pdf"
+         target="_blank">Règlement d'Ordre Intérieur</a> *
+    privacy_policy: >-
+        J'accepte le <a class="link-paragraph"
+        href="https://www.liegebaseball.be/confidentialite/"
+        target="_blank">Politique de confidentialité</a> *
+
+user_choice:
+    parent: "Je m'inscris en tant que joueur"
+    player: 'Je veux inscrire mon ou mes enfants'
 
 # Team Form
 team:
-  create:
-    btn: "Créer"
-  update:
-    btn: "Modifier"
-  name: "Nom d'équipe"
-  coach: "Coach"
-  assistant: "Assistant"
-  logo: "Logo"
+    create:
+        btn: 'Créer'
+    update:
+        btn: 'Modifier'
+    name: "Nom d'équipe"
+    coach: 'Coach'
+    assistant: 'Assistant'
+    logo: 'Logo'
 # Add User to Team
 add_player:
-  label: "Ajouter un joueur"
-  btn: "Ajouter"
+    label: 'Ajouter un joueur'
+    btn: 'Ajouter'
 # Event
 event:
-  name: "Nom de l'évènement"
-  description: "Description"
-  category: "Catégorie"
-  team: "Equipe"
-  date: "Date de l'évènement"
-  recurring: "Evènement récurrent ?"
-  end_date: "Date de fin"
-  frequency:
-    label: "Fréquence"
-    daily: "Tous les jours"
-    weekly: "Toutes les semaines"
-    biweekly: "Toutes les 2 semaines"
-    monthly: "Tous les mois"
-  meeting_time: "Heure de rendez-vous"
-  start_time: "Heure de début"
-  end_time: "Heure de fin"
-  place: "Lieu de l'évènement"
-  btn:
-    create: "Créer l'évènement"
-    update: "Modifier l'évènement"
-  invite: "Inviter"
+    name: "Nom de l'évènement"
+    description: 'Description'
+    category: 'Catégorie'
+    team: 'Equipe'
+    date: "Date de l'évènement"
+    recurring: 'Evènement récurrent ?'
+    end_date: 'Date de fin'
+    frequency:
+        label: 'Fréquence'
+        daily: 'Tous les jours'
+        weekly: 'Toutes les semaines'
+        biweekly: 'Toutes les 2 semaines'
+        monthly: 'Tous les mois'
+    meeting_time: 'Heure de rendez-vous'
+    start_time: 'Heure de début'
+    end_time: 'Heure de fin'
+    place: "Lieu de l'évènement"
+    btn:
+        create: "Créer l'évènement"
+        update: "Modifier l'évènement"
+    invite: 'Inviter'
 # License
 license:
-  season:
-    label: "Saison"
-  sub_category:
-    label: "Choisissez une ou plusieurs licences :"
-  request:
-    btn: "Demander une license"
-  upload:
-    confirm_rules: "Je confirme avoir lu le Règlement d'ordre intérieur"
-    confirm_data: "Je confirme que toutes mes données sont correctes et que tous les champs sont complètés"
-    btn: "Renvoyez ma demande de licence"
+    season:
+        label: 'Saison'
+    sub_category:
+        label: 'Choisissez une ou plusieurs licences :'
+    request:
+        btn: 'Demander une license'
+    upload:
+        confirm_rules: "Je confirme avoir lu le Règlement d'ordre intérieur"
+        confirm_data:
+            'Je confirme que toutes mes données sont correctes et que tous les
+            champs sont complètés'
+        btn: 'Renvoyez ma demande de licence'
 # Message
 message:
-  title: "Titre"
-  title_english: "Titre en anglais"
-  content: "Contenu"
-  content_english: "Contenu en anglais"
-  sent_by_mail: "Envoyer par mail ?"
-  btn:
-    add: "Créer"
-    update: "Modifier"
+    title: 'Titre'
+    title_english: 'Titre en anglais'
+    content: 'Contenu'
+    content_english: 'Contenu en anglais'
+    sent_by_mail: 'Envoyer par mail ?'
+    btn:
+        add: 'Créer'
+        update: 'Modifier'
 
 # Place
 place:
-  name: "Nom"
-  street: "Rue"
-  number: "Numéro"
-  zipcode: "Code postal"
-  locality: "Localité"
-  country: "Pays"
+    name: 'Nom'
+    street: 'Rue'
+    number: 'Numéro'
+    zipcode: 'Code postal'
+    locality: 'Localité'
+    country: 'Pays'

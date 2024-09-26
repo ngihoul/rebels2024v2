@@ -1,104 +1,111 @@
 user:
-  update_profile:
-    submit: "Edit my profile"
-  register:
-    submit: "Sign up"
-  email: "Email *"
-  password: "Password *"
-  password_confirmation: "Repeat password *"
-  firstname: "Firstname *"
-  lastname: "Lastname *"
-  nationality: "Nationality *"
-  license_number: "License number"
-  jersey_number: "Jersey number"
-  date_of_birth: "Date of birth *"
-  gender:
-    label: "Gender *"
-    male: "Male"
-    female: "Female"
-  address_street: "Address *"
-  address_number: "Street number *"
-  zipcode: "Zipcode *"
-  locality: "Locality *"
-  country: "Country *"
-  phone_number: "Phone number"
-  mobile_number: "Mobile number"
-  profile_picture:
-    label: "Profile picture"
-  newsletter_lfbbs: "I agree to receive the newsletter from LFBBS"
-  internal_rules: >-
-    I accept the <a class="link-paragraph" 
-    href="https://www.liegebaseball.be/wp-content/uploads/2022/12/LRCBS-ROI-v6.pdf" 
-    target="_blank">Internal Rules</a> *
-  privacy_policy: >-
-    I accept the <a class="link-paragraph" 
-    href="https://www.liegebaseball.be/confidentialite/" 
-    target="_blank">Privacy Policy</a> *
+    update_profile:
+        submit: 'Edit my profile'
+    register:
+        submit: 'Sign up'
+    email: 'Email *'
+    password: 'Password *'
+    password_confirmation: 'Repeat password *'
+    firstname: 'Firstname *'
+    lastname: 'Lastname *'
+    nationality: 'Nationality *'
+    license_number: 'License number'
+    jersey_number: 'Jersey number'
+    date_of_birth: 'Date of birth *'
+    gender:
+        label: 'Gender *'
+        male: 'Male'
+        female: 'Female'
+    address_street: 'Address *'
+    address_number: 'Street number *'
+    zipcode: 'Zipcode *'
+    locality: 'Locality *'
+    country: 'Country *'
+    phone_number: 'Phone number'
+    mobile_number: 'Mobile number'
+    profile_picture:
+        label: 'Profile picture'
+    newsletter_lfbbs: 'I agree to receive the newsletter from LFBBS'
+    internal_rules: >-
+        I accept the <a class="link-paragraph"
+        href="https://www.liegebaseball.be/wp-content/uploads/2022/12/LRCBS-ROI-v6.pdf"
+         target="_blank">Internal Rules</a> *
+    privacy_policy: >-
+        I accept the <a class="link-paragraph"
+        href="https://www.liegebaseball.be/confidentialite/"
+        target="_blank">Privacy Policy</a> *
+
+user_choice:
+    player: 'I register as a player'
+    parent: 'I want to register my child/children'
+
 # Team Form
 team:
-  create:
-    btn: "Create"
-  update:
-    btn: "Edit"
-  name: "Team name"
-  coach: "Coach"
-  assistant: "Assistant"
-  logo: "Logo"
+    create:
+        btn: 'Create'
+    update:
+        btn: 'Edit'
+    name: 'Team name'
+    coach: 'Coach'
+    assistant: 'Assistant'
+    logo: 'Logo'
 # Add User to Team
 add_player:
-  label: "Add a player"
-  btn: "Add"
+    label: 'Add a player'
+    btn: 'Add'
 # Event
 event:
-  name: "Event name"
-  description: "Description"
-  category: "Category"
-  team: "Team"
-  date: "Event date"
-  recurring: "Recurring event?"
-  end_date: "End date"
-  frequency:
-    label: "Frequency"
-    daily: "Daily"
-    weekly: "Weekly"
-    biweekly: "Biweekly"
-    monthly: "Monthly"
-  meeting_time: "Meeting time"
-  start_time: "Start time"
-  end_time: "End time"
-  place: "Event place"
-  btn:
-    create: "Create event"
-    update: "Update event"
-  invite: "Invite"
+    name: 'Event name'
+    description: 'Description'
+    category: 'Category'
+    team: 'Team'
+    date: 'Event date'
+    recurring: 'Recurring event?'
+    end_date: 'End date'
+    frequency:
+        label: 'Frequency'
+        daily: 'Daily'
+        weekly: 'Weekly'
+        biweekly: 'Biweekly'
+        monthly: 'Monthly'
+    meeting_time: 'Meeting time'
+    start_time: 'Start time'
+    end_time: 'End time'
+    place: 'Event place'
+    btn:
+        create: 'Create event'
+        update: 'Update event'
+    invite: 'Invite'
 # License
 license:
-  season:
-    label: "Season"
-  sub_category:
-    label: "Choose one or more licenses:"
-  request:
-    btn: "Apply for a license"
-  upload:
-    confirm_rules: "I confirm that I have read the Internal Rules"
-    confirm_data: "I confirm that all my data is correct and that all fields have been completed."
-    btn: "Return my license application"
+    season:
+        label: 'Season'
+    sub_category:
+        label: 'Choose one or more licenses:'
+    request:
+        btn: 'Apply for a license'
+    upload:
+        confirm_rules: 'I confirm that I have read the Internal Rules'
+        confirm_data:
+            'I confirm that all my data is correct and that all fields have been
+            completed.'
+        btn: 'Return my license application'
 # Message
 message:
-  title: "Title in french"
-  title_english: "Title"
-  content: "Content in french"
-  content_english: "Content"
-  sent_by_mail: "Sent by Mail?"
-  btn:
-    add: "Add"
-    update: "Modify"
+    title: 'Title in french'
+    title_english: 'Title'
+    content: 'Content in french'
+    content_english: 'Content'
+    sent_by_mail: 'Sent by Mail?'
+    btn:
+        add: 'Add'
+        update: 'Modify'
 
 # Place
 place:
-  name: "Name"
-  street: "Street"
-  number: "Number"
-  zipcode: "Zipcode"
-  locality: "Locality"
-  country: "Country"
+    name: 'Name'
+    street: 'Street'
+    number: 'Number'
+    zipcode: 'Zipcode'
+    locality: 'Locality'
+    country: 'Country'
