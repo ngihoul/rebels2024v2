@@ -136,6 +136,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'parent', targetEntity: Relation::class)]
     private Collection $parents;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $canUseApp = null;
+
+    #[ORM\ManyToOne(targetEntity: self::class)]
+    private ?self $canUseAppBy = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $canUseAppFromDate = null;
+
     public function __construct()
     {
         $this->licenses = new ArrayCollection();
@@ -718,6 +727,42 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $parent->setChild(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isCanUseApp(): ?bool
+    {
+        return $this->canUseApp;
+    }
+
+    public function setCanUseApp(?bool $canUseApp): static
+    {
+        $this->canUseApp = $canUseApp;
+
+        return $this;
+    }
+
+    public function getCanUseAppBy(): ?self
+    {
+        return $this->canUseAppBy;
+    }
+
+    public function setCanUseAppBy(?self $canUseAppBy): static
+    {
+        $this->canUseAppBy = $canUseAppBy;
+
+        return $this;
+    }
+
+    public function getCanUseAppFromDate(): ?\DateTimeImmutable
+    {
+        return $this->canUseAppFromDate;
+    }
+
+    public function setCanUseAppFromDate(?\DateTimeImmutable $canUseAppFromDate): static
+    {
+        $this->canUseAppFromDate = $canUseAppFromDate;
 
         return $this;
     }
