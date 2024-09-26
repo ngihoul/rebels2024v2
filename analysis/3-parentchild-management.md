@@ -7,9 +7,9 @@ de leur enfants mineurs.
 
 ### Création d'une nouvelle entité "Relation" composée de :
 
--   `id_parent` = User.id
--   `id_enfant` = User.id
--   `id_relationType` = relationType.id
+-   `parent` = User.id
+-   `child` = User.id
+-   `relationType` = relationType.id
 
 // Un enfant peut avoir plusieurs parents ou représentants légaux  
 // Un parent peut avoir plusieurs enfants
