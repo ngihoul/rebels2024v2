@@ -25,12 +25,11 @@ de leur enfants mineurs.
 
 ### Mise à jour de l'entité User
 
--   Ajout d'un champ p`arents` - relation ManyToOne avec Relation
+-   Ajout d'un champ `parents` - relation ManyToOne avec Relation
 -   Ajout d'un champ `children` - relation ManyToOne avec Relation
 -   Ajout d'un champ `canUseApp` bool : seulement enfant de >= 16 ans avec
     autorisation d'un des parents
--   Ajout d'un champ `canUseAppAuthorizer` = User.id du parent qui donne
-    l'autorisation
+-   Ajout d'un champ `canUseAppBy` = User.id du parent qui donne l'autorisation
 -   Ajout d'un champ `canUseAppFromDate` = DateTime de l autorisation
 
 ## DB
@@ -49,6 +48,7 @@ de leur enfants mineurs.
 2. Utilisation de `RegistrationFormType` pour les données de l'utilisateur
    (joueur adulte OU parent)
 
+    - Nouvelle contrainte : doit avoir plus de 18 ans
     - Optionnel : cacher les champ `jersey_number` et `license_number` pour les
       parents
 
@@ -61,7 +61,7 @@ de leur enfants mineurs.
         - Nationalité
         - Numéro de licence
         - Numéro de vareuse
-        - Date de naissance
+        - Date de naissance // Ne peut pas avoir + de 18 ans
         - Genre
         - Un bouton même adresse que le parent OU les champs "adresse"
         - Téléphone
