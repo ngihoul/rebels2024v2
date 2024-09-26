@@ -54,6 +54,7 @@ class UserFixture extends Fixture implements FixtureGroupInterface, DependentFix
             $user->setIsBanned($faker->boolean);
             $user->setIsArchived($faker->boolean);
             $user->setIsVerified($faker->boolean);
+            $user->setPrivacyPolicy(true);
 
             $manager->persist($user);
         }
