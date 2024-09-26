@@ -5,7 +5,6 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\JoinTable;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -143,6 +142,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?self $canUseAppBy = null;
 
     #[ORM\Column(nullable: true)]
+    #[Gedmo\Timestampable(on: 'change', field: ['can_use_app'])]
     private ?\DateTimeImmutable $canUseAppFromDate = null;
 
     public function __construct()
