@@ -124,6 +124,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'receiver', targetEntity: MessageStatus::class)]
     private Collection $messageStatuses;
 
+    /**
+     * @var Collection<int, Relation>
+     */
+    #[ORM\OneToMany(mappedBy: 'child', targetEntity: Relation::class)]
+    private Collection $children;
+
+    /**
+     * @var Collection<int, Relation>
+     */
+    #[ORM\OneToMany(mappedBy: 'parent', targetEntity: Relation::class)]
+    private Collection $parents;
+
     public function __construct()
     {
         $this->licenses = new ArrayCollection();
@@ -131,6 +143,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->coach_of = new ArrayCollection();
         $this->events = new ArrayCollection();
         $this->messageStatuses = new ArrayCollection();
+        $this->children = new ArrayCollection();
+        $this->parents = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -642,6 +656,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($messageStatus->getReceiver() === $this) {
                 $messageStatus->setReceiver(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Relation>
+     */
+    public function getChildren(): Collection
+    {
+        return $this->parents->map(fn(Relation $relation) => $relation->getChild());
+    }
+
+    public function addChild(Relation $child): static
+    {
+        if (!$this->children->contains($child)) {
+            $this->children->add($child);
+            $child->setParent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeChild(Relation $child): static
+    {
+        if ($this->children->removeElement($child)) {
+            // set the owning side to null (unless already changed)
+            if ($child->getParent() === $this) {
+                $child->setParent(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Relation>
+     */
+    public function getParents(): Collection
+    {
+        return $this->children->map(fn(Relation $relation) => $relation->getParent());
+    }
+
+    public function addParent(Relation $parent): static
+    {
+        if (!$this->parents->contains($parent)) {
+            $this->parents->add($parent);
+            $parent->setChild($this);
+        }
+
+        return $this;
+    }
+
+    public function removeParent(Relation $parent): static
+    {
+        if ($this->parents->removeElement($parent)) {
+            // set the owning side to null (unless already changed)
+            if ($parent->getChild() === $this) {
+                $parent->setChild(null);
             }
         }
 
