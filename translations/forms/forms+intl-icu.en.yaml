@@ -2,6 +2,7 @@ user:
     update_profile:
         submit: 'Edit my profile'
     register:
+        next_step: 'Next step'
         submit: 'Sign up'
     email: 'Email *'
     password: 'Password *'

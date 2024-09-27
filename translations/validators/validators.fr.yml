@@ -16,7 +16,8 @@ validators:
     date_of_birth:
         not_blank: 'Veuillez sélectionner ta date de naissance.'
         too_young: 'Vous devez avoir plus de 18 ans pour vous inscrire.'
-        too_old: 'Les enfants majeurs doivent s'inscrire seul en tant que joueur.'
+        too_old:
+            "Les enfants majeurs doivent s'inscrire seul en tant que joueur."
     gender:
         choice: 'Veuillez sélectionner un genre valide.'
     address_street:

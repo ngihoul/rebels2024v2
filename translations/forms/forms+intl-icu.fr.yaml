@@ -3,6 +3,7 @@ user:
     update_profile:
         submit: 'Modifier mon profil'
     register:
+        next_step: 'Etape suivante'
         submit: "M'inscrire"
     email: 'Adresse email *'
     password: 'Mot de passe *'

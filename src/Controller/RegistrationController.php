@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\RegistrationChildrenType;
 use App\Form\RegistrationFormType;
+use App\Form\UserChoiceType;
 use App\Repository\UserRepository;
 use App\Security\EmailVerifier;
 use App\Service\EmailManager;
@@ -11,8 +13,11 @@ use App\Service\ProfilePictureManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,17 +26,23 @@ use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 class RegistrationController extends AbstractController
 {
+    private const USER_CHOICE = 1;
+    private const USER_REGISTRATION = 2;
+    private const CHILDREN_REGISTRATION = 3;
+
     private EmailVerifier $emailVerifier;
     private TranslatorInterface $translator;
+    private UserPasswordHasherInterface $userPasswordHasher;
 
-    public function __construct(EmailVerifier $emailVerifier, TranslatorInterface $translator)
+    public function __construct(EmailVerifier $emailVerifier, TranslatorInterface $translator, UserPasswordHasherInterface $userPasswordHasher)
     {
         $this->emailVerifier = $emailVerifier;
         $this->translator = $translator;
+        $this->userPasswordHasher = $userPasswordHasher;
     }
 
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, ProfilePictureManager $profilePictureManager): Response
+    public function register(Request $request, EntityManagerInterface $entityManager, ProfilePictureManager $profilePictureManager, SessionInterface $session): Response
     {
         // Denied access if user is already logged in.
         if ($this->getUser()) {
@@ -39,45 +50,57 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('app_home');
         }
 
-        // Create registration form
+        if (!$session->has('step')) {
+            $session->set('step', $this::USER_CHOICE);
+        }
+
+        $step = $session->get('step');
+        $userChoice = $session->get('user_choice');
+
         $user = new User();
-        $form = $this->createForm(RegistrationFormType::class, $user);
+        $form = $this->createAppropriateForm($step, $user);
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // encode the plain password
-            $user->setPassword(
-                $userPasswordHasher->hashPassword(
-                    $user,
-                    $form->get('password')->getData()
-                )
-            );
 
-            // Save picture on server via FileUploader Service
-            $profilePictureManager->handleProfilePicture($form, $user);
+            if ($step === $this::USER_CHOICE) {
+                $session->set('user_choice', $form->getData()['user_choice']);
+                $session->set('step', $this::USER_REGISTRATION);
+            } else if ($step === $this::USER_REGISTRATION) {
+                // Encode the plain password
+                $this->hasPassword($form, $user);
 
-            $entityManager->persist($user);
-            $entityManager->flush();
+                // Save picture on server via FileUploader Service
+                $profilePictureManager->handleProfilePicture($form, $user);
 
-            // generate a signed url and email it to the user
-            $this->emailVerifier->sendEmailConfirmation(
-                'app_verify_email',
-                $user,
-                (new TemplatedEmail())
-                    ->from(new Address('nicolas@gihoul.be', 'Liege Rebels Baseball & Softball Club'))
-                    ->to($user->getEmail())
-                    ->subject('Liège Rebels - ' . $this->translator->trans('registration.subject', [], 'emails'))
-                    ->htmlTemplate('emails/registration_confirmation.html.twig')
-            );
+                $entityManager->persist($user);
+                $entityManager->flush();
 
-            $this->addFlash('success', $this->translator->trans('success.account_created'));
+                // Generate a signed url and email it to the user
+                $this->sendConfirmationEmail($user);
 
-            return $this->redirectToRoute('app_home');
+                $this->addFlash('success', $this->translator->trans('success.account_created'));
+            } elseif ($userChoice === 'parent' && $step === $this::CHILDREN_REGISTRATION) {
+            } elseif ($userChoice === 'player' && $step === $this::CHILDREN_REGISTRATION) {
+            }
         }
 
-        return $this->render('registration/register.html.twig', [
-            'form' => $form->createView(),
-        ]);
+        if ($step === $this::USER_CHOICE) {
+            return $this->render('registration/user_choice.html.twig', [
+                'form' => $form->createView(),
+            ]);
+        } elseif ($step === $this::USER_REGISTRATION) {
+            return $this->render('registration/user_registration.html.twig', [
+                'form' => $form->createView(),
+            ]);
+        } elseif ($userChoice === 'parent' && $step === $this::CHILDREN_REGISTRATION) {
+            return $this->render('registration/children_registration.html.twig', [
+                'form' => $form->createView(),
+            ]);
+        } elseif ($userChoice === 'player' && $step === $this::CHILDREN_REGISTRATION) {
+            return $this->redirectToRoute('app_home');
+        }
     }
 
     #[Route('/verify/email', name: 'app_verify_email')]
@@ -112,5 +135,41 @@ class RegistrationController extends AbstractController
         $this->addFlash('success', $this->translator->trans('success.email_verified'));
 
         return $this->redirectToRoute('app_login');
+    }
+
+    private function createAppropriateForm(int $step, User $user): FormInterface
+    {
+        if ($step === $this::USER_CHOICE) {
+            $form = $this->createForm(UserChoiceType::class);
+        } else if ($step === $this::USER_REGISTRATION) {
+            $form = $this->createForm(RegistrationFormType::class, $user);
+        } else if ($step === $this::CHILDREN_REGISTRATION) {
+            $form = $this->createForm(RegistrationChildrenType::class);
+        }
+
+        return $form;
+    }
+
+    private function sendConfirmationEmail(User $user): void
+    {
+        $this->emailVerifier->sendEmailConfirmation(
+            'app_verify_email',
+            $user,
+            (new TemplatedEmail())
+                ->from(new Address('nicolas@gihoul.be', 'Liege Rebels Baseball & Softball Club'))
+                ->to($user->getEmail())
+                ->subject('Liège Rebels - ' . $this->translator->trans('registration.subject', [], 'emails'))
+                ->htmlTemplate('emails/registration_confirmation.html.twig')
+        );
+    }
+
+    private function hasPassword(FormInterface $form, User $user): void
+    {
+        $user->setPassword(
+            $this->userPasswordHasher->hashPassword(
+                $user,
+                $form->get('password')->getData()
+            )
+        );
     }
 }

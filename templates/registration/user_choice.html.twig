@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} | {{ "register.title"|trans }}{% endblock %}
+
+{% block body %}
+    <div class="container container-register-user-choice">
+        <div class="wrapper">
+            <h1>{{ "register.title"|trans }}</h1>
+                <h2>{{ "register.title_user_choice"|trans }}</h2>
+
+                {{ form_start(form, {'attr': {'class' : 'form-user-choice'}}) }}
+
+                {{ form_errors(form) }}
+
+                <div class="user-choice-buttons">
+                    <label class="custom-radio-button">
+                        <input type="radio" id="user_choice_player" name="user_choice[user_choice]" value="player"
+                            {% if form.user_choice.vars.value == 'player' %}checked="checked"{% endif %}/> 
+                        <div class="custom-button">
+                            <span class="icon">
+                                <i class="fa-regular fa-user"></i>
+                            </span>
+                            <span>{{ "register.user_choice.player"|trans }}</span>
+                        </div>
+                    </label>
+
+                    <label class="custom-radio-button">
+                        <input type="radio" id="user_choice_parent" name="user_choice[user_choice]" value="parent"
+                            {% if form.user_choice.vars.value == 'parent' %}checked="checked"{% endif %}/> 
+                        <div class="custom-button">
+                            <span class="icon">
+                                <i class="fas fa-user-friends"></i>
+                            </span>
+                            <span>{{ "register.user_choice.parent"|trans }}</span>
+                        </div>
+                    </label>
+
+                    {{ form_widget(form.user_choice) }}
+                    {{ form_widget(form.submit, { 'label': 'user.register.next_step', 'class': 'submit-btn' }) }}
+                </div>
+
+                
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+    {% block javascript %}
+    <script>
+        const playerInput = document.getElementById('user_choice_player');
+        playerInput.addEventListener('click', () => {
+            document.getElementById('user_choice_user_choice').value='player';
+        });
+        const parentInput = document.getElementById('user_choice_parent');
+        parentInput.addEventListener('click', () => {
+            document.getElementById('user_choice_user_choice').value='parent';
+        });
+    </script>
+    {% endblock %}
+{% endblock %}

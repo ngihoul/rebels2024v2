@@ -132,6 +132,10 @@ login:
 
 register:
     title: 'Register'
+    title_user_choice: 'Who Are You? Make Your Choice!'
+    user_choice:
+        player: 'I register as a player'
+        parent: 'I register my child/children'
     disclaimer:
         password: >-
             The password must contain at least/and: <ul class="password-specs">

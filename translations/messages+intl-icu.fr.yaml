@@ -137,6 +137,10 @@ login:
 # Register
 register:
     title: "S'enregistrer"
+    title_user_choice: 'Qui es-tu ? Fais ton choix !'
+    user_choice:
+        player: "Je m'inscris en tant que joueur"
+        parent: "J'inscris mon ou mes enfants"
     disclaimer:
         password: >-
             Le mot de passe doit contenir au moins/et : <ul
