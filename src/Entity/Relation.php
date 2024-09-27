@@ -14,11 +14,11 @@ class Relation
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'children')]
+    #[ORM\ManyToOne(inversedBy: 'parents')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $parent = null;
 
-    #[ORM\ManyToOne(inversedBy: 'parents')]
+    #[ORM\ManyToOne(inversedBy: 'children')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $child = null;
 
