@@ -5,87 +5,129 @@
 {% block body %}
     <div class="container container-register">
         <h1>{{ "register.title"|trans }}</h1>
-
-        {{ form_start(form, {'attr': {'class' : 'form-user'}}) }}
         
-        {{ form_errors(form) }}
+        {{ form_start(form) }}
 
-        {{ form_row(form.firstname, {'label': 'user.firstname', 'row_attr': { 'class': 'firstname' }}) }}
+        <div id="children-list" data-prototype="{{ form_widget(form.children.vars.prototype)|e('html_attr') }}">
+            {% for form in form.children %}
+            <div class="form-user">
+                <h2>{{ "register.children_data"|trans }} #{{ loop.index }}</h2>
 
-        {{ form_row(form.lastname, {'label': 'user.lastname', 'row_attr': { 'class': 'lastname' }}) }}
+                {{ form_errors(form) }}
 
-        {{ form_row(form.gender, {'label': 'user.gender.label', 'row_attr': { 'class': 'gender' }}) }}
-
-        {{ form_row(form.date_of_birth, {
-            'label': 'user.date_of_birth',
-            'widget': 'single_text',
-            'format': 'yyyy-MM-dd',
-            'attr': {
-                'class': 'datepicker',
-            }, 
-            'row_attr': { 'class': 'date-of-birth' }}) 
-        }}
-
-        {{ form_row(form.nationality, {'label': 'user.nationality', 'row_attr': { 'class': 'nationality' }}) }}
-
-        {{ form_row(form.license_number, {'label': 'user.license_number', 'required': false, 'row_attr': { 'class': 'license-number' }}) }}
-
-        {{ form_row(form.jersey_number, {'label': 'user.jersey_number', 'required': false, 'row_attr': { 'class': 'jersey-number' }}) }}
-
-        {{ form_row(form.profile_picture, {'label': 'user.profile_picture.label', 'id': 'profile_picture_input', 'row_attr': { 'class': 'profile-picture' }}) }}
-        <p class="disclaimer-picture alert alert-warning">{{ 'profile.picture.disclaimer'|trans }}</p>
-
-        <div id="previewPicture">
-            <img id="previewImage" src="">
+                {{ form_row(form.firstname) }}
+                {{ form_row(form.lastname) }}
+                {{ form_row(form.gender) }}
+                {{ form_row(form.date_of_birth, {
+                    'widget': 'single_text',
+                    'format': 'yyyy-MM-dd',})
+                }}
+                {{ form_row(form.nationality) }}
+                {{ form_row(form.license_number, {'required': false }) }}
+                {{ form_row(form.jersey_number, {'required': false }) }}
+                {{ form_row(form.profile_picture, {'id': 'profile_picture_input' }) }}
+                
+                <p class="disclaimer-picture alert alert-warning">{{ 'profile.picture.disclaimer'|trans }}</p>
+                <div id="previewPicture">
+                    <img id="previewImage" src="">
+                </div>
+                {{ form_row(form.address_street) }}
+                {{ form_row(form.address_number) }}
+                {{ form_row(form.zipcode) }}
+                {{ form_row(form.locality) }}
+                {{ form_row(form.country) }}
+                {{ form_row(form.phone_number, {'required': false }) }}
+                {{ form_row(form.mobile_number, {'required': false }) }}
+                {{ form_row(form.email) }}
+            </div>
+            {% endfor %}
         </div>
+        
+        <button type="button" class="btn btn-secondary" id="add-child">Ajouter un enfant</button>
+        <button type="button" class="btn btn-danger" id="remove-child" disabled>Supprimer le dernier enfant</button>
 
-        {{ form_row(form.address_street, {'label': 'user.address_street', 'row_attr': { 'class': 'street' }}) }}
-
-        {{ form_row(form.address_number, {'label': 'user.address_number', 'row_attr': { 'class': 'number' }}) }}
-
-        {{ form_row(form.zipcode, {'label': 'user.zipcode', 'row_attr': { 'class': 'zipcode' }}) }}
-
-        {{ form_row(form.locality, {'label': 'user.locality', 'row_attr': { 'class': 'locality' }}) }}
-
-        {{ form_row(form.country, {'label': 'user.country', 'row_attr': { 'class': 'country' }}) }}
-
-        {{ form_row(form.phone_number, {'label': 'user.phone_number', 'required': false, 'row_attr': { 'class': 'phone-number' }}) }}
-
-        {{ form_row(form.mobile_number, {'label': 'user.mobile_number', 'required': false, 'row_attr': { 'class': 'mobile-number' }}) }}
-
-        {{ form_row(form.email, {'label': 'user.email', 'row_attr': { 'class': 'email'}}) }}
-
-        {{ form_row(form.password.first, {'label': 'user.password', 'row_attr': { 'class': 'password'}}) }}
-
-        {{ form_row(form.password.second, {'label': 'user.password_confirmation', 'row_attr': { 'class': 'password-confirmation'}}) }}
-
-        <p class="disclaimer-password alert alert-warning">{{ 'register.disclaimer.password'|trans|raw }}</p>
-
-        <div class="custom-checkbox">
-            {{ form_row(form.newsletter_lfbbs, {'label': 'user.newsletter_lfbbs' }) }}
-        </div>
-
-        <div class="custom-checkbox">
-            {{ form_row(form.internal_rules, {
-                'label': 'user.internal_rules',
-                'label_html': true,
-            }) }}
-        </div>
-
-        <div class="custom-checkbox">
-            {{ form_row(form.privacy_policy, {
-                'label': 'user.privacy_policy',
-                'label_html': true,
-            }) }}
-        </div>
-
-        {{ form_row(form.submit, { 'label': 'user.register.submit', 'row_attr': { 'class': 'submit' }}) }}
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
 
         {{ form_end(form) }}
     </div>
 
     {% block javascript %}
         {{ encore_entry_script_tags('picturePreview') }}
-        {{ encore_entry_script_tags('registerPassword') }}
+
+        <script>
+            // JavaScript pour ajouter dynamiquement un enfant
+            let addChildButton = document.getElementById('add-child');
+            let removeChildButton = document.getElementById('remove-child');
+            let childrenList = document.getElementById('children-list');
+            let prototype = childrenList.getAttribute('data-prototype');
+            let index = {{ form.children|length }};
+            let childNumber = index + 1;
+
+            // Fonction pour mettre à jour l'état du bouton de suppression
+            function updateRemoveButtonState() {
+                if (index > 1) {
+                    removeChildButton.disabled = false; // Activer si 2 ou plus
+                } else {
+                    removeChildButton.disabled = true; // Désactiver si 1 ou moins
+                }
+            }
+
+            addChildButton.addEventListener('click', function () {
+                // Remplacer __name__ par l'index actuel dans le prototype
+                let newChildForm = prototype.replace(/__name__/g, index);
+                
+                // Ajouter les labels traduits au nouvel enfant
+                newChildForm = newChildForm.replace(/label_user.firstname/g, '{{ 'user.firstname'|trans }}');
+                newChildForm = newChildForm.replace(/label_user.lastname/g, '{{ 'user.lastname'|trans }}');
+                newChildForm = newChildForm.replace(/label_user.gender/g, '{{ 'user.gender.label'|trans }}');
+                newChildForm = newChildForm.replace(/label_user.date_of_birth/g, '{{ 'user.date_of_birth'|trans }}');
+                newChildForm = newChildForm.replace(/label_user.nationality/g, '{{ 'user.nationality'|trans }}');
+                newChildForm = newChildForm.replace(/label_user.license_number/g, '{{ 'user.license_number'|trans }}');
+                newChildForm = newChildForm.replace(/label_user.jersey_number/g, '{{ 'user.jersey_number'|trans }}');
+                newChildForm = newChildForm.replace(/label_user.address_street/g, '{{ 'user.address_street'|trans }}');
+                newChildForm = newChildForm.replace(/label_user.address_number/g, '{{ 'user.address_number'|trans }}');
+                newChildForm = newChildForm.replace(/label_user.zipcode/g, '{{ 'user.zipcode'|trans }}');
+                newChildForm = newChildForm.replace(/label_user.locality/g, '{{ 'user.locality'|trans }}');
+                newChildForm = newChildForm.replace(/label_user.country/g, '{{ 'user.country'|trans }}');
+                newChildForm = newChildForm.replace(/label_user.phone_number/g, '{{ 'user.phone_number'|trans }}');
+                newChildForm = newChildForm.replace(/label_user.mobile_number/g, '{{ 'user.mobile_number'|trans }}');
+                newChildForm = newChildForm.replace(/label_user.email/g, '{{ 'user.email'|trans }}');
+
+                // Créer un div pour le nouveau formulaire
+                let childDiv = document.createElement('div');
+                childDiv.classList.add('form-user');
+                childDiv.innerHTML = `<h2>{{ 'register.children_data'|trans }} #${childNumber}</h2>` + newChildForm;
+
+                // Ajouter le nouveau formulaire à la liste
+                childrenList.appendChild(childDiv);
+
+                // Incrémenter l'index et le numéro d'enfant
+                index++;
+                childNumber++;
+
+                // Mettre à jour l'état du bouton de suppression
+                updateRemoveButtonState();
+            });
+
+            // Logique pour supprimer le dernier enfant
+            removeChildButton.addEventListener('click', function () {
+                let childForms = childrenList.getElementsByClassName('form-user');
+                if (childForms.length > 0) {
+                    childrenList.removeChild(childForms[childForms.length - 1]); // Supprime le dernier enfant
+                    index--; // Décrémente l'index
+                    childNumber--; // Décrémente le numéro d'enfant
+                } else {
+                    alert('Aucun enfant à supprimer.'); // Message d'alerte si aucun enfant n'est présent
+                }
+
+                // Mettre à jour l'état du bouton de suppression
+                updateRemoveButtonState();
+            });
+
+            // Initialiser l'état du bouton de suppression
+            updateRemoveButtonState();
+        </script>
+
+
     {% endblock %}
 {% endblock %}

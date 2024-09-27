@@ -13,7 +13,6 @@ use App\Service\ProfilePictureManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,12 +32,14 @@ class RegistrationController extends AbstractController
     private EmailVerifier $emailVerifier;
     private TranslatorInterface $translator;
     private UserPasswordHasherInterface $userPasswordHasher;
+    private UserRepository $userRepository;
 
-    public function __construct(EmailVerifier $emailVerifier, TranslatorInterface $translator, UserPasswordHasherInterface $userPasswordHasher)
+    public function __construct(EmailVerifier $emailVerifier, TranslatorInterface $translator, UserPasswordHasherInterface $userPasswordHasher, UserRepository $userRepository)
     {
         $this->emailVerifier = $emailVerifier;
         $this->translator = $translator;
         $this->userPasswordHasher = $userPasswordHasher;
+        $this->userRepository = $userRepository;
     }
 
     #[Route('/register', name: 'app_register')]
@@ -67,6 +68,8 @@ class RegistrationController extends AbstractController
             if ($step === $this::USER_CHOICE) {
                 $session->set('user_choice', $form->getData()['user_choice']);
                 $session->set('step', $this::USER_REGISTRATION);
+
+                return $this->redirectToRoute('app_register');
             } else if ($step === $this::USER_REGISTRATION) {
                 // Encode the plain password
                 $this->hasPassword($form, $user);
@@ -81,8 +84,34 @@ class RegistrationController extends AbstractController
                 $this->sendConfirmationEmail($user);
 
                 $this->addFlash('success', $this->translator->trans('success.account_created'));
+
+                $session->set('step', $this::CHILDREN_REGISTRATION);
+                $session->set('user_id', $user->getId());
+
+                return $this->redirectToRoute('app_register');
             } elseif ($userChoice === 'parent' && $step === $this::CHILDREN_REGISTRATION) {
+
+                $user = $this->userRepository->find($session->get('user_id'));
+
+                // Manage children adding
+                $children = $form->getData()['children'];
+
+                foreach ($children as $child) {
+                    $child->setParent($user);
+                    $profilePictureManager->handleProfilePicture($form, $child);
+                    // Persister chaque enfant dans la base de données
+                    $entityManager->persist($child);
+                }
+
+                $entityManager->flush();
+
+                $this->addFlash('success', $this->translator->trans('success.children_created'));
+                $session->clear();
+
+                return $this->redirectToRoute('app_home');
             } elseif ($userChoice === 'player' && $step === $this::CHILDREN_REGISTRATION) {
+                $session->clear();
+                return $this->redirectToRoute('app_home');
             }
         }
 

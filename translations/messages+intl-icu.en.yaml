@@ -49,6 +49,7 @@ success:
     account_created:
         'Your account has been created. Please confirm your e-mail address by
         checking your mailbox.'
+    children_created: 'Your children have been added'
     email_verified: 'Your email address has been verified.'
     team_created: 'The team has been created.'
     password_changed: 'Your password has been updated.'
@@ -136,6 +137,8 @@ register:
     user_choice:
         player: 'I register as a player'
         parent: 'I register my child/children'
+    your_data: 'Your data'
+    children_data: 'Your child's data'
     disclaimer:
         password: >-
             The password must contain at least/and: <ul class="password-specs">

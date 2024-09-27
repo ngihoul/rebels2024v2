@@ -1,85 +1,91 @@
 button,
 .btn {
-  display: block;
-  font-size: 0.8rem;
-  text-align: center;
-  border: 3px solid;
-  border-radius: $border-radius;
-  padding: 0.8rem;
-  margin: 1.2rem 0;
-  text-transform: uppercase;
-  color: $color-primary;
-  border-color: $color-primary;
+    display: block;
+    font-size: 0.8rem;
+    text-align: center;
+    border: 3px solid;
+    border-radius: $border-radius;
+    padding: 0.8rem;
+    margin: 1.2rem 0;
+    text-transform: uppercase;
+    color: $color-primary;
+    border-color: $color-primary;
 
-  &.cta {
-    border-color: $color-secondary;
-    color: $color-secondary;
+    &.cta {
+        border-color: $color-secondary;
+        color: $color-secondary;
+
+        &:visited {
+            color: $color-secondary;
+        }
+    }
 
     &:visited {
-      color: $color-secondary;
+        color: $color-primary;
     }
-  }
 
-  &:visited {
-    color: $color-primary;
-  }
+    &.btn-danger {
+        color: $color-danger;
+        background-color: $color-bg-danger;
+        border-color: $color-border-danger;
+    }
 
-  &.btn-danger {
-    color: $color-danger;
-    background-color: $color-bg-danger;
-    border-color: $color-border-danger;
-  }
+    &:disabled {
+        background-color: $color-bg-disabled;
+        border-color: $color-border-disabled;
+        color: $color-disabled;
+    }
 }
 
 .btn-add,
 .btn-update {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 50px;
-  min-height: 50px;
-  border-radius: 50%;
-  background-color: $color-primary;
-  color: $color-background;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 50px;
+    min-height: 50px;
+    border-radius: 50%;
+    background-color: $color-primary;
+    color: $color-background;
 }
 
 .btn-add {
-  &::before {
-    content: "+";
-    font-size: 25px;
-  }
+    &::before {
+        content: '+';
+        font-size: 25px;
+    }
 
-  &:visited {
-    color: $color-background;
-  }
+    &:visited {
+        color: $color-background;
+    }
 }
 
 .btn-update {
-  position: relative;
+    position: relative;
 
-  svg {
-    font-size: 1.2rem;
-    color: $color-background;
-  }
+    svg {
+        font-size: 1.2rem;
+        color: $color-background;
+    }
 
-  &:visited {
-    color: $color-primary;
-  }
+    &:visited {
+        color: $color-primary;
+    }
 }
 
 @media screen and (min-width: $min-desktop) {
-  button,
-  .btn {
-    cursor: pointer;
+    button,
+    .btn {
+        cursor: pointer;
 
-    &.cta {
-      transition: background-color 0.3s ease-in, color 0.3s ease-in;
+        &.cta {
+            transition: background-color 0.3s ease-in, color 0.3s ease-in;
 
-      &:hover {
-        background-color: $color-secondary;
-        color: $color-background;
-        animation: background-color 2s ease-in;
-      }
+            &:hover {
+                background-color: $color-secondary;
+                color: $color-background;
+                animation: background-color 2s ease-in;
+            }
+        }
     }
-  }
 }

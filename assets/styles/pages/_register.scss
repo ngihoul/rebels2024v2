@@ -44,6 +44,10 @@ input[type='radio']:checked + .custom-button {
     border-color: $color-primary;
 }
 
+.form-user {
+    padding-top: 1.5rem;
+}
+
 @media screen and (min-width: $min-desktop) {
     .wrapper {
         width: 860px;
