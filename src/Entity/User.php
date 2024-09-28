@@ -117,7 +117,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\JoinColumn(nullable: false)]
     private ?Country $country = null;
 
-    #[ORM\Column(options: ["default" => 0])]
+    #[ORM\Column(options: ["default" => 0], nullable: true)]
     private ?bool $privacy_policy = null;
 
     #[ORM\OneToMany(mappedBy: 'receiver', targetEntity: MessageStatus::class)]
