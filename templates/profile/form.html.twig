@@ -42,9 +42,9 @@
             <img id="previewImage" src="{{ asset('uploads/user_pictures/' ~ image) }}">
         </div>
 
-        {{ form_row(form.address_street, {'label': 'user.address_street', 'row_attr': { 'class': 'street' }}) }}
+        {{ form_row(form.address_street, {'label': 'user.address_street', 'row_attr': { 'class': 'address-street' }}) }}
 
-        {{ form_row(form.address_number, {'label': 'user.address_number', 'row_attr': { 'class': 'number' }}) }}
+        {{ form_row(form.address_number, {'label': 'user.address_number', 'row_attr': { 'class': 'address-number' }}) }}
 
         {{ form_row(form.zipcode, {'label': 'user.zipcode', 'row_attr': { 'class': 'zipcode' }}) }}
 

@@ -42,6 +42,7 @@ user_choice:
 
 children:
     relation_type: 'How are you related to the player?'
+    same_address_as_parent: 'Is the child\'s address the same as the parent\'s?'
 
 # Team Form
 team:

@@ -43,6 +43,8 @@ user_choice:
 
 children:
     relation_type: 'Quel est votre lien de parenté avec le joueur ?'
+    same_address_as_parent:
+        "L'adresse de l'enfant est-elle la même que celle du parent ?"
 
 # Team Form
 team:

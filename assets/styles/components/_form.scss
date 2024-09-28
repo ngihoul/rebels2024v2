@@ -31,7 +31,8 @@ form,
         }
     }
 
-    .custom-checkbox > div {
+    .custom-checkbox > div,
+    .custom-checkbox {
         display: flex;
         align-items: center;
 

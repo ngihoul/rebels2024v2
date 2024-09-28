@@ -5,9 +5,10 @@
 {% block body %}
     <div class="container container-register">
         <h1>{{ "register.title"|trans }}</h1>
-        <h2>{{ "register.your_data"|trans }}</h2>
-
+        
         {{ form_start(form, {'attr': {'class' : 'form-user'}}) }}
+
+        <h2>{{ "register.your_data"|trans }}</h2>
         
         {{ form_errors(form) }}
 

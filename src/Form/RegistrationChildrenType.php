@@ -7,6 +7,7 @@ use App\Entity\Country;
 use App\Entity\RelationType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -178,18 +179,29 @@ class ChildType extends AbstractType
                     ])
                 ],
             ])
+            ->add('same_address_as_parent', CheckboxType::class, [
+                'label' => 'children.same_address_as_parent',
+                'row_attr' => [
+                    'class' => 'custom-checkbox same-address-as-parent'
+                ],
+                'mapped' => false,
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-check-input',
+                ],
+            ])
             ->add('address_street', TextType::class, [
                 'label' => 'user.address_street',
                 'row_attr' => [
                     'class' => 'address-street'
                 ],
                 'constraints' => [
-                    new NotBlank(['message' => 'validators.address_street.not_blank']),
                     new Length([
                         'max' => 120,
                         'maxMessage' => 'validators.address_street.length',
                     ]),
                 ],
+                'required' => false,
             ])
             ->add('address_number', TextType::class, [
                 'label' => 'user.address_number',
@@ -197,12 +209,12 @@ class ChildType extends AbstractType
                     'class' => 'address-number'
                 ],
                 'constraints' => [
-                    new NotBlank(['message' => 'validators.address_number.not_blank']),
                     new Length([
                         'max' => 20,
                         'maxMessage' => 'validators.address_number.length',
                     ]),
                 ],
+                'required' => false,
             ])
             ->add('zipcode', TextType::class, [
                 'label' => 'user.zipcode',
@@ -210,12 +222,12 @@ class ChildType extends AbstractType
                     'class' => 'zipcode'
                 ],
                 'constraints' => [
-                    new NotBlank(['message' => 'validators.zipcode.not_blank']),
                     new Length([
                         'max' => 6,
                         'maxMessage' => 'validators.zipcode.length',
                     ]),
                 ],
+                'required' => false,
             ])
             ->add('locality', TextType::class, [
                 'label' => 'user.locality',
@@ -223,12 +235,12 @@ class ChildType extends AbstractType
                     'class' => 'locality'
                 ],
                 'constraints' => [
-                    new NotBlank(['message' => 'validators.locality.not_blank']),
                     new Length([
                         'max' => 50,
                         'maxMessage' => 'validators.locality.length',
                     ]),
                 ],
+                'required' => false,
             ])
             ->add('country', EntityType::class, [
                 'label' => 'user.country',
@@ -237,9 +249,7 @@ class ChildType extends AbstractType
                 ],
                 'class' => Country::class,
                 'choice_label' => 'name',
-                'constraints' => [
-                    new NotBlank(['message' => 'validators.country.not_blank'])
-                ],
+                'required' => false,
             ])
             ->add('phone_number', TelType::class, [
                 'label' => 'user.phone_number',
@@ -273,9 +283,9 @@ class ChildType extends AbstractType
                     'class' => 'email'
                 ],
                 'constraints' => [
-                    new NotBlank(['message' => 'validators.email.not_blank']),
                     new Email(['message' => 'validators.email.valid']),
                 ],
+                'required' => false,
             ]);
     }
 

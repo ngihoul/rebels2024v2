@@ -187,6 +187,15 @@ class RegistrationController extends AbstractController
                 return $this->redirectToRoute('app_register');
             }
 
+            $sameAdressAsParent = $form->get('children')->get($index)->get('same_address_as_parent')->getData();
+            if ($sameAdressAsParent) {
+                $child->setAddressStreet($user->getAddressStreet());
+                $child->setAddressNumber($user->getAddressNumber());
+                $child->setZipCode($user->getZipCode());
+                $child->setLocality($user->getLocality());
+                $child->setCountry($user->getCountry());
+            }
+
             $child->setParent($user, $relationType);
 
             try {
