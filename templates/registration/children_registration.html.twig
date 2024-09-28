@@ -25,12 +25,14 @@
                 {{ form_row(form.nationality) }}
                 {{ form_row(form.license_number, {'required': false }) }}
                 {{ form_row(form.jersey_number, {'required': false }) }}
-                {{ form_row(form.profile_picture, {'id': 'profile_picture_input' }) }}
-                
+
+                {{ form_row(form.profile_picture, {'label': 'user.profile_picture.label', 'id': 'profile_picture_input', 'row_attr': { 'class': 'profile-picture' }}) }}
                 <p class="disclaimer-picture alert alert-warning">{{ 'profile.picture.disclaimer'|trans }}</p>
+
                 <div id="previewPicture">
                     <img id="previewImage" src="">
                 </div>
+                
                 {{ form_row(form.address_street) }}
                 {{ form_row(form.address_number) }}
                 {{ form_row(form.zipcode) }}
@@ -55,7 +57,6 @@
         {{ encore_entry_script_tags('picturePreview') }}
 
         <script>
-            // JavaScript pour ajouter dynamiquement un enfant
             let addChildButton = document.getElementById('add-child');
             let removeChildButton = document.getElementById('remove-child');
             let childrenList = document.getElementById('children-list');
@@ -63,20 +64,17 @@
             let index = {{ form.children|length }};
             let childNumber = index + 1;
 
-            // Fonction pour mettre à jour l'état du bouton de suppression
             function updateRemoveButtonState() {
                 if (index > 1) {
-                    removeChildButton.disabled = false; // Activer si 2 ou plus
+                    removeChildButton.disabled = false;
                 } else {
-                    removeChildButton.disabled = true; // Désactiver si 1 ou moins
+                    removeChildButton.disabled = true;
                 }
             }
 
             addChildButton.addEventListener('click', function () {
-                // Remplacer __name__ par l'index actuel dans le prototype
                 let newChildForm = prototype.replace(/__name__/g, index);
                 
-                // Ajouter les labels traduits au nouvel enfant
                 newChildForm = newChildForm.replace(/label_user.firstname/g, '{{ 'user.firstname'|trans }}');
                 newChildForm = newChildForm.replace(/label_user.lastname/g, '{{ 'user.lastname'|trans }}');
                 newChildForm = newChildForm.replace(/label_user.gender/g, '{{ 'user.gender.label'|trans }}');
@@ -93,41 +91,30 @@
                 newChildForm = newChildForm.replace(/label_user.mobile_number/g, '{{ 'user.mobile_number'|trans }}');
                 newChildForm = newChildForm.replace(/label_user.email/g, '{{ 'user.email'|trans }}');
 
-                // Créer un div pour le nouveau formulaire
                 let childDiv = document.createElement('div');
                 childDiv.classList.add('form-user');
                 childDiv.innerHTML = `<h2>{{ 'register.children_data'|trans }} #${childNumber}</h2>` + newChildForm;
 
-                // Ajouter le nouveau formulaire à la liste
                 childrenList.appendChild(childDiv);
 
-                // Incrémenter l'index et le numéro d'enfant
                 index++;
                 childNumber++;
 
-                // Mettre à jour l'état du bouton de suppression
                 updateRemoveButtonState();
             });
 
-            // Logique pour supprimer le dernier enfant
             removeChildButton.addEventListener('click', function () {
                 let childForms = childrenList.getElementsByClassName('form-user');
                 if (childForms.length > 0) {
-                    childrenList.removeChild(childForms[childForms.length - 1]); // Supprime le dernier enfant
-                    index--; // Décrémente l'index
-                    childNumber--; // Décrémente le numéro d'enfant
-                } else {
-                    alert('Aucun enfant à supprimer.'); // Message d'alerte si aucun enfant n'est présent
+                    childrenList.removeChild(childForms[childForms.length - 1]);
+                    index--;
+                    childNumber--;
                 }
 
-                // Mettre à jour l'état du bouton de suppression
                 updateRemoveButtonState();
             });
 
-            // Initialiser l'état du bouton de suppression
             updateRemoveButtonState();
         </script>
-
-
     {% endblock %}
 {% endblock %}
