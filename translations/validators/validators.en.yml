@@ -78,3 +78,5 @@ validators:
             length: 'The title must not exceed {{ limit }} characters.'
         content:
             not_blank: 'Enter a content'
+    relation:
+        not_blank: 'Choose a relation'

@@ -1,6 +1,7 @@
 # Flash messages
 error:
     already_logged: 'Tu es déjà connecté.'
+    user_not_found: "L'utilisateur n'a pas été trouvé."
     profile_not_found: "Le profil demandé n'a pas été trouvé."
     email_validation: 'Un problème est survenu lors de la validation.'
     reset_password:
@@ -46,6 +47,9 @@ error:
     page:
         not_found: "Cette page n'existe pas."
     invalid_csrf_token: 'Le jeton CSRF est invalide. Veuillez réessayer.'
+    relation_type_not_found: "Le type de relation n'a pas été trouvé."
+    profile_picture:
+        "Une erreur est survenue lors de l'upload de la photo de profil."
 
 success:
     profile_updated: 'Votre profil a été mis à jour.'

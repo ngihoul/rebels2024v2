@@ -41,6 +41,9 @@ user_choice:
     parent: "Je m'inscris en tant que joueur"
     player: 'Je veux inscrire mon ou mes enfants'
 
+children:
+    relation_type: 'Quel est votre lien de parenté avec le joueur ?'
+
 # Team Form
 team:
     create:

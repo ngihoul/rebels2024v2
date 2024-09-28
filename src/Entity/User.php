@@ -670,12 +670,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->parents->map(fn(Relation $relation) => $relation->getChild());
     }
 
-    public function setChild(User $child): static
+    public function setChild(User $child, RelationType $relationType): static
     {
         if (!$this->getChildren()->contains($child)) {
             $relation = new Relation();
             $relation->setParent($this);
             $relation->setChild($child);
+            $relation->setRelationType($relationType);
             $this->parents->add($relation);
         }
 
@@ -699,12 +700,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->children->map(fn(Relation $relation) => $relation->getParent());
     }
 
-    public function setParent(User $parent): static
+    public function setParent(User $parent, RelationType $relationType): static
     {
         if (!$this->getParents()->contains($parent)) {
             $relation = new Relation();
             $relation->setParent($parent);
             $relation->setChild($this);
+            $relation->setRelationType($relationType);
             $this->children->add($relation);
         }
 

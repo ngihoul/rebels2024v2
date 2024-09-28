@@ -40,6 +40,9 @@ user_choice:
     player: 'I register as a player'
     parent: 'I want to register my child/children'
 
+children:
+    relation_type: 'How are you related to the player?'
+
 # Team Form
 team:
     create:

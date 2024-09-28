@@ -84,3 +84,5 @@ validators:
             length: 'Le titre ne doit pas dépasser {{ limit }} caractères.'
         content:
             not_blank: 'Entre un contenu'
+    relation:
+        not_blank: 'Entre une relation.'

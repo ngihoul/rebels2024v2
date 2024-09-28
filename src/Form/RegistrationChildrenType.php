@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\User;
 use App\Entity\Country;
+use App\Entity\RelationType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -51,6 +52,18 @@ class ChildType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('relation_type', EntityType::class, [
+                'label' => 'children.relation_type',
+                'row_attr' => [
+                    'class' => 'relation'
+                ],
+                'class' => RelationType::class,
+                'choice_label' => 'name',
+                'constraints' => [
+                    new NotBlank(['message' => 'validators.relation.not_blank'])
+                ],
+                'mapped' => false,
+            ])
             ->add('firstname', TextType::class, [
                 'label' => 'user.firstname',
                 'row_attr' => [

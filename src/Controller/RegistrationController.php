@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Form\RegistrationChildrenType;
 use App\Form\RegistrationFormType;
 use App\Form\UserChoiceType;
+use App\Repository\RelationTypeRepository;
 use App\Repository\UserRepository;
 use App\Security\EmailVerifier;
 use App\Service\EmailManager;
@@ -38,6 +39,7 @@ class RegistrationController extends AbstractController
     private ProfilePictureManager $profilePictureManager;
     private SessionInterface $session;
     private EmailManager $emailManager;
+    private RelationTypeRepository $relationTypeRepository;
 
     public function __construct(
         EmailVerifier $emailVerifier,
@@ -47,7 +49,8 @@ class RegistrationController extends AbstractController
         EntityManagerInterface $entityManager,
         ProfilePictureManager $profilePictureManager,
         RequestStack $requestStack,
-        EmailManager $emailManager
+        EmailManager $emailManager,
+        RelationTypeRepository $relationTypeRepository
     ) {
         $this->emailVerifier = $emailVerifier;
         $this->translator = $translator;
@@ -57,6 +60,7 @@ class RegistrationController extends AbstractController
         $this->profilePictureManager = $profilePictureManager;
         $this->session = $requestStack->getSession();
         $this->emailManager = $emailManager;
+        $this->relationTypeRepository = $relationTypeRepository;
     }
 
     #[Route('/register', name: 'app_register')]
@@ -136,8 +140,6 @@ class RegistrationController extends AbstractController
         $user = new User();
         $user = $form->getData();
 
-        // dd($form->getData());
-
         $this->hasPassword($form, $user);
         $this->profilePictureManager->handleProfilePicture($form, $user);
 
@@ -167,19 +169,40 @@ class RegistrationController extends AbstractController
     private function handleChildrenRegistrationStep(FormInterface $form): Response
     {
         $user = $this->userRepository->find($this->session->get('user_id'));
+        if (!$user) {
+            $this->session->clear();
+            $this->addFlash('error', $this->translator->trans('error.user_not_found'));
+            return $this->redirectToRoute('app_register');
+        }
+
         $children = $form->getData()['children'];
 
-        // dd($form->getData()['children']);
-
         foreach ($children as $index => $child) {
-            $child->setParent($user);
-            $this->profilePictureManager->handleProfilePicture($form->get('children')->get($index), $child);
+            $relationTypeId = $form->get('children')->get($index)->get('relation_type')->getData();
+            $relationType = $this->relationTypeRepository->find($relationTypeId);
+
+            if (!$relationType) {
+                $this->session->clear();
+                $this->addFlash('error', $this->translator->trans('error.relation_type_not_found'));
+                return $this->redirectToRoute('app_register');
+            }
+
+            $child->setParent($user, $relationType);
+
+            try {
+                $this->profilePictureManager->handleProfilePicture($form->get('children')->get($index), $child);
+            } catch (\Exception $e) {
+                $this->session->clear();
+                $this->addFlash('error', $this->translator->trans('error.profile_picture'));
+                return $this->redirectToRoute('app_register');
+            }
+
             $this->entityManager->persist($child);
         }
 
         $this->entityManager->flush();
 
-        $this->addFlash('success', $this->translator->trans('children_created'));
+        $this->addFlash('success', $this->translator->trans('success.children_created'));
 
         $this->session->clear();
 

@@ -1,6 +1,7 @@
 # Flash messages
 error:
     already_logged: 'You are already logged.'
+    user_not_found: 'the user has not been found.'
     profile_not_found: 'The requested profile has not been found.'
     email_validation: 'A problem has occurred during validation.'
     reset_password:
@@ -43,6 +44,8 @@ error:
     page:
         not_found: 'Page not found.'
     invalid_csrf_token: 'The CSRF token is invalid. Please try again.'
+    relation_type_not_found: 'The relation type does not exist.'
+    profile_picture: 'An error occurred while uploading the profile picture.'
 
 success:
     profile_updated: 'Your profile has been updated.'
@@ -138,7 +141,7 @@ register:
         player: 'I register as a player'
         parent: 'I register my child/children'
     your_data: 'Your data'
-    children_data: 'Your child's data'
+    children_data: "Your child's data"
     disclaimer:
         password: >-
             The password must contain at least/and: <ul class="password-specs">
