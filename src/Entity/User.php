@@ -670,7 +670,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->parents->map(fn(Relation $relation) => $relation->getChild());
     }
 
-    public function addChild(User $child): static
+    public function setChild(User $child): static
     {
         if (!$this->getChildren()->contains($child)) {
             $relation = new Relation();
@@ -699,7 +699,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->children->map(fn(Relation $relation) => $relation->getParent());
     }
 
-    public function addParent(User $parent): static
+    public function setParent(User $parent): static
     {
         if (!$this->getParents()->contains($parent)) {
             $relation = new Relation();
