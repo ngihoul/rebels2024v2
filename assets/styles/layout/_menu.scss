@@ -1,97 +1,129 @@
-.menu {
-  position: fixed;
-  top: 0;
-  right: 0;
-  left: -100%;
-  width: 80%;
-  height: 100vh;
-  padding-top: 3.5rem;
-  background: $color-primary;
-  color: $color-background;
-  z-index: 9999;
-  transition: left 0.3s ease-in-out;
-  overflow-y: auto;
-
-  a {
+@mixin menu-styles($left, $right) {
+    position: fixed;
+    top: 0;
+    left: $left;
+    right: $right;
+    width: 80%;
+    height: 100vh;
+    padding-top: 3.5rem;
+    background: $color-primary;
     color: $color-background;
-  }
+    z-index: 9999;
+    transition: left 0.3s ease-in-out;
+    overflow-y: auto;
 }
 
-.menu-open {
-  left: 0;
+@mixin close-icon-styles() {
+    background: none;
+    border: none;
+    position: absolute;
+    top: -0.8rem;
+    z-index: 1;
+    color: $color-background;
+    font-size: 1.5rem;
 }
 
-.menu-closed {
-  left: -100%;
+@mixin menu-item-styles {
+    font-size: 1rem;
+    text-transform: capitalize;
+    border-radius: 0.5rem;
+    transition: background-color 0.3s ease-in-out;
+    cursor: pointer;
+    position: relative;
+
+    &:hover {
+        background-color: $color-primary-hover;
+        transition: background-color 0.3s ease-in-out;
+    }
+
+    & a {
+        display: block;
+        padding: 1rem 2rem;
+
+        svg {
+            padding-right: 0.4rem;
+        }
+    }
+
+    &-bottom {
+        position: absolute;
+        bottom: 3.8rem;
+    }
 }
 
-.close-icon {
-  background: none;
-  border: none;
-  position: absolute;
-  top: -0.8rem;
-  left: 0.3rem;
-  z-index: 1;
-  color: $color-background;
-  font-size: 1.5rem;
+.menu {
+    @include menu-styles(-100%, 0);
+
+    a {
+        color: $color-background;
+    }
+
+    &.menu-open {
+        left: 0;
+    }
+
+    &.menu-closed {
+        left: -100%;
+    }
+
+    .close-icon {
+        @include close-icon-styles();
+        left: 0.3rem;
+    }
+}
+
+.menu.menu-switch-account {
+    @include menu-styles(100%, -100%);
+
+    &.menu-open {
+        left: 20%;
+        right: 0;
+    }
+
+    &.menu-closed {
+        left: 100%;
+        right: -100%;
+    }
+
+    .close-icon {
+        @include close-icon-styles();
+        right: calc(-80% - 0.3rem);
+    }
 }
 
 ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
+    list-style: none;
+    padding: 0;
+    margin: 0;
 
-ul .menu-item {
-  font-size: 1rem;
-  //
-  text-transform: capitalize;
-  border-radius: 0.5rem;
-  transition: background-color 0.3s ease-in-out;
-  cursor: pointer;
-  // For badge
-  position: relative;
+    .menu-item {
+        @include menu-item-styles;
 
-  &:hover {
-    background-color: $color-primary-hover;
-    transition: background-color 0.3s ease-in-out;
-  }
-
-  &.sub-menu-item {
-    padding-left: 1.4rem;
-  }
-
-  & a {
-    display: block;
-    padding: 1rem 2rem;
-  }
-
-  &-bottom {
-    position: absolute;
-    bottom: 3.8rem;
-  }
+        &.sub-menu-item {
+            padding-left: 1.4rem;
+        }
+    }
 }
 
 @media screen and (min-width: $min-desktop) {
-  .menu {
-    position: fixed;
-    top: 60px;
-    left: 0;
-    min-width: 220px;
-    max-width: 220px;
-    box-shadow: none;
-    background-color: $color-primary;
-    padding: 0.8rem;
-    overflow-y: auto;
-    // Placing menu under header (z-index header: 9999)
-    z-index: 9000;
-  }
+    .menu {
+        position: fixed;
+        top: 60px;
+        left: 0;
+        min-width: 220px;
+        max-width: 220px;
+        box-shadow: none;
+        background-color: $color-primary;
+        padding: 0.8rem;
+        overflow-y: auto;
+        z-index: 9000;
+    }
 
-  .close-icon {
-    display: none;
-  }
+    .close-icon {
+        display: none;
+    }
 
-  .menu-item-bottom {
-    display: none;
-  }
+    .menu-item-bottom {
+        display: none;
+    }
 }

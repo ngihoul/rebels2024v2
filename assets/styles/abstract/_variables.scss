@@ -1,1 +1,8 @@
 $border-radius: 5px;
+
+@mixin profile-picture($size) {
+    width: $size;
+    height: $size;
+    border-radius: $size;
+    object-fit: cover;
+}

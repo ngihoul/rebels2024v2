@@ -1,122 +1,125 @@
 header {
-  position: sticky;
-  top: 0;
-  background-color: $color-background;
-  padding: 0.8rem 1rem;
-  width: 100vw;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  z-index: 9999;
+    position: sticky;
+    top: 0;
+    background-color: $color-background;
+    padding: 0.8rem 1rem;
+    width: 100vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 9999;
 
-  & > div {
-    width: 33.33%;
-  }
+    & > div {
+        width: 33.33%;
+    }
 }
 
 .menu-logo {
-  text-align: left;
-  &.connected {
-    text-align: center;
-  }
+    text-align: left;
+    &.connected {
+        text-align: center;
+    }
 }
 
 .logo {
-  max-height: 32px;
+    max-height: 32px;
 }
 
 .profile-icon-mobile {
-  .member-picture {
-    width: 36px;
-    height: 36px;
-    border-radius: 36px;
-    object-fit: cover;
-  }
+    .member-picture {
+        @include profile-picture(36px);
+    }
 }
 
 .profile-icon-desktop {
-  display: none;
+    display: none;
 }
 
 .header-options {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
 }
 
 .language-dropdown {
-  position: relative;
-  font-size: 1.1rem;
-  margin-right: 0.4rem;
+    position: relative;
+    font-size: 1.1rem;
+    margin-right: 0.4rem;
 
-  .dropdown-toggle {
-    padding: 0.8rem;
-  }
-
-  .dropdown-menu {
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    right: 0;
-
-    .dropdown-item {
-      padding: 0.8rem;
-      background-color: $color-background;
-      margin-top: 0.8rem;
+    .dropdown-toggle {
+        padding: 0.8rem;
     }
 
-    &.hidden {
-      display: none;
+    .dropdown-menu {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        right: 0;
+
+        .dropdown-item {
+            padding: 0.8rem;
+            background-color: $color-background;
+            margin-top: 0.8rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        &.hidden {
+            display: none;
+        }
     }
-  }
+}
+
+.children-dropdown-icon {
+    padding: 0.8rem 0 0.8rem 0.8rem;
 }
 
 @media screen and (min-width: $min-desktop) {
-  .menu-icon,
-  .profile-icon-mobile {
-    display: none;
-  }
-
-  .menu-logo {
-    text-align: left;
-    &.connected {
-      text-align: left;
-    }
-  }
-
-  .profile-icon-desktop {
-    display: flex;
-    align-items: center;
-    padding-right: 0.8rem;
-
-    .icon-profile {
-      padding-right: 0.4rem;
+    .menu-icon,
+    .profile-icon-mobile {
+        display: none;
     }
 
-    .member-picture {
-      width: 36px;
-      height: 36px;
-      border-radius: 36px;
-      margin-right: 0.4rem;
-      object-fit: cover;
+    .menu-logo {
+        text-align: left;
+        &.connected {
+            text-align: left;
+        }
     }
 
-    .profile-user-data {
-      display: flex;
-      height: 100%;
-      flex-direction: column;
-      justify-content: center;
+    .profile-icon-desktop {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+
+        .icon-profile {
+            padding-right: 0.4rem;
+        }
+
+        .member-picture {
+            @include profile-picture(36px);
+            margin-right: 0.4rem;
+        }
+
+        .profile-user-data {
+            display: flex;
+            height: 100%;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        p.user-name {
+            font-size: 0.9rem;
+            padding-bottom: 0.1rem;
+            margin-bottom: 0;
+        }
+
+        .disconnect-link {
+            font-size: 0.7rem;
+        }
     }
 
-    p.user-name {
-      font-size: 0.9rem;
-      padding-bottom: 0.1rem;
-      margin-bottom: 0;
+    .children-dropdown-icon {
+        cursor: pointer;
     }
-
-    .disconnect-link {
-      font-size: 0.7rem;
-    }
-  }
 }
