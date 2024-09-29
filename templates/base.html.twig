@@ -21,12 +21,15 @@
 			{{ encore_entry_script_tags('spinner') }}
 			{{ encore_entry_script_tags('menu') }}
 			{{ encore_entry_script_tags('languageDropdown') }}
+			{{ encore_entry_script_tags('modalConfirmation') }}
 			<script src="https://kit.fontawesome.com/dd6e6a21ba.js" crossorigin="anonymous"></script>
 		{% endblock %}
 	</head>
 	<body>
 
 		<div id="spinner" class="spinner"></div>
+
+		{% include 'shared/modal_confirmation.html.twig' with { 'message' : "Tu t'apprêtes à changer de compte. Es-tu sur ?", 'confirmButtonText' : "Changer" } %}
 
 		<header>
 			{% if app.user %}
@@ -79,7 +82,6 @@
 							<i class="fa-solid fa-chevron-down"></i>
 						</div>
 					</div>
-
 				{% endif %}
 			</div>
 		</header>
@@ -156,59 +158,32 @@
 			</nav>
 		{% endif %}
 
-		<nav id="switch-account-menu" class="menu menu-switch-account menu-closed">
-			<button id="close-icon-switch-account" class="icon close-icon">
-				<i class="fa-solid fa-xmark"></i>
-			</button>
-			<ul>
-				<li class="switch-account-menu-item">
-					<div class="card-account">
-						<div class="profile-picture">
-							{% if app.user.profilePicture %}
-								<img class="member-picture" src="{{ asset('uploads/user_pictures/' ~ app.user.profilePicture) }}" alt="Profile picture of {{ app.user.firstname }}">
-							{% else %}
-								<i class="fa-regular fa-user icon icon-profile"></i>
-							{% endif %}
-						</div>
-						<div class="member-name">
-							<p>{{ app.user.firstname }}
-								{{ app.user.lastname }}</p>
-							{% if app.session.get('activeUser') is same as(app.user.id) %}
-								<p class="active">
-									Compte actif
-								{% endif %}
-							</p>
-						</div>
-						<div class="actions-icon icon">
-							{% if app.session.get('activeUser') is same as(app.user.id) %}
-								<div class="connected"></div>
-							{% else %}
-								<i class="fa-solid fa-shuffle icon"></i>
-							{% endif %}
-						</div>
-					</div>
-				</li>
-				{% for child in get_children(app.user.id) %}
-					<li class="switch-account-menu-item">
+		{% if app.user %}
+			<nav id="switch-account-menu" class="menu menu-switch-account menu-closed">
+				<button id="close-icon-switch-account" class="icon close-icon">
+					<i class="fa-solid fa-xmark"></i>
+				</button>
+				<ul>
+					<li class="switch-account-menu-item" data-action-url="{{ path('app_switch_account', { 'userId' : app.user.id }) }}">
 						<div class="card-account">
 							<div class="profile-picture">
 								{% if app.user.profilePicture %}
-									<img class="member-picture" src="{{ asset('uploads/user_pictures/' ~ child.profilePicture) }}" alt="Profile picture of {{ child.firstname }}">
+									<img class="member-picture" src="{{ asset('uploads/user_pictures/' ~ app.user.profilePicture) }}" alt="Profile picture of {{ app.user.firstname }}">
 								{% else %}
 									<i class="fa-regular fa-user icon icon-profile"></i>
 								{% endif %}
 							</div>
 							<div class="member-name">
-								<p>{{ child.firstname }}
-									{{ child.lastname }}</p>
-								{% if app.session.get('activeUser') is same as(child.id) %}
+								<p>{{ app.user.firstname }}
+									{{ app.user.lastname }}</p>
+								{% if app.session.get('activeUser') is same as(app.user.id) %}
 									<p class="active">
 										Compte actif
 									{% endif %}
 								</p>
 							</div>
 							<div class="actions-icon icon">
-								{% if app.session.get('activeUser') is same as(child.id) %}
+								{% if app.session.get('activeUser') is same as(app.user.id) %}
 									<div class="connected"></div>
 								{% else %}
 									<i class="fa-solid fa-shuffle icon"></i>
@@ -216,22 +191,53 @@
 							</div>
 						</div>
 					</li>
-				{% endfor %}
-				<li class="menu-item menu-item-bottom">
-					<a href="{{ path('app_logout') }}">
-						<i class="fa-solid fa-power-off"></i>
-						{{ "nav.log_off"|trans }}
-					</a>
-				</li>
-			</ul>
-		</body>
+					{% for child in get_children(app.user.id) %}
+						<li class="switch-account-menu-item" data-action-url="{{ path('app_switch_account', { 'userId' : child.id }) }}">
+							<div class="card-account">
+								<div class="profile-picture">
+									{% if app.user.profilePicture %}
+										<img class="member-picture" src="{{ asset('uploads/user_pictures/' ~ child.profilePicture) }}" alt="Profile picture of {{ child.firstname }}">
+									{% else %}
+										<i class="fa-regular fa-user icon icon-profile"></i>
+									{% endif %}
+								</div>
+								<div class="member-name">
+									<p>{{ child.firstname }}
+										{{ child.lastname }}</p>
+									{% if app.session.get('activeUser') is same as(child.id) %}
+										<p class="active">
+											Compte actif
+										{% endif %}
+									</p>
+								</div>
+								<div class="actions-icon icon">
+									{% if app.session.get('activeUser') is same as(child.id) %}
+										<div class="connected"></div>
+									{% else %}
+										<i class="fa-solid fa-shuffle icon"></i>
+									{% endif %}
+								</div>
+							</div>
+						</li>
+					{% endfor %}
+					<li class="menu-item menu-item-bottom">
+						<a href="{{ path('app_logout') }}">
+							<i class="fa-solid fa-power-off"></i>
+							{{ "nav.log_off"|trans }}
+						</a>
+					</li>
+				</ul>
+			</nav>
+		{% endif %}
 	</body>
-</html></nav>{% block body %}
-{# Display flash messages #}
-{% for label, messages in app.flashes %}
-	{% for message in messages %}
-		<div class="alert alert-{{ label }}">
-			<p>{{ message|raw }}</p>
-		</div>
+</html>
+{% block body %}
+	{# Display flash messages #}
+	{% for label, messages in app.flashes %}
+		{% for message in messages %}
+			<div class="alert alert-{{ label }}">
+				<p>{{ message|raw }}</p>
+			</div>
+		{% endfor %}
 	{% endfor %}
-{% endfor %}{% endblock %}</body></html>
+{% endblock %}

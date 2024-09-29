@@ -56,7 +56,7 @@ services:
         arguments:
             $userRepository: '@App\Repository\UserRepository'
 
-    App\Twig\GetAllAccountsExtension:
+    App\Twig\AccountExtension:
         arguments:
             $accountManager: '@App\Service\AccountManager'
         tags:
