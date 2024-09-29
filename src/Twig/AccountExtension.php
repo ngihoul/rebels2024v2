@@ -6,7 +6,7 @@ use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 use App\Service\AccountManager;
 
-class GetAllAccountsExtension extends AbstractExtension
+class AccountExtension extends AbstractExtension
 {
     private AccountManager $accountManager;
 
@@ -19,11 +19,22 @@ class GetAllAccountsExtension extends AbstractExtension
     {
         return [
             new TwigFunction('get_children', [$this, 'getUserChildren']),
+            new TwigFunction('get_active_users', [$this, 'getActiveUsers']),
         ];
     }
 
     public function getUserChildren($userId)
     {
         return $this->accountManager->getUserChildren($userId);
+    }
+
+    public function getActiveUser()
+    {
+        $userId = $this->accountManager->getSession()->get('activeUser');
+        if ($userId) {
+            return $this->accountManager->getUserById($userId);
+        }
+
+        return null;
     }
 }

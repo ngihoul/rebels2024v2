@@ -17,6 +17,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityNotFoundException;
 use Exception;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class UserController extends AbstractController
@@ -24,12 +26,14 @@ class UserController extends AbstractController
     private UserRepository $userRepository;
     private EntityManagerInterface $entityManager;
     private TranslatorInterface $translator;
+    private SessionInterface $session;
 
-    public function __construct(UserRepository $userRepository, EntityManagerInterface $entityManager, TranslatorInterface $translator)
+    public function __construct(UserRepository $userRepository, EntityManagerInterface $entityManager, TranslatorInterface $translator, RequestStack $requestStack)
     {
         $this->userRepository = $userRepository;
         $this->entityManager = $entityManager;
         $this->translator = $translator;
+        $this->session = $requestStack->getSession();
     }
 
     // Homepage for authenticated user. If not authenticated, redirected to login page
@@ -176,5 +180,28 @@ class UserController extends AbstractController
             'members' => $membersPaginated,
             'count' => $countMembers
         ]);
+    }
+
+    #[Route('/switch-account/{userId}', name: 'app_switch_account')]
+    #[IsGranted('ROLE_USER')]
+    public function switchAccount(int $userId, Request $request): Response
+    {
+        $user = $this->getUser();
+        $userSwitch = $this->userRepository->find($userId);
+
+        if (!$userSwitch || !$user->getChildren()->contains($userSwitch) && $user !== $userSwitch) {
+            $this->addFlash('error', $this->translator->trans('error.user_not_found'));
+            return $this->redirectToRoute('app_home');
+        }
+
+        if ($user == $userSwitch) {
+            $switchUser = $user;
+        }
+
+        $this->session->set('activeUser', $userSwitch->getId());
+
+        $this->addFlash('warning', "Tu utilises le compte de " . $userSwitch->getFirstname() . " " . $userSwitch->getLastname());
+
+        return $this->redirectToRoute('app_home');
     }
 }
