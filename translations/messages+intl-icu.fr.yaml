@@ -56,7 +56,7 @@ success:
     account_created:
         'Ton compte a bien été créé. Merci de confirmer ton adresse mail en
         consultant ta boîte mail.'
-    children_created: 'Vos enfants ont été ajoutés.'
+    children_created: 'Tes enfants ont été ajoutés avec succès.'
     email_verified: 'Ton adresse email a été vérifiée.'
     team_created: "L'équipe a été créée."
     password_changed: 'Ton mot de passe a été mis à jour.'
