@@ -4,7 +4,7 @@ namespace App\Service;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class AccountManager
@@ -12,10 +12,10 @@ class AccountManager
     private UserRepository $userRepository;
     private SessionInterface $session;
 
-    public function __construct(UserRepository $userRepository, SessionInterface $session)
+    public function __construct(UserRepository $userRepository, RequestStack $requestStack)
     {
         $this->userRepository = $userRepository;
-        $this->session = $session;
+        $this->session = $requestStack->getSession();
     }
 
     public function getSession(): SessionInterface

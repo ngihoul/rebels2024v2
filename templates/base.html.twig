@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-{# prettier-ignore-start #}
 <html lang="{{ app.request.locale }}">
 	<head>
 		<meta charset="UTF-8">
@@ -59,9 +58,10 @@
 					</div>
 				</div>
 				{% if app.user %}
+					{% set activeUser = get_active_user() %}
 					<div class="profile-icon-mobile">
 						{% if app.user.profilePicture %}
-							<img class="member-picture" src="{{ asset('uploads/user_pictures/' ~ app.user.profilePicture) }}" alt="Profile picture of {{ app.user.firstname }}">
+							<img class="member-picture" src="{{ asset('uploads/user_pictures/' ~ activeUser.profilePicture) }}" alt="Profile picture of {{ activeUser.firstname }}">
 						{% else %}
 							<i class="fa-regular fa-user icon icon-profile"></i>
 						{% endif %}
@@ -70,13 +70,13 @@
 						<i class="fa-solid fa-chevron-down"></i>
 					</div>
 					<div class="profile-icon-desktop">
-						{% if app.user.profilePicture %}
-							<img class="member-picture" src="{{ asset('uploads/user_pictures/' ~ app.user.profilePicture) }}" alt="Profile picture of {{ app.user.firstname }}">
+						{% if activeUser.profilePicture %}
+							<img class="member-picture" src="{{ asset('uploads/user_pictures/' ~ activeUser.profilePicture) }}" alt="Profile picture of {{ activeUser.firstname }}">
 						{% else %}
 							<i class="fa-regular fa-user icon icon-profile"></i>
 						{% endif %}
 						<div class="profile-user-data">
-							<p class="user-name">{{ app.user.firstname ~ ' ' ~ app.user.lastname }}</p>
+							<p class="user-name">{{ activeUser.firstname ~ ' ' ~ activeUser.lastname }}</p>
 						</div>
 						<div id="children-dropdown-icon-desktop" class="children-dropdown-icon">
 							<i class="fa-solid fa-chevron-down"></i>
