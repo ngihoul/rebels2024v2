@@ -1,31 +1,29 @@
-.menu-item {
-    .card-account {
+.card-account {
+    display: flex;
+    align-items: center;
+    padding: 0.8rem;
+    color: $color-background;
+
+    .profile-picture img {
+        @include profile-picture(50px);
+        margin-right: 0.8rem;
+        margin-left: 1.2rem;
+    }
+
+    .member-name {
+        font-size: 1.2rem;
+        overflow: hidden;
+
+        p {
+            font-weight: bolder;
+            margin-bottom: 0;
+            color: inherit;
+        }
+    }
+
+    .actions-icon {
         display: flex;
-        align-items: center;
-        padding: 0.8rem;
-        color: $color-background;
-
-        .profile-picture img {
-            @include profile-picture(50px);
-            margin-right: 0.8rem;
-            margin-left: 1.2rem;
-        }
-
-        .member-name {
-            font-size: 1.2rem;
-            overflow: hidden;
-
-            p {
-                font-weight: bolder;
-                margin-bottom: 0;
-                color: inherit;
-            }
-        }
-
-        .actions-icon {
-            display: flex;
-            margin-left: auto;
-            padding-right: 1.6rem;
-        }
+        margin-left: auto;
+        padding-right: 1.6rem;
     }
 }
