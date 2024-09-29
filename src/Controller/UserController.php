@@ -195,7 +195,7 @@ class UserController extends AbstractController
         }
 
         if ($user == $userSwitch) {
-            $switchUser = $user;
+            $userSwitch = $user;
         }
 
         $this->session->set('activeUser', $userSwitch->getId());
