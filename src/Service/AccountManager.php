@@ -28,6 +28,16 @@ class AccountManager
         return $this->userRepository->find($userId);
     }
 
+    public function getActiveUser()
+    {
+        $userId = $this->getSession()->get('activeUser');
+        if ($userId) {
+            return $this->getUserById($userId);
+        }
+
+        return null;
+    }
+
     public function getUserChildren($userId)
     {
         $user = $this->userRepository->find($userId);

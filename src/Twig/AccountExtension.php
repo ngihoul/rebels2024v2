@@ -30,11 +30,6 @@ class AccountExtension extends AbstractExtension
 
     public function getActiveUser()
     {
-        $userId = $this->accountManager->getSession()->get('activeUser');
-        if ($userId) {
-            return $this->accountManager->getUserById($userId);
-        }
-
-        return null;
+        return $this->accountManager->getActiveUser();
     }
 }
