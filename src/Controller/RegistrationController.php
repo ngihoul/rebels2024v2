@@ -250,6 +250,7 @@ class RegistrationController extends AbstractController
                 'form' => $form->createView(),
             ]);
         } elseif ($userChoice === 'player' && $step === $this::CHILDREN_REGISTRATION) {
+            $this->session->clear();
             return $this->redirectToRoute('app_home');
         }
     }
