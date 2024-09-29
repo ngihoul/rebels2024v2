@@ -140,8 +140,9 @@ class RegistrationController extends AbstractController
         $user = new User();
         $user = $form->getData();
 
-        $this->hasPassword($form, $user);
+        $this->hashPassword($form, $user);
         $this->profilePictureManager->handleProfilePicture($form, $user);
+        $user->setRoles(['ROLE_USER']);
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();
@@ -156,7 +157,7 @@ class RegistrationController extends AbstractController
         return $this->redirectToRoute('app_register');
     }
 
-    private function hasPassword(FormInterface $form, User $user): void
+    private function hashPassword(FormInterface $form, User $user): void
     {
         $user->setPassword(
             $this->userPasswordHasher->hashPassword(
@@ -197,6 +198,9 @@ class RegistrationController extends AbstractController
             }
 
             $child->setParent($user, $relationType);
+
+            // Not used for now
+            $child->setRoles(['ROLE_CHILD']);
 
             try {
                 $this->profilePictureManager->handleProfilePicture($form->get('children')->get($index), $child);
