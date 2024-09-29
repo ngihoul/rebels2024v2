@@ -42,9 +42,13 @@ user_choice:
     player: 'Je veux inscrire mon ou mes enfants'
 
 children:
+    email: 'Email'
     relation_type: 'Quel est votre lien de parenté avec le joueur ?'
     same_address_as_parent:
         "L'adresse de l'enfant est-elle la même que celle du parent ?"
+    add_child: 'Ajouter un enfant'
+    delete_child: 'Supprimer le dernier enfant'
+    register_children: 'Enregistrer'
 
 # Team Form
 team:

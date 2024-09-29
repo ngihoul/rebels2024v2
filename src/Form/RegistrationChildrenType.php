@@ -278,7 +278,7 @@ class ChildType extends AbstractType
                 ],
             ])
             ->add('email', EmailType::class, [
-                'label' => 'user.email',
+                'label' => 'children.email',
                 'row_attr' => [
                     'class' => 'email'
                 ],
