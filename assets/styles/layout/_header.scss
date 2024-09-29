@@ -70,8 +70,12 @@ header {
     }
 }
 
-.children-dropdown-icon {
+#children-dropdown-icon-mobile {
     padding: 0.8rem 0 0.8rem 0.8rem;
+
+    &-desktop {
+        display: none;
+    }
 }
 
 @media screen and (min-width: $min-desktop) {
@@ -119,7 +123,15 @@ header {
         }
     }
 
-    .children-dropdown-icon {
-        cursor: pointer;
+    #children-dropdown-icon {
+        &-mobile {
+            display: none;
+        }
+
+        &-desktop {
+            display: block;
+            padding: 0.8rem;
+            cursor: pointer;
+        }
     }
 }

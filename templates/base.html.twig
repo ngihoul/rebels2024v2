@@ -63,6 +63,9 @@
 							<i class="fa-regular fa-user icon icon-profile"></i>
 						{% endif %}
 					</div>
+					<div id="children-dropdown-icon-mobile" class="children-dropdown-icon">
+						<i class="fa-solid fa-chevron-down"></i>
+					</div>
 					<div class="profile-icon-desktop">
 						{% if app.user.profilePicture %}
 							<img class="member-picture" src="{{ asset('uploads/user_pictures/' ~ app.user.profilePicture) }}" alt="Profile picture of {{ app.user.firstname }}">
@@ -72,10 +75,11 @@
 						<div class="profile-user-data">
 							<p class="user-name">{{ app.user.firstname ~ ' ' ~ app.user.lastname }}</p>
 						</div>
+						<div id="children-dropdown-icon-desktop" class="children-dropdown-icon">
+							<i class="fa-solid fa-chevron-down"></i>
+						</div>
 					</div>
-					<div class="children-dropdown-icon">
-						<i class="fa-solid fa-chevron-down"></i>
-					</div>
+
 				{% endif %}
 			</div>
 		</header>

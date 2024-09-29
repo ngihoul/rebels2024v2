@@ -117,6 +117,10 @@ ul {
         padding: 0.8rem;
         overflow-y: auto;
         z-index: 9000;
+
+        &.menu-closed {
+            left: 0;
+        }
     }
 
     .close-icon {
@@ -125,5 +129,19 @@ ul {
 
     .menu-item-bottom {
         display: none;
+    }
+
+    // Switch account menu on Desktop
+    .menu.menu-switch-account.menu-open {
+        position: absolute;
+        top: 68px;
+        right: 0;
+        left: auto;
+        background-color: $color-background;
+        color: $color-text;
+        width: auto;
+        height: auto;
+        padding: 0;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     }
 }

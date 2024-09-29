@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('hamburger-icon')) {
         const hamburgerIcon = document.getElementById('hamburger-icon');
         const closeIcon = document.getElementById('close-icon');
-        const menu = document.querySelector('.menu');
+        const menu = document.querySelector('#main-menu');
 
         // Open menu
         hamburgerIcon.addEventListener('click', function () {
@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Switch account menu - Mobile
     const profilePicture = document.querySelector('.profile-icon-mobile');
     const dropDownSwitchAccount = document.querySelector(
-        '.children-dropdown-icon',
+        '#children-dropdown-icon-mobile',
     );
     const closeSwitchAccountBtn = document.getElementById(
         'close-icon-switch-account',
@@ -41,8 +41,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const switchAccountMenu = document.querySelector('#switch-account-menu');
 
     const openSwitchAccountmenu = () => {
-        switchAccountMenu.classList.add('menu-open');
-        switchAccountMenu.classList.remove('menu-closed');
+        if (switchAccountMenu.classList.contains('menu-open')) {
+            switchAccountMenu.classList.remove('menu-open');
+            switchAccountMenu.classList.add('menu-closed');
+        } else {
+            switchAccountMenu.classList.remove('menu-closed');
+            switchAccountMenu.classList.add('menu-open');
+        }
     };
 
     profilePicture.addEventListener('click', openSwitchAccountmenu);
@@ -51,5 +56,32 @@ document.addEventListener('DOMContentLoaded', () => {
     closeSwitchAccountBtn.addEventListener('click', () => {
         switchAccountMenu.classList.remove('menu-open');
         switchAccountMenu.classList.add('menu-closed');
+    });
+
+    // Switch account - Desktop
+    const profilePictureDesktop = document.querySelector(
+        '.profile-icon-desktop',
+    );
+
+    profilePictureDesktop.addEventListener('click', openSwitchAccountmenu);
+
+    // Close menu if a click is done outside the menu
+    document.addEventListener('click', event => {
+        const isClickInsideMenu = switchAccountMenu.contains(event.target);
+        const isClickOnProfileIcon =
+            profilePicture.contains(event.target) ||
+            profilePictureDesktop.contains(event.target);
+        const isClickOnDropDownIcon = dropDownSwitchAccount.contains(
+            event.target,
+        );
+
+        if (
+            !isClickInsideMenu &&
+            !isClickOnProfileIcon &&
+            !isClickOnDropDownIcon
+        ) {
+            switchAccountMenu.classList.remove('menu-open');
+            switchAccountMenu.classList.add('menu-closed');
+        }
     });
 });

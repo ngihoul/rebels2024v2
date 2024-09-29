@@ -27,3 +27,32 @@
         padding-right: 1.6rem;
     }
 }
+
+@media screen and (min-width: $min-desktop) {
+    .card-account {
+        padding: 0.8rem 1rem 0.8rem 0.8rem;
+        background-color: $color-background;
+        color: $color-text;
+        cursor: pointer;
+
+        .profile-picture img {
+            @include profile-picture(36px);
+            margin-right: 0.4rem;
+        }
+
+        .member-name {
+            p {
+                font-size: 0.9rem;
+                font-weight: normal;
+            }
+        }
+
+        .actions-icon {
+            padding: 0 0.4rem 0 0;
+
+            .icon {
+                font-size: 1.2rem;
+            }
+        }
+    }
+}
