@@ -1,5 +1,6 @@
 # Flash messages
 error:
+    bad_credentials: 'Les identifiants sont incorrects.'
     already_logged: 'Tu es déjà connecté.'
     user_not_found: "L'utilisateur n'a pas été trouvé."
     profile_not_found: "Le profil demandé n'a pas été trouvé."
