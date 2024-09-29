@@ -12,7 +12,7 @@
 
     .member-name {
         font-size: 1.2rem;
-        overflow: hidden;
+        // overflow: hidden;
 
         p {
             font-weight: bolder;
@@ -30,7 +30,7 @@
 
 @media screen and (min-width: $min-desktop) {
     .card-account {
-        padding: 0.8rem 1rem 0.8rem 0.8rem;
+        padding: 0.8rem;
         background-color: $color-background;
         color: $color-text;
         cursor: pointer;
@@ -48,7 +48,7 @@
         }
 
         .actions-icon {
-            padding: 0 0.4rem 0 0;
+            padding: 0.8rem;
 
             .icon {
                 font-size: 1.2rem;

@@ -188,40 +188,43 @@
 						</div>
 					</div>
 				</li>
-				<li class="switch-account-menu-item">
-					<div class="card-account">
-						<div class="profile-picture">
-							{% if app.user.profilePicture %}
-								<img class="member-picture" src="{{ asset('uploads/user_pictures/' ~ app.user.profilePicture) }}" alt="Profile picture of {{ app.user.firstname }}">
-							{% else %}
-								<i class="fa-regular fa-user icon icon-profile"></i>
-							{% endif %}
-						</div>
-						<div class="member-name">
-							<p>{{ app.user.firstname }}
-								{{ app.user.lastname }}</p>
-							{% if app.session.get('activeUser') is same as(app.user.id) %}
-								<p class="active">
-									Compte actif
+				{% for child in get_children(app.user.id) %}
+					<li class="switch-account-menu-item">
+						<div class="card-account">
+							<div class="profile-picture">
+								{% if app.user.profilePicture %}
+									<img class="member-picture" src="{{ asset('uploads/user_pictures/' ~ child.profilePicture) }}" alt="Profile picture of {{ child.firstname }}">
+								{% else %}
+									<i class="fa-regular fa-user icon icon-profile"></i>
 								{% endif %}
-							</p>
+							</div>
+							<div class="member-name">
+								<p>{{ child.firstname }}
+									{{ child.lastname }}</p>
+								{% if app.session.get('activeUser') is same as(child.id) %}
+									<p class="active">
+										Compte actif
+									{% endif %}
+								</p>
+							</div>
+							<div class="actions-icon icon">
+								{% if app.session.get('activeUser') is same as(child.id) %}
+									<div class="connected"></div>
+								{% else %}
+									<i class="fa-solid fa-shuffle icon"></i>
+								{% endif %}
+							</div>
 						</div>
-						<div class="actions-icon icon">
-							{% if app.session.get('activeUser') is same as(app.user.id) %}
-								<div class="connected"></div>
-							{% else %}
-								<i class="fa-solid fa-shuffle icon"></i>
-							{% endif %}
-						</div>
-					</div>
+					</li>
+				{% endfor %}
+				<li class="menu-item menu-item-bottom">
+					<a href="{{ path('app_logout') }}">
+						<i class="fa-solid fa-power-off"></i>
+						{{ "nav.log_off"|trans }}
+					</a>
 				</li>
-			</li>
-			<li class="menu-item menu-item-bottom">
-				<a href="{{ path('app_logout') }}">
-					<i class="fa-solid fa-power-off"></i>
-					{{ "nav.log_off"|trans }}</a>
-			</li>
-		</ul>
+			</ul>
+		</body>
 	</body>
 </html></nav>{% block body %}
 {# Display flash messages #}
