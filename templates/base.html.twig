@@ -1,3 +1,7 @@
+{% set realUser = get_active_user() %}
+{% set currentLocale = app.request.locale %}
+{% set availableLocales = ['fr', 'en'] %}
+
 <!DOCTYPE html>
 <html lang="{{ app.request.locale }}">
 	<head>
@@ -47,9 +51,6 @@
 						{{ app.request.locale|upper }}
 					</a>
 					<div class="dropdown-menu hidden">
-						{% set currentLocale = app.request.locale %}
-						{% set availableLocales = ['fr', 'en'] %}
-
 						{% for locale in availableLocales %}
 							{% if locale != currentLocale %}
 								<a href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge({'_locale': locale})) }}" class="dropdown-item">{{ locale|upper }}</a>
@@ -58,10 +59,9 @@
 					</div>
 				</div>
 				{% if app.user %}
-					{% set activeUser = get_active_user() %}
 					<div class="profile-icon-mobile">
 						{% if app.user.profilePicture %}
-							<img class="member-picture" src="{{ asset('uploads/user_pictures/' ~ activeUser.profilePicture) }}" alt="Profile picture of {{ activeUser.firstname }}">
+							<img class="member-picture" src="{{ asset('uploads/user_pictures/' ~ app.user.profilePicture) }}" alt="Profile picture of {{ app.user.firstname }}">
 						{% else %}
 							<i class="fa-regular fa-user icon icon-profile"></i>
 						{% endif %}
@@ -70,13 +70,13 @@
 						<i class="fa-solid fa-chevron-down"></i>
 					</div>
 					<div class="profile-icon-desktop">
-						{% if activeUser.profilePicture %}
-							<img class="member-picture" src="{{ asset('uploads/user_pictures/' ~ activeUser.profilePicture) }}" alt="Profile picture of {{ activeUser.firstname }}">
+						{% if app.user.profilePicture %}
+							<img class="member-picture" src="{{ asset('uploads/user_pictures/' ~ app.user.profilePicture) }}" alt="Profile picture of {{ app.user.firstname }}">
 						{% else %}
 							<i class="fa-regular fa-user icon icon-profile"></i>
 						{% endif %}
 						<div class="profile-user-data">
-							<p class="user-name">{{ activeUser.firstname ~ ' ' ~ activeUser.lastname }}</p>
+							<p class="user-name">{{ app.user.firstname ~ ' ' ~ app.user.lastname }}</p>
 						</div>
 						<div id="children-dropdown-icon-desktop" class="children-dropdown-icon">
 							<i class="fa-solid fa-chevron-down"></i>
@@ -125,7 +125,7 @@
 							{{ "nav.statistics"|trans }}</a>
 					</li>
 					<li class="menu-item">
-						<a href="{{ path('app_profile', { 'userId' : app.user.id }) }}">
+						<a href="{{ path('app_profile') }}">
 							<i class="fa-regular fa-user"></i>
 							{{ "nav.my_profile"|trans }}</a>
 					</li>
@@ -152,7 +152,8 @@
 					<li class="menu-item menu-item-bottom">
 						<a href="{{ path('app_logout') }}">
 							<i class="fa-solid fa-power-off"></i>
-							{{ "nav.log_off"|trans }}</a>
+							{{ "nav.log_off"|trans }}
+						</a>
 					</li>
 				</ul>
 			</nav>
@@ -164,54 +165,30 @@
 					<i class="fa-solid fa-xmark"></i>
 				</button>
 				<ul>
-					<li class="switch-account-menu-item" data-action-url="{{ path('app_switch_account', { 'userId' : app.user.id }) }}">
-						<div class="card-account">
-							<div class="profile-picture">
-								{% if app.user.profilePicture %}
-									<img class="member-picture" src="{{ asset('uploads/user_pictures/' ~ app.user.profilePicture) }}" alt="Profile picture of {{ app.user.firstname }}">
-								{% else %}
-									<i class="fa-regular fa-user icon icon-profile"></i>
-								{% endif %}
-							</div>
-							<div class="member-name">
-								<p>{{ app.user.firstname }}
-									{{ app.user.lastname }}</p>
-								{% if app.session.get('activeUser') is same as(app.user.id) %}
-									<p class="active">
-										Compte actif
-									{% endif %}
-								</p>
-							</div>
-							<div class="actions-icon icon">
-								{% if app.session.get('activeUser') is same as(app.user.id) %}
-									<div class="connected"></div>
-								{% else %}
-									<i class="fa-solid fa-shuffle icon"></i>
-								{% endif %}
-							</div>
-						</div>
-					</li>
-					{% for child in get_children(app.user.id) %}
-						<li class="switch-account-menu-item" data-action-url="{{ path('app_switch_account', { 'userId' : child.id }) }}">
+					{% if realUser is same as (app.user) %}
+						<li class="" data-action-url="{{ path('app_profile') }}">
+						{% else %}
+							<li class="switch-account-menu-item" data-action-url="{{ path(app.request.attributes.get('_route'), app.request.query.all|merge({'_switch_user': '_exit'})) }}">
+							{% endif %}
 							<div class="card-account">
 								<div class="profile-picture">
-									{% if app.user.profilePicture %}
-										<img class="member-picture" src="{{ asset('uploads/user_pictures/' ~ child.profilePicture) }}" alt="Profile picture of {{ child.firstname }}">
+									{% if realUser.profilePicture %}
+										<img class="member-picture" src="{{ asset('uploads/user_pictures/' ~ realUser.profilePicture) }}" alt="Profile picture of {{ realUser.firstname }}">
 									{% else %}
 										<i class="fa-regular fa-user icon icon-profile"></i>
 									{% endif %}
 								</div>
 								<div class="member-name">
-									<p>{{ child.firstname }}
-										{{ child.lastname }}</p>
-									{% if app.session.get('activeUser') is same as(child.id) %}
+									<p>{{ realUser.firstname }}
+										{{ realUser.lastname }}</p>
+									{% if realUser.id is same as(app.user.id) %}
 										<p class="active">
 											Compte actif
 										{% endif %}
 									</p>
 								</div>
 								<div class="actions-icon icon">
-									{% if app.session.get('activeUser') is same as(child.id) %}
+									{% if realUser.id is same as(app.user.id) %}
 										<div class="connected"></div>
 									{% else %}
 										<i class="fa-solid fa-shuffle icon"></i>
@@ -219,25 +196,40 @@
 								</div>
 							</div>
 						</li>
+						{% if realUser == app.user %}
+							{% for child in get_children(realUser) %}
+								<li class="switch-account-menu-item" data-action-url="{{ path('app_switch_user', { 'userId' : child.id }) }}">
+									<div class="card-account">
+										<div class="profile-picture">
+											{% if app.user.profilePicture %}
+												<img class="member-picture" src="{{ asset('uploads/user_pictures/' ~ child.profilePicture) }}" alt="Profile picture of {{ child.firstname }}">
+											{% else %}
+												<i class="fa-regular fa-user icon icon-profile"></i>
+											{% endif %}
+										</div>
+										<div class="member-name">
+											<p>{{ child.firstname }}
+												{{ child.lastname }}</p>
+										</p>
+									</div>
+									<div class="actions-icon icon">
+										<i class="fa-solid fa-shuffle icon"></i>
+									</div>
+								</li>
+							</div>
+						</li>
 					{% endfor %}
-					<li class="menu-item menu-item-bottom">
-						<a href="{{ path('app_logout') }}">
-							<i class="fa-solid fa-power-off"></i>
-							{{ "nav.log_off"|trans }}
-						</a>
-					</li>
-				</ul>
-			</nav>
-		{% endif %}
-	</body>
-</html>
-{% block body %}
-	{# Display flash messages #}
-	{% for label, messages in app.flashes %}
-		{% for message in messages %}
-			<div class="alert alert-{{ label }}">
-				<p>{{ message|raw }}</p>
-			</div>
-		{% endfor %}
-	{% endfor %}
-{% endblock %}
+				{% endif %}
+				<li class="menu-item menu-item-bottom">
+					<a href="{{ path('app_logout') }}">
+						<i class="fa-solid fa-power-off"></i>
+						{{ "nav.log_off"|trans }}
+					</a>
+				</li>
+			</ul>
+		</nav>
+	{% endif %}
+</html></body></body></html>{% block body %}{# Display flash messages #}{% for label, messages in app.flashes %}{% for message in messages %}
+<div class="alert alert-{{ label }}">
+	<p>{{ message|raw }}</p>
+</div>{% endfor %}{% endfor %}{% endblock %}

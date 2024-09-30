@@ -27,7 +27,7 @@ class UserChecker implements UserCheckerInterface
 
     public function checkPreAuth(UserInterface $user)
     {
-        if ($user->getPassword() === null) {
+        if ($user->getPassword() == null) {
             throw new CustomUserMessageAuthenticationException($this->translator->trans('error.bad_credentials'));
         }
 

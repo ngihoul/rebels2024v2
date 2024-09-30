@@ -2,6 +2,7 @@
 error:
     bad_credentials: 'The credentials are incorrect.'
     already_logged: 'You are already logged.'
+    access_denied: 'Access denied.'
     user_not_found: 'the user has not been found.'
     profile_not_found: 'The requested profile has not been found.'
     email_validation: 'A problem has occurred during validation.'
@@ -83,6 +84,9 @@ success:
     place:
         created: 'The place has been created.'
         updated: 'The place has been updated.'
+
+warning:
+    user_switched: 'You are now using the {firstname} {lastname} account.'
 
 # Header
 header:

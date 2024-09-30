@@ -2,6 +2,7 @@
 error:
     bad_credentials: 'Les identifiants sont incorrects.'
     already_logged: 'Tu es déjà connecté.'
+    access_denied: 'Accès refusé.'
     user_not_found: "L'utilisateur n'a pas été trouvé."
     profile_not_found: "Le profil demandé n'a pas été trouvé."
     email_validation: 'Un problème est survenu lors de la validation.'
@@ -88,6 +89,9 @@ success:
     place:
         created: 'Le lieu a été créé.'
         updated: 'Le lieu a été mis à jour.'
+
+warning:
+    user_switched: 'Tu utilises maintenant le compte de {firstname} {lastname}.'
 
 # Header
 header:

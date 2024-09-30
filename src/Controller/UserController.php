@@ -17,8 +17,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityNotFoundException;
 use Exception;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class UserController extends AbstractController
@@ -26,14 +27,14 @@ class UserController extends AbstractController
     private UserRepository $userRepository;
     private EntityManagerInterface $entityManager;
     private TranslatorInterface $translator;
-    private SessionInterface $session;
+    private RequestStack $requestStack;
 
     public function __construct(UserRepository $userRepository, EntityManagerInterface $entityManager, TranslatorInterface $translator, RequestStack $requestStack)
     {
         $this->userRepository = $userRepository;
         $this->entityManager = $entityManager;
         $this->translator = $translator;
-        $this->session = $requestStack->getSession();
+        $this->requestStack = $requestStack;
     }
 
     // Homepage for authenticated user. If not authenticated, redirected to login page
@@ -102,10 +103,10 @@ class UserController extends AbstractController
         ]);
     }
 
-    // Display his own profile for USER and a user's profile for COACH/ADMIN
-    #[Route('/profile/{userId}', name: 'app_profile')]
-    #[IsGranted('ROLE_USER')]
-    public function profile(Request $request): Response
+    // Display user's profile for COACH/ADMIN
+    #[Route('/profile/{userId}', name: 'app_profile_user')]
+    #[IsGranted('ROLE_COACH')]
+    public function otherProfile($userId, Request $request): Response
     {
         try {
             $userId = $request->get('userId');
@@ -125,6 +126,31 @@ class UserController extends AbstractController
 
             // Generate title : My profile or Name's profile
             $pageTitle = ($user === $currentUser) ? $this->translator->trans('profile.my_profile') : $this->translator->trans('profile.profile_of') . $user->getFirstname() . ' ' . $user->getLastname();
+
+            return $this->render('profile/index.html.twig', [
+                'user' => $user,
+                'pageTitle' => $pageTitle
+            ]);
+        } catch (Exception $e) {
+            $this->addFlash('error', $e->getMessage());
+            return $this->redirectToRoute('app_home');
+        }
+    }
+
+    // Display his own profile for USER
+    #[Route('/profile', name: 'app_profile')]
+    #[IsGranted('ROLE_USER')]
+    public function profile(Request $request): Response
+    {
+        try {
+            $user = $this->userRepository->find($this->getUser());
+
+            if (!$user) {
+                throw new EntityNotFoundException($this->translator->trans('error.profile_not_found'));
+            }
+
+            // Generate title : My profile or Name's profile
+            $pageTitle = $this->translator->trans('profile.my_profile');
 
             return $this->render('profile/index.html.twig', [
                 'user' => $user,
@@ -182,26 +208,24 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/switch-account/{userId}', name: 'app_switch_account')]
+    #[Route('/switch-user/{userId}', name: 'app_switch_user')]
     #[IsGranted('ROLE_USER')]
-    public function switchAccount(int $userId, Request $request): Response
+    public function switchUser($userId, AuthorizationCheckerInterface $authChecker): RedirectResponse
     {
-        $user = $this->getUser();
-        $userSwitch = $this->userRepository->find($userId);
+        $user = $this->userRepository->find($userId);
 
-        if (!$userSwitch || !$user->getChildren()->contains($userSwitch) && $user !== $userSwitch) {
-            $this->addFlash('error', $this->translator->trans('error.user_not_found'));
-            return $this->redirectToRoute('app_home');
+        if (!$user) {
+            throw $this->createNotFoundException($this->translator->trans('error.user_not_found'));
         }
 
-        if ($user == $userSwitch) {
-            $userSwitch = $user;
+        if (!$authChecker->isGranted('SWITCH', $user)) {
+            throw $this->createAccessDeniedException($this->translator->trans('error.access_denied'));
         }
 
-        $this->session->set('activeUser', $userSwitch->getId());
+        $this->addFlash('warning', $this->translator->trans('warning.user_switched', ['firstname' => $user->getFirstname(), 'lastname' => $user->getLastname()]));
 
-        $this->addFlash('warning', "Tu utilises le compte de " . $userSwitch->getFirstname() . " " . $userSwitch->getLastname());
-
-        return $this->redirectToRoute('app_home');
+        return $this->redirectToRoute('app_home', [
+            '_switch_user' => $user->getId(),
+        ]);
     }
 }

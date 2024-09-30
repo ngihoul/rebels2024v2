@@ -1,19 +1,20 @@
 {% if attendees|length > 0 %}
-    <div class="attendance-list">
-        <h2>{{ title }}</h2>
-        <ul>
-            {% for attendee in attendees %}
-                <li>
-                    <a href="{{ path('app_profile', { 'userId' : attendee.user.id }) }}">
-                        {% if attendee.user.profilePicture starts with 'http' %}
-                            <img class="picture" src="{{ attendee.user.profilePicture }}" alt="Profile picture of {{ attendee.user.firstname }}">
-                        {% else %}
-                            <img class="picture" src="{{ asset('uploads/user_pictures/' ~ attendee.user.profilePicture) }}" alt="Profile picture of {{ attendee.user.firstname }}">
-                        {% endif %}
-                        {{ attendee.user.firstname }} {{ attendee.user.lastname }}
-                    </a>
-                </li>
-            {% endfor %}
-        </ul>
-    </div>
+	<div class="attendance-list">
+		<h2>{{ title }}</h2>
+		<ul>
+			{% for attendee in attendees %}
+				<li>
+					<a href="{{ path('app_profile_user', { 'userId' : attendee.user.id }) }}">
+						{% if attendee.user.profilePicture starts with 'http' %}
+							<img class="picture" src="{{ attendee.user.profilePicture }}" alt="Profile picture of {{ attendee.user.firstname }}">
+						{% else %}
+							<img class="picture" src="{{ asset('uploads/user_pictures/' ~ attendee.user.profilePicture) }}" alt="Profile picture of {{ attendee.user.firstname }}">
+						{% endif %}
+						{{ attendee.user.firstname }}
+						{{ attendee.user.lastname }}
+					</a>
+				</li>
+			{% endfor %}
+		</ul>
+	</div>
 {% endif %}

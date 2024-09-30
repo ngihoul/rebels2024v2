@@ -1,95 +1,109 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ parent() }} | {{ "team.detail.title"|trans }} {{ team.name }} {{ team.name }}{% endblock %}
+{% block title %}
+	{{ parent() }}
+	|
+	{{ "team.detail.title"|trans }}
+	{{ team.name }}
+	{{ team.name }}
+{% endblock %}
 
 {% block body %}
-<div class="container container-team-detail">
+	<div
+		class="container container-team-detail">
 
-    {# Confirmation modal when deleting player from team #}
-    {% include 'shared/modal_confirmation.html.twig' with { 'message' : "modal.player.add"|trans } %}
+		{# Confirmation modal when deleting player from team #}
+		{% include 'shared/modal_confirmation.html.twig' with { 'message' : "modal.player.add"|trans } %}
 
-    <h1>{{ "team.detail.title"|trans }} {{ team.name }}</h1>
-    {{ parent() }}
+		<h1>{{ "team.detail.title"|trans }}
+			{{ team.name }}</h1>
+		{{ parent() }}
 
-    {% if is_granted('ROLE_COACH') %}
-    <div class="card add_user_to_team">
-        {{ form_start(form) }}
-            {{ form_widget(form.user, {'attr': {'style': 'display:none;'}}) }}
-            <input type="text" id="user-autocomplete" autocomplete="off" class="form-control">
-            <div id="autocomplete-list" class="autocomplete-results"></div>
-            {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary'}}) }}
-        {{ form_end(form) }}
-        </div>
-    {% endif %}
+		{% if is_granted('ROLE_COACH') %}
+			<div class="card add_user_to_team">
+				{{ form_start(form) }}
+				{{ form_widget(form.user, {'attr': {'style': 'display:none;'}}) }}
+				<input type="text" id="user-autocomplete" autocomplete="off" class="form-control">
+				<div id="autocomplete-list" class="autocomplete-results"></div>
+				{{ form_widget(form.save, {'attr': {'class': 'btn btn-primary'}}) }}
+				{{ form_end(form) }}
+			</div>
+		{% endif %}
 
-    <table class="license-table">
-        <tr>
-            <th class="jersey_cell">#</th>
-            <th>{{ "team.detail.name"|trans }}</th>
-            <th>{{ "team.detail.role"|trans }}</th>
-            {% if is_granted('ROLE_COACH') %}
-            <th class="action-remove"></th>
-            {% endif %}
-        </tr>
+		<table class="license-table">
+			<tr>
+				<th class="jersey_cell">#</th>
+				<th>{{ "team.detail.name"|trans }}</th>
+				<th>{{ "team.detail.role"|trans }}</th>
+				{% if is_granted('ROLE_COACH') %}
+					<th class="action-remove"></th>
+				{% endif %}
+			</tr>
 
-        {% for role, member in {'Coach': team.coach, 'Assistant': team.assistant} %}
-            <tr>
-                <td class="jersey_cell">{{ member.jerseyNumber | default('-') }}</td>
-                {% if is_granted('ROLE_COACH') %}
-                <td>
-                    <a href="{{ path('app_profile', { 'userId': member.id }) }}">{{ member.firstname }} {{ member.lastname }}</a>
-                </td>
-                {% else %}
-                <td>{{ member.firstname }} {{ member.lastname }}</td>
-                {% endif %}
-                <td>
-                {% if role == 'Assistant' %}
-                    {% if member.gender == 'F' %}
-                        {{ 'team.detail.assistant_F'|trans }}
-                    {% else %}
-                        {{ 'team.detail.assistant_M'|trans }}
-                    {% endif %}
-                {% else %}
-                    {{ role }}
-                {% endif %}
-            </td>
-                {% if is_granted('ROLE_COACH') %}
-                <td class="action-remove"></td>
-                {% endif %}
-            </tr>
-        {% endfor %}
+			{% for role, member in {'Coach': team.coach, 'Assistant': team.assistant} %}
+				<tr>
+					<td class="jersey_cell">{{ member.jerseyNumber | default('-') }}</td>
+					{% if is_granted('ROLE_COACH') %}
+						<td>
+							<a href="{{ path('app_profile_user', { 'userId': member.id }) }}">{{ member.firstname }}
+								{{ member.lastname }}</a>
+						</td>
+					{% else %}
+						<td>{{ member.firstname }}
+							{{ member.lastname }}</td>
+					{% endif %}
+					<td>
+						{% if role == 'Assistant' %}
+							{% if member.gender == 'F' %}
+								{{ 'team.detail.assistant_F'|trans }}
+							{% else %}
+								{{ 'team.detail.assistant_M'|trans }}
+							{% endif %}
+						{% else %}
+							{{ role }}
+						{% endif %}
+					</td>
+					{% if is_granted('ROLE_COACH') %}
+						<td class="action-remove"></td>
+					{% endif %}
+				</tr>
+			{% endfor %}
 
-        {% for player in players %}
-            <tr class="">
-                <td class="jersey_cell">{{ player.jerseyNumber | default('-') }}</td>
-                {% if is_granted('ROLE_COACH') %}
-                <td>
-                    <a href="{{ path('app_profile', { 'userId': player.id }) }}">{{ player.firstname }} {{ player.lastname }}</a>
-                </td>
-                {% else %}
-                <td>{{ player.firstname }} {{ player.lastname }}</td>
-                {% endif %}
-                <td>
-                    {% if player.gender is same as ('M') %}
-                        {{ "team.detail.player_M"|trans }}
-                    {% elseif player.gender is same as ('F') %}
-                        {{ "team.detail.player_F"|trans }}
-                    {% endif %}
-                </td>
-                {% if is_granted('ROLE_COACH') %}
-                <td class="action-remove">
-                    <a class="delete-button" data-action-url="{{ path('app_team_remove', {'teamId': team.id, 'userId': player.id }) }}"><i class="fa-solid fa-trash icon icon-trash disagree"></i></a>
-                </td>
-                {% endif %}
-            </tr>
-        {% endfor %}
-        
-    </table>
-</div>
+			{% for player in players %}
+				<tr class="">
+					<td class="jersey_cell">{{ player.jerseyNumber | default('-') }}</td>
+					{% if is_granted('ROLE_COACH') %}
+						<td>
+							<a href="{{ path('app_profile_user', { 'userId': player.id }) }}">{{ player.firstname }}
+								{{ player.lastname }}</a>
+						</td>
+					{% else %}
+						<td>{{ player.firstname }}
+							{{ player.lastname }}</td>
+					{% endif %}
+					<td>
+						{% if player.gender is same as ('M') %}
+							{{ "team.detail.player_M"|trans }}
+						{% elseif player.gender is same as ('F') %}
+							{{ "team.detail.player_F"|trans }}
+						{% endif %}
+					</td>
+					{% if is_granted('ROLE_COACH') %}
+						<td class="action-remove">
+							<a class="delete-button" data-action-url="{{ path('app_team_remove', {'teamId': team.id, 'userId': player.id }) }}">
+								<i class="fa-solid fa-trash icon icon-trash disagree"></i>
+							</a>
+						</td>
+					{% endif %}
+				</tr>
+			{% endfor %}
 
-{% block javascript %}
-    {{ encore_entry_script_tags('modalConfirmation') }}
-    {{ encore_entry_script_tags('autoCompletionAddPlayer') }}
-{% endblock %}
+		</table>
+	</div>
+
+	{% block javascript %}
+		{{ encore_entry_script_tags('modalConfirmation') }}
+		{{ encore_entry_script_tags('autoCompletionAddPlayer') }}
+	{% endblock %}
 
 {% endblock %}
