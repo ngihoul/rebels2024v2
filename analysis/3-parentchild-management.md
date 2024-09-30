@@ -80,25 +80,20 @@ de leur enfants mineurs.
 
 -   Connexion impossible si l utilisateur n'a pas de mot de passe => bad
     credentials
--   Stockage de l'ID de l'utilisateur effectif (= compte sélectionné) dans la
-    session sous `activeUserId`. L'utilisateur se connecte TOUJOURS avec son
-    compte principal (= parent).
-
-## Déconnexion - LogoutController
-
--   Supprimer le `ActiveUserId` de la session !
+-   L'utilisateur se connecte TOUJOURS avec son compte principal (= parent).
+-   Utilisation de switch_user de Symfony (impersonate user)
 
 ## Securité
 
 -   Lorsque l'utilisateur change de profil pour utiliser le compte de l'un de
-    ses enfants, le `ActiveUserId` dans la session est modifié. Il faudra donc
-    ne plus se baser sur `$this->getUser()` pour vérifier quel utilisateur est
-    connecté dans nos controllers. Il sera nécessaire de créer un <b>service</b>
-    permettant d'utiliser `getActiveUser()`.
+    ses enfants via le switch_user de Symfony, l'Utilisateur actif est
+    automatiquement modifié.
 -   Si l'utilisateur principal (= parent) est administrateur ou coach, il ne
     doit pas avoir accès aux parties réservées à son type de rôle lorsqu'il
-    utilise le compte de son enfant.
--   Pour augmenter la securité, on diminuera la durée de vie des sessions :
+    utilise le compte de son enfant => Le switch_user de Symfony gère
+    automatiquement les rôles différents des utilisateurs différents.
+-   Optionnel : pour augmenter la securité, on diminuera la durée de vie des
+    sessions :
     ```yaml
     // config/packages/framework.yaml
     framework:
