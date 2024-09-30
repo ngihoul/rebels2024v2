@@ -18,14 +18,10 @@ class AccountManager
         $this->session = $requestStack->getSession();
     }
 
-    public function getSession(): SessionInterface
+    public function getUserChildren($userId)
     {
-        return $this->session;
-    }
-
-    public function getUserById($userId): ?User
-    {
-        return $this->userRepository->find($userId);
+        $user = $this->userRepository->find($userId);
+        return $user->getChildren();
     }
 
     public function getActiveUser()
@@ -38,9 +34,13 @@ class AccountManager
         return null;
     }
 
-    public function getUserChildren($userId)
+    private function getSession(): SessionInterface
     {
-        $user = $this->userRepository->find($userId);
-        return $user->getChildren();
+        return $this->session;
+    }
+
+    private function getUserById($userId): ?User
+    {
+        return $this->userRepository->find($userId);
     }
 }
