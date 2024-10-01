@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/children')]
@@ -61,6 +62,21 @@ class ChildrenController extends AbstractController
             }
 
             $child->setParent($user, $relationType);
+
+            // If the user is not yet a parent, add the role
+            $userRoles = $user->getRoles();
+            if (!in_array('ROLE_PARENT', $userRoles)) {
+                $userRoles[] = 'ROLE_PARENT';
+                $user->setRoles($userRoles);
+                $this->entityManager->persist($user);
+                $this->entityManager->flush();
+
+                // To keep the user connected > update the security token
+                $token = new UsernamePasswordToken($user, 'main', $userRoles);
+                $this->container->get('security.token_storage')->setToken($token);
+
+                $this->container->get('session')->set('_security_main', serialize($token));
+            }
 
             // Not used for now
             $child->setRoles(['ROLE_CHILD']);
