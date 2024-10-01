@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -14,14 +15,12 @@ class AccountManager
 {
     private UserRepository $userRepository;
     private RequestStack $requestStack;
-    private TokenStorageInterface $tokenStorage;
     private Security $security;
 
-    public function __construct(UserRepository $userRepository, RequestStack $requestStack, TokenStorageInterface $tokenStorage, Security $security)
+    public function __construct(UserRepository $userRepository, RequestStack $requestStack, Security $security)
     {
         $this->userRepository = $userRepository;
         $this->requestStack = $requestStack;
-        $this->tokenStorage = $tokenStorage;
         $this->security = $security;
     }
 
@@ -31,12 +30,12 @@ class AccountManager
         return $user->getChildren();
     }
 
-    public function getActiveUser()
+    public function getOriginalUser()
     {
-        $token = $this->tokenStorage->getToken();
+        $originalToken = unserialize($this->requestStack->getSession()->get('_switch_user'));
 
-        if ($token instanceof SwitchUserToken) {
-            return $token->getOriginalToken()->getUser();
+        if ($originalToken) {
+            return $originalToken->getUser();
         }
 
         return $this->security->getUser();

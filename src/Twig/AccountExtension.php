@@ -19,7 +19,7 @@ class AccountExtension extends AbstractExtension
     {
         return [
             new TwigFunction('get_children', [$this, 'getUserChildren']),
-            new TwigFunction('get_active_user', [$this, 'getActiveUser']),
+            new TwigFunction('get_original_user', [$this, 'getOriginalUser']),
         ];
     }
 
@@ -28,8 +28,8 @@ class AccountExtension extends AbstractExtension
         return $this->accountManager->getUserChildren($userId);
     }
 
-    public function getActiveUser()
+    public function getOriginalUser()
     {
-        return $this->accountManager->getActiveUser();
+        return $this->accountManager->getOriginalUser();
     }
 }
