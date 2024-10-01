@@ -208,6 +208,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->date_of_birth;
     }
 
+    public function getAge(): int
+    {
+        $now = new \DateTime();
+        $interval = $now->diff($this->date_of_birth);
+
+        return $interval->y;
+    }
+
     public function setDateOfBirth(\DateTimeInterface $date_of_birth): static
     {
         $this->date_of_birth = $date_of_birth;
