@@ -17,9 +17,12 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityNotFoundException;
 use Exception;
 use Knp\Component\Pager\PaginatorInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class UserController extends AbstractController
@@ -27,14 +30,14 @@ class UserController extends AbstractController
     private UserRepository $userRepository;
     private EntityManagerInterface $entityManager;
     private TranslatorInterface $translator;
-    private RequestStack $requestStack;
+    private LoggerInterface $logger;
 
-    public function __construct(UserRepository $userRepository, EntityManagerInterface $entityManager, TranslatorInterface $translator, RequestStack $requestStack)
+    public function __construct(UserRepository $userRepository, EntityManagerInterface $entityManager, TranslatorInterface $translator, LoggerInterface $logger)
     {
         $this->userRepository = $userRepository;
         $this->entityManager = $entityManager;
         $this->translator = $translator;
-        $this->requestStack = $requestStack;
+        $this->logger = $logger;
     }
 
     // Homepage for authenticated user. If not authenticated, redirected to login page
@@ -210,22 +213,65 @@ class UserController extends AbstractController
 
     #[Route('/switch-user/{userId}', name: 'app_switch_user')]
     #[IsGranted('ROLE_USER')]
-    public function switchUser($userId, AuthorizationCheckerInterface $authChecker): RedirectResponse
+    public function impersonate($userId, AuthorizationCheckerInterface $authChecker, Request $request): RedirectResponse
     {
-        $user = $this->userRepository->find($userId);
+        $parent = $this->getUser();
 
-        if (!$user) {
+        if (!$parent) {
             throw $this->createNotFoundException($this->translator->trans('error.user_not_found'));
         }
 
-        if (!$authChecker->isGranted('SWITCH', $user)) {
+        $child = $this->userRepository->find($userId);
+
+        if (!$child) {
+            throw $this->createNotFoundException($this->translator->trans('error.user_not_found'));
+        }
+
+        $this->logger->info('Rôles de l\'utilisateur courant:', ['roles' => $parent->getRoles()]);
+
+        if (!$authChecker->isGranted('SWITCH', $child)) {
             throw $this->createAccessDeniedException($this->translator->trans('error.access_denied'));
         }
 
-        $this->addFlash('warning', $this->translator->trans('warning.user_switched', ['firstname' => $user->getFirstname(), 'lastname' => $user->getLastname()]));
+        $tokenStorage = $this->container->get('security.token_storage');
 
-        return $this->redirectToRoute('app_home', [
-            '_switch_user' => $user->getId(),
-        ]);
+        $originalToken = $tokenStorage->getToken();
+
+        if (!$request->getSession()->get('_switch_user')) {
+            $request->getSession()->set('_switch_user', serialize($originalToken));
+        }
+
+        $impersonationToken = new UsernamePasswordToken(
+            $child,
+            "main",
+            $child->getRoles()
+        );
+
+        $tokenStorage->setToken($impersonationToken);
+
+        $this->logger->info('Rôles de l\'utilisateur impersonné:', ['roles' => $child->getRoles()]);
+        $this->logger->info('Token après impersonation:', ['token' => $impersonationToken]);
+
+
+        $this->addFlash('warning', $this->translator->trans('warning.user_switched', ['firstname' => $child->getFirstname(), 'lastname' => $child->getLastname()]));
+
+        return $this->redirectToRoute('app_home');
+    }
+
+    #[Route('/exit-switch-user', name: 'app_exit_switch_user')]
+    public function unimpersonate(Request $request): RedirectResponse
+    {
+        $tokenStorage = $this->container->get('security.token_storage');
+
+        if ($request->getSession()->get('_switch_user')) {
+            $originalToken = unserialize($request->getSession()->get('_switch_user'));
+
+            $request->getSession()->remove('_switch_user');
+            $tokenStorage->setToken($originalToken);
+
+            $this->addFlash('success', "Vous êtes de retour sur votre compte.");
+        }
+
+        return $this->redirectToRoute('app_home');
     }
 }
