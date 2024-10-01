@@ -1,4 +1,4 @@
-{% set realUser = get_active_user() %}
+{% set realUser = get_original_user() %}
 {% set currentLocale = app.request.locale %}
 {% set availableLocales = ['fr', 'en'] %}
 
@@ -166,9 +166,9 @@
 				</button>
 				<ul>
 					{% if realUser is same as (app.user) %}
-						<li class="" data-action-url="{{ path('app_profile') }}">
+						<li class="own-profile" data-action-url="{{ path('app_profile') }}">
 						{% else %}
-							<li class="switch-account-menu-item" data-action-url="{{ path(app.request.attributes.get('_route'), app.request.query.all|merge({'_switch_user': '_exit'})) }}">
+							<li class="switch-account-menu-item" data-action-url="{{ path('app_exit_switch_user') }}">
 							{% endif %}
 							<div class="card-account">
 								<div class="profile-picture">
