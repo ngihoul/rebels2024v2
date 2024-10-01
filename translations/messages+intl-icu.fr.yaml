@@ -187,6 +187,7 @@ profile:
     children:
         title: 'Mes enfants'
         add: 'Ajouter un enfant'
+        no_children: "Vous n'avez pas encore d'enfant ajouté."
 
 # Team
 team:

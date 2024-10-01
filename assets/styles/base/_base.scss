@@ -1,6 +1,6 @@
 body {
-  background-color: $color-background;
-  box-sizing: border-box;
+    background-color: $color-background;
+    box-sizing: border-box;
 }
 
 h1,
@@ -9,90 +9,76 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: $font-heading, sans-serif;
+    font-family: $font-heading, sans-serif;
 }
 
 h1 {
-  position: relative;
-  font-size: 2rem;
-  padding: 0 0 1.5rem 1.5rem;
-
-  // Point before heading
-  &:before {
-    content: " ";
-    position: absolute;
-    display: block;
-    bottom: 1.8rem;
-    left: 0;
-    width: 0.5rem;
-    height: 0.5rem;
-    background-color: $color-secondary;
-  }
+    @include main-heading-style;
 }
 
 h2 {
-  position: relative;
-  font-size: 1.2rem;
-  padding-top: 0.8rem;
-  padding-bottom: 1.5rem;
-  width: 100%;
+    position: relative;
+    font-size: 1.2rem;
+    padding-top: 0.8rem;
+    padding-bottom: 1.5rem;
+    width: 100%;
 
-  // Line under heading
-  &:before {
-    content: " ";
-    position: absolute;
-    display: block;
-    bottom: 0.75rem;
-    left: 0;
-    width: 20%;
-    height: 2px;
-    background-color: $color-primary;
-  }
+    // Line under heading
+    &:before {
+        content: ' ';
+        position: absolute;
+        display: block;
+        bottom: 0.75rem;
+        left: 0;
+        width: 20%;
+        height: 2px;
+        background-color: $color-primary;
+    }
 }
 
 p {
-  margin-bottom: 0.8rem;
+    margin-bottom: 0.8rem;
 }
 
 p,
 a,
 li,
 label {
-  color: $color-text;
-  font-family: $font-text, sans-serif;
+    color: $color-text;
+    font-family: $font-text, sans-serif;
 }
 
 .link-paragraph {
-  font-weight: bold;
-  text-decoration: underline;
-  color: $color-secondary;
-  text-decoration: underline;
-
-  &:visited {
+    font-weight: bold;
+    text-decoration: underline;
     color: $color-secondary;
-  }
+    text-decoration: underline;
+
+    &:visited {
+        color: $color-secondary;
+    }
 }
 
 .container {
-  padding: 1.8rem;
+    padding: 1.8rem;
 }
 
 .card {
-  border: 1px solid $color-border;
-  border-radius: $border-radius;
-  margin: 0.8rem 0;
-  padding: 0.8rem;
+    border: 1px solid $color-border;
+    border-radius: $border-radius;
+    margin: 0.8rem 0;
+    padding: 0.8rem;
 }
 
 @media screen and (min-width: $min-desktop) {
-  .container.nav-open {
-    width: calc(100vw - 220px);
-    margin-left: 220px;
-    overflow: hidden;
-  }
+    .container.nav-open {
+        width: calc(100vw - 220px);
+        margin-left: 220px;
+        overflow: hidden;
+    }
 
-  .container.nav-closed {
-    width: 100vw;
-    margin-left: 0;
-  }
+    .container.nav-closed {
+        width: 100vw;
+        margin-left: 0;
+    }
 }

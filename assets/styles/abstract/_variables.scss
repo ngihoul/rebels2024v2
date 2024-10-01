@@ -6,3 +6,21 @@ $border-radius: 5px;
     border-radius: $size;
     object-fit: cover;
 }
+
+@mixin main-heading-style {
+    position: relative;
+    padding: 0 0 1.5rem 1.5rem;
+    font-size: 2rem;
+
+    // Point before heading
+    &:before {
+        content: ' ';
+        position: absolute;
+        display: block;
+        bottom: 1.8rem;
+        left: 0;
+        width: 0.5rem;
+        height: 0.5rem;
+        background-color: $color-secondary;
+    }
+}

@@ -1,117 +1,149 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ parent() }} | {{ pageTitle }}{% endblock %}
+{% block title %}
+	{{ parent() }}
+	|
+	{{ pageTitle }}
+{% endblock %}
 
 {% block body %}
-<div class="container profile-container">
-  <div class="heading-container">
+	<div class="container profile-container">
+		<div class="heading-container">
 
-    <h1>{{ pageTitle }}</h1>
+			<h1>{{ pageTitle }}</h1>
 
-    {% if app.user == user %}
-      <a class="btn-update" href=" {{ path('app_profile_update') }}">
-        <i class="fa-regular fa-pen-to-square"></i>
-      </a>
-    {% endif %}
+			{% if app.user == user %}
+				<a class="btn-update" href=" {{ path('app_profile_update') }}">
+					<i class="fa-regular fa-pen-to-square"></i>
+				</a>
+			{% endif %}
 
-  </div>
+		</div>
 
-  {{ parent() }}
+		{{ parent() }}
 
-  <div class="profile-important-info">
-    <div class="profile-picture">
-      <div class="profile-picture-container">
+		<div class="card-user">
+			<div class="user-picture-container">
+				{% if user.profilePicture starts with 'http' %}
+					<img class="user-picture" src="{{ user.profilePicture }}" alt="Profile picture of {{ user.firstname }}">
+				{% else %}
+					<img class="user-picture" src="{{ asset('uploads/user_pictures/' ~ user.profilePicture) }}" alt="Profile picture of {{ user.firstname }}">
+				{% endif %}
+				<img class="flag" src="{{ asset('images/flags/' ~ user.nationality.alpha2 ~ '.png') }}" alt="{{ user.nationality.name }} flag" title="{{ user.nationality.name }} flag">
+			</div>
 
-        {% if user.profilePicture starts with 'http' %}
-          <img class="profile-member-picture" src="{{ user.profilePicture }}" alt="Profile picture of {{ user.firstname }}">
-        {% else %}
-          <img class="profile-member-picture" src="{{ asset('uploads/user_pictures/' ~ user.profilePicture) }}" alt="Profile picture of {{ user.firstname }}">
-        {% endif %}
-        <img class="profile-flag" src="{{ asset('images/flags/' ~ user.nationality.alpha2 ~ '.png') }}" alt="{{ user.nationality.name }} flag" title="{{ user.nationality.name }} flag">
+			<div class="card user-info">
 
-      </div>
-    </div>
+				<div class="user-name">
+					<p class="user-lastname">{{ user.lastname }}</p>
+					<p class="user-firstname">{{ user.firstname }}</p>
+				</div>
 
-    <div class="card profile-member-info">
+				<div class="birthdate">
+					<p>{{ user.dateOfBirth|date("d/m/Y") }}</p>
+				</div>
 
-      <div class="profile-member-name">
-        <p class="profile-member-lastname">{{ user.lastname }}</p>
-        <p class="profile-member-firstname">{{ user.firstname }}</p>
-      </div>
+				<div class="user-numbers">
+					<p>{{ user.licenseNumber }}</p>
+				</div>
 
-      <div class="birthdate">
-        <p>{{ user.dateOfBirth|date("d/m/Y") }}</p>
-      </div>
+			</div>
+		</div>
 
-      <div class="profile-member-numbers">
-        <p>{{ user.licenseNumber }}</p>
-      </div>
+		<div class="flex-container">
 
-    </div>
-  </div>
+			<div class="card user-contact">
+				<h2>{{ "profile.contact_information"|trans }}</h2>
+				<p>Email:
+					{{ user.email }}</p>
+				<p>{{ "profile.phone"|trans }}
+					{{ user.phoneNumber }}</p>
+				<p>{{ "profile.mobile"|trans }}
+					{{ user.mobileNumber }}</p>
+			</div>
 
-  <div class="card profile-member-children">
-    {% if user.children|length > 0 %}
-      <h2>{{ "profile.children.title"|trans }}</h2>
-      <ul>
-        {% for child in user.children %}
-          <li>
-            <p>{{ child.firstname }} {{ child.lastname }} | {{ child.dateOfBirth|date("d/m/Y") }}</p>
-          </li>
-        {% endfor %}
-      </ul>
-      
-    {% else %}
-      <a href="" class="btn">{{ "profile.children.add"|trans }}</a>
-    {% endif %}
-  </div>
+			<div class="card user-address">
+				<h2>{{ "profile.address"|trans }}</h2>
+				<p>{{ user.addressStreet }}
+					{{ user.addressNumber }}</p>
+				<p>{{ user.zipCode }}
+					{{ user.locality }}</p>
+				<p>{{ user.country.name }}</p>
+			</div>
 
-  <div class="flex-container">
+			<div class="card user-agreements">
+				<h2>{{ "profile.agreements"|trans }}</h2>
+				<p>
+					Newsletter LFBBS:
+					{% if user.newsletterLFBBS %}
+						<i class="fas fa-check agree"></i>
+					{% else %}
+						<i class="fas fa-times disagree"></i>
+					{% endif %}
+				</p>
 
-    <div class="card profile-member-contact">
-      <h2>{{ "profile.contact_information"|trans }}</h2>
-      <p>Email: {{ user.email }}</p>
-      <p>{{ "profile.phone"|trans }} {{ user.phoneNumber }}</p>
-      <p>{{ "profile.mobile"|trans }} {{ user.mobileNumber }}</p>
-    </div>
+				<p>
+					{{ "profile.internal_rules"|trans }}
+					{% if user.internalRules %}
+						<i class="fas fa-check agree"></i>
+					{% else %}
+						<i class="fas fa-times disagree"></i>
+					{% endif %}
+				</p>
 
-    <div class="card profile-member-address">
-      <h2>{{ "profile.address"|trans }}</h2>
-      <p>{{ user.addressStreet }} {{ user.addressNumber }}</p>
-      <p>{{ user.zipCode }} {{ user.locality }}</p>
-      <p>{{ user.country.name }}</p>
-    </div>
+				<p>
+					{{ "profile.privacy_policy"|trans }}
+					{% if user.privacyPolicy %}
+						<i class="fas fa-check agree"></i>
+					{% else %}
+						<i class="fas fa-times disagree"></i>
+					{% endif %}
+				</p>
 
-    <div class="card profile-member-agreements">
-      <h2>{{ "profile.agreements"|trans }}</h2>
-      <p>
-        Newsletter LFBBS:
-        {% if user.newsletterLFBBS %}
-        <i class="fas fa-check agree"></i>
-        {% else %}
-        <i class="fas fa-times disagree"></i>
-        {% endif %}
-      </p>
+			</div>
+		</div>
+		<div class="children-container">
+			<div class="heading-container">
+				<h2>{{ "profile.children.title"|trans }}</h2>
+				<a href="{{ path('app_children_create') }}" class="btn-add"></a>
+			</div>
+			<div class="flex-container">
+				{% if user.children|length > 0 %}
+					{% for child in user.children %}
+						<div class="card-user">
+							<div class="user-picture-container">
+								{% if child.profilePicture starts with 'http' %}
+									<img class="user-picture" src="{{ child.profilePicture }}" alt="Profile picture of {{ child.firstname }}">
+								{% else %}
+									<img class="user-picture" src="{{ asset('uploads/user_pictures/' ~ child.profilePicture) }}" alt="Profile picture of {{ child.firstname }}">
+								{% endif %}
+								<img class="flag" src="{{ asset('images/flags/' ~ child.nationality.alpha2 ~ '.png') }}" alt="{{ child.nationality.name }} flag" title="{{ child.nationality.name }} flag">
+							</div>
 
-      <p>
-        {{ "profile.internal_rules"|trans }}
-        {% if user.internalRules %}
-        <i class="fas fa-check agree"></i>
-        {% else %}
-        <i class="fas fa-times disagree"></i>
-        {% endif %}
-      </p>
+							<div class="card user-info">
 
-      <p>
-        {{ "profile.privacy_policy"|trans }}
-        {% if user.privacyPolicy %}
-        <i class="fas fa-check agree"></i>
-        {% else %}
-        <i class="fas fa-times disagree"></i>
-        {% endif %}
-      </p>
-      
-    </div>
-  </div>
-</div>
+								<div class="user-name">
+									<p class="user-lastname">{{ child.lastname }}</p>
+									<p class="user-firstname">{{ child.firstname }}</p>
+								</div>
+
+								<div class="birthdate">
+									<p>{{ child.dateOfBirth|date("d/m/Y") }}</p>
+								</div>
+
+								<div class="user-numbers">
+									<p>{{ child.licenseNumber }}</p>
+								</div>
+
+							</div>
+						</div>
+					{% endfor %}
+				{% else %}
+					<p>{{ "profile.children.no_children"|trans }}</p>
+				{% endif %}
+			</div>
+
+
+		</div>
+	</div>
 {% endblock %}
