@@ -133,7 +133,7 @@ ul {
 
     // Switch account menu on Desktop
     .menu.menu-switch-account.menu-open {
-        position: absolute;
+        position: fixed;
         top: 68px;
         right: 0;
         left: auto;
