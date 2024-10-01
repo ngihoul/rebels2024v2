@@ -109,6 +109,7 @@ nav:
     my_places: 'Mes lieux'
     my_messages: 'Mes messages'
     log_off: 'Se déconnecter'
+    add_child: 'Ajouter un enfant'
 
 # Modals
 modal:

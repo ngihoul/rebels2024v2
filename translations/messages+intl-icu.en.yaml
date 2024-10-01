@@ -104,6 +104,7 @@ nav:
     my_places: 'My places'
     my_messages: 'My messages'
     log_off: 'Log off'
+    add_child: 'Add a child'
 
 # Modals
 modal:

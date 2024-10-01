@@ -90,6 +90,20 @@
         right: calc(-80% - 0.3rem);
     }
 
+    .menu-item-add-child {
+        a {
+            display: inline-block;
+            padding: 0.8rem;
+            font-size: 1.1rem;
+        }
+
+        svg {
+            font-size: 24px;
+            margin-left: 1.8rem;
+            margin-right: 1.2rem;
+        }
+    }
+
     .menu-item-bottom-desktop {
         display: none;
     }
