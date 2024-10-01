@@ -142,10 +142,9 @@ class RegistrationController extends AbstractController
 
         $this->hashPassword($form, $user);
         $this->profilePictureManager->handleProfilePicture($form, $user);
-        $user->setRoles(['ROLE_USER']);
 
         if ($this->session->get('user_choice') == 'parent') {
-            $user->setRoles(['ROLE_USER', 'ROLE_PARENT']);
+            $user->setRoles(['ROLE_PARENT']);
         }
 
         $this->entityManager->persist($user);
