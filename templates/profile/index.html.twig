@@ -96,6 +96,20 @@
       </p>
       
     </div>
+    {% if user.children %}
+      <div class="card profile-member-children">
+        <h2>{{ "profile.children.title"|trans }}</h2>
+        <ul>
+          {% for child in user.children %}
+            <li>
+              <p>{{ child.firstname }} {{ child.lastname }} | {{ child.dateOfBirth|date("d/m/Y") }}</p>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% else %}
+        <a href="" class="btn">{{ "profile.children.add"|trans }}</a>
+    {% endif %}
   </div>
 </div>
 {% endblock %}

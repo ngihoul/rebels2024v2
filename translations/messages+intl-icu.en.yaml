@@ -175,6 +175,9 @@ profile:
             'This photo will be used for your license with the Ligue Francophone
             Belge de Baseball et Softball. Please use a passport photo or an
             official club photo.'
+    children:
+        title: 'My children'
+        add: 'Add a child'
 
 team:
     title: 'My teams'
