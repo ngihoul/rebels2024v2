@@ -3,7 +3,7 @@
 {% block title %}{{  parent() }} | {{ "register.title"|trans }}{% endblock %}
 
 {% block body %}
-    <div class="container container-register">
+    <div class="children-nb container container-register" data-children-nb="{{ form.children|length }}">
         <h1>{{ "register.title"|trans }}</h1>
         
         {{ form_start(form) }}
@@ -90,7 +90,7 @@
                 const removeChildButton = document.getElementById('remove-child');
                 const childrenList = document.getElementById('children-list');
                 const prototype = childrenList.getAttribute('data-prototype');
-                let index = {{ form.children|length }};
+                let index = parseInt(document.querySelector('children-nb').dataset.childrenNb);
                 let childNumber = index + 1;
 
                 addChildButton.addEventListener('click', function () {
