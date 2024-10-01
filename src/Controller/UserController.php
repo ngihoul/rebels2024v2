@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -38,6 +39,7 @@ class UserController extends AbstractController
     #[IsGranted("ROLE_USER")]
     public function index(LicenseRepository $licenseRepository, EventRepository $eventRepository, MessageRepository $messageRepository): Response
     {
+        /** @var User $user */
         $user = $this->getUser();
 
         $pendingLicenses = $licenseRepository->getCurrentYearPendingLicenses($user);
@@ -59,6 +61,7 @@ class UserController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function update(Request $request, ProfilePictureManager $profilePictureManager): Response
     {
+        /** @var User $user */
         $user = $this->getUser();
 
         $form = $this->createForm(UserType::class, $user);
