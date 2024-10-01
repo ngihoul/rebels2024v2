@@ -75,6 +75,8 @@ class SwitchUserController extends AbstractController
             'firstname' => $child->getFirstname(),
             'lastname' => $child->getLastname()
         ]));
+
+        return $this->redirectToRoute('app_home');
     }
 
     #[Route('/exit-switch-user', name: 'app_exit_switch_user')]
@@ -90,7 +92,7 @@ class SwitchUserController extends AbstractController
 
             $user = $originalToken->getUser();
 
-            $this->addFlash('success', $this->translator->trans('warning.user_switched', [
+            $this->addFlash('warning', $this->translator->trans('warning.user_switched', [
                 'firstname' => $user->getFirstname(),
                 'lastname' => $user->getLastname()
             ]));
