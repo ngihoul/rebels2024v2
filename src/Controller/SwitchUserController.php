@@ -54,7 +54,7 @@ class SwitchUserController extends AbstractController
         }
     }
 
-    private function switchUser(Request $request, $child): void
+    private function switchUser(Request $request, $child): RedirectResponse
     {
         $tokenStorage = $this->container->get('security.token_storage');
         $originalToken = $tokenStorage->getToken();
