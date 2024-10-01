@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
     );
     const switchAccountMenu = document.querySelector('#switch-account-menu');
 
-    const openSwitchAccountmenu = () => {
+    const openCloseSwitchAccountmenu = () => {
         if (switchAccountMenu.classList.contains('menu-open')) {
             switchAccountMenu.classList.remove('menu-open');
             switchAccountMenu.classList.add('menu-closed');
@@ -50,20 +50,17 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    profilePicture.addEventListener('click', openSwitchAccountmenu);
-    dropDownSwitchAccount.addEventListener('click', openSwitchAccountmenu);
+    profilePicture.addEventListener('click', openCloseSwitchAccountmenu);
+    dropDownSwitchAccount.addEventListener('click', openCloseSwitchAccountmenu);
 
-    closeSwitchAccountBtn.addEventListener('click', () => {
-        switchAccountMenu.classList.remove('menu-open');
-        switchAccountMenu.classList.add('menu-closed');
-    });
+    closeSwitchAccountBtn.addEventListener('click', openCloseSwitchAccountmenu);
 
     // Switch account - Desktop
     const profilePictureDesktop = document.querySelector(
         '.profile-icon-desktop',
     );
 
-    profilePictureDesktop.addEventListener('click', openSwitchAccountmenu);
+    profilePictureDesktop.addEventListener('click', openCloseSwitchAccountmenu);
 
     // Close menu if a click is done outside the menu
     document.addEventListener('click', event => {
@@ -84,4 +81,15 @@ document.addEventListener('DOMContentLoaded', () => {
             switchAccountMenu.classList.add('menu-closed');
         }
     });
+
+    // Access own profile via switching-user-dropdown
+    const profileLink = document.querySelector('.own-profile');
+
+    if (profileLink) {
+        profileLink.addEventListener('click', () => {
+            const actionUrl = profileLink.dataset.actionUrl;
+            window.location.href = actionUrl;
+            openSwitchAccountmenu();
+        });
+    }
 });
