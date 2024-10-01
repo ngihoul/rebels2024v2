@@ -229,6 +229,12 @@
 							</li>
 						{% endif %}
 					{% endfor %}
+					<li class="menu-item-bottom-desktop">
+						<a href="{{ path('app_logout') }}">
+							<i class="fa-solid fa-power-off"></i>
+							{{ "nav.log_off"|trans }}
+						</a>
+					</li>
 					<li class="menu-item menu-item-bottom">
 						<a href="{{ path('app_logout') }}">
 							<i class="fa-solid fa-power-off"></i>

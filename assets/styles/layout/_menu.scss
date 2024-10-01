@@ -89,6 +89,10 @@
         @include close-icon-styles();
         right: calc(-80% - 0.3rem);
     }
+
+    .menu-item-bottom-desktop {
+        display: none;
+    }
 }
 
 ul {
@@ -144,5 +148,22 @@ ul {
         padding: 0;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         max-width: none;
+
+        .menu-item-bottom-desktop {
+            display: block;
+
+            a {
+                display: flex;
+                align-items: center;
+                color: $color-text;
+                padding: 0.8rem;
+            }
+
+            svg {
+                font-size: 20px;
+                margin-left: 1.8rem;
+                margin-right: 0.9rem;
+            }
+        }
     }
 }
