@@ -1,5 +1,8 @@
 <?php
 
+// Useful article 
+// https://medium.com/actived/impersonating-users-in-symfony-methods-and-best-practices-63cd80777c4d
+
 namespace App\Controller;
 
 use App\Repository\UserRepository;
