@@ -18,6 +18,11 @@
             font-weight: bolder;
             margin-bottom: 0;
             color: inherit;
+
+            &.active {
+                font-size: 0.8rem;
+                color: $color-connected;
+            }
         }
     }
 
@@ -25,6 +30,14 @@
         display: flex;
         margin-left: auto;
         padding-right: 1.6rem;
+
+        & .connected {
+            width: 12px;
+            height: 12px;
+            border-radius: 12px;
+            background-color: $color-connected;
+            margin-right: 0.4rem;
+        }
     }
 }
 

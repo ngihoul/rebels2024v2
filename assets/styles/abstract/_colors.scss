@@ -19,8 +19,10 @@ $color-bg-disabled: #e2e3e5;
 $color-border-disabled: #d6d8db;
 // Borders
 $color-border: darken(
-  $color: #e6e6e6,
-  $amount: 5,
+    $color: #e6e6e6,
+    $amount: 5,
 );
 // Text
 $color-text: #000;
+// Connected
+$color-connected: #ffd245;
