@@ -64,7 +64,15 @@ class UserController extends AbstractController
         /** @var User $user */
         $user = $this->getUser();
 
-        $form = $this->createForm(UserType::class, $user);
+        $isUserChild = false;
+
+        if (!$user->getParents()->isEmpty()) {
+            $isUserChild = true;
+        }
+
+        $form = $this->createForm(UserType::class, $user, [
+            'is_child' => $isUserChild
+        ]);
 
         // Handle form
         $form->handleRequest($request);
@@ -83,7 +91,8 @@ class UserController extends AbstractController
 
         return $this->render('profile/form.html.twig', [
             'form' => $form->createView(),
-            'image' => $user->getProfilePicture()
+            'image' => $user->getProfilePicture(),
+            'isChild' => $isUserChild
         ]);
     }
 

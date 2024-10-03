@@ -102,46 +102,54 @@
 
 			</div>
 		</div>
-		<div class="children-container">
-			<div class="heading-container">
-				<h2>{{ "profile.children.title"|trans }}</h2>
-				<a href="{{ path('app_children_create') }}" class="btn-add"></a>
-			</div>
-			<div class="flex-container">
-				{% if user.children|length > 0 %}
-					{% for child in user.children %}
-						<div class="card-user">
-							<div class="user-picture-container">
-								{% if child.profilePicture starts with 'http' %}
-									<img class="user-picture" src="{{ child.profilePicture }}" alt="Profile picture of {{ child.firstname }}">
-								{% else %}
-									<img class="user-picture" src="{{ asset('uploads/user_pictures/' ~ child.profilePicture) }}" alt="Profile picture of {{ child.firstname }}">
-								{% endif %}
-								<img class="flag" src="{{ asset('images/flags/' ~ child.nationality.alpha2 ~ '.png') }}" alt="{{ child.nationality.name }} flag" title="{{ child.nationality.name }} flag">
+		{% if app.user.age >= 18 %}
+			<div class="children-container">
+				<div class="heading-container">
+					<h2>{{ "profile.children.title"|trans }}</h2>
+					<a href="{{ path('app_children_create') }}" class="btn-add"></a>
+				</div>
+				<div class="flex-container">
+					{% if user.children|length > 0 %}
+						{% for child in user.children %}
+							<div class="card-user">
+								<div class="user-picture-container">
+									{% if child.profilePicture starts with 'http' %}
+										<img class="user-picture" src="{{ child.profilePicture }}" alt="Profile picture of {{ child.firstname }}">
+									{% else %}
+										<img class="user-picture" src="{{ asset('uploads/user_pictures/' ~ child.profilePicture) }}" alt="Profile picture of {{ child.firstname }}">
+									{% endif %}
+									<img class="flag" src="{{ asset('images/flags/' ~ child.nationality.alpha2 ~ '.png') }}" alt="{{ child.nationality.name }} flag" title="{{ child.nationality.name }} flag">
+								</div>
+
+								<div class="card user-info">
+
+									<div class="user-name">
+										<p class="user-lastname">{{ child.lastname }}</p>
+										<p class="user-firstname">{{ child.firstname }}</p>
+									</div>
+
+									<div class="birthdate">
+										<p>{{ child.dateOfBirth|date("d/m/Y") }}</p>
+									</div>
+
+									<div class="user-numbers">
+										<p>{{ child.licenseNumber }}</p>
+									</div>
+
+									<div class="switch-user">
+										<a href="{{ path('app_switch_user', {'userId': child.id}) }}">
+											<i class="fa-solid fa-shuffle icon"></i>
+										</a>
+									</div>
+
+								</div>
 							</div>
-
-							<div class="card user-info">
-
-								<div class="user-name">
-									<p class="user-lastname">{{ child.lastname }}</p>
-									<p class="user-firstname">{{ child.firstname }}</p>
-								</div>
-
-								<div class="birthdate">
-									<p>{{ child.dateOfBirth|date("d/m/Y") }}</p>
-								</div>
-
-								<div class="user-numbers">
-									<p>{{ child.licenseNumber }}</p>
-								</div>
-
-							</div>
-						</div>
-					{% endfor %}
-				{% else %}
-					<p>{{ "profile.children.no_children"|trans }}</p>
-				{% endif %}
+						{% endfor %}
+					{% else %}
+						<p>{{ "profile.children.no_children"|trans }}</p>
+					{% endif %}
+				</div>
 			</div>
-		</div>
+		{% endif %}
 	</div>
 {% endblock %}

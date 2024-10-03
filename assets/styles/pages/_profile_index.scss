@@ -1,5 +1,6 @@
 .profile-container {
     .card-user {
+        position: relative;
         display: flex;
         align-items: center;
 
@@ -67,6 +68,23 @@
         .jersey-number {
             margin-right: 0.8rem;
         }
+
+        .switch-user {
+            position: absolute;
+            top: 1.3rem;
+            right: 1.6rem;
+            margin-top: 0.8rem;
+
+            a {
+                color: $color-text;
+                transition: color 0.5s;
+
+                &:hover {
+                    color: $color-secondary;
+                    transition: color 0.5s;
+                }
+            }
+        }
     }
 
     .children-container {
@@ -99,7 +117,8 @@
 
         .user-contact,
         .user-address,
-        .user-agreements {
+        .user-agreements,
+        .card-user {
             min-width: 45%;
             margin-right: 0.8rem;
         }

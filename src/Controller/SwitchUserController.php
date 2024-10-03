@@ -57,7 +57,7 @@ class SwitchUserController extends AbstractController
         }
     }
 
-    private function switchUser(Request $request, $child): RedirectResponse
+    private function switchUser(Request $request, $child): void
     {
         $tokenStorage = $this->container->get('security.token_storage');
         $originalToken = $tokenStorage->getToken();
@@ -78,8 +78,6 @@ class SwitchUserController extends AbstractController
             'firstname' => $child->getFirstname(),
             'lastname' => $child->getLastname()
         ]));
-
-        return $this->redirectToRoute('app_home');
     }
 
     #[Route('/exit-switch-user', name: 'app_exit_switch_user')]
