@@ -63,6 +63,21 @@ label {
     padding: 1.8rem;
 }
 
+.heading-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 1.6rem;
+
+    h2 {
+        margin: 0;
+    }
+
+    form {
+        display: none;
+    }
+}
+
 .card {
     border: 1px solid $color-border;
     border-radius: $border-radius;
@@ -80,5 +95,18 @@ label {
     .container.nav-closed {
         width: 100vw;
         margin-left: 0;
+    }
+
+    .heading-container {
+        justify-content: flex-start;
+
+        h1,
+        h2 {
+            margin-right: 1.6rem;
+        }
+
+        h2 {
+            width: auto;
+        }
     }
 }

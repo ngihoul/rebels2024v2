@@ -1,9 +1,3 @@
-.heading-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-}
-
 .profile-container {
     .card-user {
         display: flex;
@@ -93,19 +87,21 @@
 }
 
 @media screen and (min-width: $min-desktop) {
-    .card-user {
-        max-width: 45%;
-    }
+    .profile-container {
+        .card-user {
+            max-width: 45%;
+        }
 
-    .flex-container {
-        display: flex;
-        flex-wrap: wrap;
-    }
+        .flex-container {
+            display: flex;
+            flex-wrap: wrap;
+        }
 
-    .user-contact,
-    .user-address,
-    .user-agreements {
-        min-width: 45%;
-        margin-right: 0.8rem;
+        .user-contact,
+        .user-address,
+        .user-agreements {
+            min-width: 45%;
+            margin-right: 0.8rem;
+        }
     }
 }
