@@ -9,6 +9,7 @@ use App\Repository\LicenseRepository;
 use App\Service\EmailManager;
 use App\Service\FileUploader;
 use App\Service\LicensePDFGenerator as ServiceLicensePDFGenerator;
+use App\Service\ProfileChecker;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityNotFoundException;
@@ -21,6 +22,7 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Profiler\Profile;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -33,12 +35,14 @@ class LicenseController extends AbstractController
     private EntityManagerInterface $entityManager;
     private LicenseRepository $licenseRepository;
     private TranslatorInterface $translator;
+    private ProfileChecker $profileChecker;
 
-    public function __construct(EntityManagerInterface $entityManager, LicenseRepository $licenseRepository, TranslatorInterface $translator)
+    public function __construct(EntityManagerInterface $entityManager, LicenseRepository $licenseRepository, TranslatorInterface $translator, ProfileChecker $profileChecker)
     {
         $this->entityManager = $entityManager;
         $this->licenseRepository = $licenseRepository;
         $this->translator = $translator;
+        $this->profileChecker = $profileChecker;
     }
 
     // Display all licences for the user
@@ -69,8 +73,9 @@ class LicenseController extends AbstractController
         $user = $this->getUser();
 
         // Profile must be complete to ask a new license
-        if (!$user->isProfileComplete()) {
-            $this->addFlash('error', $this->translator->trans('error.license.profile_incomplete'));
+        $errorMessage = $this->profileChecker->checkProfileCompletion($user);
+        if ($errorMessage) {
+            $this->addFlash('error', $errorMessage);
             return $this->redirectToRoute('app_profile_update');
         }
 

@@ -22,7 +22,7 @@ error:
         not_found: "La license n'existe pas."
         profile_incomplete:
             "Ton profil est incomplet. Complète d'abord ton profil et ensuite
-            demande une licence."
+            demande une licence. Les champs manquants sont :"
         already_exist:
             'Tu as déjà une licence active ou en cours de demande pour cette
             année. tu ne peux pas en demander une nouvelle.'
@@ -136,6 +136,7 @@ homepage:
     pay_license: 'Dernière étape : paye ta licence'
     last_messages: 'Derniers messages'
     read_messages: 'Lis tes messages'
+    missing_fields: 'Pour compléter ton profil, ajoute les champs suivants :'
 
 # Login
 login:
@@ -171,12 +172,25 @@ profile:
     my_profile: 'Mon profil'
     profile_of: 'Profil de '
     contact_information: 'Données de contact'
+    firstname: 'prénom'
+    lastname: 'nom de famille'
+    nationality: 'nationalité'
+    date_of_birth: 'date de naissance'
+    gender: 'sexe'
+    address_street: 'rue'
+    address_number: 'numéro de rue'
+    zipcode: 'code postal'
+    locality: 'localité'
+    country: 'pays'
+    email: 'email'
+    profile_picture: 'photo de profil'
+    newsletter_lfbbs: 'newsletter LFBBS'
+    internal_rules: 'règlement intérieur'
+    privacy_policy: 'politique de confidentialité'
     phone: 'Téléphone fixe :'
     mobile: 'Mobile :'
     address: 'Adresse'
     agreements: 'Accords'
-    internal_rules: "Règlement d'ordre Intérieur :"
-    privacy_policy: 'Politique de confidentialité :'
     update:
         title: 'Modifier mon profil'
     picture:

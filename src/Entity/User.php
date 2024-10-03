@@ -474,26 +474,64 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function isProfileComplete(): bool
+    public function isProfileComplete(): array
     {
-        // Check the required fields to determine if the profile is complete
-        return (
-            $this->firstname !== null &&
-            $this->lastname !== null &&
-            $this->nationality !== null &&
-            $this->date_of_birth !== null &&
-            $this->gender !== null &&
-            $this->address_street !== null &&
-            $this->address_number !== null &&
-            $this->zipcode !== null &&
-            $this->locality !== null &&
-            $this->country !== null &&
-            $this->email !== null &&
-            $this->profile_picture !== null &&
-            $this->newsletter_lfbbs !== null &&
-            $this->internal_rules === true &&
-            $this->privacy_policy === true
-        );
+        $missingFields = [];
+
+        if ($this->firstname === null) {
+            $missingFields[] = 'firstname';
+        }
+        if ($this->lastname === null) {
+            $missingFields[] = 'lastname';
+        }
+        if ($this->nationality === null) {
+            $missingFields[] = 'nationality';
+        }
+        if ($this->date_of_birth === null) {
+            $missingFields[] = 'date_of_birth';
+        }
+        if ($this->gender === null) {
+            $missingFields[] = 'gender';
+        }
+        if ($this->address_street === null) {
+            $missingFields[] = 'address_street';
+        }
+        if ($this->address_number === null) {
+            $missingFields[] = 'address_number';
+        }
+        if ($this->zipcode === null) {
+            $missingFields[] = 'zipcode';
+        }
+        if ($this->locality === null) {
+            $missingFields[] = 'locality';
+        }
+        if ($this->country === null) {
+            $missingFields[] = 'country';
+        }
+        if ($this->profile_picture === null || $this->profile_picture === '') {
+            $missingFields[] = 'profile_picture';
+        }
+        if (!$this->isChild()) {
+            if ($this->newsletter_lfbbs === null) {
+                $missingFields[] = 'newsletter_lfbbs';
+            }
+            if ($this->internal_rules !== true) {
+                $missingFields[] = 'internal_rules';
+            }
+            if ($this->privacy_policy !== true) {
+                $missingFields[] = 'privacy_policy';
+            }
+            if ($this->email === null) {
+                $missingFields[] = 'email';
+            }
+        }
+
+        return $missingFields;
+    }
+
+    public function isChild(): bool
+    {
+        return $this->getParents()->count() > 0;
     }
 
     /**

@@ -24,9 +24,12 @@
 				<h2>To Do list</h2>
 				<div class="card to-do-list">
 					<ul>
-						{% if isProfileComplete != true %}
+						{% if missingFields is not empty %}
 							<li>
-								<a href="{{ path('app_profile_update') }}">{{ "homepage.fill_in_profile"|trans }}</a>
+								<a href="{{ path('app_profile_update') }}">
+									{{ "homepage.missing_fields"|trans }}
+									{{ missingFields|map(field => ("profile." ~ field)|trans)|join(', ') }}
+								</a>
 							</li>
 						{% endif %}
 
