@@ -230,12 +230,14 @@
 									</li>
 								{% endif %}
 							{% endfor %}
-							<li class="menu-item-add-child">
-								<a href="{{ path('app_children_create') }}">
-									<i class="fa-solid fa-user-plus"></i>
-									{{ "nav.add_child"|trans }}
-								</a>
-							</li>
+							{% if app.user.age >= 18 %}
+								<li class="menu-item-add-child">
+									<a href="{{ path('app_children_create') }}">
+										<i class="fa-solid fa-user-plus"></i>
+										{{ "nav.add_child"|trans }}
+									</a>
+								</li>
+							{% endif %}
 							<li class="menu-item-bottom-desktop">
 								<a href="{{ path('app_logout') }}">
 									<i class="fa-solid fa-power-off"></i>
