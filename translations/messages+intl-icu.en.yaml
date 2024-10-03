@@ -454,3 +454,12 @@ stat:
         presence: 'Presence'
         absence: 'Absence'
         no_reply: 'No reply'
+
+# Children form
+children:
+    create:
+        title: 'Add a child'
+        btn: 'Add'
+    update:
+        title: 'Edit a child'
+        btn: 'Edit'

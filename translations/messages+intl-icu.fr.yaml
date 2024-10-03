@@ -470,3 +470,12 @@ stat:
         presence: 'Présence'
         absence: 'Absence'
         no_reply: 'Pas de réponse'
+
+# Children form
+children:
+    create:
+        title: 'Ajouter un enfant'
+        btn: 'Ajouter'
+    update:
+        title: 'Modifier un enfant'
+        btn: 'Modifier'
