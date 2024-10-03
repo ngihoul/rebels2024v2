@@ -163,7 +163,8 @@ ul {
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         max-width: none;
 
-        .menu-item-bottom-desktop {
+        .menu-item-bottom-desktop,
+        .menu-item-add-child {
             display: block;
 
             a {
@@ -171,10 +172,12 @@ ul {
                 align-items: center;
                 color: $color-text;
                 padding: 0.8rem;
+                font-size: 1rem;
             }
 
             svg {
                 font-size: 20px;
+                width: 25px;
                 margin-left: 1.8rem;
                 margin-right: 0.9rem;
             }

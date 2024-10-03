@@ -167,97 +167,98 @@
 				</button>
 				<ul>
 					{% if realUser is same as (app.user) %}
-					<li class="own-profile" data-action-url="{{ path('app_profile') }}">
-					{% else %}
-					<li class="switch-account-menu-item" data-action-url="{{ path('app_exit_switch_user') }}">
-					{% endif %}
-						<div class="card-account">
-							<div class="profile-picture">
-								{% if realUser.profilePicture %}
-									<img class="member-picture" src="{{ asset('uploads/user_pictures/' ~ realUser.profilePicture) }}" alt="Profile picture of {{ realUser.firstname }}">
-								{% else %}
-									<i class="fa-regular fa-user icon icon-profile"></i>
-								{% endif %}
-							</div>
-							<div class="member-name">
-								<p>{{ realUser.firstname }}
-									{{ realUser.lastname }}</p>
-								{% if realUser.id is same as(app.user.id) %}
-									<p class="active">
-										Compte actif
-									</p>
-								{% endif %}
-							</div>
-							<div class="actions-icon icon">
-								{% if realUser.id is same as(app.user.id) %}
-									<div class="connected"></div>
-								{% else %}
-									<i class="fa-solid fa-shuffle icon"></i>
-								{% endif %}
-							</div>
-						</div>
-					</li>
-					{% for child in get_children(realUser) %}
-						{% if realUser == app.user or child == app.user %}
-							{% if child == app.user %}
-							<li class="own-profile" data-action-url="{{ path('app_profile') }}">
-							{% else %}
-							<li class="switch-account-menu-item" data-action-url="{{ path('app_switch_user', { 'userId' : child.id }) }}">
+						<li class="own-profile" data-action-url="{{ path('app_profile') }}">
+						{% else %}
+							<li class="switch-account-menu-item" data-action-url="{{ path('app_exit_switch_user') }}">
 							{% endif %}
-								<div class="card-account">
-									<div class="profile-picture">
-										{% if child.profilePicture %}
-											<img class="member-picture" src="{{ asset('uploads/user_pictures/' ~ child.profilePicture) }}" alt="Profile picture of {{ child.firstname }}">
-										{% else %}
-											<i class="fa-regular fa-user icon icon-profile"></i>
-										{% endif %}
-									</div>
-									<div class="member-name">
-										<p>{{ child.firstname }} {{ child.lastname }}</p>
-										{% if child.id is same as(app.user.id) %}
-											<p class="active">Compte actif</p>
-										{% endif %}
-									</div>
-									<div class="actions-icon icon">
-										{% if child.id is same as(app.user.id) %}
-											<div class="connected"></div>
-										{% else %}
-											<i class="fa-solid fa-shuffle icon"></i>
-										{% endif %}
-									</div>
+							<div class="card-account">
+								<div class="profile-picture">
+									{% if realUser.profilePicture %}
+										<img class="member-picture" src="{{ asset('uploads/user_pictures/' ~ realUser.profilePicture) }}" alt="Profile picture of {{ realUser.firstname }}">
+									{% else %}
+										<i class="fa-regular fa-user icon icon-profile"></i>
+									{% endif %}
 								</div>
+								<div class="member-name">
+									<p>{{ realUser.firstname }}
+										{{ realUser.lastname }}</p>
+									{% if realUser.id is same as(app.user.id) %}
+										<p class="active">
+											Compte actif
+										</p>
+									{% endif %}
+								</div>
+								<div class="actions-icon icon">
+									{% if realUser.id is same as(app.user.id) %}
+										<div class="connected"></div>
+									{% else %}
+										<i class="fa-solid fa-shuffle icon"></i>
+									{% endif %}
+								</div>
+							</div>
+						</li>
+						{% for child in get_children(realUser) %}
+							{% if realUser == app.user or child == app.user %}
+								{% if child == app.user %}
+									<li class="own-profile" data-action-url="{{ path('app_profile') }}">
+									{% else %}
+										<li class="switch-account-menu-item" data-action-url="{{ path('app_switch_user', { 'userId' : child.id }) }}">
+										{% endif %}
+										<div class="card-account">
+											<div class="profile-picture">
+												{% if child.profilePicture %}
+													<img class="member-picture" src="{{ asset('uploads/user_pictures/' ~ child.profilePicture) }}" alt="Profile picture of {{ child.firstname }}">
+												{% else %}
+													<i class="fa-regular fa-user icon icon-profile"></i>
+												{% endif %}
+											</div>
+											<div class="member-name">
+												<p>{{ child.firstname }}
+													{{ child.lastname }}</p>
+												{% if child.id is same as(app.user.id) %}
+													<p class="active">Compte actif</p>
+												{% endif %}
+											</div>
+											<div class="actions-icon icon">
+												{% if child.id is same as(app.user.id) %}
+													<div class="connected"></div>
+												{% else %}
+													<i class="fa-solid fa-shuffle icon"></i>
+												{% endif %}
+											</div>
+										</div>
+									</li>
+								{% endif %}
+							{% endfor %}
+							<li class="menu-item-add-child">
+								<a href="{{ path('app_children_create') }}">
+									<i class="fa-solid fa-user-plus"></i>
+									{{ "nav.add_child"|trans }}
+								</a>
 							</li>
-						{% endif %}
-					{% endfor %}
-					<li class="menu-item-add-child">
-						<a href="">
-							<i class="fa-solid fa-user-plus"></i>
-							{{ "nav.add_child"|trans }}
-						</a>
-					</li>
-					<li class="menu-item-bottom-desktop">
-						<a href="{{ path('app_logout') }}">
-							<i class="fa-solid fa-power-off"></i>
-							{{ "nav.log_off"|trans }}
-						</a>
-					</li>
-					<li class="menu-item menu-item-bottom">
-						<a href="{{ path('app_logout') }}">
-							<i class="fa-solid fa-power-off"></i>
-							{{ "nav.log_off"|trans }}
-						</a>
-					</li>
-				</ul>
-			</nav>
-		{% endif %}
+							<li class="menu-item-bottom-desktop">
+								<a href="{{ path('app_logout') }}">
+									<i class="fa-solid fa-power-off"></i>
+									{{ "nav.log_off"|trans }}
+								</a>
+							</li>
+							<li class="menu-item menu-item-bottom">
+								<a href="{{ path('app_logout') }}">
+									<i class="fa-solid fa-power-off"></i>
+									{{ "nav.log_off"|trans }}
+								</a>
+							</li>
+						</ul>
+					</nav>
+				{% endif %}
 
-		{% block body %}
-			{# Display flash messages #}
-			{% for label, messages in app.flashes %}
-				{% for message in messages %}
-					<div class="alert alert-{{ label }}">
-						<p>{{ message|raw }}</p>
-					</div>
-				{% endfor %}
-			{% endfor %}
-		{% endblock %}
+				{% block body %}
+					{# Display flash messages #}
+					{% for label, messages in app.flashes %}
+						{% for message in messages %}
+							<div class="alert alert-{{ label }}">
+								<p>{{ message|raw }}</p>
+							</div>
+						{% endfor %}
+					{% endfor %}
+				{% endblock %}
