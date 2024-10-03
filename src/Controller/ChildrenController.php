@@ -41,60 +41,26 @@ class ChildrenController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $relationTypeId = $form->get('relation_type')->getData();
-            $relationType = $this->relationTypeRepository->find($relationTypeId);
-
+            $relationType = $this->getRelationType($form);
             if (!$relationType) {
-                $this->addFlash('error', $this->translator->trans('error.relation_type_not_found'));
                 return $this->redirectToRoute('app_register');
             }
 
-            /** @var User $user */
             $user = $this->getUser();
-
-            $sameAdressAsParent = $form->get('same_address_as_parent')->getData();
-            if ($sameAdressAsParent) {
-                $child->setAddressStreet($user->getAddressStreet());
-                $child->setAddressNumber($user->getAddressNumber());
-                $child->setZipCode($user->getZipCode());
-                $child->setLocality($user->getLocality());
-                $child->setCountry($user->getCountry());
-            }
-
+            $this->setChildAddressIfSameAsParent($form, $child, $user);
             $child->setParent($user, $relationType);
 
-            // If the user is not yet a parent, add the role
-            $userRoles = $user->getRoles();
-            if (!in_array('ROLE_PARENT', $userRoles)) {
-                $userRoles[] = 'ROLE_PARENT';
-                $user->setRoles($userRoles);
-                $this->entityManager->persist($user);
-                $this->entityManager->flush();
+            $this->addParentRoleIfNeeded($user);
 
-                // To keep the user connected > update the security token
-                $token = new UsernamePasswordToken($user, 'main', $userRoles);
-                $this->container->get('security.token_storage')->setToken($token);
-
-                $this->container->get('session')->set('_security_main', serialize($token));
-            }
-
-            // Not used for now
             $child->setRoles(['ROLE_CHILD']);
 
-            try {
-                $this->profilePictureManager->handleProfilePicture($form, $child);
-            } catch (\Exception $e) {
-                $this->addFlash('error', $this->translator->trans('error.profile_picture'));
+            if (!$this->handleProfilePicture($form, $child)) {
                 return $this->redirectToRoute('app_children_create');
             }
 
-            $this->entityManager->persist($child);
-
-            $this->entityManager->flush();
+            $this->saveChild($child);
 
             $this->addFlash('success', $this->translator->trans('success.children_created'));
-            $this->entityManager->persist($child);
-            $this->entityManager->flush();
 
             return $this->redirectToRoute('app_profile');
         }
@@ -103,5 +69,61 @@ class ChildrenController extends AbstractController
             'form' => $form->createView(),
             'action' => $action
         ]);
+    }
+
+    private function getRelationType($form)
+    {
+        $relationTypeId = $form->get('relation_type')->getData();
+        $relationType = $this->relationTypeRepository->find($relationTypeId);
+
+        if (!$relationType) {
+            $this->addFlash('error', $this->translator->trans('error.relation_type_not_found'));
+        }
+
+        return $relationType;
+    }
+
+    private function setChildAddressIfSameAsParent($form, $child, $user)
+    {
+        $sameAdressAsParent = $form->get('same_address_as_parent')->getData();
+        if ($sameAdressAsParent) {
+            $child->setAddressStreet($user->getAddressStreet());
+            $child->setAddressNumber($user->getAddressNumber());
+            $child->setZipCode($user->getZipCode());
+            $child->setLocality($user->getLocality());
+            $child->setCountry($user->getCountry());
+        }
+    }
+
+    private function addParentRoleIfNeeded($user)
+    {
+        $userRoles = $user->getRoles();
+        if (!in_array('ROLE_PARENT', $userRoles)) {
+            $userRoles[] = 'ROLE_PARENT';
+            $user->setRoles($userRoles);
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
+
+            $token = new UsernamePasswordToken($user, 'main', $userRoles);
+            $this->container->get('security.token_storage')->setToken($token);
+            $this->container->get('session')->set('_security_main', serialize($token));
+        }
+    }
+
+    private function handleProfilePicture($form, $child)
+    {
+        try {
+            $this->profilePictureManager->handleProfilePicture($form, $child);
+            return true;
+        } catch (\Exception $e) {
+            $this->addFlash('error', $this->translator->trans('error.profile_picture'));
+            return false;
+        }
+    }
+
+    private function saveChild($child)
+    {
+        $this->entityManager->persist($child);
+        $this->entityManager->flush();
     }
 }
