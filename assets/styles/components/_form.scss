@@ -66,6 +66,13 @@ form,
             border-color: $color-border-success;
         }
     }
+
+    form,
+    input,
+    textarea,
+    select {
+        font-family: $font-text;
+    }
 }
 
 // register form
