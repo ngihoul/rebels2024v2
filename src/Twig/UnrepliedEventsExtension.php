@@ -2,6 +2,7 @@
 
 namespace App\Twig;
 
+use App\Entity\User;
 use App\Service\UnrepliedEventsCounter;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
@@ -22,8 +23,8 @@ class UnrepliedEventsExtension extends AbstractExtension
         ];
     }
 
-    public function getUnrepliedEventsCount(): int
+    public function getUnrepliedEventsCount(User $user): int
     {
-        return $this->unrepliedEventsCounter->countUnrepliedEvents();
+        return $this->unrepliedEventsCounter->countUnrepliedEvents($user);
     }
 }

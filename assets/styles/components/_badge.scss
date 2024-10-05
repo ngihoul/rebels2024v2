@@ -7,7 +7,8 @@
 .badge-unread-count,
 .badge-unread::before,
 .badge-unreplied-count,
-.badge-unreplied::before {
+.badge-unreplied::before,
+.badge-awaiting-actions-count {
     color: $color-background;
     background-color: red;
     border-radius: 50%;
@@ -25,7 +26,8 @@
 }
 
 .badge-unread-count,
-.badge-unreplied-count {
+.badge-unreplied-count,
+.badge-awaiting-actions-count {
     top: 0;
     left: 152px;
     font-size: 0.6rem;
@@ -38,6 +40,22 @@
 .badge-unreplied-count {
     top: 5px;
     left: 145px;
+}
+
+.profile-icon-desktop .badge-awaiting-actions-count,
+.card-account .badge-awaiting-actions-count {
+    width: 12px;
+    height: 12px;
+    font-size: 0.4rem;
+    line-height: 12px;
+}
+
+.profile-icon-desktop .badge-awaiting-actions-count {
+    left: 25px;
+}
+
+.card-account .badge-awaiting-actions-count {
+    left: 15px;
 }
 
 @media screen and (min-width: $min-desktop) {

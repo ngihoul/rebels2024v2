@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\User;
 use App\Repository\MessageRepository;
 use Symfony\Bundle\SecurityBundle\Security;
 
@@ -18,13 +19,12 @@ class UnreadMessageCounter
         $this->security = $security;
     }
 
-    public function countUnreadMessages(): int
+    public function countUnreadMessages(User $user): int
     {
-        $currentUser = $this->security->getUser();
-        if ($currentUser === null) {
+        if ($user === null) {
             return 0;
         }
 
-        return $this->messageRepository->countUnreadMessagesForThisUser($currentUser);
+        return $this->messageRepository->countUnreadMessagesForThisUser($user);
     }
 }

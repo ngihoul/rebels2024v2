@@ -94,6 +94,7 @@ header {
     .profile-icon-desktop {
         display: flex;
         align-items: center;
+        position: relative;
         cursor: pointer;
 
         .icon-profile {

@@ -2,6 +2,7 @@
 
 namespace App\Twig;
 
+use App\Entity\User;
 use App\Service\UnreadMessageCounter;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
@@ -22,8 +23,8 @@ class UnreadMessagesExtension extends AbstractExtension
         ];
     }
 
-    public function getUnreadMessagesCount(): int
+    public function getUnreadMessagesCount(User $user): int
     {
-        return $this->unreadMessageCounter->countUnreadMessages();
+        return $this->unreadMessageCounter->countUnreadMessages($user);
     }
 }

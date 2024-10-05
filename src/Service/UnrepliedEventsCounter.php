@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\User;
 use App\Repository\EventRepository;
 use Symfony\Bundle\SecurityBundle\Security;
 
@@ -18,9 +19,8 @@ class UnrepliedEventsCounter
         $this->security = $security;
     }
 
-    public function countUnrepliedEvents(): int
+    public function countUnrepliedEvents(User $user): int
     {
-        $user = $this->security->getUser();
         if ($user === null) {
             return 0;
         }

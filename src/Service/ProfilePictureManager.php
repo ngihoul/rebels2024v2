@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class ProfilePictureManager
 {
@@ -17,9 +18,9 @@ class ProfilePictureManager
     {
         $picture = $form->get('profile_picture')->getData() ?? $user->getProfilePicture() ?? null;
 
-        if ($picture) {
+        if ($picture instanceof UploadedFile) {
             $this->saveProfilePicture($picture, $user);
-        } else {
+        } else if (!$picture) {
             $this->setDefaultProfilePicture($user);
         }
     }
