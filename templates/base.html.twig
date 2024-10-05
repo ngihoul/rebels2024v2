@@ -105,6 +105,9 @@
 						<a href="{{ path('app_agenda') }}">
 							<i class="fa-regular fa-calendar-days"></i>
 							{{ "nav.my_agenda"|trans }}
+							{% if unreplied_events_count() > 0 %}
+								<span class="badge badge-unreplied-count">{{ unreplied_events_count() }}</span>
+							{% endif %}
 						</a>
 					</li>
 					<li class="menu-item">

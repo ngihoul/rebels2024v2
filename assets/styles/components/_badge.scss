@@ -1,38 +1,48 @@
 .badge {
-  position: absolute;
-  top: -12px;
-  right: 12px;
+    position: absolute;
+    top: -12px;
+    right: 12px;
 }
 
 .badge-unread-count,
-.badge-unread::before {
-  color: $color-background;
-  background-color: red;
-  border-radius: 50%;
-  text-align: center;
-  display: inline-block;
+.badge-unread::before,
+.badge-unreplied-count,
+.badge-unreplied::before {
+    color: $color-background;
+    background-color: red;
+    border-radius: 50%;
+    text-align: center;
+    display: inline-block;
 }
 
-.badge-unread::before {
-  content: "!";
-  width: 24px;
-  height: 24px;
-  line-height: 24px;
-  position: relative;
+.badge-unread::before,
+.badge-unreplied::before {
+    content: '!';
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    position: relative;
 }
 
-.badge-unread-count {
-  top: 0;
-  left: 152px;
-  font-size: 0.6rem;
-  font-weight: bold;
-  width: 18px;
-  height: 18px;
-  line-height: 18px;
+.badge-unread-count,
+.badge-unreplied-count {
+    top: 0;
+    left: 152px;
+    font-size: 0.6rem;
+    font-weight: bold;
+    width: 18px;
+    height: 18px;
+    line-height: 18px;
+}
+
+.badge-unreplied-count {
+    top: 5px;
+    left: 145px;
 }
 
 @media screen and (min-width: $min-desktop) {
-  .badge-unread-count {
-    right: 18px;
-  }
+    .badge-unread-count,
+    .badge-unreplied-count {
+        right: 18px;
+    }
 }
