@@ -37,7 +37,9 @@ class LicensePDFGenerator
 
     public function generate($license)
     {
-        $outputFileName = $license->getSeason() . '_' . $license->getId() . '_' . $license->getUser()->getLastname() . '.pdf';
+        $user = $license->getUser();
+
+        $outputFileName = $license->getSeason() . '_' . $license->getId() . '_' . $user->getLastname() . '.pdf';
         $pdfPath = $this->pdfPath . $license->getSeason() . '.pdf';
         $outputPath = $this->outputPath . $outputFileName;
 
@@ -51,7 +53,7 @@ class LicensePDFGenerator
         $pdf->SetTextColor(0, 0, 0);
 
         // New member ?
-        if (!$license->getUser()->getLicenseNumber()) {
+        if (!$user->getLicenseNumber()) {
             $pdf->SetLineWidth(0.5);
             $pdf->Line(50.5, 33, 57.5, 33);
         } else {
@@ -59,7 +61,7 @@ class LicensePDFGenerator
             $pdf->Line(41, 33, 46, 33);
 
             $pdf->SetXY(120.7, 28.25);
-            $pdf->Cell(0, 10, $license->getUser()->getLicenseNumber(), 0, 1);
+            $pdf->Cell(0, 10, $user->getLicenseNumber(), 0, 1);
         }
 
         // Tick licence categories
@@ -135,49 +137,69 @@ class LicensePDFGenerator
         $pdf->Cell(0, 10, 'Liege Rebels Baseball & Softball Club', 0, 1);
 
         $pdf->SetXY(35, 85);
-        $pdf->Cell(0, 10, iconv('UTF-8', 'ASCII//TRANSLIT', $license->getUser()->getLastname()), 0, 1);
+        $pdf->Cell(0, 10, iconv('UTF-8', 'ASCII//TRANSLIT', $user->getLastname()), 0, 1);
 
         $pdf->SetXY(35, 90.75);
-        $pdf->Cell(0, 10, iconv('UTF-8', 'ASCII//TRANSLIT', $license->getUser()->getFirstname()), 0, 1);
+        $pdf->Cell(0, 10, iconv('UTF-8', 'ASCII//TRANSLIT', $user->getFirstname()), 0, 1);
 
         $pdf->SetXY(35, 96.50);
-        $pdf->Cell(0, 10, $license->getUser()->getDateOfBirth()->format("d-m-Y"), 0, 1);
+        $pdf->Cell(0, 10, $user->getDateOfBirth()->format("d-m-Y"), 0, 1);
 
         $pdf->SetXY(102.25, 96.5);
-        $pdf->Cell(0, 10, $license->getUser()->getGender(), 0, 1);
+        $pdf->Cell(0, 10, $user->getGender(), 0, 1);
 
         $pdf->SetXY(35, 102.25);
-        $pdf->Cell(0, 10, iconv('UTF-8', 'ASCII//TRANSLIT', $license->getUser()->getAddressStreet()), 0, 1);
+        $pdf->Cell(0, 10, iconv('UTF-8', 'ASCII//TRANSLIT', $user->getAddressStreet()), 0, 1);
 
         $pdf->SetXY(118.5, 102.25);
-        $pdf->Cell(0, 10, $license->getUser()->getAddressNumber(), 0, 1);
+        $pdf->Cell(0, 10, $user->getAddressNumber(), 0, 1);
 
         $pdf->SetXY(35, 108);
-        $pdf->Cell(0, 10, $license->getUser()->getZipcode(), 0, 1);
+        $pdf->Cell(0, 10, $user->getZipcode(), 0, 1);
 
         $pdf->SetXY(96.5, 108);
-        $pdf->Cell(0, 10, iconv('UTF-8', 'ASCII//TRANSLIT', $license->getUser()->getLocality()), 0, 1);
+        $pdf->Cell(0, 10, iconv('UTF-8', 'ASCII//TRANSLIT', $user->getLocality()), 0, 1);
 
         $pdf->SetXY(35, 113.75);
-        $pdf->Cell(0, 10, iconv('UTF-8', 'ASCII//TRANSLIT', $license->getUser()->getCountry()->getName()), 0, 1);
+        $pdf->Cell(0, 10, iconv('UTF-8', 'ASCII//TRANSLIT', $user->getCountry()->getName()), 0, 1);
 
         $pdf->SetXY(108, 113.75);
-        $pdf->Cell(0, 10, iconv('UTF-8', 'ASCII//TRANSLIT', $license->getUser()->getNationality()->getName()), 0, 1);
+        $pdf->Cell(0, 10, iconv('UTF-8', 'ASCII//TRANSLIT', $user->getNationality()->getName()), 0, 1);
 
         $pdf->SetXY(35, 119.5);
-        $pdf->Cell(0, 10, $license->getUser()->getPhoneNumber(), 0, 1);
+        $pdf->Cell(0, 10, $user->getPhoneNumber(), 0, 1);
 
         $pdf->SetXY(92, 119.5);
-        $pdf->Cell(0, 10, $license->getUser()->getMobileNumber(), 0, 1);
+        $pdf->Cell(0, 10, $user->getMobileNumber(), 0, 1);
 
         $pdf->SetXY(35, 125.25);
-        $pdf->Cell(0, 10, $license->getUser()->getEmail(), 0, 1);
+        $pdf->Cell(0, 10, $user->getEmail(), 0, 1);
 
         // newsletter_lfbbs
-        if ($license->getUser()->isNewsletterLfbbs() === 0) {
+        if (!$user->isNewsletterLfbbs()) {
             $pdf->SetFillColor(0, 0, 0);
             $pdf->SetDrawColor(0, 0, 0);
-            $pdf->Rect(13.65, 156.55, 1, 1);
+            $pdf->Rect(13.20, 156.10, 2, 2, 'F');
+        }
+
+        // Fill in parent fields if member is a minor
+        if ($user->isChild() && $user->getAge() < 18) {
+            $firstParent = $user->getParents()[0];
+            $pdf->SetXY(35, 135.50);
+            $pdf->Cell(0, 10, $firstParent->getEmail(), 0, 1);
+
+            $pdf->SetXY(107, 135.50);
+            $pdf->Cell(0, 10, $firstParent->getMobileNumber(), 0, 1);
+
+            $secondParent = $user->getParents()[1];
+
+            if ($secondParent) {
+                $pdf->SetXY(35, 146.30);
+                $pdf->Cell(0, 10, $secondParent->getEmail(), 0, 1);
+
+                $pdf->SetXY(107, 146.30);
+                $pdf->Cell(0, 10, $secondParent->getMobileNumber(), 0, 1);
+            }
         }
 
         // Generate PDF
