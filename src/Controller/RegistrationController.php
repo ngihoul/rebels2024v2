@@ -208,7 +208,7 @@ class RegistrationController extends AbstractController
                 $child->setCanUseAppBy($user);
                 $child->setCanUseAppFromDate = new \DateTime();
 
-                $this->emailManager->sendEmail($child->getEmail(), $this->translator->trans('children.choose_password.subject', [], 'emails'), "children_choose_password", []);
+                $this->emailManager->inviteChildToChoosePassword($child);
             }
 
             // Not used for now

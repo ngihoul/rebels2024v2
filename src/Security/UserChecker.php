@@ -9,6 +9,7 @@ use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationExc
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use App\Security\EmailVerifier;
+use App\Service\EmailManager;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class UserChecker implements UserCheckerInterface
@@ -17,17 +18,25 @@ class UserChecker implements UserCheckerInterface
     private EntityManagerInterface $entityManager;
     private EmailVerifier $emailVerifier;
     private TranslatorInterface $translator;
+    private EmailManager $emailManager;
 
-    public function __construct(EntityManagerInterface $entityManager, EmailVerifier $emailVerifier, TranslatorInterface $translator)
+    public function __construct(EntityManagerInterface $entityManager, EmailVerifier $emailVerifier, TranslatorInterface $translator, EmailManager $emailManager)
     {
         $this->entityManager = $entityManager;
         $this->emailVerifier = $emailVerifier;
         $this->translator = $translator;
+        $this->emailManager = $emailManager;
     }
 
     public function checkPreAuth(UserInterface $user)
     {
         if ($user->getPassword() == null) {
+            throw new CustomUserMessageAuthenticationException($this->translator->trans('error.bad_credentials'));
+        }
+
+        // 
+        if ($user->isChild() && $user->getPassword() == null && $user->canUseApp() == true) {
+            $this->emailManager->inviteChildToChoosePassword($user);
             throw new CustomUserMessageAuthenticationException($this->translator->trans('error.bad_credentials'));
         }
 

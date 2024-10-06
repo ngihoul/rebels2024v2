@@ -76,10 +76,21 @@ de leur enfants mineurs.
       mot de passe (se fait via la page reset-password)
     - Dès que l'autorisation est accordée, elle ne peut plus être retirée.
 
-## Connexion - LoginController
+## Choix du mot de passe pour les jeunes entre 16 et 18 ans (avec autorisation des parents `canUseApp = true`)
+
+-   Ils recoivent un mail les invitant à demander un nouveau mot de passe via le
+    module "reset password"
+-   Lorsqu'il introduise leur mail dans le module, un second mail leur est
+    envoyé avec un lien pour réinitialiser le mot de passe
+-   lorsqu'il choisisse leur nouveau mot de passe, automatiquement leur compte
+    est validé (`isVerified = true`)
+
+## Connexion - UserChecker
 
 -   Connexion impossible si l utilisateur n'a pas de mot de passe => bad
     credentials
+    -   Si `canUseApp = true` et `password = null`, un mail l'invitant à choisir
+        son mot de passe lui est envoyé
 -   L'utilisateur se connecte TOUJOURS avec son compte principal (= parent).
 -   Utilisation de switch_user de Symfony (impersonate user)
 
