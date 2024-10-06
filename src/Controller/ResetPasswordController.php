@@ -118,6 +118,12 @@ class ResetPasswordController extends AbstractController
             );
 
             $user->setPassword($encodedPassword);
+
+            // Set mail is verified as their come from a mail sent by the app
+            if ($user->getAge() >= 16 && $user->getAge() < 18 && $user->isChild()) {
+                $user->setIsVerified(true);
+            }
+
             $this->entityManager->flush();
 
             // The session is cleaned up after the password has been changed.

@@ -73,7 +73,7 @@ de leur enfants mineurs.
 
 4. Si autorisation d'utilisation de l'app seul :
     - Le jeune reçoit un mail avec un lien qui lui permet de choisir son propre
-      mot de passe
+      mot de passe (se fait via la page reset-password)
     - Dès que l'autorisation est accordée, elle ne peut plus être retirée.
 
 ## Connexion - LoginController

@@ -204,6 +204,13 @@ class RegistrationController extends AbstractController
 
             $child->setParent($user, $relationType);
 
+            if ($child->canUseApp() === true) {
+                $child->setCanUseAppBy($user);
+                $child->setCanUseAppFromDate = new \DateTime();
+
+                $this->emailManager->sendEmail($child->getEmail(), $this->translator->trans('children.choose_password.subject', [], 'emails'), "children_choose_password", []);
+            }
+
             // Not used for now
             $child->setRoles(['ROLE_CHILD']);
 
