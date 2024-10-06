@@ -47,6 +47,7 @@ children:
     add_child: 'Add a child'
     delete_child: 'Remove last child'
     register_children: 'Save'
+    can_use_app: 'I agree that my child uses the application alone.'
 
 # Team Form
 team:

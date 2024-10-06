@@ -263,6 +263,13 @@ class ChildType extends AbstractType
                     new Email(['message' => 'validators.email.valid']),
                 ],
                 'required' => false,
+            ])
+            ->add('can_use_app', CheckboxType::class, [
+                'label' => 'children.can_use_app',
+                'row_attr' => [
+                    'class' => 'custom-checkbox can-use-app hidden'
+                ],
+                'required' => false,
             ]);
     }
 

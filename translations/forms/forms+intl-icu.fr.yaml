@@ -49,6 +49,7 @@ children:
     add_child: 'Ajouter un enfant'
     delete_child: 'Supprimer le dernier enfant'
     register_children: 'Enregistrer'
+    can_use_app: "J'accepte que mon enfant utilise l'application seul."
 
 # Team Form
 team:

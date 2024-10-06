@@ -30,6 +30,68 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     };
 
+    const calculateAge = dateOfBirth => {
+        const diffMs = Date.now() - dateOfBirth.getTime();
+        const ageDt = new Date(diffMs);
+        return Math.abs(ageDt.getUTCFullYear() - 1970);
+    };
+
+    const toggleCanUseAppFields = () => {
+        const dateOfBirthInputs = document.querySelectorAll(
+            '.date-of-birth > input',
+        );
+        const canUseAppInputs = document.querySelectorAll(
+            '.can-use-app > input',
+        );
+
+        for (let i = 0; i < dateOfBirthInputs.length; i++) {
+            dateOfBirthInputs[i].addEventListener('change', () => {
+                const age = calculateAge(new Date(dateOfBirthInputs[i].value));
+
+                if (age >= 16 && age < 18) {
+                    canUseAppInputs[i].parentNode.classList.remove('hidden');
+                } else {
+                    canUseAppInputs[i].parentNode.classList.add('hidden');
+                }
+
+                toggleRequiredOnEmailFields();
+            });
+        }
+    };
+
+    const checkIfCanUseAppisChecked = () => {
+        const canUseAppInputs = document.querySelectorAll(
+            '.can-use-app > input',
+        );
+
+        canUseAppInputs.forEach(input => {
+            input.addEventListener('change', () => {
+                toggleRequiredOnEmailFields();
+            });
+        });
+    };
+
+    const toggleRequiredOnEmailFields = () => {
+        const emailsInputs = document.querySelectorAll('.email > input');
+
+        const canUseAppInputs = document.querySelectorAll(
+            '.can-use-app > input',
+        );
+
+        for (let i = 0; i < canUseAppInputs.length; i++) {
+            canUseAppInputs[i].addEventListener('change', () => {
+                ('can use app is changed');
+                if (canUseAppInputs[i].checked) {
+                    emailsInputs[i].setAttribute('required', true);
+                    emailsInputs[i].parentNode.firstChild.innerHTML = 'Email *';
+                } else {
+                    emailsInputs[i].setAttribute('required', false);
+                    emailsInputs[i].parentNode.firstChild.innerHTML = 'Email';
+                }
+            });
+        }
+    };
+
     // Add and remove children forms
     const addChildButton = document.getElementById('add-child');
     const removeChildButton = document.getElementById('remove-child');
@@ -45,9 +107,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const childDiv = document.createElement('div');
         childDiv.classList.add('form-user');
-        childDiv.innerHTML =
-            `<h2>{{ 'register.children_data'|trans }} #${childNumber}</h2>` +
-            newChildForm;
+        childDiv.innerHTML = `<h2>${title} #${childNumber}</h2>` + newChildForm;
 
         childrenList.appendChild(childDiv);
 
@@ -56,6 +116,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
         updateRemoveButtonState();
         toggleAddressFields();
+        toggleCanUseAppFields();
+        toggleRequiredOnEmailFields();
     });
 
     removeChildButton.addEventListener('click', function () {
@@ -68,8 +130,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
         updateRemoveButtonState();
         toggleAddressFields();
+        toggleCanUseAppFields();
+        toggleRequiredOnEmailFields();
     });
 
     updateRemoveButtonState();
     toggleAddressFields();
+    toggleCanUseAppFields();
+    toggleRequiredOnEmailFields();
 });

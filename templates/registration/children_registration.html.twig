@@ -51,6 +51,8 @@
 					{{ form_row(form.mobile_number, {'required': false }) }}
 
 					{{ form_row(form.email) }}
+
+					{{ form_row(form.can_use_app)}}
 				</div>
 			{% endfor %}
 		</div>
@@ -65,6 +67,9 @@
 
 	{% block javascript %}
 		{{ encore_entry_script_tags('picturePreview') }}
+		<script>
+			const title = '{{ "register.children_data"|trans }}';
+		</script>
 		{{ encore_entry_script_tags('childrenRegistration') }}
 	{% endblock %}
 {% endblock %}
