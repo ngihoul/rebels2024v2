@@ -56,22 +56,6 @@
 
 	{% block javascript %}
 		{{ encore_entry_script_tags('picturePreview') }}
-		<script>
-			document.addEventListener('DOMContentLoaded', function () {
-const toggleAddressFields = () => {
-const sameAddressCheckbox = document.querySelectorAll('.same-address-as-parent');
-
-for (let i = 0; i < sameAddressCheckbox.length; i++) {
-sameAddressCheckbox[i].addEventListener('change', function () {
-const addressFields = sameAddressCheckbox[i].closest('.form-user').querySelectorAll('.address-street, .address-number, .zipcode, .locality, .country');
-
-addressFields.forEach((field) => {
-field.style.display = sameAddressCheckbox[i].children[1].checked ? 'none' : 'block';
-});
-});
-}
-} toggleAddressFields();
-});
-		</script>
-	{% endblock %}
-{% endblock %}
+		{{ encore_entry_script_tags('addChild') }}
+	</script>
+{% endblock %}{% endblock %}
