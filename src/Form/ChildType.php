@@ -17,6 +17,8 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\Email;
@@ -270,7 +272,27 @@ class ChildType extends AbstractType
                     'class' => 'custom-checkbox can-use-app hidden'
                 ],
                 'required' => false,
-            ]);
+            ])
+            ->addEventListener(
+                FormEvents::PRE_SET_DATA,
+                function (FormEvent $event) {
+                    $data = $event->getData();
+                    $form = $event->getForm();
+
+                    if (isset($data->canUseApp)) {
+                        $form->add('email', EmailType::class, [
+                            'label' => 'user.email',
+                            'row_attr' => [
+                                'class' => 'email'
+                            ],
+                            'constraints' => [
+                                new Email(['message' => 'validators.email.valid']),
+                            ],
+                            'required' => false,
+                        ]);
+                    }
+                }
+            );
     }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -35,8 +35,6 @@
 				<img id="previewImage" src="">
 			</div>
 
-			{{ form_row(form.email) }}
-
 			{{ form_row(form.same_address_as_parent) }}
 
 			{{ form_row(form.address_street) }}
@@ -48,6 +46,8 @@
 			{{ form_row(form.phone_number, {'required': false }) }}
 			{{ form_row(form.mobile_number, {'required': false }) }}
 
+			{{ form_row(form.email) }}
+			{{ form_row(form.can_use_app)}}
 
 			<button type="submit" class="btn btn-primary">{{ (action == 'update' ? 'children.update.btn'|trans : 'children.create.btn'|trans) }}</button>
 		</div>

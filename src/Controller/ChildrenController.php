@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\ChildType;
 use App\Repository\RelationTypeRepository;
+use App\Service\EmailManager;
 use App\Service\ProfilePictureManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,13 +22,15 @@ class ChildrenController extends AbstractController
     private RelationTypeRepository $relationTypeRepository;
     private TranslatorInterface $translator;
     private ProfilePictureManager $profilePictureManager;
+    private EmailManager $emailManager;
 
-    public function __construct(EntityManagerInterface $entityManager, RelationTypeRepository $relationTypeRepository, TranslatorInterface $translator, ProfilePictureManager $profilePictureManager)
+    public function __construct(EntityManagerInterface $entityManager, RelationTypeRepository $relationTypeRepository, TranslatorInterface $translator, ProfilePictureManager $profilePictureManager, EmailManager $emailManager)
     {
         $this->entityManager = $entityManager;
         $this->relationTypeRepository = $relationTypeRepository;
         $this->translator = $translator;
         $this->profilePictureManager = $profilePictureManager;
+        $this->emailManager = $emailManager;
     }
 
     #[Route('/create', name: 'app_children_create')]
@@ -56,6 +59,10 @@ class ChildrenController extends AbstractController
 
             if (!$this->handleProfilePicture($form, $child)) {
                 return $this->redirectToRoute('app_children_create');
+            }
+
+            if ($child->canUseApp()) {
+                $this->emailManager->inviteChildToChoosePassword($child);
             }
 
             $this->saveChild($child);
