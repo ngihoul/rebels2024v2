@@ -17,12 +17,8 @@ class RegistrationChildrenType extends AbstractType
                 'entry_type' => ChildType::class,
                 'allow_add' => true,
                 'allow_delete' => true,
-                'by_reference' => false,
                 'prototype' => true,
                 'data' => [new User()],
-                'entry_options' => [
-                    'label' => false,
-                ],
                 'attr' => [
                     'class' => 'children-collection',
                 ],

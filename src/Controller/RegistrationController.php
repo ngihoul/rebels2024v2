@@ -179,7 +179,9 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('app_register');
         }
 
-        $children = $form->getData()['children'];
+        // dd($form->get('children')->getData());
+
+        $children = $form->get('children')->getData();
 
         foreach ($children as $index => $child) {
             $relationTypeId = $form->get('children')->get($index)->get('relation_type')->getData();

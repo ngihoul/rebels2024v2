@@ -746,6 +746,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    // To solve doctrine error // Never used !!!
+    public function addChild(User $child): self
+    {
+        if (!$this->children->contains($child)) {
+            $this->children[] = $child;
+        }
+
+        return $this;
+    }
+
     public function getParents(): Collection
     {
         return $this->children->map(fn(Relation $relation) => $relation->getParent());

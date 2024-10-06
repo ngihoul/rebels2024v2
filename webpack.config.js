@@ -40,6 +40,7 @@ Encore
         './assets/js/autoCompletionAddPlayer.js',
     )
     .addEntry('addChild', './assets/js/addChild.js')
+    .addEntry('childrenRegistration', './assets/js/childrenRegistration.js')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()

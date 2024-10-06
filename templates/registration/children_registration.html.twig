@@ -1,129 +1,70 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{  parent() }} | {{ "register.title"|trans }}{% endblock %}
+{% block title %}
+	{{  parent() }}
+	|
+	{{ "register.title"|trans }}
+{% endblock %}
 
 {% block body %}
-    <div class="children-nb container container-register" data-children-nb="{{ form.children|length }}">
-        <h1>{{ "register.title"|trans }}</h1>
-        
-        {{ form_start(form) }}
+	<div class="children-nb container container-register" data-children-nb="{{ form.children|length }}">
+		<h1>{{ "register.title"|trans }}</h1>
 
-        <div id="children-list" data-prototype="{{ form_widget(form.children.vars.prototype)|e('html_attr') }}">
-            {% for form in form.children %}
-            <div class="form-user">
-                <h2>{{ "register.children_data"|trans }} #{{ loop.index }}</h2>
+		{{ form_start(form) }}
 
-                {{ form_errors(form) }}
+		<div id="children-list" data-prototype="{{ form_widget(form.children.vars.prototype)|e('html_attr') }}">
+			{% for form in form.children %}
+				<div class="form-user">
+					<h2>{{ "register.children_data"|trans }}
+						#{{ loop.index }}</h2>
 
-                {{ form_row(form.relation_type) }}
-                {{ form_row(form.firstname) }}
-                {{ form_row(form.lastname) }}
-                {{ form_row(form.gender) }}
-                {{ form_row(form.date_of_birth, {
+					{{ form_errors(form) }}
+
+					{{ form_row(form.relation_type) }}
+					{{ form_row(form.firstname) }}
+					{{ form_row(form.lastname) }}
+					{{ form_row(form.gender) }}
+					{{ form_row(form.date_of_birth, {
                     'widget': 'single_text',
                     'format': 'yyyy-MM-dd',})
                 }}
-                {{ form_row(form.nationality) }}
-                {{ form_row(form.license_number, {'required': false }) }}
-                {{ form_row(form.jersey_number, {'required': false }) }}
+					{{ form_row(form.nationality) }}
+					{{ form_row(form.license_number, {'required': false }) }}
+					{{ form_row(form.jersey_number, {'required': false }) }}
 
-                {{ form_row(form.profile_picture, {'label': 'user.profile_picture.label', 'id': 'profile_picture_input', 'row_attr': { 'class': 'profile-picture' }}) }}
-                <p class="disclaimer-picture alert alert-warning">{{ 'profile.picture.disclaimer'|trans }}</p>
+					{{ form_row(form.profile_picture, {'label': 'user.profile_picture.label', 'id': 'profile_picture_input', 'row_attr': { 'class': 'profile-picture' }}) }}
+					<p class="disclaimer-picture alert alert-warning">{{ 'profile.picture.disclaimer'|trans }}</p>
 
-                <div id="previewPicture">
-                    <img id="previewImage" src="">
-                </div>
+					<div id="previewPicture">
+						<img id="previewImage" src="">
+					</div>
 
-                {{ form_row(form.same_address_as_parent) }}
-                
-                {{ form_row(form.address_street) }}
-                {{ form_row(form.address_number) }}
-                {{ form_row(form.zipcode) }}
-                {{ form_row(form.locality) }}
-                {{ form_row(form.country) }}
+					{{ form_row(form.same_address_as_parent) }}
 
-                {{ form_row(form.phone_number, {'required': false }) }}
-                {{ form_row(form.mobile_number, {'required': false }) }}
-                
-                {{ form_row(form.email) }}
-            </div>
-            {% endfor %}
-        </div>
-        
-        <button type="button" class="btn btn-secondary" id="add-child">{{ "children.add_child"|trans({}, 'forms') }}</button>
-        <button type="button" class="btn btn-danger" id="remove-child" disabled>{{ "children.delete_child"|trans({}, 'forms') }}</button>
+					{{ form_row(form.address_street) }}
+					{{ form_row(form.address_number) }}
+					{{ form_row(form.zipcode) }}
+					{{ form_row(form.locality) }}
+					{{ form_row(form.country) }}
 
-        <button type="submit" class="btn btn-primary">{{ "children.register_children"|trans({}, 'forms') }}</button>
+					{{ form_row(form.phone_number, {'required': false }) }}
+					{{ form_row(form.mobile_number, {'required': false }) }}
 
-        {{ form_end(form) }}
-    </div>
+					{{ form_row(form.email) }}
+				</div>
+			{% endfor %}
+		</div>
 
-    {% block javascript %}
-        {{ encore_entry_script_tags('picturePreview') }}
+		<button type="button" class="btn btn-secondary" id="add-child">{{ "children.add_child"|trans({}, 'forms') }}</button>
+		<button type="button" class="btn btn-danger" id="remove-child" disabled>{{ "children.delete_child"|trans({}, 'forms') }}</button>
 
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                const toggleAddressFields = () => {
-                    const sameAddressCheckbox = document.querySelectorAll('.same-address-as-parent');
+		<button type="submit" class="btn btn-primary">{{ "children.register_children"|trans({}, 'forms') }}</button>
 
-                    for(let i = 0; i < sameAddressCheckbox.length; i++) {
-                        sameAddressCheckbox[i].addEventListener('change', function () {
-                            const addressFields = sameAddressCheckbox[i].closest('.form-user').querySelectorAll('.address-street, .address-number, .zipcode, .locality, .country');
+		{{ form_end(form) }}
+	</div>
 
-                            addressFields.forEach((field) => {
-                                field.style.display = sameAddressCheckbox[i].children[1].checked ? 'none' : 'block';
-                            });
-                        });
-                    }
-                }
-
-                const updateRemoveButtonState = () => {
-                    if (index > 1) {
-                        removeChildButton.disabled = false;
-                    } else {
-                        removeChildButton.disabled = true;
-                    }
-                }
-
-                // Add and remove children forms
-                const addChildButton = document.getElementById('add-child');
-                const removeChildButton = document.getElementById('remove-child');
-                const childrenList = document.getElementById('children-list');
-                const prototype = childrenList.getAttribute('data-prototype');
-                let index = parseInt(document.querySelector('children-nb').dataset.childrenNb);
-                let childNumber = index + 1;
-
-                addChildButton.addEventListener('click', function () {
-                    const newChildForm = prototype.replace(/__name__/g, index);
-
-                    const childDiv = document.createElement('div');
-                    childDiv.classList.add('form-user');
-                    childDiv.innerHTML = `<h2>{{ 'register.children_data'|trans }} #${childNumber}</h2>` + newChildForm;
-
-                    childrenList.appendChild(childDiv);
-
-                    index++;
-                    childNumber++;
-
-                    updateRemoveButtonState();
-                    toggleAddressFields();
-                });
-
-                removeChildButton.addEventListener('click', function () {
-                    const childForms = childrenList.getElementsByClassName('form-user');
-                    if (childForms.length > 0) {
-                        childrenList.removeChild(childForms[childForms.length - 1]);
-                        index--;
-                        childNumber--;
-                    }
-
-                    updateRemoveButtonState();
-                    toggleAddressFields();
-                });
-
-                updateRemoveButtonState();
-                toggleAddressFields();
-            });
-        </script>
-    {% endblock %}
+	{% block javascript %}
+		{{ encore_entry_script_tags('picturePreview') }}
+		{{ encore_entry_script_tags('childrenRegistration') }}
+	{% endblock %}
 {% endblock %}

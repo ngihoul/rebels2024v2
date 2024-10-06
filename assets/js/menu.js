@@ -50,37 +50,57 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    profilePicture.addEventListener('click', openCloseSwitchAccountmenu);
-    dropDownSwitchAccount.addEventListener('click', openCloseSwitchAccountmenu);
+    if (profilePicture) {
+        profilePicture.addEventListener('click', openCloseSwitchAccountmenu);
+    }
 
-    closeSwitchAccountBtn.addEventListener('click', openCloseSwitchAccountmenu);
+    if (dropDownSwitchAccount) {
+        dropDownSwitchAccount.addEventListener(
+            'click',
+            openCloseSwitchAccountmenu,
+        );
+    }
+
+    if (closeSwitchAccountBtn) {
+        closeSwitchAccountBtn.addEventListener(
+            'click',
+            openCloseSwitchAccountmenu,
+        );
+    }
 
     // Switch account - Desktop
     const profilePictureDesktop = document.querySelector(
         '.profile-icon-desktop',
     );
 
-    profilePictureDesktop.addEventListener('click', openCloseSwitchAccountmenu);
-
-    // Close menu if a click is done outside the menu
-    document.addEventListener('click', event => {
-        const isClickInsideMenu = switchAccountMenu.contains(event.target);
-        const isClickOnProfileIcon =
-            profilePicture.contains(event.target) ||
-            profilePictureDesktop.contains(event.target);
-        const isClickOnDropDownIcon = dropDownSwitchAccount.contains(
-            event.target,
+    if (profilePictureDesktop) {
+        profilePictureDesktop.addEventListener(
+            'click',
+            openCloseSwitchAccountmenu,
         );
+    }
 
-        if (
-            !isClickInsideMenu &&
-            !isClickOnProfileIcon &&
-            !isClickOnDropDownIcon
-        ) {
-            switchAccountMenu.classList.remove('menu-open');
-            switchAccountMenu.classList.add('menu-closed');
-        }
-    });
+    if (switchAccountMenu) {
+        // Close menu if a click is done outside the menu
+        document.addEventListener('click', event => {
+            const isClickInsideMenu = switchAccountMenu.contains(event.target);
+            const isClickOnProfileIcon =
+                profilePicture.contains(event.target) ||
+                profilePictureDesktop.contains(event.target);
+            const isClickOnDropDownIcon = dropDownSwitchAccount.contains(
+                event.target,
+            );
+
+            if (
+                !isClickInsideMenu &&
+                !isClickOnProfileIcon &&
+                !isClickOnDropDownIcon
+            ) {
+                switchAccountMenu.classList.remove('menu-open');
+                switchAccountMenu.classList.add('menu-closed');
+            }
+        });
+    }
 
     // Access own profile via switching-user-dropdown
     const profileLink = document.querySelector('.own-profile');
