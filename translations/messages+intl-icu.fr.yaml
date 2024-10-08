@@ -137,6 +137,8 @@ homepage:
     last_messages: 'Derniers messages'
     read_messages: 'Lis tes messages'
     missing_fields: 'Pour compléter ton profil, ajoute les champs suivants :'
+    actions_children:
+        Il a {count} action(s) en attente pour votre/vos enfant(s)'
 
 # Login
 login:

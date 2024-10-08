@@ -23,6 +23,7 @@ class AwaitingActionsExtension extends AbstractExtension
     {
         return [
             new TwigFunction('awaiting_actions_count', [$this, 'getAwaitingActionsCount']),
+            new TwigFunction('awaiting_actions_children_count', [$this, 'getAwaitingActionsForChildrenCount']),
         ];
     }
 
@@ -30,6 +31,21 @@ class AwaitingActionsExtension extends AbstractExtension
     {
         $nbUnreadMessages = $this->unreadMessageCounter->countUnreadMessages($user);
         $nbUnrepliedEvents = $this->unrepliedEventsCounter->countUnrepliedEvents($user);
+
+        return $nbUnreadMessages + $nbUnrepliedEvents;
+    }
+
+    public function getAwaitingActionsForChildrenCount(User $user): int
+    {
+        $nbUnreadMessages = 0;
+        $nbUnrepliedEvents = 0;
+
+        $children = $user->getChildren();
+
+        foreach ($children as $child) {
+            $nbUnreadMessages += $this->unreadMessageCounter->countUnreadMessages($child);
+            $nbUnrepliedEvents += $this->unrepliedEventsCounter->countUnrepliedEvents($child);
+        }
 
         return $nbUnreadMessages + $nbUnrepliedEvents;
     }

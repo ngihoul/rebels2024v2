@@ -1,3 +1,5 @@
+{% set realUser = get_original_user() %}
+
 {% extends 'base.html.twig' %}
 
 {% block title %}
@@ -56,6 +58,12 @@
 						{% if isUnreadMessage > 0 %}
 							<li>
 								<a href="{{ path('app_messages') }}">{{ "homepage.read_messages"|trans }}</a>
+							</li>
+						{% endif %}
+
+						{% if awaiting_actions_children_count(realUser) > 0 %}
+							<li>
+								<p>{{ "homepage.actions_children"|trans({ 'count' : awaiting_actions_children_count(realUser) }) }}</p>
 							</li>
 						{% endif %}
 					</ul>
