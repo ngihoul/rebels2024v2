@@ -43,14 +43,11 @@ de leur enfants mineurs.
 1. Ajout d'un formulaire `UserChoiceType`
 
     - L'utilisateur choisi s'il veut s'inscrire en tant que joueur OU parent
-    - Disclaimer indiquant qu'un parent peut bien sûr devenir un joueur
 
 2. Utilisation de `RegistrationFormType` pour les données de l'utilisateur
    (joueur adulte OU parent)
 
     - Nouvelle contrainte : doit avoir plus de 18 ans
-    - Optionnel : cacher les champ `jersey_number` et `license_number` pour les
-      parents
 
 3. Formulaire `ChildrenType` uniquement pour les parents :
 
@@ -80,10 +77,10 @@ de leur enfants mineurs.
 
 -   Ils recoivent un mail les invitant à demander un nouveau mot de passe via le
     module "reset password"
--   Lorsqu'il introduise leur mail dans le module, un second mail leur est
+-   Lorsqu'ils introduisent leur mail dans le module, un second mail leur est
     envoyé avec un lien pour réinitialiser le mot de passe
--   lorsqu'il choisisse leur nouveau mot de passe, automatiquement leur compte
-    est validé (`isVerified = true`)
+-   lorsqu'ils choisissent leur nouveau mot de passe, automatiquement leur
+    compte est validé (`isVerified = true`)
 
 ## Connexion - UserChecker
 
@@ -109,7 +106,13 @@ de leur enfants mineurs.
     // config/packages/framework.yaml
     framework:
         session:
-            cookie_lifetime: 3600
+            handler_id: null
+            cookie_secure: true
+            cookie_samesite: strict
+            storage_factory_id: session.storage.factory.native
+            cookie_httponly: true
+            cookie_lifetime: 0
+            gc_maxlifetime: 1440
     ```
 
 ## Navigation - base.html.twig
@@ -122,9 +125,7 @@ de leur enfants mineurs.
     dans la liste dropdown sur desktop ou dans le menu mobile (cf. navigation).
 -   Au moment du changement de compte, une modal apparait et demande la
     confirmation du changement de compte (cf. modal de confirmation de
-    suppression). Ce message expliquera aux utilisateurs ayant un role COACH
-    et/ou ADMIN qu'ils n'auront plus accès à leurs privilèges : il sera
-    necessaire de rebasculer sur leur profil pour récupérer ses privilèges.
+    suppression).
 -   Après le changement de compte une `alert-warning` indiuant que l utilisateur
     utilise le compte de, par exemple, Jason ou Brandon reste visible tout le
     long de la navigation en dessous du h1 de la page et au dessus des messages
@@ -139,7 +140,8 @@ de leur enfants mineurs.
         -   Ouvertue d'un menu dropdown avec :
             -   la liste des utilisateurs possibles (= enfants de l'utilisateur)
                 = photo, nom complet
-            -   un lien "voir mon profil"
+            -   Sur le clique de la photo du profil actif, l'utilisateur est
+                redirigé vers le profil concerné
             -   un lien "se déconnecter"
 
 ### Mobile
@@ -155,7 +157,7 @@ de leur enfants mineurs.
             -   Un espace conséquent
             -   un lien "voir mon profil"
             -   un lien "se déconnecter"
--   Ajout d'un bouton rond (fond bleu, comme les bouton ajout, modifier,
+-   TODO : Ajout d'un bouton rond (fond bleu, comme les bouton ajout, modifier,
     supprimer) qui afficherait la liste des autres comptes possibles à utiliser.
 
 ## Clubhouse
@@ -170,7 +172,8 @@ de leur enfants mineurs.
 
 -   Dans son profil, l'utilisateur principal (= parent) peut voir la liste de
     ses enfants (prénom, nom, date de naissance et miniature de la photo de
-    profil) avec un badge si une action est requise.
+    profil) avec un badge si une action est requise. De plus, un bouton
+    "shuffle" est accessible pour switcher de compte rapidement.
 -   En cliquant sur un élément de la liste, il accède au profil de son enfant
     sans pour autant changer d'utilisateur.
 -   Un bouton "Ajouter un enfant" est accessible par TOUS les membres ce qui
@@ -238,3 +241,10 @@ de leur enfants mineurs.
     stocker uniquement les actions critiques dans la base de données (pour
     permettre un audit rapide), et les autres actions mineures dans un système
     de log externe (comme ElasticSearch).
+
+## Deploiement
+
+-   Exécuter les 5 dernières migrations
+-   Prévoir un load de la Fixture RelationType uniquement (options et
+    traductions)
+-
