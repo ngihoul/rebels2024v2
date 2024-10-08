@@ -41,12 +41,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const switchAccountMenu = document.querySelector('#switch-account-menu');
 
     const openCloseSwitchAccountmenu = () => {
+        const mainMenu = document.querySelector('#main-menu');
+
         if (switchAccountMenu.classList.contains('menu-open')) {
             switchAccountMenu.classList.remove('menu-open');
             switchAccountMenu.classList.add('menu-closed');
         } else {
             switchAccountMenu.classList.remove('menu-closed');
             switchAccountMenu.classList.add('menu-open');
+
+            if (mainMenu && mainMenu.classList.contains('menu-open')) {
+                mainMenu.classList.remove('menu-open');
+                mainMenu.classList.add('menu-closed');
+            }
         }
     };
 
