@@ -63,7 +63,11 @@ class UpgradeMajorChildrenCommand extends Command
                 $this->entityManager->flush();
 
                 if ($youngAdult->getEmail()) {
-                    $this->emailManager->sendEmail($youngAdult->getEmail(), $this->translator->trans('children.turn_18.child.subject', [], 'emails'), 'child_18');
+                    if ($youngAdult->getPassword()) {
+                        $this->emailManager->sendEmail($youngAdult->getEmail(), $this->translator->trans('children.turn_18.child.subject', [], 'emails'), 'child_18');
+                    } else {
+                        $this->emailManager->inviteChildToChoosePassword($youngAdult);
+                    }
                 }
             }
 

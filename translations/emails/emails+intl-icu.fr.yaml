@@ -56,7 +56,7 @@ children:
     choose_password:
         subject: 'Choisis ton mot de passe'
         title:
-            'Tu vas pouvoir gérer seul ton compte ! Choisis ton mot de passe.'
+            'Tu vas pouvoir gérer ton compte seul ! Choisis ton mot de passe.'
         text:
             "Grâce à l'application Rebels' Clubhouse, tu vas pouvoir gérer
             toi-même tes présences aux entrainements et aux matchs, ainsi que
