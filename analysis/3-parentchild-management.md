@@ -186,27 +186,25 @@ de leur enfants mineurs.
 
 ## Cron job
 
--   Un cron job sera effectué tous les mois verifiant si des jeunes ont
-    `canUseAppFromDate` > 1 mois mais n'ont toujours pas de mot de passe. Dans
-    ce cas, les parents recevront un message via l'app Rebels Clubhouse leur
-    proposant d'envoyer un rappel par mail à leur enfant.
--   Un cron job sera effectué toutes les semaines le dimanche à 01:00 (pourquoi
-    pas tous les jours ?) pour vérifier si des membres ont eu leur 18e
-    anniversaire pendant la semaine précédente. Si c'est le cas, la liste des
-    parents est vidée (s'assurer que la liste children chez les parents est mise
-    à jour).  
-    Si le jeune n'a pas encore de mot de passe, un mail lui est envoyé pour
-    l'informer qu'il doit maintenant gérer son compte seul étant donné qu'il est
-    majeur.  
-    Pour ce faire, il pourra choisir un mot de passe et devra accepter les :
+-   Un cron job sera effectué tous les jours pour vérifier si des membres ont eu
+    leur 18e anniversaire. Si c'est le cas, la liste des parents est vidée
+    (s'assurer que la liste children chez les parents est mise à jour).  
+    Uun mail est envoyé au jeune pour l'informer qu'il doit maintenant gérer son
+    compte seul étant donné qu'il est majeur.  
+    S'il n'a pas encore de mot de passe, on l'invite à en choisir un. Lorsqu'il
+    se connectera a son compte, il devra accepter les :
+
     -   Newsletter
     -   ROI
-    -   Privacy Policy Un mail sera également envoyé à ses parents afin de les
-        informer que le jeune doit maintenant gérer son compte seul.
--   Un cron job sera effectué tous les mois pour vérifier si des membres de > 18
-    ans n'ont pas de mot de passe et leur anniversaire il y a > 1 mois. Dans ce
-    cas, ils recevront un rappel pour choisir un mot de passe et utiliser leur
-    compte seul.
+    -   Privacy Policy
+
+    Un mail sera également envoyé à ses parents afin de les informer que le
+    jeune doit maintenant gérer son compte seul.
+
+-   Un cron job sera effectué tous les jours pour vérifier si des jeunes ont eu
+    16 ans. Si c'est le cas, leur parent reçoit un mail pour les informer que le
+    jeune peut aussi gérer son compte. La procédure pour donner l autorisation
+    au jeune se retrouve dans le mail.
 
 ## Idées optionnelles (Merci ChatGPT)
 
