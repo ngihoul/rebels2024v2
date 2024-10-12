@@ -82,3 +82,13 @@ children:
                 <br/><br/>Explore all the features and fully enjoy this new
                 freedom. If you have any questions, do not hesitate to contact
                 us."
+    turn_16:
+        parent:
+            subject: '{child_firstname} is now 16 years old'
+            title: '{child_firstname} is now 16 years old: here is what changes'
+            text: >
+                <br/><br/>Congratulations! {child_firstname} has just turned 16
+                and can now manage their account via the Rebels' Clubhouse app.
+                <br/><br/>To give your child access, please update their profile
+                by adding their email address and checking "I agree that my
+                child uses the app alone."

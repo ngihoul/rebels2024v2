@@ -151,4 +151,17 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->getQuery()
             ->getResult();
     }
+
+    public function getChildrenWhoTurn16()
+    {
+        $date = new \DateTime();
+        $date->modify('-16 years');
+
+        return $this->createQueryBuilder('u')
+            ->select('u')
+            ->andWhere('u.date_of_birth = :date')
+            ->setParameter(':date', $date->format('Y-m-d'))
+            ->getQuery()
+            ->getResult();
+    }
 }

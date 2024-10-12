@@ -85,3 +85,13 @@ children:
                 de manière autonome. <br/><br/>Explore toutes les
                 fonctionnalités et profite pleinement de cette nouvelle liberté.
                 Si tu as des questions, n'hésite pas à nous contacter."
+    turn_16:
+        parent:
+            subject: '{child_firstname} a maintenant 16 ans'
+            title: '{child_firstname} a maintenant 16 ans : voici ce qui change'
+            text: >
+                <br/><br/>Félicitations ! {child_firstname} vient d'avoir 16 ans
+                et peut désormais gérer son compte via l'application Rebels'
+                Clubhouse. <br/><br/>Pour donner accès à votre enfant, veuillez
+                mettre à jour son profil en ajoutant son adresse e-mail et en
+                cochant "J'accepte que mon enfant utilise l'application seul."
