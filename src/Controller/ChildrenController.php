@@ -62,6 +62,9 @@ class ChildrenController extends AbstractController
             }
 
             if ($child->canUseApp()) {
+                $child->setCanUseAppBy($user);
+                $child->setCanUseAppFromDate(new \DateTimeImmutable());
+
                 $this->emailManager->inviteChildToChoosePassword($child);
             }
 

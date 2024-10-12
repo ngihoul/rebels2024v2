@@ -31,7 +31,7 @@
                 'class': 'datepicker',
             }, 
             'row_attr': { 'class': 'date-of-birth' }}) 
-														        }}
+																										        }}
 
 		{{ form_row(form.nationality, {'label': 'user.nationality', 'row_attr': { 'class': 'nationality' }}) }}
 
@@ -70,6 +70,11 @@
 			</div>
 		{% endif %}
 
+		{% if app.user.age >= 16 and app.user.age < 18 %}
+			<div class="custom-checkbox">
+				{{ form_row(form.can_use_app)}}
+			</div>
+		{% endif %}
 
 		{{ form_row(form.submit, {'label': 'user.update_profile.submit', 'row_attr': { 'class': 'submit' }}) }}
 
@@ -78,5 +83,6 @@
 
 	{% block javascript %}
 		{{ encore_entry_script_tags('picturePreview') }}
+		{{ encore_entry_script_tags('addChild') }}
 	{% endblock %}
 {% endblock %}

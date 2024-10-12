@@ -3,19 +3,20 @@ document.addEventListener('DOMContentLoaded', function () {
         const sameAddressCheckbox = document.querySelector(
             '.same-address-as-parent > input',
         );
-        console.log(sameAddressCheckbox);
 
-        sameAddressCheckbox.addEventListener('change', function () {
-            const addressFields = document.querySelectorAll(
-                '.address-street, .address-number, .zipcode, .locality, .country',
-            );
+        if (sameAddressCheckbox) {
+            sameAddressCheckbox.addEventListener('change', function () {
+                const addressFields = document.querySelectorAll(
+                    '.address-street, .address-number, .zipcode, .locality, .country',
+                );
 
-            addressFields.forEach(field => {
-                field.style.display = sameAddressCheckbox.checked
-                    ? 'none'
-                    : 'block';
+                addressFields.forEach(field => {
+                    field.style.display = sameAddressCheckbox.checked
+                        ? 'none'
+                        : 'block';
+                });
             });
-        });
+        }
     };
 
     const calculateAge = dateOfBirth => {
@@ -49,7 +50,6 @@ document.addEventListener('DOMContentLoaded', function () {
         const canUseAppInput = document.querySelector('.can-use-app > input');
 
         canUseAppInput.addEventListener('change', () => {
-            ('can use app is changed');
             if (canUseAppInput.checked) {
                 emailsInput.setAttribute('required', true);
                 emailsInput.parentNode.firstChild.innerHTML = 'Email *';
@@ -59,6 +59,23 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     };
+
+    // For update child profile
+    const UserCanUseAppInput = document.getElementById('user_can_use_app');
+
+    if (UserCanUseAppInput) {
+        if (UserCanUseAppInput.checked) {
+            document.getElementById('user_email').required = true;
+        }
+
+        UserCanUseAppInput.addEventListener('change', () => {
+            if (UserCanUseAppInput.checked) {
+                document.getElementById('user_email').required = true;
+            } else {
+                document.getElementById('user_email').required = false;
+            }
+        });
+    }
 
     toggleAddressFields();
     toggleCanUseAppFields();

@@ -14,15 +14,12 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class UserChecker implements UserCheckerInterface
 {
-
-    private EntityManagerInterface $entityManager;
     private EmailVerifier $emailVerifier;
     private TranslatorInterface $translator;
     private EmailManager $emailManager;
 
-    public function __construct(EntityManagerInterface $entityManager, EmailVerifier $emailVerifier, TranslatorInterface $translator, EmailManager $emailManager)
+    public function __construct(EmailVerifier $emailVerifier, TranslatorInterface $translator, EmailManager $emailManager)
     {
-        $this->entityManager = $entityManager;
         $this->emailVerifier = $emailVerifier;
         $this->translator = $translator;
         $this->emailManager = $emailManager;
@@ -34,7 +31,10 @@ class UserChecker implements UserCheckerInterface
             throw new CustomUserMessageAuthenticationException($this->translator->trans('error.bad_credentials'));
         }
 
-        // 
+        if ($user->isChild() && $user->canUseApp() != true) {
+            throw new CustomUserMessageAuthenticationException($this->translator->trans('error.bad_credentials'));
+        }
+
         if ($user->isChild() && $user->getPassword() == null && $user->canUseApp() == true) {
             $this->emailManager->inviteChildToChoosePassword($user);
             throw new CustomUserMessageAuthenticationException($this->translator->trans('error.bad_credentials'));

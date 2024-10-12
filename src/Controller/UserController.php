@@ -13,6 +13,7 @@ use App\Repository\EventRepository;
 use App\Repository\LicenseRepository;
 use App\Repository\MessageRepository;
 use App\Repository\UserRepository;
+use App\Service\EmailManager;
 use App\Service\ProfilePictureManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityNotFoundException;
@@ -26,12 +27,14 @@ class UserController extends AbstractController
     private UserRepository $userRepository;
     private EntityManagerInterface $entityManager;
     private TranslatorInterface $translator;
+    private EmailManager $emailManager;
 
-    public function __construct(UserRepository $userRepository, EntityManagerInterface $entityManager, TranslatorInterface $translator, LoggerInterface $logger)
+    public function __construct(UserRepository $userRepository, EntityManagerInterface $entityManager, TranslatorInterface $translator, EmailManager $emailManager)
     {
         $this->userRepository = $userRepository;
         $this->entityManager = $entityManager;
         $this->translator = $translator;
+        $this->emailManager = $emailManager;
     }
 
     // Homepage for authenticated user. If not authenticated, redirected to login page
@@ -66,11 +69,7 @@ class UserController extends AbstractController
         /** @var User $user */
         $user = $this->getUser();
 
-        $isUserChild = false;
-
-        if (!$user->getParents()->isEmpty()) {
-            $isUserChild = true;
-        }
+        $isUserChild = !$user->getParents()->isEmpty();
 
         $form = $this->createForm(UserType::class, $user, [
             'is_child' => $isUserChild
@@ -83,6 +82,13 @@ class UserController extends AbstractController
             $user = $form->getData();
 
             $profilePictureManager->handleProfilePicture($form, $user);
+
+            if ($user->canUseApp() && !$user->getCanUseAppFromDate()) {
+                $user->setCanUseAppBy($user);
+                $user->setCanUseAppFromDate(new \DateTimeImmutable());
+
+                $this->emailManager->inviteChildToChoosePassword($user);
+            }
 
             $this->entityManager->persist($user);
             $this->entityManager->flush();

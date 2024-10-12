@@ -206,7 +206,7 @@ class RegistrationController extends AbstractController
 
             if ($child->canUseApp() === true) {
                 $child->setCanUseAppBy($user);
-                $child->setCanUseAppFromDate = new \DateTime();
+                $child->setCanUseAppFromDate(new \DateTimeImmutable());
 
                 $this->emailManager->inviteChildToChoosePassword($child);
             }

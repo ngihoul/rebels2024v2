@@ -28,6 +28,8 @@ class UserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $isChild = $options['is_child'];
+
         $builder
             ->add('firstname', TextType::class, [
                 'constraints' => [
@@ -170,17 +172,22 @@ class UserType extends AbstractType
             ])
             ->add('submit', SubmitType::class);
 
-        if ($options['is_child']) {
+        if ($isChild) {
             $builder->add('email', EmailType::class, [
                 'label' => 'children.email',
                 'row_attr' => [
                     'class' => 'email'
                 ],
-                'constraints' => [
-                    new Email(['message' => 'validators.email.valid']),
-                ],
-                'required' => false,
-            ]);
+                'required' => !$isChild,
+                'constraints' => $isChild ? [new Email(['message' => 'validators.email.valid'])] : [new Email(['message' => 'validators.email.valid']), new NotBlank()],
+            ])
+                ->add('can_use_app', CheckboxType::class, [
+                    'label' => 'children.can_use_app',
+                    'row_attr' => [
+                        'class' => 'can-use-app'
+                    ],
+                    'required' => false,
+                ]);
         }
 
         if (!$options['is_child']) {
