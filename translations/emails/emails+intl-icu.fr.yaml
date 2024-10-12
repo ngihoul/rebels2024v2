@@ -66,3 +66,22 @@ children:
             mot de passe, il te suffit d'introduire ton adresse mail et de
             suivre les instructions."
         link: 'Choisir mon mot de passe'
+    turn_18:
+        parent:
+            subject: '{child_firstname} a maintenant 18 ans'
+            title: '{child_firstname} a maintenant 18 ans : voici ce qui change'
+            text:
+                "<br/><br/>Félicitations ! {child_firstname} a atteint sa
+                majorité et peut désormais prendre les rênes de son compte sur
+                l'application Rebels' Clubhouse. <br/><br/>Encourage-le à
+                explorer toutes les fonctionnalités et à profiter pleinement de
+                cette nouvelle autonomie."
+        child:
+            subject: 'Bienvenue à ta majorité !'
+            title: 'Tu as maintenant 18 ans : prends le contrôle de ton compte'
+            text:
+                "<br/><br/>Félicitations pour tes 18 ans ! <br/><br/>Tu peux
+                désormais gérer ton compte sur l'application Rebels' Clubhouse
+                de manière autonome. <br/><br/>Explore toutes les
+                fonctionnalités et profite pleinement de cette nouvelle liberté.
+                Si tu as des questions, n'hésite pas à nous contacter."

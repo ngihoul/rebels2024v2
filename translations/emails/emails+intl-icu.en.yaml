@@ -64,3 +64,21 @@ children:
             redirected to the password reset tool, just enter your email address
             and follow the instructions."
         link: 'Choose my password'
+    turn_18:
+        parent:
+            subject: '{child_firstname} is now 18 years old'
+            title: '{child_firstname} is now 18 years old: here is what changes'
+            text:
+                "<br/><br/>Congratulations! {child_firstname} has reached
+                adulthood and can now take control of their account on the
+                Rebels' Clubhouse app. <br/><br/>Encourage them to explore all
+                the features and fully enjoy this new autonomy."
+        child:
+            subject: 'Welcome to adulthood!'
+            title: 'You are now 18: take control of your account'
+            text:
+                "<br/><br/>Congratulations on turning 18! <br/><br/>You can now
+                manage your account on the Rebels' Clubhouse app independently.
+                <br/><br/>Explore all the features and fully enjoy this new
+                freedom. If you have any questions, do not hesitate to contact
+                us."
