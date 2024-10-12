@@ -72,7 +72,9 @@ class UserController extends AbstractController
         $isUserChild = !$user->getParents()->isEmpty();
 
         $form = $this->createForm(UserType::class, $user, [
-            'is_child' => $isUserChild
+            'is_child' => $isUserChild,
+            'roi' => !$user->isInternalRules(),
+            'privacy_policy' => !$user->isPrivacyPolicy()
         ]);
 
         // Handle form
@@ -100,7 +102,9 @@ class UserController extends AbstractController
         return $this->render('profile/form.html.twig', [
             'form' => $form->createView(),
             'image' => $user->getProfilePicture(),
-            'isChild' => $isUserChild
+            'isChild' => $isUserChild,
+            'isROImissing' => !$user->isInternalRules(),
+            'isPrivacyPolicyMissing' => !$user->isPrivacyPolicy()
         ]);
     }
 

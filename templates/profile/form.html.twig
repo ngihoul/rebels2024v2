@@ -31,7 +31,7 @@
                 'class': 'datepicker',
             }, 
             'row_attr': { 'class': 'date-of-birth' }}) 
-																										        }}
+																																		        }}
 
 		{{ form_row(form.nationality, {'label': 'user.nationality', 'row_attr': { 'class': 'nationality' }}) }}
 
@@ -64,15 +64,33 @@
 			{{ form_row(form.email) }}
 		{% endif %}
 
+		{% if app.user.age >= 16 and app.user.age < 18 %}
+			<div class="custom-checkbox">
+				{{ form_row(form.can_use_app)}}
+			</div>
+		{% endif %}
+
 		{% if isChild == false %}
 			<div class="custom-checkbox">
 				{{ form_row(form.newsletter_lfbbs, {'label': 'user.newsletter_lfbbs', 'required': false}) }}
 			</div>
 		{% endif %}
 
-		{% if app.user.age >= 16 and app.user.age < 18 %}
+		{% if isROImissing == true %}
 			<div class="custom-checkbox">
-				{{ form_row(form.can_use_app)}}
+				{{ form_row(form.internal_rules, {
+                'label': 'user.internal_rules',
+                'label_html': true,
+            }) }}
+			</div>
+		{% endif %}
+
+		{% if isPrivacyPolicyMissing == true %}
+			<div class="custom-checkbox">
+				{{ form_row(form.privacy_policy, {
+                'label': 'user.privacy_policy',
+                'label_html': true,
+            }) }}
 			</div>
 		{% endif %}
 

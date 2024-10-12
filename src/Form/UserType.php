@@ -29,6 +29,8 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $isChild = $options['is_child'];
+        $isPrivacyPolicyMissing = $options['privacy_policy'];
+        $isRoiMissing = $options['roi'];
 
         $builder
             ->add('firstname', TextType::class, [
@@ -190,9 +192,21 @@ class UserType extends AbstractType
                 ]);
         }
 
-        if (!$options['is_child']) {
+        if (!$isChild) {
             $builder->add('newsletter_lfbbs', CheckboxType::class, [
                 'required' => false,
+            ]);
+        }
+
+        if ($isPrivacyPolicyMissing) {
+            $builder->add('privacy_policy', CheckboxType::class, [
+                'required' => true,
+            ]);
+        }
+
+        if ($isRoiMissing) {
+            $builder->add('internal_rules', CheckboxType::class, [
+                'required' => true,
             ]);
         }
     }
@@ -202,7 +216,9 @@ class UserType extends AbstractType
         $resolver->setDefaults([
             'data_class' => User::class,
             'translation_domain' => 'forms',
-            'is_child' => false
+            'is_child' => false,
+            'privacy_policy' => false,
+            'roi' => false,
         ]);
     }
 }
