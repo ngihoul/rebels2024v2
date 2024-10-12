@@ -58,13 +58,13 @@ children:
         title:
             'Tu vas pouvoir gérer ton compte seul ! Choisis ton mot de passe.'
         text:
-            "Grâce à l'application Rebels' Clubhouse, tu vas pouvoir gérer
-            toi-même tes présences aux entrainements et aux matchs, ainsi que
-            consulter tes messages. Pour cela, tu dois choisir un mot de passe
-            pour ton compte. Clique sur le bouton ci-dessous pour choisir ton
-            mot de passe. Tu seras redirigé vers l'outil de réinitialisation de
-            mot de passe, il te suffit d'introduire ton adresse mail et de
-            suivre les instructions."
+            "<br/><br/>Grâce à l'application Rebels' Clubhouse, tu vas pouvoir
+            gérer toi-même tes présences aux entrainements et aux matchs, ainsi
+            que consulter tes messages. <br/><br/>Pour cela, tu dois choisir un
+            mot de passe pour ton compte. Clique sur le bouton ci-dessous pour
+            choisir ton mot de passe. Tu seras redirigé vers l'outil de
+            réinitialisation de mot de passe, il te suffit d'introduire ton
+            adresse mail et de suivre les instructions."
         link: 'Choisir mon mot de passe'
     turn_18:
         parent:
