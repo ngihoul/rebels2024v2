@@ -174,8 +174,6 @@ de leur enfants mineurs.
     ses enfants (prénom, nom, date de naissance et miniature de la photo de
     profil) avec un badge si une action est requise. De plus, un bouton
     "shuffle" est accessible pour switcher de compte rapidement.
--   En cliquant sur un élément de la liste, il accède au profil de son enfant
-    sans pour autant changer d'utilisateur.
 -   Un bouton "Ajouter un enfant" est accessible par TOUS les membres ce qui
     leur permet à tout moment d'ajouter un enfant à son profil
 
