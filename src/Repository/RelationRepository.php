@@ -40,4 +40,16 @@ class RelationRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    // GetRelation where parent is $parent and child is $child
+    public function getRelation($parent, $child): ?Relation
+    {
+        return $this->createQueryBuilder('r')
+            ->andWhere('r.parent = :parent')
+            ->andWhere('r.child = :child')
+            ->setParameter('parent', $parent)
+            ->setParameter('child', $child)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }

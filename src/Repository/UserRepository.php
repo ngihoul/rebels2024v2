@@ -137,4 +137,18 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->getQuery()
             ->getResult();
     }
+
+    // Get young adult who just reached 18 years old, this cron job will be executed every day
+    public function getYoungAdults()
+    {
+        $date = new \DateTime();
+        $date->modify('-18 years');
+
+        return $this->createQueryBuilder('u')
+            ->select('u')
+            ->andWhere('u.date_of_birth = :date')
+            ->setParameter(':date', $date->format('Y-m-d'))
+            ->getQuery()
+            ->getResult();
+    }
 }
