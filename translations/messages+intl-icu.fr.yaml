@@ -138,7 +138,9 @@ homepage:
     read_messages: 'Lis tes messages'
     missing_fields: 'Pour compléter ton profil, ajoute les champs suivants :'
     actions_children:
-        Il a {count} action(s) en attente pour votre/vos enfant(s)'
+        '{count, plural, one {Il y a 1 action pour {children_count, plural, one
+        {votre enfant} other {vos enfants}}} other {Il y a # actions pour
+        {children_count, plural, one {votre enfant} other {vos enfants}}} }'
 
 # Login
 login:

@@ -61,9 +61,9 @@
 							</li>
 						{% endif %}
 
-						{% if awaiting_actions_children_count(realUser) > 0 %}
+						{% if app.user.children|length > 0 and awaiting_actions_children_count(app.user) > 0 %}
 							<li>
-								<p>{{ "homepage.actions_children"|trans({ 'count' : awaiting_actions_children_count(realUser) }) }}</p>
+								<p>{{ "homepage.actions_children"|trans({ 'count' : awaiting_actions_children_count(app.user), 'children_count':app.user.children|length }) }}</p>
 							</li>
 						{% endif %}
 					</ul>

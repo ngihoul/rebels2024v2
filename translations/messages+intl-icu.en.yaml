@@ -134,8 +134,7 @@ homepage:
     read_messages: 'Read your messages'
     missing_fields:
         'To complete your profile, you must fill in the following fields:'
-    actions_children:
-        '{There is {count} action(s) pending for your child/children'
+    actions_children: There is {count} action(s) pending for your child/children
 
 login:
     login: 'Login'
