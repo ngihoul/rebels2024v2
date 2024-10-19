@@ -27,12 +27,14 @@ class EventController extends AbstractController
     private EntityManagerInterface $entityManager;
     private EventRepository $eventRepository;
     private TranslatorInterface $translator;
+    private EmailManager $emailManager;
 
-    public function __construct(EntityManagerInterface $entityManager, EventRepository $eventRepository, TranslatorInterface $translator)
+    public function __construct(EntityManagerInterface $entityManager, EventRepository $eventRepository, TranslatorInterface $translator, EmailManager $emailManager)
     {
         $this->entityManager = $entityManager;
         $this->eventRepository = $eventRepository;
         $this->translator = $translator;
+        $this->emailManager = $emailManager;
     }
 
     // Display events for user with pagination
@@ -221,7 +223,7 @@ class EventController extends AbstractController
     // Invite players to an existing event
     #[Route('/invitation/{id}', name: 'app_agenda_invitation')]
     #[IsGranted('ROLE_COACH')]
-    public function invite(Request $request, EmailManager $emailManager, EventAttendeeRepository $eventAttendeeRepository): Response
+    public function invite(Request $request, EventAttendeeRepository $eventAttendeeRepository): Response
     {
         try {
             $eventId = $request->get('id');
@@ -257,9 +259,16 @@ class EventController extends AbstractController
 
                         // TODO : fetch locale from $user
 
-                        // Send an email to User
-                        if ($user->getEmail()) {
-                            $emailManager->sendEmail($user->getEmail(), $this->translator->trans('event.invitation.subject', [], 'emails'), 'invitation_confirmation', ['event' => $event]);
+                        // Send an email to User and/or parent
+                        $userAge = $user->getAge();
+
+                        if ($userAge < 16) {
+                            $this->sendEventInvitationToParents($user, $event);
+                        } else if ($userAge >= 16 && $userAge < 18) {
+                            $this->sendEventInvitationToUser($user, $event);
+                            $this->sendEventInvitationToParents($user, $event);
+                        } else {
+                            $this->sendEventInvitationToUser($user, $event);
                         }
                     }
                 }
@@ -367,5 +376,22 @@ class EventController extends AbstractController
         }
 
         return $event;
+    }
+
+    // Send an email to user
+    private function sendEventInvitationToUser($user, $event): void
+    {
+        if($user->getEmail()) {
+            $this->emailManager->sendEmail($user->getEmail(), $this->translator->trans('event.invitation.subject', [], 'emails'), 'invitation_confirmation', ['event' => $event]);
+        }
+    }
+
+    // Send an email to parents
+    private function sendEventInvitationToParents($user, $event): void
+    {
+        foreach ($user->getParents() as $parent) {
+            // TODO : create a personalized mail for parents
+            $this->emailManager->sendEmail($parent->getEmail(), $this->translator->trans('event.invitation.subject', [], 'emails'), 'invitation_confirmation', ['event' => $event]);
+        }
     }
 }
