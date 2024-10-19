@@ -203,7 +203,9 @@ profile:
             Francophone Belge de Baseball et Softball. Utilise donc une photo
             d'identité ou une photo officielle du club."
     children:
-        title: 'Mes enfants'
+        title: 
+            mines: 'Mes enfants'
+            of: 'Ses enfants'
         add: 'Ajouter un enfant'
         no_children: "Vous n'avez pas encore d'enfant ajouté."
 

@@ -123,18 +123,21 @@ class UserController extends AbstractController
 
             $currentUser = $this->getUser();
 
-            // Only coaches or admins can view a profile other than their own 
+            // Only coaches or admins can view a profile other than their own
+            // TODO : Parent can check their children's profile
             if ($user !== $currentUser && (!$this->isGranted("ROLE_COACH"))) {
                 $this->addFlash('error', $this->translator->trans('error.profile_not_found'));
                 return $this->redirectToRoute('app_home');
             }
 
             // Generate title : My profile or Name's profile
-            $pageTitle = ($user === $currentUser) ? $this->translator->trans('profile.my_profile') : $this->translator->trans('profile.profile_of') . $user->getFirstname() . ' ' . $user->getLastname();
+            $pageTitle = $this->translator->trans('profile.profile_of') . $user->getFirstname() . ' ' . $user->getLastname();
+            $childrenTitle = $this->translator->trans('profile.children.title.of');
 
             return $this->render('profile/index.html.twig', [
                 'user' => $user,
-                'pageTitle' => $pageTitle
+                'pageTitle' => $pageTitle,
+                'childrenTitle' => $childrenTitle
             ]);
         } catch (Exception $e) {
             $this->addFlash('error', $e->getMessage());
@@ -156,10 +159,12 @@ class UserController extends AbstractController
 
             // Generate title : My profile or Name's profile
             $pageTitle = $this->translator->trans('profile.my_profile');
+            $childrenTitle = $this->translator->trans('profile.children.title.mines');
 
             return $this->render('profile/index.html.twig', [
                 'user' => $user,
-                'pageTitle' => $pageTitle
+                'pageTitle' => $pageTitle,
+                'childrenTitle' => $childrenTitle
             ]);
         } catch (Exception $e) {
             $this->addFlash('error', $e->getMessage());

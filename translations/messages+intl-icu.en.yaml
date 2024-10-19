@@ -193,7 +193,9 @@ profile:
             Belge de Baseball et Softball. Please use a passport photo or an
             official club photo.'
     children:
-        title: 'My children'
+        title: 
+            mines: 'My children'
+            of: 'Children'
         add: 'Add a child'
         no_children: 'You have no children yet.'
 

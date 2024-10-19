@@ -102,11 +102,13 @@
 
 			</div>
 		</div>
-		{% if app.user.age >= 18 %}
+		{% if user.age >= 18 %}
 			<div class="children-container">
 				<div class="heading-container">
-					<h2>{{ "profile.children.title"|trans }}</h2>
-					<a href="{{ path('app_children_create') }}" class="btn-add"></a>
+					<h2>{{ childrenTitle }}</h2>
+					{% if app.user == user %}
+						<a href="{{ path('app_children_create') }}" class="btn-add"></a>
+					{% endif %}
 				</div>
 				<div class="flex-container">
 					{% if user.children|length > 0 %}
