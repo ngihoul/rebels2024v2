@@ -6,7 +6,7 @@
     <div class="container container-message-detail">
 
         {# Confirmation modal when archiving a message #}
-        {% include 'shared/modal_confirmation.html.twig' with { 'message' : "modal.message"|trans, "confirmButtonText" : "modal.btn.archive"|trans } %}
+        {% include 'shared/modal_confirmation.html.twig' with { 'id': 'confirmation-modal', 'message' : "modal.message"|trans, "confirmButtonText" : "modal.btn.archive"|trans } %}
 
         <div class="heading-container">
             <h1>

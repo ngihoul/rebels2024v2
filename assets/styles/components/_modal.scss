@@ -26,12 +26,12 @@
         .button-container {
             display: flex;
 
-            #confirm-button {
+            .confirm-button {
                 margin-right: 0.8rem;
             }
 
-            #confirm-button,
-            #cancel-button {
+            .confirm-button,
+            .cancel-button {
                 width: 50%;
             }
         }

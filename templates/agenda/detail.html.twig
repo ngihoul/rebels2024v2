@@ -6,7 +6,7 @@
 <div class="container container-detail-event">
 
     {# Confirmation modal when deleting an event #}
-    {% include 'shared/modal_confirmation.html.twig' with { 'message' : "modal.event"|trans } %}
+    {% include 'shared/modal_confirmation.html.twig' with { 'id': 'confirmation-modal', 'message' : "modal.event"|trans } %}
 
     <h1>
         {% if event.isCancelled %}

@@ -6,7 +6,7 @@
 <div class="container container-team">
 
     {# Confirmation modal when deleting a team #}
-    {% include 'shared/modal_confirmation.html.twig' with { 'message' : "modal.team"|trans } %}
+    {% include 'shared/modal_confirmation.html.twig' with { 'id': 'confirmation-modal', 'message' : "modal.team"|trans } %}
 
     <div class="heading-container">
         <h1>{{ "team.title"|trans }}</h1>

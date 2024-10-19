@@ -33,7 +33,7 @@
 		<div id="spinner" class="spinner"></div>
 
 		{# TODO : Traduire ! #}
-		{% include 'shared/modal_confirmation.html.twig' with { 'message' : "Tu t'apprêtes à changer de compte. Es-tu sûr ?", 'confirmButtonText' : "Changer" } %}
+		{% include 'shared/modal_confirmation.html.twig' with { 'id' : 'switch-account-modal', 'message' : "Tu t'apprêtes à changer de compte. Es-tu sûr ?", 'confirmButtonText' : "Changer" } %}
 
 		<header>
 			{% if app.user %}

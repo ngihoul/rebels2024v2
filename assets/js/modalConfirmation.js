@@ -1,25 +1,31 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const modal = document.getElementById('confirmation-modal');
-    const confirmButton = document.getElementById('confirm-button');
-    const cancelButton = document.getElementById('cancel-button');
+    const deleteModal = document.getElementById('confirmation-modal');
+    const switchAccountModal = document.getElementById('switch-account-modal');
+
+    const confirmButtons = document.querySelectorAll('.confirm-button');
+    const cancelButtons = document.querySelectorAll('.cancel-button');
+
+    console.log(cancelButtons);
 
     const switchAccountMenu = document.querySelector('#switch-account-menu');
 
-    const openModal = actionUrl => {
+    const openModal = (modal, actionUrl) => {
         modal.classList.add('open');
 
-        confirmButton.onclick = function () {
-            window.location.href = actionUrl;
-        };
+        confirmButtons.forEach(b => {
+            b.addEventListener('click', function () {
+                window.location.href = actionUrl
+            })
+        });
 
         window.onclick = function (event) {
             if (event.target === modal) {
-                closeModal();
+                closeModal(modal);
             }
         };
     };
 
-    const closeModal = () => {
+    const closeModal = (modal) => {
         modal.classList.remove('open');
     };
 
@@ -33,15 +39,16 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     };
 
-    cancelButton.addEventListener('click', function () {
-        closeModal();
-    });
+    cancelButtons.forEach(b => b.addEventListener('click', function () {
+        closeModal(deleteModal);
+        closeModal(switchAccountModal);
+    }));
 
     document.querySelectorAll('.delete-button').forEach(function (button) {
         button.addEventListener('click', function (event) {
             event.preventDefault();
             const actionUrl = this.getAttribute('data-action-url');
-            openModal(actionUrl);
+            openModal(deleteModal, actionUrl);
         });
     });
 
@@ -52,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 event.preventDefault();
                 const actionUrl = this.getAttribute('data-action-url');
                 openCloseSwitchAccountmenu();
-                openModal(actionUrl);
+                openModal(switchAccountModal, actionUrl);
             });
         });
 });
