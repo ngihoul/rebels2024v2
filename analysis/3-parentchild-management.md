@@ -178,6 +178,9 @@ de leur enfants mineurs.
 -   Un bouton "Ajouter un enfant" est accessible par TOUS les membres ce qui
     leur permet à tout moment d'ajouter un enfant à son profil
 
+## Events  
+-   Lors de l'invitation à un évènement (par exemple, un entrainement ou un match), si le jeune à - de 16 ans, seuls les parents recoivent un mail. Si le jeune a entre 16 et 18 ans, ses parents et lui (si il dispose d'une adresse mail encodée) recoivent un mail. Si l'utilisateur à + de 18 ans, seul lui-même reçoit un mail.  
+
 ## Roles
 
 -   Si l'enfant a plusieurs parents, tous les parents ont les mêmes "pouvoirs"
