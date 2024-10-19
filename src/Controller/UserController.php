@@ -110,7 +110,7 @@ class UserController extends AbstractController
 
     // Display user's profile for COACH/ADMIN
     #[Route('/profile/{userId}', name: 'app_profile_user')]
-    #[IsGranted('ROLE_COACH')]
+    // Role permission in the method
     public function otherProfile($userId, Request $request): Response
     {
         try {
@@ -123,9 +123,8 @@ class UserController extends AbstractController
 
             $currentUser = $this->getUser();
 
-            // Only coaches or admins can view a profile other than their own
-            // TODO : Parent can check their children's profile
-            if ($user !== $currentUser && (!$this->isGranted("ROLE_COACH"))) {
+            // Only coaches or admins can view a profile other than their own AND Parents can see their children's profile
+            if ($user !== $currentUser && !$this->isGranted("ROLE_COACH") && !$currentUser->getChildren()->contains($user)) {
                 $this->addFlash('error', $this->translator->trans('error.profile_not_found'));
                 return $this->redirectToRoute('app_home');
             }

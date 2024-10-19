@@ -115,19 +115,25 @@
 						{% for child in user.children %}
 							<div class="card-user">
 								<div class="user-picture-container">
-									{% if child.profilePicture starts with 'http' %}
-										<img class="user-picture" src="{{ child.profilePicture }}" alt="Profile picture of {{ child.firstname }}">
-									{% else %}
-										<img class="user-picture" src="{{ asset('uploads/user_pictures/' ~ child.profilePicture) }}" alt="Profile picture of {{ child.firstname }}">
-									{% endif %}
-									<img class="flag" src="{{ asset('images/flags/' ~ child.nationality.alpha2 ~ '.png') }}" alt="{{ child.nationality.name }} flag" title="{{ child.nationality.name }} flag">
+									<a href="{{ path('app_profile_user', { 'userId' : child.id }) }}">
+										{% if child.profilePicture starts with 'http' %}
+											<img class="user-picture" src="{{ child.profilePicture }}" alt="Profile picture of {{ child.firstname }}">
+										{% else %}
+											<img class="user-picture" src="{{ asset('uploads/user_pictures/' ~ child.profilePicture) }}" alt="Profile picture of {{ child.firstname }}">
+										{% endif %}
+										<img class="flag" src="{{ asset('images/flags/' ~ child.nationality.alpha2 ~ '.png') }}" alt="{{ child.nationality.name }} flag" title="{{ child.nationality.name }} flag">
+									</a>
 								</div>
 
 								<div class="card user-info">
 
 									<div class="user-name">
-										<p class="user-lastname">{{ child.lastname }}</p>
-										<p class="user-firstname">{{ child.firstname }}</p>
+										<a href="{{ path('app_profile_user', { 'userId' : child.id }) }}">
+											<p class="user-lastname">{{ child.lastname }}</p>
+										</a>
+										<a href="{{ path('app_profile_user', { 'userId' : child.id }) }}">
+											<p class="user-firstname">{{ child.firstname }}</p>
+										</a>
 									</div>
 
 									<div class="birthdate">
