@@ -40,6 +40,7 @@ class TeamController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function index(): Response
     {
+        /** @var User $user */
         $user = $this->getUser();
         $teamsAsPlayer = $user->getTeams();
         $teamsAsCoach = $user->getCoachOf();

@@ -121,6 +121,7 @@ class UserController extends AbstractController
                 throw new EntityNotFoundException($this->translator->trans('error.profile_not_found'));
             }
 
+            /** @var User $currentUser */
             $currentUser = $this->getUser();
 
             // Only coaches or admins can view a profile other than their own AND Parents can see their children's profile
