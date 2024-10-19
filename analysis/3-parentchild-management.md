@@ -129,7 +129,7 @@ de leur enfants mineurs.
 -   Après le changement de compte une `alert-warning` indiuant que l utilisateur
     utilise le compte de, par exemple, Jason ou Brandon reste visible tout le
     long de la navigation en dessous du h1 de la page et au dessus des messages
-    flashes.
+    flashes.  
 
 ### Desktop
 
@@ -173,7 +173,8 @@ de leur enfants mineurs.
 -   Dans son profil, l'utilisateur principal (= parent) peut voir la liste de
     ses enfants (prénom, nom, date de naissance et miniature de la photo de
     profil) avec un badge si une action est requise. De plus, un bouton
-    "shuffle" est accessible pour switcher de compte rapidement.
+    "shuffle" est accessible pour switcher de compte rapidement.  
+    S'il clique sur la photo de profil, le nom ou le prénom de son enfant, il accède en lecture seule au profil de son enfant.  
 -   Un bouton "Ajouter un enfant" est accessible par TOUS les membres ce qui
     leur permet à tout moment d'ajouter un enfant à son profil
 
