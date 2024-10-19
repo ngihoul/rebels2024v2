@@ -6,7 +6,7 @@
 /config/secrets/prod/prod.decrypt.private.php
 /licenses/
 /public/bundles/
-/public/uploads/
+# /public/uploads/
 /public/licenses/download/
 /var/
 /vendor/
