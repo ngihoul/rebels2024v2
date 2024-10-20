@@ -517,7 +517,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
         // if $this->profile_picture start with default
 
-        if ($this->profile_picture === null || $this->profile_picture === '' || !strpos($this->profile_picture, 'default/default')) {
+        if ($this->profile_picture === null || $this->profile_picture === '' || strpos($this->profile_picture, 'default/default') !== false) {
             $missingFields[] = 'profile_picture';
         }
         if (!$this->isChild()) {
