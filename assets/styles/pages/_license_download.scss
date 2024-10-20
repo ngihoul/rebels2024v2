@@ -1,21 +1,19 @@
-table th.column-actions {
-  width: 60px;
-}
-
-.table-data-actions {
-  text-align: center;
-}
-
-.license-table {
-  margin-bottom: 1.6rem;
-
-  td {
-    vertical-align: middle;
-  }
-}
-
 .container-download-license img {
   margin-top: 1.4rem;
   margin-bottom: 2.8rem;
   max-width: 100%;
+}
+
+@media screen and (min-width: $min-desktop) {
+  .license-instructions {
+    display: flex;
+
+    .license-left {
+      margin-right: 0.8rem;
+    }
+
+    .license-right {
+      margin-left: 0.8rem;
+    }
+  }
 }

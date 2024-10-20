@@ -14,11 +14,17 @@
 
     <h2>{{ "license.download.complete.title"|trans }}</h2>
 
-    <h3>{{ "license.download.complete.left"|trans }}</h3>
-    <img src="{{ asset('images/license_left.png') }}" />
-
-    <h3>{{ "license.download.complete.right"|trans }}</h3>
-    <img src="{{ asset('images/license_right.png') }}" />
+    <div class="license-instructions">
+        <div class="license-left">
+            <h3>{{ "license.download.complete.left"|trans }}</h3>
+            <img src="{{ asset('images/license_left.png') }}" />
+        </div>
+        <div class="license-right">
+            <h3>{{ "license.download.complete.right"|trans }}</h3>
+            <img src="{{ asset('images/license_right.png') }}" />
+        </div>
+    </div>
+    
 
     <h2>{{ "license.download.upload.title"|trans }}</h2>
     <a href="{{ path('app_license_upload', { 'licenseId' : licenseId }) }}"><button class="cta">{{ "license.download.upload.btn"|trans }}</button></a>
