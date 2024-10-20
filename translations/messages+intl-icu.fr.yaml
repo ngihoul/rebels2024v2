@@ -22,7 +22,7 @@ error:
         not_found: "La license n'existe pas."
         profile_incomplete:
             "Ton profil est incomplet. Complète d'abord ton profil et ensuite
-            demande une licence. Les champs manquants sont :"
+            demande une licence. Les champs manquants sont : "
         already_exist:
             'Tu as déjà une licence active ou en cours de demande pour cette
             année. tu ne peux pas en demander une nouvelle.'
