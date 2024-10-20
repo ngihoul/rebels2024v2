@@ -348,7 +348,17 @@ class EventController extends AbstractController
 
                 // Send mail to all invited players
                 foreach ($event->getAttendees() as $attendee) {
-                    $emailManager->sendEmail($attendee->getUser()->getEmail(), $this->translator->trans('event.cancellation.subject', [], 'emails'), 'event_cancellation', ['event' => $event]);
+                    $user = $attendee->getUser();
+                    $userAge = $user->getAge();
+
+                    if($userAge < 16) {
+                        $this->sendEventCancellationMailToParents($user, $event);
+                    } else if ($userAge >= 16 && $userAge < 18) {
+                        $this->sendEventCancellationMailToUser($user, $event);
+                        $this->sendEventCancellationMailToParents($user, $event);
+                    } else {
+                        $this->sendEventCancellationMailToUser($user, $event);
+                    }
                 }
 
                 $this->addFlash('success', $this->translator->trans('success.event.cancelled'));
@@ -378,7 +388,7 @@ class EventController extends AbstractController
         return $event;
     }
 
-    // Send an email to user
+    // Send an event invitation email to user
     private function sendEventInvitationToUser($user, $event): void
     {
         if($user->getEmail()) {
@@ -386,11 +396,25 @@ class EventController extends AbstractController
         }
     }
 
-    // Send an email to parents
+    // Send an event invitation email to parents
     private function sendEventInvitationToParents($user, $event): void
     {
         foreach ($user->getParents() as $parent) {
             $this->emailManager->sendEmail($parent->getEmail(), $this->translator->trans('event.invitation.parent.subject', [], 'emails'), 'invitation_confirmation_parent', ['child_firstname' => $user->getFirstname(), 'event' => $event]);
+        }
+    }
+
+    // Send an event cancellation email to user
+    private function sendEventCancellationMailToUser($user, $event): void
+    {
+        $this->emailManager->sendEmail($user->getEmail(), $this->translator->trans('event.cancellation.subject', [], 'emails'), 'event_cancellation', ['event' => $event]);
+    }
+
+    // Send an event cancellation email to parents
+    private function sendEventCancellationMailToParents($user, $event): void
+    {
+        foreach($user->getParents() as $parent) {
+            $this->emailManager->sendEmail($parent->getEmail(), $this->translator->trans('event.cancellation.subject', [], 'emails'), 'event_cancellation', ['event' => $event]);
         }
     }
 }
