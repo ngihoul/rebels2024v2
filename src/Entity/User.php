@@ -12,6 +12,8 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Gedmo\Mapping\Annotation as Gedmo;
 
+use function PHPUnit\Framework\stringStartsWith;
+
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
@@ -513,7 +515,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         if ($this->country === null) {
             $missingFields[] = 'country';
         }
-        if ($this->profile_picture === null || $this->profile_picture === '') {
+        // if $this->profile_picture start with default
+
+        if ($this->profile_picture === null || $this->profile_picture === '' || !strpos($this->profile_picture, 'default/default')) {
             $missingFields[] = 'profile_picture';
         }
         if (!$this->isChild()) {
