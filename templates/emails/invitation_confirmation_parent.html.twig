@@ -1,4 +1,4 @@
-{% include 'emails/header.html.twig' with { 'email_subject': "event.invitation.subject"|trans({}, "emails") } %}
+{% include 'emails/header.html.twig' with { 'email_subject': "event.invitation.parent.subject"|trans({}, "emails") } %}
 
 <!-- 1 Column Text + Button : BEGIN -->
     <tr>
@@ -6,9 +6,10 @@
             <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
                 <tr>
                     <td style="padding: 20px; font-family: sans-serif; font-size: 15px; line-height: 20px; color: #555555;">
-                        <h1 style="margin: 0 0 10px; font-size: 25px; line-height: 30px; color: #333333; font-weight: normal;">{{ "event.invitation.title"|trans({}, "emails") }}</h1>
+                        <h1 style="margin: 0 0 10px; font-size: 25px; line-height: 30px; color: #333333; font-weight: normal;">{{ "event.invitation.parent.title"|trans({}, "emails") }}</h1>
                         <p style="margin: 0 0 10px;">
-                            {{ 'event.invitation.text'|trans({
+                            {{ 'event.invitation.parent.text'|trans({
+                                'child_firstname': child_firstname,
                                 'event_name': event.name,
                                 'event_date': event.date|date("d/m/Y"),
                                 'event_time_from': event.timeFrom|format_datetime('none', 'short'),

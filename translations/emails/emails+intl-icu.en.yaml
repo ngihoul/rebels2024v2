@@ -17,13 +17,22 @@ license:
 
 event:
     invitation:
-        subject: 'Invitation to an event'
-        title: 'Hello !'
-        text: >-
-            You are invited to the next event: {event_name} on {event_date} at
-            {event_time_from}. </br> The appointment is set for
-            {event_time_meeting}. </br> </br> Confirm your presence now in <a
-            href="{agenda_url}">your personal area</a> !
+        user:
+            subject: 'Invitation to an event'
+            title: 'Hello !'
+            text: >-
+                You are invited to the next event: {event_name} on {event_date} at
+                {event_time_from}. </br> The appointment is set for
+                {event_time_meeting}. </br> </br> Confirm your presence now in <a
+                href="{agenda_url}">your personal area</a> !
+        parent:
+            subject: 'Your child has been invited to an event'
+            title: 'Hello !'
+            text: >-
+                Your child {child_firstname} has been invited to the next event:
+                {event_name} on {event_date} at {event_time_from}. </br> The
+                appointment is set for {event_time_meeting}. </br> </br> Confirm
+                their presence now in <a href="{agenda_url}">your personal area</a> !
     cancellation:
         subject: 'Event cancelled'
         title: 'The event {event_name} has been cancelled!'

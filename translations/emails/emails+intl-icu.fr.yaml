@@ -19,13 +19,23 @@ license:
 
 event:
     invitation:
-        subject: 'Invitation a un évènement'
-        title: 'Bonjour !'
-        text: >-
-            Tu es invité pour le prochain évènement : {event_name} le
-            {event_date} à {event_time_from}. Le rendez-vous est fixé à
-            {event_time_meeting}. </br> </br> Confirme ta présence dès
-            maintenant dans <a href="{agenda_url}">ton espace personnel</a> !
+        user:
+            subject: 'Invitation a un évènement'
+            title: 'Bonjour !'
+            text: >-
+                Tu es invité pour le prochain évènement : {event_name} le
+                {event_date} à {event_time_from}. Le rendez-vous est fixé à
+                {event_time_meeting}. </br> </br> Confirme ta présence dès
+                maintenant dans <a href="{agenda_url}">ton espace personnel</a> !
+        parent:
+            subject: 'Ton enfant a été invité à un évènement'
+            title: 'Bonjour !'
+            text: >-
+                Ton enfant {child_firstname} a été invité pour le prochain
+                évènement : {event_name} le {event_date} à {event_time_from}.
+                Le rendez-vous est fixé à {event_time_meeting}. </br> </br>
+                Confirme sa présence dès maintenant dans <a href="{agenda_url}">ton
+                espace personnel</a> !
     cancellation:
         subject: 'Evènement annulé'
         title: "L'évènement {event_name} a été annulé!"
