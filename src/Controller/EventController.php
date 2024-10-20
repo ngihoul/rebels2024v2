@@ -390,7 +390,6 @@ class EventController extends AbstractController
     private function sendEventInvitationToParents($user, $event): void
     {
         foreach ($user->getParents() as $parent) {
-            // TODO : create a personalized mail for parents
             $this->emailManager->sendEmail($parent->getEmail(), $this->translator->trans('event.invitation.parent.subject', [], 'emails'), 'invitation_confirmation_parent', ['child_firstname' => $user->getFirstname(), 'event' => $event]);
         }
     }
