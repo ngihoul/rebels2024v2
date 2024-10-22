@@ -2,6 +2,10 @@
     position: absolute;
     top: -12px;
     right: 12px;
+
+    &.badge-awaiting-actions-count {
+        display: none;
+    }
 }
 
 .badge-unread-count,
@@ -59,6 +63,10 @@
 }
 
 @media screen and (min-width: $min-desktop) {
+    .badge.badge-awaiting-actions-count {
+        display: inline-block;
+    }
+
     .badge-unread-count,
     .badge-unreplied-count {
         right: 18px;
