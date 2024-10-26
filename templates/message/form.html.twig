@@ -1,72 +1,96 @@
-{% extends 'base.html.twig' %}
-{% set pageTitle = action == 'create' ? 'message.form.title.create'|trans : 'message.form.title.update'|trans %}
+{% extends 'base.html.twig' %} {% set pageTitle = action == 'create' ?
+'message.form.title.create'|trans : 'message.form.title.update'|trans %} {%
+block title %}{{ parent() }} | {{ pageTitle }}{% endblock %} {% block body %}
+<div class="container container-message">
+    <h1>{{ pageTitle }}</h1>
 
-{% block title %}{{ parent() }} | {{ pageTitle }}{% endblock %}
+    {{ parent() }}
 
-{% block body %}
-    <div class="container container-message">
-        <h1>{{ pageTitle }}</h1>
+    {{ form_start(form, { 'attr' : { 'class' : 'message-form' }})}}
 
-        {{ parent() }}
+    {{ form_errors(form) }}
 
-        {{ form_start(form, { 'attr' : { 'class' : 'message-form' }})}}
+    {{ form_row(form.title, {'label': 'message.title', 'row_attr': { 'class': 'title'
 
-        {{ form_errors(form) }}
 
-        {{ form_row(form.title, {'label': 'message.title', 'row_attr': { 'class': 'title' }}) }}
 
-        {{ form_row(form.titleEnglish, {'label': 'message.title_english', 'row_attr': { 'class': 'titleEnglish' }}) }}
+    }}) }}
 
-        {{ form_row(form.content, {'label': 'message.content', 'row_attr': { 'class': 'content' }}) }}
+    {{ form_row(form.titleEnglish, {'label': 'message.title_english', 'row_attr': { 'class': 'titleEnglish'
 
-        {{ form_row(form.contentEnglish, {'label': 'message.content_english', 'row_attr': { 'class': 'contentEnglish' }}) }}
 
-        <h2 class="teams-heading">{{ 'message.form.send_to_teams'|trans }} <i class="fas fa-chevron-down"></i></h2>
 
-        <div class="list teams-list">
-            {% for team in form.sentToTeams %}
-                <div class="custom-checkbox">
-                    {{  form_row(team, { 'row_attr': { 'class': 'checkbox' }})}}
-                </div>
-            {% endfor %}
+    }}) }}
+
+    {{ form_row(form.content, {'label': 'message.content', 'row_attr': { 'class': 'content'
+
+
+
+    }}) }}
+
+    {{ form_row(form.contentEnglish, {'label': 'message.content_english', 'row_attr': { 'class': 'contentEnglish'
+
+
+
+    }}) }}
+
+    <h2 class="teams-heading">
+        {{ 'message.form.send_to_teams' | trans }}
+        <i class="fas fa-chevron-down"></i>
+    </h2>
+
+    <div class="list teams-list">
+        {% for team in form.sentToTeams %}
+        <div class="custom-checkbox">
+            {{  form_row(team, { 'row_attr': { 'class': 'checkbox' }})}}
         </div>
-
-        <h2 class="users-heading">{{ 'message.form.send_to_players'|trans }} <i class="fas fa-chevron-down"></i></h2>
-
-        <div class="list users-list">
-            {% for user in form.sentToUsers %}
-                <div class="custom-checkbox">
-                    {{  form_row(user, { 'row_attr': { 'class': 'checkbox' }})}}
-                </div>
-            {% endfor %}
-        </div>
-
-        <h2>{{ 'message.form.send_by_mail'|trans }}</h2>
-
-        <div class="sent_by_mail custom-checkbox">
-            {{  form_row(form.sent_by_mail, { 'row_attr': { 'class': 'check-box' }}) }}
-        </div>
-
-        {{ form_row(form.submit, { 'label' : (action == 'create' ? 'message.btn.add' : 'message.btn.update'), 'row_attr': { 'class': 'submit'}}) }}
-
-        {{ form_end(form) }}
+        {% endfor %}
     </div>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const teamsHeading = document.querySelector('.teams-heading');
-            const usersHeading = document.querySelector('.users-heading');
+    <h2 class="users-heading">
+        {{ 'message.form.send_to_players' | trans }}
+        <i class="fas fa-chevron-down"></i>
+    </h2>
 
-            [teamsHeading, usersHeading].forEach((heading) => {
-                heading.addEventListener('click', () => {
-                    const list = heading.nextElementSibling;
-                    list.classList.toggle('show');
-                    console.log(heading);
+    <div class="list users-list">
+        {% for user in form.sentToUsers %}
+        <div class="custom-checkbox">
+            {{  form_row(user, { 'row_attr': { 'class': 'checkbox' }})}}
+        </div>
+        {% endfor %}
+    </div>
 
-                    const icon = heading.querySelector('svg');
-                    icon.classList.toggle('fa-rotate-180');
-                });
-            })
+    <h2>{{ 'message.form.send_by_mail' | trans }}</h2>
+
+    <div class="sent_by_mail custom-checkbox">
+        {{  form_row(form.sent_by_mail, { 'label' : 'message.sent_by_mail', 'row_attr': { 'class': 'check-box'
+        }}) }}
+    </div>
+
+    {{ form_row(form.submit, { 'label' : (action == 'create' ? 'message.btn.add' : 'message.btn.update'), 'row_attr': { 'class': 'submit'
+
+
+
+    }}) }}
+
+    {{ form_end(form) }}
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const teamsHeading = document.querySelector('.teams-heading');
+        const usersHeading = document.querySelector('.users-heading');
+
+        [teamsHeading, usersHeading].forEach(heading => {
+            heading.addEventListener('click', () => {
+                const list = heading.nextElementSibling;
+                list.classList.toggle('show');
+                console.log(heading);
+
+                const icon = heading.querySelector('svg');
+                icon.classList.toggle('fa-rotate-180');
+            });
         });
-    </script>
+    });
+</script>
 {% endblock %}

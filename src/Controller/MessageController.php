@@ -91,6 +91,10 @@ class MessageController extends AbstractController
                 $this->entityManager->persist($message);
                 $this->entityManager->flush();
 
+                // Get the locale of request
+                $locale = $request->getLocale();
+                $message->setTranslatableLocale($locale);
+
                 // Send message to users
                 $this->sendMessage($form, $message);
 
