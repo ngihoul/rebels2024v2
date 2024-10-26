@@ -29,6 +29,7 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $isChild = $options['is_child'];
+        $userAge = $options['user_age'];
         $isPrivacyPolicyMissing = $options['privacy_policy'];
         $isRoiMissing = $options['roi'];
 
@@ -182,14 +183,17 @@ class UserType extends AbstractType
                 ],
                 'required' => !$isChild,
                 'constraints' => $isChild ? [new Email(['message' => 'validators.email.valid'])] : [new Email(['message' => 'validators.email.valid']), new NotBlank()],
-            ])
-                ->add('can_use_app', CheckboxType::class, [
-                    'label' => 'children.can_use_app',
-                    'row_attr' => [
-                        'class' => 'can-use-app'
-                    ],
-                    'required' => false,
-                ]);
+            ]);
+        }
+
+        if ($userAge >= 16 && $userAge < 18) {
+            $builder->add('can_use_app', CheckboxType::class, [
+                'label' => 'children.can_use_app',
+                'row_attr' => [
+                    'class' => 'can-use-app'
+                ],
+                'required' => false,
+            ]);
         }
 
         if (!$isChild) {
@@ -198,13 +202,13 @@ class UserType extends AbstractType
             ]);
         }
 
-        if ($isPrivacyPolicyMissing) {
+        if ($isPrivacyPolicyMissing && !$isChild) {
             $builder->add('privacy_policy', CheckboxType::class, [
                 'required' => true,
             ]);
         }
 
-        if ($isRoiMissing) {
+        if ($isRoiMissing && !$isChild) {
             $builder->add('internal_rules', CheckboxType::class, [
                 'required' => true,
             ]);
@@ -217,6 +221,7 @@ class UserType extends AbstractType
             'data_class' => User::class,
             'translation_domain' => 'forms',
             'is_child' => false,
+            'user_age' => null,
             'privacy_policy' => false,
             'roi' => false,
         ]);

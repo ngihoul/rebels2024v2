@@ -69,9 +69,11 @@ class UserController extends AbstractController
         $user = $this->getUser();
 
         $isUserChild = !$user->getParents()->isEmpty();
+        $userAge = $user->getAge();
 
         $form = $this->createForm(UserType::class, $user, [
             'is_child' => $isUserChild,
+            'user_age' => $userAge,
             'roi' => !$user->isInternalRules(),
             'privacy_policy' => !$user->isPrivacyPolicy()
         ]);
