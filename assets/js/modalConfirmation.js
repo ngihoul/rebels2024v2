@@ -5,8 +5,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const confirmButtons = document.querySelectorAll('.confirm-button');
     const cancelButtons = document.querySelectorAll('.cancel-button');
 
-    console.log(cancelButtons);
-
     const switchAccountMenu = document.querySelector('#switch-account-menu');
 
     const openModal = (modal, actionUrl) => {
@@ -14,8 +12,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
         confirmButtons.forEach(b => {
             b.addEventListener('click', function () {
-                window.location.href = actionUrl
-            })
+                window.location.href = actionUrl;
+            });
         });
 
         window.onclick = function (event) {
@@ -25,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function () {
         };
     };
 
-    const closeModal = (modal) => {
+    const closeModal = modal => {
         modal.classList.remove('open');
     };
 
@@ -39,10 +37,12 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     };
 
-    cancelButtons.forEach(b => b.addEventListener('click', function () {
-        closeModal(deleteModal);
-        closeModal(switchAccountModal);
-    }));
+    cancelButtons.forEach(b =>
+        b.addEventListener('click', function () {
+            closeModal(deleteModal);
+            closeModal(switchAccountModal);
+        }),
+    );
 
     document.querySelectorAll('.delete-button').forEach(function (button) {
         button.addEventListener('click', function (event) {

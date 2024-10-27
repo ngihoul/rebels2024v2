@@ -14,9 +14,11 @@ block title %}{{ parent() }} | {{ pageTitle }}{% endblock %} {% block body %}
 
 
 
+
     }}) }}
 
     {{ form_row(form.titleEnglish, {'label': 'message.title_english', 'row_attr': { 'class': 'titleEnglish'
+
 
 
 
@@ -26,9 +28,11 @@ block title %}{{ parent() }} | {{ pageTitle }}{% endblock %} {% block body %}
 
 
 
+
     }}) }}
 
     {{ form_row(form.contentEnglish, {'label': 'message.content_english', 'row_attr': { 'class': 'contentEnglish'
+
 
 
 
@@ -64,10 +68,12 @@ block title %}{{ parent() }} | {{ pageTitle }}{% endblock %} {% block body %}
 
     <div class="sent_by_mail custom-checkbox">
         {{  form_row(form.sent_by_mail, { 'label' : 'message.sent_by_mail', 'row_attr': { 'class': 'check-box'
+
         }}) }}
     </div>
 
     {{ form_row(form.submit, { 'label' : (action == 'create' ? 'message.btn.add' : 'message.btn.update'), 'row_attr': { 'class': 'submit'
+
 
 
 
@@ -85,7 +91,6 @@ block title %}{{ parent() }} | {{ pageTitle }}{% endblock %} {% block body %}
             heading.addEventListener('click', () => {
                 const list = heading.nextElementSibling;
                 list.classList.toggle('show');
-                console.log(heading);
 
                 const icon = heading.querySelector('svg');
                 icon.classList.toggle('fa-rotate-180');
