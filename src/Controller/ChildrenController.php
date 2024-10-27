@@ -114,6 +114,7 @@ class ChildrenController extends AbstractController
             $this->entityManager->persist($user);
             $this->entityManager->flush();
 
+            $this->container->get('session')->start();
             $token = new UsernamePasswordToken($user, 'main', $userRoles);
             $this->container->get('security.token_storage')->setToken($token);
             $this->container->get('session')->set('_security_main', serialize($token));
