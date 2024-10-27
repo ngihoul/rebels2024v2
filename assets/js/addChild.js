@@ -20,10 +20,29 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 
     const calculateAge = dateOfBirth => {
-        const diffMs = Date.now() - dateOfBirth.getTime();
-        const ageDt = new Date(diffMs);
-        return Math.abs(ageDt.getUTCFullYear() - 1970);
+        const currentDate = new Date();
+
+        const currentYear = currentDate.getFullYear();
+        const currentMonth = currentDate.getMonth();
+        const currentDay = currentDate.getDate();
+
+        const birthYear = dateOfBirth.getFullYear();
+        const birthMonth = dateOfBirth.getMonth();
+        const birthDay = dateOfBirth.getDate();
+
+        let age = currentYear - birthYear;
+
+        if (
+            currentMonth < birthMonth ||
+            (currentMonth === birthMonth && currentDay < birthDay)
+        ) {
+            age--;
+        }
+
+        return age;
     };
+
+    // Calculate age from date of birth
 
     const toggleCanUseAppFields = () => {
         const dateOfBirthInput = document.querySelector(
@@ -33,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         dateOfBirthInput.addEventListener('change', () => {
             const age = calculateAge(new Date(dateOfBirthInput.value));
-
+            console.log(age);
             if (age >= 16 && age < 18) {
                 canUseAppInput.parentNode.classList.remove('hidden');
             } else {
