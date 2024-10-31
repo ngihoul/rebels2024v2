@@ -22,32 +22,32 @@ class Payment
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    private ?PaymentType $PaymentType = null;
+    private ?PaymentType $payment_type = null;
 
     #[ORM\Column(type: Types::SMALLINT, nullable: true)]
     private ?int $status = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $UserComment = null;
+    private ?string $user_comment = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $refusalComment = null;
+    private ?string $refusal_comment = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
+    private ?\DateTimeImmutable $created_at = null;
 
     #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $updatedAt = null;
+    private ?\DateTimeImmutable $updated_at = null;
 
     /**
      * @var Collection<int, PaymentOrder>
      */
     #[ORM\OneToMany(mappedBy: 'payment', targetEntity: PaymentOrder::class)]
-    private Collection $paymentOrders;
+    private Collection $payment_orders;
 
     public function __construct()
     {
-        $this->paymentOrders = new ArrayCollection();
+        $this->payment_orders = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -69,12 +69,21 @@ class Payment
 
     public function getPaymentType(): ?PaymentType
     {
-        return $this->PaymentType;
+        return $this->payment_type;
     }
 
-    public function setPaymentType(?PaymentType $PaymentType): static
+    /*************  ✨ Codeium Command ⭐  *************/
+    /**
+     * Sets the payment type for this payment.
+     *
+     * @param PaymentType|null $PaymentType
+     *
+     * @return static
+     */
+    /******  f81febee-8919-4d16-baa5-a0eb477130ac  *******/
+    public function setPaymentType(?PaymentType $payment_type): static
     {
-        $this->PaymentType = $PaymentType;
+        $this->payment_type = $payment_type;
 
         return $this;
     }
@@ -93,48 +102,48 @@ class Payment
 
     public function getUserComment(): ?string
     {
-        return $this->UserComment;
+        return $this->user_comment;
     }
 
-    public function setUserComment(?string $UserComment): static
+    public function setUserComment(?string $user_comment): static
     {
-        $this->UserComment = $UserComment;
+        $this->user_comment = $user_comment;
 
         return $this;
     }
 
     public function getRefusalComment(): ?string
     {
-        return $this->refusalComment;
+        return $this->refusal_comment;
     }
 
-    public function setRefusalComment(?string $refusalComment): static
+    public function setRefusalComment(?string $refusal_comment): static
     {
-        $this->refusalComment = $refusalComment;
+        $this->refusal_comment = $refusal_comment;
 
         return $this;
     }
 
     public function getCreatedAt(): ?\DateTimeImmutable
     {
-        return $this->createdAt;
+        return $this->created_at;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    public function setCreatedAt(\DateTimeImmutable $created_at): static
     {
-        $this->createdAt = $createdAt;
+        $this->created_at = $created_at;
 
         return $this;
     }
 
     public function getUpdatedAt(): ?\DateTimeImmutable
     {
-        return $this->updatedAt;
+        return $this->updated_at;
     }
 
-    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): static
+    public function setUpdatedAt(?\DateTimeImmutable $updated_at): static
     {
-        $this->updatedAt = $updatedAt;
+        $this->updated_at = $updated_at;
 
         return $this;
     }
@@ -144,25 +153,25 @@ class Payment
      */
     public function getPaymentOrders(): Collection
     {
-        return $this->paymentOrders;
+        return $this->payment_orders;
     }
 
-    public function addPaymentOrder(PaymentOrder $paymentOrder): static
+    public function addPaymentOrder(PaymentOrder $payment_order): static
     {
-        if (!$this->paymentOrders->contains($paymentOrder)) {
-            $this->paymentOrders->add($paymentOrder);
-            $paymentOrder->setPayment($this);
+        if (!$this->payment_orders->contains($payment_order)) {
+            $this->payment_orders->add($payment_order);
+            $payment_order->setPayment($this);
         }
 
         return $this;
     }
 
-    public function removePaymentOrder(PaymentOrder $paymentOrder): static
+    public function removePaymentOrder(PaymentOrder $payment_order): static
     {
-        if ($this->paymentOrders->removeElement($paymentOrder)) {
+        if ($this->payment_orders->removeElement($payment_order)) {
             // set the owning side to null (unless already changed)
-            if ($paymentOrder->getPayment() === $this) {
-                $paymentOrder->setPayment(null);
+            if ($payment_order->getPayment() === $this) {
+                $payment_order->setPayment(null);
             }
         }
 

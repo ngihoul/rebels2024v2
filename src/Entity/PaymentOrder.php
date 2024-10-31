@@ -22,16 +22,16 @@ class PaymentOrder
     private ?string $amount = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $dueDate = null;
+    private ?\DateTimeImmutable $due_date = null;
 
     #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $valueDate = null;
+    private ?\DateTimeImmutable $value_date = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $comment = null;
 
     #[ORM\ManyToOne]
-    private ?User $validatedBy = null;
+    private ?User $validated_by = null;
 
     public function getId(): ?int
     {
@@ -64,24 +64,24 @@ class PaymentOrder
 
     public function getDueDate(): ?\DateTimeImmutable
     {
-        return $this->dueDate;
+        return $this->due_date;
     }
 
-    public function setDueDate(\DateTimeImmutable $dueDate): static
+    public function setDueDate(\DateTimeImmutable $due_date): static
     {
-        $this->dueDate = $dueDate;
+        $this->due_date = $due_date;
 
         return $this;
     }
 
     public function getValueDate(): ?\DateTimeImmutable
     {
-        return $this->valueDate;
+        return $this->value_date;
     }
 
-    public function setValueDate(?\DateTimeImmutable $valueDate): static
+    public function setValueDate(?\DateTimeImmutable $value_date): static
     {
-        $this->valueDate = $valueDate;
+        $this->value_date = $value_date;
 
         return $this;
     }
@@ -100,12 +100,12 @@ class PaymentOrder
 
     public function getValidatedBy(): ?User
     {
-        return $this->validatedBy;
+        return $this->validated_by;
     }
 
-    public function setValidatedBy(?User $validatedBy): static
+    public function setValidatedBy(?User $validated_by): static
     {
-        $this->validatedBy = $validatedBy;
+        $this->validated_by = $validated_by;
 
         return $this;
     }
