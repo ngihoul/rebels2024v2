@@ -54,6 +54,16 @@
     .actions {
         margin-bottom: 3rem;
 
+        a {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            .icon {
+                margin-right: 0.8rem;
+            }
+        }
+
         .btn,
         .btn-cta {
             margin-top: 0;

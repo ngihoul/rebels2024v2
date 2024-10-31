@@ -193,7 +193,7 @@ profile:
             Belge de Baseball et Softball. Please use a passport photo or an
             official club photo.'
     children:
-        title: 
+        title:
             mines: 'My children'
             of: 'Children'
         add: 'Add a child'
@@ -294,7 +294,10 @@ license:
         asked: 'Asked:'
         download: 'Download your license'
         upload: 'Send back your license'
-        pay: 'Pay your license'
+        pay_by_card: 'Pay the full amount by bank card'
+        pay_by_paypal: 'Pay the full amount by PayPal'
+        pay_by_bank_transfer: 'Pay the full amount by bank transfer'
+        ask_plan: 'Request a payment plan'
         waiting_validation:
             'Your license is being validated. You will receive an e-mail when it
             is validated (or not).'

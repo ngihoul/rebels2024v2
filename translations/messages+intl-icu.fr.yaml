@@ -203,7 +203,7 @@ profile:
             Francophone Belge de Baseball et Softball. Utilise donc une photo
             d'identité ou une photo officielle du club."
     children:
-        title: 
+        title:
             mines: 'Mes enfants'
             of: 'Ses enfants'
         add: 'Ajouter un enfant'
@@ -294,8 +294,7 @@ license:
               =1 {Echue}
               other {Echues}
             }
-        pay: 'Paye ta licence'
-        pending_validation: 'En attente de validation'
+        pay_by_card: 'Paye talicence'
     table:
         season: 'Saison'
         status: 'Statut'
@@ -307,7 +306,11 @@ license:
         asked: 'Demandée le :'
         download: 'Télécharge ta licence'
         upload: 'Renvoie ta licence'
-        pay: 'Paye ta licence'
+        pay_by_card: 'Paye la totalité par carte de banque'
+        pay_by_paypal: 'Paye la totalité par PayPal'
+        pay_by_bank_transfer: 'Paye la totalité par virement bancaire'
+        ask_plan: 'Demande un plan de paiement'
+        pending_validation: 'En attente de validation'
         waiting_validation:
             "Ta licence est en cours de validation. Tu recevras un mail
             lorsqu'elle sera validée (ou pas)."
