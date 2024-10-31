@@ -12,6 +12,10 @@ use Gedmo\Mapping\Annotation as Gedmo;
 #[ORM\Entity(repositoryClass: PaymentRepository::class)]
 class Payment
 {
+    const ACCEPTED = 1;
+    const REFUSED = 2;
+    const COMPLETED = 3;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
