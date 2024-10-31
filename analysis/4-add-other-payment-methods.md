@@ -51,7 +51,8 @@ Pour obtenir le statut `IN_ORDER ( = 5 )`, la licence doit être payée.
 
 Sur l'écran de résumé de la license, il y a plusieurs boutons accessibles
 lorsque le statut est `DOC_VALIDATED ( = 4 )` et qu'il n'existe aucun objet
-`Payment` avec `id_license` = id de la license sélectionnée :
+`Payment` avec `id_license` = id de la license sélectionnée OU qu'il existe
+uniquement des objet `Payment` avec le statut `Refused (= 2)` :
 
 -   payer la totalité en ligne par carte de banque
 -   payer la totalité par virement bancaire
@@ -94,7 +95,7 @@ Lorsque l'utilisateur choisi cette option :
 -   On créé un objet `Payment` avec :
     -   `id_license` = id licence sélectionnée
     -   `id_paymentType` = paiement par virement
-    -   `status` = ACCEPTED ( = 2 )
+    -   `status` = `ACCEPTED ( = 1 )`
 -   On créé un objet `PaymentOrder` avec :
     -   `id_payment` = Id de l'objet `Payment` créé ci-dessus
     -   `amount` = `license.price`
@@ -139,6 +140,7 @@ créé comme suit :
 -   `id_license` = licence sélectionnée
 -   `id_paymentType` = plan de paiement
 -   `status` = NULL
+-   `comment` = texte entré dans le textarea
 
 Et, un mail est envoyé aux administrateurs pour les informer qu'une demande de
 plan de paiement est arrivée.
@@ -173,7 +175,7 @@ dessous de la liste des ordres, les modalités pour le virement :
     Liège Rebels Baseball & Softball Club
     IBAN : BE22 3601 0058 3447
     Communication : {NOM JOUEUR} {Prénom joueur} - COTISATION {année}
-    Montant : Montant de tonéchéance
+    Montant : Montant de ton échéance
 
     ----
 
@@ -209,7 +211,7 @@ licence et le `Payment` est considéré comme complet.
 
 Dans ce cas, il n'y a qu'un seul ordre de paiement `PaymentOrder` créé. Sur la
 ligne de l'ordre, l'administrateur a la possibilité de valider l'ordre (bouton
-"Validé"). A la validation, l'administrateur peut compléter la date valeur
+"Valider"). A la validation, l'administrateur peut compléter la date valeur
 (champ `value_date` = date de réception sur compte bancaire) et éventuellement
 ajouter un commentaire (champ `comment`).
 
@@ -279,6 +281,6 @@ La validation des ordres individuels se fait comme pour les virements (cf.
 ## Cron jobs
 
 -   Etant donné que les échéances des paiements sont toujours en fin de mois, on
-    exécute un job tous les premier de chaque mois qui vérifie si des
+    exécute un job, tous les cinqs de chaque mois, qui vérifie si des
     `PaymentOrder` sont impayés ( `value_date` = NULL). Pour tous les impayés,
     un message de rappel (avec mail) est envoyé aux membres concernés.
