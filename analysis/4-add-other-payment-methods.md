@@ -16,7 +16,8 @@ faudrait que les utilisateurs puissent également payer par :
 -   `id_license`
 -   `id_paymentType`
 -   `status` // Accepted (1), refused (2) & completed (3) nullable
--   `comment` text nullable
+-   `user_comment` text nullable
+-   `refusal_comment` text nullable
 -   `created_at` DateTime not null - Géré automatiquement par
     `Gedmo\Timestampable`
 -   `updated_at` DateTime nullable - Géré automatiquement par
