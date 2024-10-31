@@ -28,8 +28,9 @@ faudrait que les utilisateurs puissent également payer par :
 -   `id`
 -   `name` string not-null
 
-<u>Options</u> : Par carte de banque, Par virement bancaire, Par plan de
-paiement  
+<u>Options</u> : Totalité par carte de banque, Totalité par virement bancaire,
+Totalité par Paypal (via Stripe - même écran que paiement par carte), Par plan
+de paiement  
 // Prévoir traduction des PaymentType via `Gedmo\Translatable\Translatable`;
 
 ### Création d'une entité `PaymentOrder` composée de :
@@ -56,13 +57,14 @@ lorsque le statut est `DOC_VALIDATED ( = 4 )` et qu'il n'existe aucun objet
 uniquement des objet `Payment` avec le statut `Refused (= 2)` :
 
 -   payer la totalité en ligne par carte de banque
+-   payer la totalité en ligne via PayPal
 -   payer la totalité par virement bancaire
 -   demander un plan de paiement
 
-### Payer la totalité en ligne par carte de banque
+### Payer la totalité en ligne par carte de banque / via Paypal
 
-Lorsque l'utilisateur choisi cette option, il est redirigé directement vers
-Stripe.
+Lorsque l'utilisateur choisi une de ces options, il est redirigé directement
+vers Stripe.
 
 -   Si le paiement réussi, on créé :
 
@@ -86,7 +88,8 @@ Stripe.
 
 ➡ Il reste à mettre en place les actions ci-dessous :
 
--   Création d'un compte Stripe pour Liège Rebels Baseball & Softball Club.
+-   Création d'un compte Stripe pour Liège Rebels Baseball & Softball Club (Fait
+    par Crad)
 -   Modification des clefs - publique et privée
 
 ### Payer la totalité par virement
