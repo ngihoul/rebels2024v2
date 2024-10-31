@@ -10,6 +10,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 #[ORM\Entity(repositoryClass: PaymentTypeRepository::class)]
 class PaymentType implements Translatable
 {
+
+    const STRIPE = 'Totalité par Stripe';
+    const BANK_TRANSFER = 'Totalité par virement bancaire';
+    const PERSONALIZED_PAYMENT_PLAN = 'Via un plan de paiement personnalisé';
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
