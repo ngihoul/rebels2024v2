@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 #[ORM\Entity(repositoryClass: PaymentRepository::class)]
 class Payment
@@ -34,9 +35,11 @@ class Payment
     private ?string $refusal_comment = null;
 
     #[ORM\Column]
+    #[Gedmo\Timestampable(on: 'create')]
     private ?\DateTimeImmutable $created_at = null;
 
     #[ORM\Column(nullable: true)]
+    #[Gedmo\Timestampable(on: 'change', field: ['status'])]
     private ?\DateTimeImmutable $updated_at = null;
 
     /**
