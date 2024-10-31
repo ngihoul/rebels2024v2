@@ -12,9 +12,8 @@ class PaymentTypeFixture extends Fixture implements FixtureGroupInterface
     public function load(ObjectManager $manager)
     {
         $paymentTypesData = [
-            'Totalité par carte de banque' => 'Full payment by bank card',
+            'Totalité par Stripe' => 'Full payment by Stripe',
             'Totalité par virement bancaire' => 'Full payment by bank transfer',
-            'Totalité par Paypal' => 'Full payment by Paypal',
             'Via un plan de paiement personnalisé' => 'Via a personalized payment plan',
         ];
 
