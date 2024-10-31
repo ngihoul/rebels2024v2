@@ -3,9 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\License;
+use App\Entity\Payment;
+use App\Entity\PaymentOrder;
+use App\Entity\PaymentType;
 use App\Form\LicenseType;
 use App\Form\UploadLicenseType;
 use App\Repository\LicenseRepository;
+use App\Repository\PaymentTypeRepository;
 use App\Service\EmailManager;
 use App\Service\FileUploader;
 use App\Service\LicensePDFGenerator as ServiceLicensePDFGenerator;
@@ -22,7 +26,6 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Profiler\Profile;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -36,13 +39,15 @@ class LicenseController extends AbstractController
     private LicenseRepository $licenseRepository;
     private TranslatorInterface $translator;
     private ProfileChecker $profileChecker;
+    private PaymentTypeRepository $paymentTypeRepository;
 
-    public function __construct(EntityManagerInterface $entityManager, LicenseRepository $licenseRepository, TranslatorInterface $translator, ProfileChecker $profileChecker)
+    public function __construct(EntityManagerInterface $entityManager, LicenseRepository $licenseRepository, TranslatorInterface $translator, ProfileChecker $profileChecker, PaymentTypeRepository $paymentTypeRepository)
     {
         $this->entityManager = $entityManager;
         $this->licenseRepository = $licenseRepository;
         $this->translator = $translator;
         $this->profileChecker = $profileChecker;
+        $this->paymentTypeRepository = $paymentTypeRepository;
     }
 
     // Display all licences for the user
@@ -275,18 +280,42 @@ class LicenseController extends AbstractController
     {
         // Find license in DB
         try {
+            // Begin SQL transaction
+            $this->entityManager->beginTransaction();
+
             $licenseId = $request->get('licenseId');
             $license = $this->findLicense($licenseId);
 
-            // Change status
+            // Create Payment Object
+            $payment = $this->createPayment($license, PaymentType::STRIPE, Payment::COMPLETED);
+
+            $this->entityManager->persist($payment);
+
+            // Create PaymentOrder
+            $paymentOrder = new PaymentOrder();
+            $paymentOrder->setPayment($payment);
+            $paymentOrder->setAmount($license->getPrice());
+            $paymentOrder->setDueDate(new \DateTimeImmutable());
+            $paymentOrder->setValueDate(new \DateTimeImmutable());
+
+            $this->entityManager->persist($paymentOrder);
+
+            // Update License status
             $license->setStatus(License::IN_ORDER);
 
-            // Save data in DB
             $this->entityManager->persist($license);
+
+            // Commit transaction
+            $this->entityManager->commit();
+
+            // Save objects in DB
             $this->entityManager->flush();
 
             return $this->render('payment/success.html.twig', []);
         } catch (Exception $e) {
+            // If error : rollback
+            $this->entityManager->rollback();
+
             $this->addFlash('error', $e->getMessage());
             return $this->redirectToRoute('app_license');
         }
@@ -299,8 +328,56 @@ class LicenseController extends AbstractController
         return $this->render('payment/cancel.html.twig', []);
     }
 
+    #[Route('/bank_transfer/create/{licenseId}', name: 'app_license_bank_transfer')]
+    public function createBankTransfer(Request $request): Response
+    {
+        $licenseId = $request->get('licenseId');
+        $license = $this->findLicense($licenseId);
+
+        // Create Payment Object
+        $payment = $this->createPayment($license, PaymentType::BANK_TRANSFER, Payment::ACCEPTED);
+        $this->entityManager->persist($payment);
+
+        // Create PaymentOrder
+        $paymentOrder = new PaymentOrder();
+        $paymentOrder->setPayment($payment);
+        $paymentOrder->setAmount($license->getPrice());
+        $paymentOrder->setDueDate(new \DateTimeImmutable('+1 month'));
+
+        $this->entityManager->persist($paymentOrder);
+
+        $this->entityManager->flush();
+
+        return $this->redirectToRoute('app_license');
+    }
+
+    #[Route('/bank_transfer/delete/{licenseId}', name: 'app_license_bank_transfer_delete')]
+    public function deleteBankTransfer(Request $request): Response
+    {
+        $licenseId = $request->get('licenseId');
+        $license = $this->findLicense($licenseId);
+
+        // Delete PaymentOrder
+        $payments = $license->getPayments();
+
+        foreach ($payments as $payment) {
+            if ($payment->getPaymentType()->getName() == PaymentType::BANK_TRANSFER) {
+                $paymentToDelete = $payment;
+            }
+        }
+
+        foreach ($paymentToDelete->getPaymentOrders() as $order) {
+            $this->entityManager->remove($order);
+        }
+
+        // Delete payment
+        $this->entityManager->remove($paymentToDelete);
+
+        return $this->redirectToRoute('app_license');
+    }
+
     // Find a licence
-    private function findLicense(string $licenseId)
+    private function findLicense(string $licenseId): License
     {
         $license = $this->licenseRepository->find($licenseId);
 
@@ -314,5 +391,16 @@ class LicenseController extends AbstractController
         }
 
         return $license;
+    }
+
+    private function createPayment(License $license, $paymentType, $paymentStatus): Payment
+    {
+        $payment = new Payment();
+        $payment->setLicense($license);
+        $$type = $this->paymentTypeRepository->findOneBy(['name' => $paymentType]);
+        $payment->setPaymentType($$type);
+        $payment->setStatus($paymentStatus);
+
+        return $payment;
     }
 }
