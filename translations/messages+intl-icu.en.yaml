@@ -294,8 +294,7 @@ license:
         asked: 'Asked:'
         download: 'Download your license'
         upload: 'Send back your license'
-        pay_by_card: 'Pay the full amount by bank card'
-        pay_by_paypal: 'Pay the full amount by PayPal'
+        pay_by_card: 'Pay the full amount by bank card or Paypal'
         pay_by_bank_transfer: 'Pay the full amount by bank transfer'
         ask_plan: 'Request a payment plan'
         waiting_validation:
