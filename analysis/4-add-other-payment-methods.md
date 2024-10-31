@@ -28,9 +28,8 @@ faudrait que les utilisateurs puissent également payer par :
 -   `id`
 -   `name` string not-null
 
-<u>Options</u> : Totalité par carte de banque, Totalité par virement bancaire,
-Totalité par Paypal (via Stripe - même écran que paiement par carte), Par plan
-de paiement  
+<u>Options</u> : Totalité par Stripe (carte ou Paypal), Totalité par virement
+bancaire, Par plan de paiement  
 // Prévoir traduction des PaymentType via `Gedmo\Translatable\Translatable`;
 
 ### Création d'une entité `PaymentOrder` composée de :
@@ -56,12 +55,11 @@ lorsque le statut est `DOC_VALIDATED ( = 4 )` et qu'il n'existe aucun objet
 `Payment` avec `id_license` = id de la license sélectionnée OU qu'il existe
 uniquement des objet `Payment` avec le statut `Refused (= 2)` :
 
--   payer la totalité en ligne par carte de banque
--   payer la totalité en ligne via PayPal
+-   payer la totalité en ligne par carte de banque ou Paypal
 -   payer la totalité par virement bancaire
 -   demander un plan de paiement
 
-### Payer la totalité en ligne par carte de banque / via Paypal
+### Payer la totalité en ligne par carte de banque ou Paypal
 
 Lorsque l'utilisateur choisi une de ces options, il est redirigé directement
 vers Stripe.
