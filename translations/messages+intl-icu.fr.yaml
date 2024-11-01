@@ -89,6 +89,10 @@ success:
     place:
         created: 'Le lieu a été créé.'
         updated: 'Le lieu a été mis à jour.'
+    payment_plan_request:
+        'Votre demande de plan de paiement personnalisé a bien été envoyée. Un
+        administrateur va analyser votre demande incessament sous peu. Vous
+        recevrez un email avec la réponse définitive.'
 
 warning:
     user_switched: 'Tu utilises maintenant le compte de {firstname} {lastname}.'
@@ -390,6 +394,23 @@ license:
         decline:
             sub_title: '3. Refusez la licence en cliquant sur ce bouton :'
             btn: 'Refuser'
+    payment_plan:
+        title: 'Tu souhaites payer en plusieurs fois ?'
+        text: >-
+            Nous te permettons de payer en plusieurs fois. <br/>Décris-nous le
+            plan de paiement que tu souhaites dans le champ ci-dessous. <br/>Un
+            administrateur analysera ta demande et la validera ou non. <br/>
+            <br/>Tiens compte de ces quelques règles : <br/> <ul>
+                <li>
+                    La première mensualité doit être de minimum 80€.
+                </li>
+                <li>
+                    Le paiement total de la licence doit être terminé avant la
+            prochaine saison.
+                </li>
+            </ul>
+        label: 'Décris le plan de paiement souhaité :'
+        btn: 'Demander'
 
 payment:
     approved:

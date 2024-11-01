@@ -84,6 +84,10 @@ success:
     place:
         created: 'The place has been created.'
         updated: 'The place has been updated.'
+    payment_plan_request:
+        'Your custom payment plan request has been sent successfully. An
+        administrator will review your request as soon as possible. You will
+        receive an email with the final answer.'
 
 warning:
     user_switched: 'You are now using the {firstname} {lastname} account.'
@@ -375,6 +379,23 @@ license:
         decline:
             sub_title: '3. Refuse the license by clicking on this button:'
             btn: 'Refuse'
+    payment_plan:
+        title: 'Do you want to pay in several installments?'
+        text: >-
+            We allow you to pay in several installments. <br/>Describe the
+            payment plan you want in the field below. <br/>An administrator will
+            analyze your request and validate or refuse it. <br/> <br/>Take note
+            of the following rules : <br/> <ul>
+                <li>
+                    The first installment must be at least 80€.
+                </li>
+                <li>
+                    The total payment of the license must be completed before
+            the next season.
+                </li>
+            </ul>
+        label: 'Describe the payment plan you want :'
+        btn: 'Request'
 
 payment:
     approved:

@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} | {{ "license.payment_plan.title"|trans }}{% endblock %}
+
+{% block body %}
+<div class="container container-request-payment-plan">
+    <h1>{{ "license.payment_plan.title"|trans }}</h1>
+
+    <p>{{ "license.payment_plan.text"|trans()|raw }}</p>
+
+    {{ form_start(form) }}
+
+        {{ form_row(form.user_comment, {'label' : 'license.payment_plan.label'}) }}
+        {{ form_row(form.submit, { 'label' : 'license.payment_plan.btn', 'row_attr': { 'class': 'submit' }}) }}
+
+    {{ form_end(form) }}
+</div>
+{% endblock %}
