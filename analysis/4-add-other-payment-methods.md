@@ -14,7 +14,7 @@ faudrait que les utilisateurs puissent également payer par :
 
 -   `id`
 -   `id_license`
--   `id_paymentType`
+-   `payment_type` // by_Stripe (1), by_bank_transfer (2) & by_payment_plan (3)
 -   `status` // Accepted (1), refused (2) & completed (3) nullable
 -   `user_comment` text nullable
 -   `refusal_comment` text nullable
@@ -22,15 +22,6 @@ faudrait que les utilisateurs puissent également payer par :
     `Gedmo\Timestampable`
 -   `updated_at` DateTime nullable - Géré automatiquement par
     `Gedmo\Timestampable`
-
-### Création d'une entité `PaymentType` composée de :
-
--   `id`
--   `name` string not-null
-
-<u>Options</u> : Totalité par Stripe (carte ou Paypal), Totalité par virement
-bancaire, Par plan de paiement  
-// Prévoir traduction des PaymentType via `Gedmo\Translatable\Translatable`;
 
 ### Création d'une entité `PaymentOrder` composée de :
 
@@ -61,15 +52,17 @@ uniquement des objet `Payment` avec le statut `Refused (= 2)` :
 
 ### Payer la totalité en ligne par carte de banque ou Paypal
 
-Lorsque l'utilisateur choisi une de ces options, il est redirigé directement
-vers Stripe.
+Lorsque l'utilisateur choisi cette option, il est redirigé directement vers
+Stripe.
 
 -   Si le paiement réussi, on créé :
 
     -   un objet `Payment` avec :
+
         -   `id_license` = id licence sélectionnée
-        -   `id_paymentType` = paiement par carte de banque
-        -   `status` = COMPLETED ( = 3 )
+        -   `payment_type` = `BY_STRIPE ( = 1)`
+        -   `status` = `COMPLETED ( = 3 )`
+
     -   un objet `PaymentOrder` avec :
         -   `id_payment` = Objet `Payment` créé ci-dessus
         -   `amount` = `license.price`
@@ -95,16 +88,20 @@ vers Stripe.
 Lorsque l'utilisateur choisi cette option :
 
 -   On créé un objet `Payment` avec :
+
     -   `id_license` = id licence sélectionnée
-    -   `id_paymentType` = paiement par virement
+    -   `payment_type` = `BY_BANK_TRANSFER ( = 2 )`
     -   `status` = `ACCEPTED ( = 1 )`
+
 -   On créé un objet `PaymentOrder` avec :
+
     -   `id_payment` = Id de l'objet `Payment` créé ci-dessus
     -   `amount` = `license.price`
     -   `due_date` = J + 1 mois
     -   `value_date` = NULL
     -   `comment` = NULL
     -   `validated_by` = NULL
+
 -   Il est redirigé vers la page de résumé de la licence et à la place des
     boutons de paiement, on affiche :
 
@@ -140,9 +137,9 @@ Après l'envoi du formulaire `PaymentPlanRequestType`, un objet `Payment` est
 créé comme suit :
 
 -   `id_license` = licence sélectionnée
--   `id_paymentType` = plan de paiement
--   `status` = NULL
--   `comment` = texte entré dans le textarea
+-   `payment_type` = `BY_PAYMENT_PLAN ( = 3 )`
+-   `status` = PENDING ( = NULL )
+-   `user_comment` = texte entré dans le textarea
 
 Et, un mail est envoyé aux administrateurs pour les informer qu'une demande de
 plan de paiement est arrivée.
