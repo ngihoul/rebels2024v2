@@ -12,9 +12,13 @@ use Gedmo\Mapping\Annotation as Gedmo;
 #[ORM\Entity(repositoryClass: PaymentRepository::class)]
 class Payment
 {
-    const ACCEPTED = 1;
-    const REFUSED = 2;
-    const COMPLETED = 3;
+    const STATUS_ACCEPTED = 1;
+    const STATUS_REFUSED = 2;
+    const STATUS_COMPLETED = 3;
+
+    const BY_STRIPE = 1;
+    const BY_BANK_TRANSFER = 2;
+    const BY_PERSONALIZED_PAYMENT_PLAN = 3;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -25,9 +29,8 @@ class Payment
     #[ORM\JoinColumn(nullable: false)]
     private ?License $license = null;
 
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?PaymentType $payment_type = null;
+    #[ORM\Column(type: Types::SMALLINT, nullable: true)]
+    private ?int $payment_type = null;
 
     #[ORM\Column(type: Types::SMALLINT, nullable: true)]
     private ?int $status = null;
@@ -70,27 +73,6 @@ class Payment
     public function setLicense(?License $license): static
     {
         $this->license = $license;
-
-        return $this;
-    }
-
-    public function getPaymentType(): ?PaymentType
-    {
-        return $this->payment_type;
-    }
-
-    /*************  ✨ Codeium Command ⭐  *************/
-    /**
-     * Sets the payment type for this payment.
-     *
-     * @param PaymentType|null $PaymentType
-     *
-     * @return static
-     */
-    /******  f81febee-8919-4d16-baa5-a0eb477130ac  *******/
-    public function setPaymentType(?PaymentType $payment_type): static
-    {
-        $this->payment_type = $payment_type;
 
         return $this;
     }
@@ -181,6 +163,18 @@ class Payment
                 $payment_order->setPayment(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPaymentType(): ?int
+    {
+        return $this->payment_type;
+    }
+
+    public function setPaymentType(?int $payment_type): static
+    {
+        $this->payment_type = $payment_type;
 
         return $this;
     }

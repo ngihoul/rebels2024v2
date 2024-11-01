@@ -52,6 +52,7 @@
         <p class="data-created-date">{{ license.createdAt|date("d/m/Y") }}</p>
     </div>
 </div>
+
 <div class="actions license-btns">
     {% if license.status == 1 %}
     <a
@@ -94,7 +95,8 @@
         {{ 'license.card.ask_plan' | trans }}</a
     >
     {# TODO : OU qu'il existe uniquement des objet Payment avec le statut Refused (= 2) #}
-    {% elseif license.status == 4 and license.payments|length <= 0 %}
+    {% elseif license.status == 4 and payment.status == 2 %}
+
     {% endif %}
 </div>
 {% endfor %}

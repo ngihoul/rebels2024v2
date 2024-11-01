@@ -5,11 +5,9 @@ namespace App\Controller;
 use App\Entity\License;
 use App\Entity\Payment;
 use App\Entity\PaymentOrder;
-use App\Entity\PaymentType;
 use App\Form\LicenseType;
 use App\Form\UploadLicenseType;
 use App\Repository\LicenseRepository;
-use App\Repository\PaymentTypeRepository;
 use App\Service\EmailManager;
 use App\Service\FileUploader;
 use App\Service\LicensePDFGenerator as ServiceLicensePDFGenerator;
@@ -39,15 +37,13 @@ class LicenseController extends AbstractController
     private LicenseRepository $licenseRepository;
     private TranslatorInterface $translator;
     private ProfileChecker $profileChecker;
-    private PaymentTypeRepository $paymentTypeRepository;
 
-    public function __construct(EntityManagerInterface $entityManager, LicenseRepository $licenseRepository, TranslatorInterface $translator, ProfileChecker $profileChecker, PaymentTypeRepository $paymentTypeRepository)
+    public function __construct(EntityManagerInterface $entityManager, LicenseRepository $licenseRepository, TranslatorInterface $translator, ProfileChecker $profileChecker)
     {
         $this->entityManager = $entityManager;
         $this->licenseRepository = $licenseRepository;
         $this->translator = $translator;
         $this->profileChecker = $profileChecker;
-        $this->paymentTypeRepository = $paymentTypeRepository;
     }
 
     // Display all licences for the user
@@ -287,7 +283,7 @@ class LicenseController extends AbstractController
             $license = $this->findLicense($licenseId);
 
             // Create Payment Object
-            $payment = $this->createPayment($license, PaymentType::STRIPE, Payment::COMPLETED);
+            $payment = $this->createPayment($license, Payment::BY_STRIPE, Payment::STATUS_COMPLETED);
 
             $this->entityManager->persist($payment);
 
@@ -335,7 +331,7 @@ class LicenseController extends AbstractController
         $license = $this->findLicense($licenseId);
 
         // Create Payment Object
-        $payment = $this->createPayment($license, PaymentType::BANK_TRANSFER, Payment::ACCEPTED);
+        $payment = $this->createPayment($license, Payment::BY_BANK_TRANSFER, Payment::STATUS_ACCEPTED);
         $this->entityManager->persist($payment);
 
         // Create PaymentOrder
@@ -360,11 +356,7 @@ class LicenseController extends AbstractController
         // Delete PaymentOrder
         $payments = $license->getPayments();
 
-        foreach ($payments as $payment) {
-            if ($payment->getPaymentType()->getName() == PaymentType::BANK_TRANSFER) {
-                $paymentToDelete = $payment;
-            }
-        }
+        $paymentToDelete = $payments->filter(fn($p) => $p->getPaymentType() === Payment::BY_BANK_TRANSFER)->first();
 
         foreach ($paymentToDelete->getPaymentOrders() as $order) {
             $this->entityManager->remove($order);
@@ -397,8 +389,7 @@ class LicenseController extends AbstractController
     {
         $payment = new Payment();
         $payment->setLicense($license);
-        $$type = $this->paymentTypeRepository->findOneBy(['name' => $paymentType]);
-        $payment->setPaymentType($$type);
+        $payment->setPaymentType($paymentType);
         $payment->setStatus($paymentStatus);
 
         return $payment;
