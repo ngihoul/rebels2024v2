@@ -38,6 +38,7 @@ h2 {
 
 p {
     margin-bottom: 0.8rem;
+    font-weight: 400;
 }
 
 p,
@@ -84,6 +85,13 @@ label {
     margin: 0.8rem 0;
     padding: 0.8rem;
     @include boxShadow();
+
+    &:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        transform: translateY(-2px);
+
+        transition: all 0.2s ease;
+    }
 }
 
 @media screen and (min-width: $min-desktop) {
