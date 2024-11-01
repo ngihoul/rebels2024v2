@@ -1,3 +1,14 @@
+{# License Statuses #}
+{% set LICENSE_DEMANDED = 1 %}
+{% set LICENSE_DOC_DOWNLOADED = 2 %}
+{% set LICENSE_DOC_RECEIVED = 3 %}
+{% set LICENSE_DOC_VALIDATED = 4 %}
+{% set LICENSE_IN_ORDER = 5 %}
+
+{# Payment types #}
+{% set BY_BANK_TRANSFER = 2 %}
+{% set BY_PAYMENT_PLAN = 3 %}
+
 {% for license in licenses %}
 <div class="license-card">
     <div class="season">
@@ -7,20 +18,20 @@
     <div class="status">
         <p class="label-status">{{ 'license.table.status' | trans }} :</p>
         <p class="data-status">
-            {% if license.status == 1 %}
+            {% if license.status == LICENSE_DEMANDED %}
             {{ 'license.status.demanded' | trans }}
-            {% elseif license.status == 2 %}
+            {% elseif license.status == LICENSE_DOC_DOWNLOADED %}
             {{ 'license.status.document_downloaded' | trans }}
-            {% elseif license.status == 3 %}
+            {% elseif license.status == LICENSE_DOC_RECEIVED %}
             {{ 'license.status.document_received' | trans }}
-            {% elseif license.status == 4 %}
+            {% elseif license.status == LICENSE_DOC_VALIDATED %}
             {{ 'license.status.document_validated' | trans }}
-            {% elseif license.status == 5 %}
+            {% elseif license.status == LICENSE_IN_ORDER %}
             {{ 'license.status.in_order' | trans }}
             {% endif %}
         </p>
     </div>
-    {% if license.status == 3 %}
+    {% if license.status == LICENSE_DOC_RECEIVED %}
     <p class="alert alert-warning">
         {{ 'license.card.waiting_validation' | trans }}
     </p>
@@ -38,7 +49,7 @@
     <div class="price">
         <p class="label-price">{{ 'license.card.price' | trans }}</p>
         {% if license.price is not null %}
-        <p class="data-price">{{ license.price }}€</p>
+        <p class="data-price">{{ license.price|format_currency('EUR') }}</p>
         {% else %}
         <p class="data-price">{{ 'license.card.tbd' | trans }}</p>
         <p class="price-helper" title="{{
@@ -54,13 +65,13 @@
 </div>
 
 <div class="actions license-btns">
-    {% if license.status == 1 %}
+    {% if license.status == LICENSE_DEMANDED %}
     <a
         class="btn"
         href="{{ path('app_license_generate', { licenseId: license.id }) }}"
         >{{ 'license.card.download' | trans }}</a
     >
-    {% elseif license.status == 2 %}
+    {% elseif license.status == LICENSE_DOC_DOWNLOADED %}
     <a
         class="btn"
         href="{{ path('app_license_generate', { licenseId: license.id }) }}"
@@ -71,7 +82,7 @@
         href="{{ path('app_license_upload', { licenseId: license.id }) }}"
         >{{ 'license.card.upload' | trans }}</a
     >
-    {% elseif license.status == 4 and license.payments|length <= 0 %}
+    {% elseif license.status == LICENSE_DOC_VALIDATED and license.payments|length <= 0 %}
     <a
         class="btn"
         href="{{ path('app_license_checkout', { licenseId: license.id }) }}"
@@ -82,7 +93,7 @@
     >
     <a
         class="btn"
-        href="{{ path('app_license_checkout', { licenseId: license.id }) }}"
+        href="{{ path('app_license_create_bank_transfer', { licenseId: license.id }) }}"
         >
         <i class="fa-solid fa-money-bill-transfer icon"></i>
         {{ 'license.card.pay_by_bank_transfer' | trans }}</a
@@ -94,9 +105,23 @@
         <i class="fas fa-calendar-alt icon"></i>
         {{ 'license.card.ask_plan' | trans }}</a
     >
-    {# TODO : OU qu'il existe uniquement des objet Payment avec le statut Refused (= 2) #}
-    {% elseif license.status == 4 and payment.status == 2 %}
+    {% elseif license.status == LICENSE_DOC_VALIDATED and license.payments|length > 0 %}
+        {% if (license.payments[0].paymentType == BY_BANK_TRANSFER) %}
+            <div class="payment-card">
+                <h2>Je paye par virement</h2>
+                <div class="transfert-data">
+                    <h3>Effectue le virement comme suit :</h3>
 
+                    <p>Liège Rebels Baseball & Softball Club</p>
+                    <p>IBAN : BE22 3601 0058 3447</p>
+                    <p>Communication : {{ license.user.lastName|upper }} {{ license.user.firstname }} - COTISATION {{ license.season }}
+                    <p>Montant : {{ license.price|format_currency('EUR') }}
+                </div>
+                <a class="btn btn-cta" href="{{ path('app_license_delete_bank_transfer', { licenseId : license.id }) }}">Changer de moyen de paiement</a>
+            </div>
+        {% elseif license.payments[0].paymentType == BY_PAYMENT_PLAN %}
+            <p>Je paye par plan de paiement</p>
+        {% endif %}
     {% endif %}
 </div>
 {% endfor %}

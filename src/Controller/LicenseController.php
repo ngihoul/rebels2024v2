@@ -126,6 +126,8 @@ class LicenseController extends AbstractController
             $licenseId = $request->get('licenseId');
             $license = $this->findLicense($licenseId);
 
+            $this->restrictAccessIfUserIsNotOwnerOf($license);
+
             // Generate and save the document on the server
             $ouputFileName = $pdfGenerator->generate($license);
 
@@ -200,6 +202,8 @@ class LicenseController extends AbstractController
             $licenseId = $request->get('licenseId');
             $license = $this->findLicense($licenseId);
 
+            $this->restrictAccessIfUserIsNotOwnerOf($license);
+
             $form = $this->createForm(UploadLicenseType::class);
             $form->handleRequest($request);
 
@@ -245,6 +249,8 @@ class LicenseController extends AbstractController
             $licenseId = $request->get('licenseId');
             $license = $this->findLicense($licenseId);
 
+            $this->restrictAccessIfUserIsNotOwnerOf($license);
+
             Stripe::setApiKey($_ENV['STRIPE_SECRET_KEY']);
 
             $checkout_session = Session::create([
@@ -272,6 +278,7 @@ class LicenseController extends AbstractController
 
     // Stripe payment success
     #[Route('/success-url/{licenseId}', name: 'app_success_payment')]
+    #[IsGranted('ROLE_USER')]
     public function successUrl(Request $request): Response
     {
         // Find license in DB
@@ -282,18 +289,14 @@ class LicenseController extends AbstractController
             $licenseId = $request->get('licenseId');
             $license = $this->findLicense($licenseId);
 
+            $this->restrictAccessIfUserIsNotOwnerOf($license);
+
             // Create Payment Object
             $payment = $this->createPayment($license, Payment::BY_STRIPE, Payment::STATUS_COMPLETED);
-
             $this->entityManager->persist($payment);
 
             // Create PaymentOrder
-            $paymentOrder = new PaymentOrder();
-            $paymentOrder->setPayment($payment);
-            $paymentOrder->setAmount($license->getPrice());
-            $paymentOrder->setDueDate(new \DateTimeImmutable());
-            $paymentOrder->setValueDate(new \DateTimeImmutable());
-
+            $paymentOrder = $this->createPaymentOrder($payment, $license);
             $this->entityManager->persist($paymentOrder);
 
             // Update License status
@@ -319,27 +322,28 @@ class LicenseController extends AbstractController
 
     // Stripe payement refused or cancelled
     #[Route('/cancel-url', name: 'app_cancel_payment')]
+    #[IsGranted('ROLE_USER')]
     public function cancelUrl(): Response
     {
         return $this->render('payment/cancel.html.twig', []);
     }
 
-    #[Route('/bank_transfer/create/{licenseId}', name: 'app_license_bank_transfer')]
+    // Create a payment order by bank transfer for a license.
+    #[Route('/bank_transfer/create/{licenseId}', name: 'app_license_create_bank_transfer')]
+    #[IsGranted('ROLE_USER')]
     public function createBankTransfer(Request $request): Response
     {
         $licenseId = $request->get('licenseId');
         $license = $this->findLicense($licenseId);
+
+        $this->restrictAccessIfUserIsNotOwnerOf($license);
 
         // Create Payment Object
         $payment = $this->createPayment($license, Payment::BY_BANK_TRANSFER, Payment::STATUS_ACCEPTED);
         $this->entityManager->persist($payment);
 
         // Create PaymentOrder
-        $paymentOrder = new PaymentOrder();
-        $paymentOrder->setPayment($payment);
-        $paymentOrder->setAmount($license->getPrice());
-        $paymentOrder->setDueDate(new \DateTimeImmutable('+1 month'));
-
+        $paymentOrder = $this->createPaymentOrder($payment, $license, new \DateTimeImmutable('+1 month'));
         $this->entityManager->persist($paymentOrder);
 
         $this->entityManager->flush();
@@ -347,11 +351,15 @@ class LicenseController extends AbstractController
         return $this->redirectToRoute('app_license');
     }
 
-    #[Route('/bank_transfer/delete/{licenseId}', name: 'app_license_bank_transfer_delete')]
+    // Delete payment order by bank transfer if user wants to change method payment
+    #[Route('/bank_transfer/delete/{licenseId}', name: 'app_license_delete_bank_transfer')]
+    #[IsGranted('ROLE_USER')]
     public function deleteBankTransfer(Request $request): Response
     {
         $licenseId = $request->get('licenseId');
-        $license = $this->findLicense($licenseId);
+        $license = $this->findLicenseWithPayments($licenseId);
+
+        $this->restrictAccessIfUserIsNotOwnerOf($license);
 
         // Delete PaymentOrder
         $payments = $license->getPayments();
@@ -365,8 +373,14 @@ class LicenseController extends AbstractController
         // Delete payment
         $this->entityManager->remove($paymentToDelete);
 
+        $this->entityManager->flush();
+
         return $this->redirectToRoute('app_license');
     }
+
+    // Asking form for a customized payment plan
+    #[Route('/payment_plan/ask/{licenseId}', name: 'app_license_create_payment_plan')]
+    public function askingPaymentPlan(): Response {}
 
     // Find a licence
     private function findLicense(string $licenseId): License
@@ -385,6 +399,13 @@ class LicenseController extends AbstractController
         return $license;
     }
 
+    // Find a licence with payments
+    private function findLicenseWithPayments(string $licenseId): License
+    {
+        return $this->licenseRepository->findWithPayments($licenseId);
+    }
+
+    // Create Payment object
     private function createPayment(License $license, $paymentType, $paymentStatus): Payment
     {
         $payment = new Payment();
@@ -393,5 +414,29 @@ class LicenseController extends AbstractController
         $payment->setStatus($paymentStatus);
 
         return $payment;
+    }
+
+    // Create PaymentOrder object
+    private function createPaymentOrder(Payment $payment, License $license, DateTimeImmutable $dueDate = new \DateTimeImmutable(), DateTimeImmutable $valueDate = new \DateTimeImmutable()): PaymentOrder
+    {
+        $paymentOrder = new PaymentOrder();
+        $paymentOrder->setPayment($payment);
+        $paymentOrder->setAmount($license->getPrice());
+        $paymentOrder->setDueDate($dueDate);
+        $paymentOrder->setValueDate($valueDate);
+
+        return $paymentOrder;
+    }
+
+    // Restrict access if user is not the owner of the license
+    private function restrictAccessIfUserIsNotOwnerOf(License $license): ?Response
+    {
+        if ($this->getUser() !== $license->getUser()) {
+            $this->addFlash('error', $this->translator->trans('error.access_denied'));
+
+            return $this->redirectToRoute('app_license');
+        }
+
+        return null;
     }
 }

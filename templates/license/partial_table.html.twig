@@ -1,25 +1,29 @@
+{# License Statuses #}
+{% set LICENSE_DEMANDED = 1 %}
+{% set LICENSE_DOC_DOWNLOADED = 2 %}
+{% set LICENSE_DOC_RECEIVED = 3 %}
+{% set LICENSE_DOC_VALIDATED = 4 %}
+{% set LICENSE_IN_ORDER = 5 %}
+
 <table class="license-table">
     <tr>
         <th>{{ "license.table.season"|trans }}</th>
         <th>{{ "license.table.status"|trans }}</th>
         <th>{{ "license.table.details"|trans }}</th>
-        {% if include_actions %}
-            <th class="column-actions"></th>
-        {% endif %}
     </tr>
     {% for license in licenses %}
         <tr>
             <td>{{ license.season }}</td>
             <td>
-                {% if license.status == 1 %}
+                {% if license.status == LICENSE_DEMANDED %}
                     {{ 'license.status.demanded'|trans }}
-                {% elseif license.status == 2 %}
+                {% elseif license.status == LICENSE_DOC_DOWNLOADED %}
                     {{ 'license.status.document_downloaded'|trans }}
-                {% elseif license.status == 3 %}
+                {% elseif license.status == LICENSE_DOC_RECEIVED %}
                     {{ 'license.status.document_received'|trans }}
-                {% elseif license.status == 4 %}
+                {% elseif license.status == LICENSE_DOC_VALIDATED %}
                     {{ 'license.status.document_validated'|trans }}
-                {% elseif license.status == 5 %}
+                {% elseif license.status == LICENSE_IN_ORDER %}
                     {{ 'license.status.in_order'|trans }}
                 {% endif %}
             </td>
@@ -30,18 +34,6 @@
                     {% endfor %}
                 </ul>
             </td>
-            {% if include_actions %}
-                <td class="table-data-actions">
-                    {% if license.status < 3 %}
-                        <a href="{{ path('app_license_generate', {'licenseId': license.id}) }}"><i class="fa-regular fa-pen-to-square icon"></i></a>
-                        {# <a href="{{ path('app_license_generate', {'idLicense': license.id}) }}"><i class="fas fa-trash icon"></i></a> #}
-                    {% elseif license.status == 3 %}
-                        <i class="fa-regular fa-hourglass icon" title="{{ "license.index.pending_validation"|trans }}"></i>
-                    {% elseif license.status == 4 %}
-                        <a href="{{ path('app_license_checkout', {'licenseId': license.id}) }}"><i class="fa-regular fa-credit-card icon disagree" title="{{ "license.index.pay"|trans }}"></i></a>
-                    {% endif %}
-                </td>
-            {% endif %}
         </tr>
     {% endfor %}
 </table>

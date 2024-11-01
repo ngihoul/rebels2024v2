@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\License;
+use App\Entity\Payment;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -20,6 +21,17 @@ class LicenseRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, License::class);
+    }
+
+    public function findWithPayments(string $licenseId): License
+    {
+        $queryBuilder = $this->createQueryBuilder('l')
+            ->select('l', 'p')
+            ->where('l.id = :licenseId')
+            ->leftJoin('l.payments', 'p')
+            ->setParameter('licenseId', $licenseId);
+
+        return $queryBuilder->getQuery()->getOneOrNullResult();
     }
 
     public function getCurrentYearActiveLicense(User $user)
@@ -41,7 +53,7 @@ class LicenseRepository extends ServiceEntityRepository
     {
         $queryBuilder = $this->createQueryBuilder('l')
             ->select('l', 'p')
-            ->leftJoin('l.payments', 'p')
+            ->leftJoin('l.payments', 'p', 'WITH', 'p.status != :paymentStatus')
             ->where('l.season = :currentYear')
             ->andWhere('l.status < :pendingStatus')
             ->andWhere('l.user = :user')
@@ -49,6 +61,7 @@ class LicenseRepository extends ServiceEntityRepository
                 'currentYear' => date('Y'),
                 'pendingStatus' => License::IN_ORDER,
                 'user' => $user,
+                'paymentStatus' => Payment::STATUS_REFUSED
             ]);
 
         return $queryBuilder->getQuery()->getResult();
