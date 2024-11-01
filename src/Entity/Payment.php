@@ -12,13 +12,14 @@ use Gedmo\Mapping\Annotation as Gedmo;
 #[ORM\Entity(repositoryClass: PaymentRepository::class)]
 class Payment
 {
+    const STATUS_PENDING = NULL;
     const STATUS_ACCEPTED = 1;
     const STATUS_REFUSED = 2;
     const STATUS_COMPLETED = 3;
 
     const BY_STRIPE = 1;
     const BY_BANK_TRANSFER = 2;
-    const BY_PERSONALIZED_PAYMENT_PLAN = 3;
+    const BY_PAYMENT_PLAN = 3;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
