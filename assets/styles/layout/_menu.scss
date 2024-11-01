@@ -71,6 +71,7 @@
     .close-icon {
         @include close-icon-styles();
         left: 0.3rem;
+        box-shadow: none;
     }
 }
 
