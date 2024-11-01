@@ -53,7 +53,7 @@ class LicenseRepository extends ServiceEntityRepository
     {
         $queryBuilder = $this->createQueryBuilder('l')
             ->select('l', 'p')
-            ->leftJoin('l.payments', 'p', 'WITH', 'p.status != :paymentStatus')
+            ->leftJoin('l.payments', 'p', 'WITH', 'p.status IS NULL OR p.status != :paymentStatus')
             ->where('l.season = :currentYear')
             ->andWhere('l.status < :pendingStatus')
             ->andWhere('l.user = :user')
