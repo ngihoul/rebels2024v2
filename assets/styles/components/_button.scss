@@ -1,3 +1,12 @@
+@mixin btnBoxShadow() {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+@mixin btnBoxShadowHover() {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    transform: translateY(-1px);
+}
+
 button,
 .btn {
     display: block;
@@ -11,6 +20,9 @@ button,
     color: $color-primary;
     border-color: $color-primary;
     background-color: $color-background;
+    @include btnBoxShadow();
+
+    transition: all 0.2s ease-in-out;
 
     &.cta {
         border-color: $color-secondary;
@@ -19,6 +31,15 @@ button,
         &:visited {
             color: $color-secondary;
         }
+    }
+
+    &:hover {
+        @include btnBoxShadowHover();
+    }
+
+    &:active {
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        transform: translateY(1px);
     }
 
     &:visited {
@@ -48,6 +69,18 @@ button,
     border-radius: 50%;
     background-color: $color-primary;
     color: $color-background;
+    @include btnBoxShadow();
+
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+        @include btnBoxShadowHover();
+    }
+
+    &:active {
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        transform: translateY(1px);
+    }
 }
 
 .btn-add {
