@@ -108,6 +108,7 @@
     {% elseif license.status == LICENSE_DOC_VALIDATED and license.payments|length > 0 %}
         {% if (license.payments[0].paymentType == BY_BANK_TRANSFER) %}
             <div class="payment-card">
+            {# TODO : traduire #}
                 <h2>Je paye par virement</h2>
                 <div class="transfert-data">
                     <h3>Effectue le virement comme suit :</h3>
