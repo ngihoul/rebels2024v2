@@ -8,7 +8,8 @@
             display: flex;
         }
 
-        .user-picture-container, .user-picture-container a {
+        .user-picture-container,
+        .user-picture-container a {
             min-width: 120px;
             height: 162px;
             overflow: hidden;
@@ -18,6 +19,7 @@
             position: relative;
             margin-right: 1rem;
             border-radius: $border-radius;
+            @include boxShadow();
 
             .flag {
                 position: absolute;

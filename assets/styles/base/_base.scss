@@ -83,6 +83,7 @@ label {
     border-radius: $border-radius;
     margin: 0.8rem 0;
     padding: 0.8rem;
+    @include boxShadow();
 }
 
 @media screen and (min-width: $min-desktop) {

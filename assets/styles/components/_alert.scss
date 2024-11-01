@@ -1,35 +1,36 @@
 .alert {
-  position: relative;
-  padding: 0.75rem 1.25rem;
-  border-radius: 0.25rem;
-  border: 1px solid;
-  margin-bottom: 0.8rem;
+    position: relative;
+    padding: 0.75rem 1.25rem;
+    border-radius: 0.25rem;
+    border: 1px solid;
+    margin-bottom: 0.8rem;
+    @include boxShadow();
 
-  &-error {
-    color: $color-danger;
-    background-color: $color-bg-danger;
-    border-color: $color-border-danger;
+    &-error {
+        color: $color-danger;
+        background-color: $color-bg-danger;
+        border-color: $color-border-danger;
 
-    & > p {
-      color: $color-danger;
-      background-color: $color-bg-danger;
-      border-color: $color-border-danger;
+        & > p {
+            color: $color-danger;
+            background-color: $color-bg-danger;
+            border-color: $color-border-danger;
+        }
     }
-  }
 
-  &-warning {
-    color: #856404;
-    background-color: #fff3cd;
-    border-color: #ffeeba;
-  }
+    &-warning {
+        color: #856404;
+        background-color: #fff3cd;
+        border-color: #ffeeba;
+    }
 
-  &-success {
-    color: $color-success;
-    background-color: $color-bg-success;
-    border-color: $color-border-success;
-  }
+    &-success {
+        color: $color-success;
+        background-color: $color-bg-success;
+        border-color: $color-border-success;
+    }
 
-  > p {
-    margin-bottom: 0;
-  }
+    > p {
+        margin-bottom: 0;
+    }
 }

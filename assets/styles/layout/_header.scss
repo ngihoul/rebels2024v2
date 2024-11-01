@@ -7,7 +7,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    @include boxShadow(0.2);
     z-index: 9999;
 
     & > div {
@@ -62,7 +62,7 @@ header {
             padding: 0.8rem;
             background-color: $color-background;
             margin-top: 0.8rem;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            @include boxShadow(0.2);
         }
 
         &.hidden {

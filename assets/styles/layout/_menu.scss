@@ -162,7 +162,7 @@ ul {
         width: auto;
         height: auto;
         padding: 0;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        @include boxShadow();
         max-width: none;
 
         .menu-item-bottom-desktop,

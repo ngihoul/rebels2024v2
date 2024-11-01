@@ -10,6 +10,7 @@ button,
     text-transform: uppercase;
     color: $color-primary;
     border-color: $color-primary;
+    background-color: $color-background;
 
     &.cta {
         border-color: $color-secondary;
