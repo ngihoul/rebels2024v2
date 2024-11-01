@@ -40,6 +40,8 @@ class LicenseRepository extends ServiceEntityRepository
     public function getCurrentYearPendingLicenses(User $user)
     {
         $queryBuilder = $this->createQueryBuilder('l')
+            ->select('l', 'p')
+            ->leftJoin('l.payments', 'p')
             ->where('l.season = :currentYear')
             ->andWhere('l.status < :pendingStatus')
             ->andWhere('l.user = :user')
