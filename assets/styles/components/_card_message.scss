@@ -1,76 +1,74 @@
 .message-card {
-  display: flex;
-  position: relative;
-  flex-direction: column;
-  border: 1px solid $color-border;
-  border-radius: $border-radius;
-  padding: 1.6rem 0.8rem;
-  margin-bottom: 1.6rem;
-  // Force to breakline
-  overflow-wrap: break-word;
-
-  &:first-child {
-    margin-top: 1.6rem;
-  }
-
-  .message-data {
     display: flex;
+    position: relative;
+    flex-direction: column;
+    @include card();
 
-    .author-container,
-    .date-container {
-      display: flex;
-      width: 50%;
-      font-size: 0.8rem;
+    // Force to breakline
+    overflow-wrap: break-word;
 
-      p {
+    &:first-child {
+        margin-top: 1.6rem;
+    }
+
+    .message-data {
+        display: flex;
+
+        .author-container,
+        .date-container {
+            display: flex;
+            width: 50%;
+            font-size: 0.8rem;
+
+            p {
+                margin-bottom: 0;
+            }
+
+            svg {
+                margin-right: 0.4rem;
+            }
+        }
+    }
+
+    .title {
+        margin: 0.8rem 0 0.4rem 0;
+
+        .is_archived {
+            font-weight: bold;
+            color: $color-danger;
+        }
+    }
+
+    .content {
         margin-bottom: 0;
-      }
-
-      svg {
-        margin-right: 0.4rem;
-      }
     }
-  }
 
-  .title {
-    margin: 0.8rem 0 0.4rem 0;
+    .actions {
+        display: flex;
 
-    .is_archived {
-      font-weight: bold;
-      color: $color-danger;
+        .btn {
+            width: 50%;
+            margin-bottom: 0;
+
+            &:last-child {
+                margin-left: 0.8rem;
+            }
+        }
     }
-  }
-
-  .content {
-    margin-bottom: 0;
-  }
-
-  .actions {
-    display: flex;
-
-    .btn {
-      width: 50%;
-      margin-bottom: 0;
-
-      &:last-child {
-        margin-left: 0.8rem;
-      }
-    }
-  }
 }
 
 @media screen and (min-width: $min-desktop) {
-  .message-card {
-    width: calc(33% - 0.8rem);
-    margin-right: 0.8rem;
-    justify-content: space-between;
+    .message-card {
+        width: calc(33% - 0.8rem);
+        margin-right: 0.8rem;
+        justify-content: space-between;
 
-    &:first-child {
-      margin-top: 0;
-    }
+        &:first-child {
+            margin-top: 0;
+        }
 
-    &:nth-child(3n) {
-      margin-right: 0;
+        &:nth-child(3n) {
+            margin-right: 0;
+        }
     }
-  }
 }
