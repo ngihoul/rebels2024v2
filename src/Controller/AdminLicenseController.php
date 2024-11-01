@@ -16,6 +16,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+#[Route('/admin')]
+#[IsGranted('ROLE_ADMIN')]
 class AdminLicenseController extends AbstractController
 {
     private LicenseRepository $licenseRepository;
@@ -28,9 +30,8 @@ class AdminLicenseController extends AbstractController
     }
 
     // Display all licences to validate
-    #[Route('/admin/licenses', name: 'admin_license_to_validate')]
-    #[IsGranted('ROLE_ADMIN')]
-    public function index(): Response
+    #[Route('/licenses', name: 'admin_license_to_validate')]
+    public function licences(): Response
     {
         $licenses = $this->licenseRepository->findAllLicensesToValidate();
 
@@ -40,16 +41,17 @@ class AdminLicenseController extends AbstractController
     }
 
     // Validate or refuse a licence request
-    #[Route('/admin/validate-license/{licenseId}', name: 'admin_validate_license')]
-    #[IsGranted('ROLE_ADMIN')]
-    public function validate(Request $request, EmailManager $emailManager, TranslatorInterface $translator): Response
+    #[Route('/validate-license/{licenseId}', name: 'admin_validate_license')]
+    public function validateLicense(Request $request, EmailManager $emailManager, TranslatorInterface $translator): Response
     {
         try {
             $licenseId = $request->get('licenseId');
             $license = $this->licenseRepository->find($licenseId);
+
             if (!$license) {
                 throw new EntityNotFoundException($translator->trans('error.license.not_found'));
             }
+
             $form = $this->createForm(ValidateLicenseType::class);
 
             $form->handleRequest($request);
@@ -96,4 +98,7 @@ class AdminLicenseController extends AbstractController
             return $this->redirectToRoute('admin_license_to_validate');
         }
     }
+
+    #[Route('/licenses/payments', name: 'admin_license_payments')]
+    public function payments(): Response {}
 }
