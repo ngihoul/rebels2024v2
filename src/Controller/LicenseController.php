@@ -6,6 +6,7 @@ use App\Entity\License;
 use App\Entity\Payment;
 use App\Entity\PaymentOrder;
 use App\Form\LicenseType;
+use App\Form\PaymentPlanRequestType;
 use App\Form\UploadLicenseType;
 use App\Repository\LicenseRepository;
 use App\Service\EmailManager;
@@ -123,8 +124,7 @@ class LicenseController extends AbstractController
     {
         try {
             // We generate the document each time this route is called because the profile data can be updated between steps
-            $licenseId = $request->get('licenseId');
-            $license = $this->findLicense($licenseId);
+            $license = $this->findLicense($request);
 
             $this->restrictAccessIfUserIsNotOwnerOf($license);
 
@@ -162,8 +162,7 @@ class LicenseController extends AbstractController
     public function download(Request $request, string $licenseId)
     {
         try {
-            $licenseId = $request->get('licenseId');
-            $license = $this->findLicense($licenseId);
+            $license = $this->findLicense($request);
 
             if (!$this->isGranted('ROLE_ADMIN') && $this->getUser() !== $license->getUser()) {
                 $this->addFlash('error', 'Vous n\'avez pas accès à ce fichier');
@@ -199,8 +198,7 @@ class LicenseController extends AbstractController
     public function upload(Request $request, FileUploader $fileUploader, EmailManager $emailManager): Response
     {
         try {
-            $licenseId = $request->get('licenseId');
-            $license = $this->findLicense($licenseId);
+            $license = $this->findLicense($request);
 
             $this->restrictAccessIfUserIsNotOwnerOf($license);
 
@@ -246,8 +244,7 @@ class LicenseController extends AbstractController
     public function checkout(Request $request)
     {
         try {
-            $licenseId = $request->get('licenseId');
-            $license = $this->findLicense($licenseId);
+            $license = $this->findLicense($request);
 
             $this->restrictAccessIfUserIsNotOwnerOf($license);
 
@@ -265,7 +262,7 @@ class LicenseController extends AbstractController
                     'quantity' => 1,
                 ]],
                 'mode' => 'payment',
-                'success_url' => $this->generateUrl('app_success_payment', ['licenseId' => $licenseId], UrlGeneratorInterface::ABSOLUTE_URL),
+                'success_url' => $this->generateUrl('app_success_payment', ['licenseId' => $license->getId()], UrlGeneratorInterface::ABSOLUTE_URL),
                 'cancel_url' => $this->generateUrl('app_cancel_payment', [], UrlGeneratorInterface::ABSOLUTE_URL),
             ]);
 
@@ -286,8 +283,7 @@ class LicenseController extends AbstractController
             // Begin SQL transaction
             $this->entityManager->beginTransaction();
 
-            $licenseId = $request->get('licenseId');
-            $license = $this->findLicense($licenseId);
+            $license = $this->findLicense($request);
 
             $this->restrictAccessIfUserIsNotOwnerOf($license);
 
@@ -333,8 +329,7 @@ class LicenseController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function createBankTransfer(Request $request): Response
     {
-        $licenseId = $request->get('licenseId');
-        $license = $this->findLicense($licenseId);
+        $license = $this->findLicense($request);
 
         $this->restrictAccessIfUserIsNotOwnerOf($license);
 
@@ -356,8 +351,7 @@ class LicenseController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function deleteBankTransfer(Request $request): Response
     {
-        $licenseId = $request->get('licenseId');
-        $license = $this->findLicenseWithPayments($licenseId);
+        $license = $this->findLicenseWithPayments($request);
 
         $this->restrictAccessIfUserIsNotOwnerOf($license);
 
@@ -379,12 +373,44 @@ class LicenseController extends AbstractController
     }
 
     // Asking form for a customized payment plan
-    #[Route('/payment_plan/ask/{licenseId}', name: 'app_license_create_payment_plan')]
-    public function askingPaymentPlan(): Response {}
+    #[Route('/payment_plan/request/{licenseId}', name: 'app_license_request_payment_plan')]
+    public function paymentPlanRequest(Request $request): Response
+    {
+        try {
+            $license = $this->findLicense($request);
+            $form = $this->createForm(PaymentPlanRequestType::class);
+
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+
+                $payment = $this->createPayment($license, Payment::BY_PAYMENT_PLAN, Payment::STATUS_PENDING);
+                $payment->setUserComment($form->get('user_comment')->getData());
+                $this->entityManager->persist($payment);
+
+                $this->entityManager->flush();
+
+                // TODO: Send a mail to administrators
+
+
+                $this->addFlash('success', $this->translator->trans('success.payment_plan_request'));
+
+                return $this->redirectToRoute('app_license');
+            }
+
+            return $this->render('license/form_request_payment_plan.html.twig', [
+                'form' => $form->createView(),
+            ]);
+        } catch (Exception $e) {
+            $this->addFlash('error', $e->getMessage());
+            return $this->redirectToRoute('app_license');
+        }
+    }
 
     // Find a licence
-    private function findLicense(string $licenseId): License
+    private function findLicense(Request $request): License
     {
+        $licenseId = $request->get('licenseId');
         $license = $this->licenseRepository->find($licenseId);
 
         if (!$license) {
@@ -400,8 +426,9 @@ class LicenseController extends AbstractController
     }
 
     // Find a licence with payments
-    private function findLicenseWithPayments(string $licenseId): License
+    private function findLicenseWithPayments(Request $request): License
     {
+        $licenseId = $request->get('licenseId');
         return $this->licenseRepository->findWithPayments($licenseId);
     }
 
