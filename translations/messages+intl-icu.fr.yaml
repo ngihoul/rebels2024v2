@@ -93,6 +93,8 @@ success:
         'Votre demande de plan de paiement personnalisé a bien été envoyée. Un
         administrateur va analyser votre demande incessament sous peu. Vous
         recevrez un email avec la réponse définitive.'
+    payment_plan:
+        validated: 'Le plan de paiement a été validé.'
 
 warning:
     user_switched: 'Tu utilises maintenant le compte de {firstname} {lastname}.'

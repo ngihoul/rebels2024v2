@@ -88,6 +88,8 @@ success:
         'Your custom payment plan request has been sent successfully. An
         administrator will review your request as soon as possible. You will
         receive an email with the final answer.'
+    payment_plan:
+        validated: "The payment plan has been validated."
 
 warning:
     user_switched: 'You are now using the {firstname} {lastname} account.'

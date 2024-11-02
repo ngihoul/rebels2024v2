@@ -1,13 +1,19 @@
+{# TODO : Traduire #}
 {% extends 'base.html.twig' %}
 
-{% block title %}{{  parent() }} | {{  }}{% endblock %}
+{% block title %}{{  parent() }} | Paiements {% endblock %}
 
 {% block body %}
-<div class="container container-payments">
-    <h1>{{  }}</h1>
+    <div class="container container-payments">
+        <h1>Paiements</h1>
 
-    {{ parent() }}
+        {{ parent() }}
 
-    
-</div>
+        <h2>Demande de plan de paiement</h2>
+        {{ include('/admin/payment/partial/_plan_table.html.twig', { 'paymentPlans' : paymentPlanRequests }) }}
+
+        {# <h2>Ordres de paiement à valider</h2>
+        {{ include('/admin/partial/_order_table.html.twig', { 'paymentOrders' : paymentOrdersToValidate }) }} #}
+        
+    </div>
 {% endblock %}

@@ -1,0 +1,13 @@
+.payment-order-collection {
+    width: 100%;
+}
+
+.form-order > div {
+    display: flex;
+
+    textarea[id$='_comment'] {
+        height: 44.6px;
+        resize: none;
+        overflow: hidden;
+    }
+}

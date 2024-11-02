@@ -53,7 +53,7 @@ class Payment
     /**
      * @var Collection<int, PaymentOrder>
      */
-    #[ORM\OneToMany(mappedBy: 'payment', targetEntity: PaymentOrder::class)]
+    #[ORM\OneToMany(mappedBy: 'payment', targetEntity: PaymentOrder::class, cascade: ['persist', 'remove'])]
     private Collection $payment_orders;
 
     public function __construct()

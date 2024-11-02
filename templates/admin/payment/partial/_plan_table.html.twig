@@ -1,0 +1,20 @@
+<table class="payment-plan-table">
+    <tr>
+        <th>Joueur</th>
+        <th>Année</th>
+        <th>Prix</th>
+        <th>Actions</th>
+    </tr>
+    {% for plan in paymentPlans %}
+        <tr>
+            <td>{{ plan.license.user.firstname }} {{ plan.license.user.lastname }}</td>
+            <td>{{ plan.license.season }}</td>
+            <td>{{ plan.license.price|format_currency('EUR') }}</td>
+            <td>
+                <a href="{{ path('admin_payment_plan_request', { planId : plan.id }) }}">
+                    <i class="fa-solid fa-circle-info"></i>
+                </a>
+            </td>
+        </tr>
+    {% endfor %}
+</table>

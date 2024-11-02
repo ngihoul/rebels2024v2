@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container container-payment-plan">
+        <h1>Accepter le plan de paiement</h1>
+        {{ parent() }}
+
+        <div class="license-container">
+            <h2>Licence de {{ paymentPlan.license.user.firstname }} {{ paymentPlan.license.user.lastname }}</h2>
+            {{ include('/license/partial/_card.html.twig', { 'license' : paymentPlan.license, 'isAdmin' : true }) }}
+        </div>
+
+        <h2>Plan de paiement proposé</h2>
+        <p>{{ paymentPlan.userComment }}</p>
+
+        <div class="form-payment-plan">
+        <h2>Création des ordres de paiement</h2>
+        
+        {{ form_start(form) }}
+
+        <div class="payment-order-collection" data-prototype="{{ form_widget(form.payment_orders.vars.prototype)|e('html_attr') }}">
+            {% for orderForm in form.payment_orders %}
+                <div class="form-order">
+                    {{ form_row(orderForm.amount) }}
+                    {{ form_row(orderForm.due_date) }}
+                    {{ form_row(orderForm.comment) }}
+                </div>
+            {% endfor %}
+        </div>
+
+        <button type="button" class="btn btn-primary" id="add-order">Ajouter un ordre</button>        
+        <button type="button" class="btn btn-danger" id="remove-last-order" style="display: none;">Supprimer le dernier ordre</button>
+
+        <button type="submit" class="btn btn-success">Valider le plan de paiement</button>
+
+        {{ form_end(form) }}
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let orderCollection = document.querySelector('.payment-order-collection');
+            let addOrderButton = document.querySelector('#add-order');
+            let removeLastOrderButton = document.querySelector('#remove-last-order');
+
+            let prototype = orderCollection.getAttribute('data-prototype');
+            let index = {{ form.payment_orders|length }};
+
+            if (index > 0) {
+                removeLastOrderButton.style.display = 'inline-block';
+            }
+
+            addOrderButton.addEventListener('click', function() {
+                if (prototype) {
+                    let newFormHtml = prototype.replace(/__name__/g, index);
+                    index++;
+
+                    let newForm = document.createElement('div');
+                    newForm.classList.add('form-order');
+                    newForm.innerHTML = newFormHtml;
+                    orderCollection.appendChild(newForm);
+
+                    removeLastOrderButton.style.display = 'inline-block';
+                }
+            });
+
+            removeLastOrderButton.addEventListener('click', function() {
+                let lastOrder = orderCollection.lastElementChild;
+                if (lastOrder) {
+                    orderCollection.removeChild(lastOrder);
+                }
+
+                // Masquer le bouton de suppression si aucun ordre n'est présent
+                if (orderCollection.children.length === 0) {
+                    removeLastOrderButton.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</div>
+{% endblock %}

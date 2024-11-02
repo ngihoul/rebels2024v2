@@ -67,81 +67,84 @@
     </div>
 </div>
 
-<div class="actions license-btns">
+{% if isAdmin == false %}
 
-    {% if license.status == LICENSE_DEMANDED %}
+    <div class="actions license-btns">
 
-    <a
-        class="btn"
-        href="{{ path('app_license_generate', { licenseId: license.id }) }}"
-        >{{ 'license.card.download' | trans }}</a
-    >
+        {% if license.status == LICENSE_DEMANDED %}
 
-    {% elseif license.status == LICENSE_DOC_DOWNLOADED %}
-    
-    <a
-        class="btn"
-        href="{{ path('app_license_generate', { licenseId: license.id }) }}"
-        >{{ 'license.card.download' | trans }}</a
-    >
-    <a
-        class="btn cta"
-        href="{{ path('app_license_upload', { licenseId: license.id }) }}"
-        >{{ 'license.card.upload' | trans }}</a
-    >
-
-    {% elseif license.status == LICENSE_DOC_VALIDATED and license.payments|length <= 0 %}
-    
-    <a
-        class="btn"
-        href="{{ path('app_license_checkout', { licenseId: license.id }) }}"
+        <a
+            class="btn"
+            href="{{ path('app_license_generate', { licenseId: license.id }) }}"
+            >{{ 'license.card.download' | trans }}</a
         >
-        <i class="fa-regular fa-credit-card icon"></i>
-        <i class="fa-brands fa-paypal icon"></i>
-        {{ 'license.card.pay_by_card' | trans }}</a
-    >
-    <a
-        class="btn"
-        href="{{ path('app_license_create_bank_transfer', { licenseId: license.id }) }}"
-        >
-        <i class="fa-solid fa-money-bill-transfer icon"></i>
-        {{ 'license.card.pay_by_bank_transfer' | trans }}</a
-    >
-    <a
-        class="btn"
-        href="{{ path('app_license_request_payment_plan', { licenseId: license.id }) }}"
-        >
-        <i class="fas fa-calendar-alt icon"></i>
-        {{ 'license.card.ask_plan' | trans }}</a
-    >
-    
-    {% elseif license.status == LICENSE_DOC_VALIDATED and license.payments|length > 0 %}
-        <div class="payment-card">
-        {% if (license.payments[0].paymentType == BY_BANK_TRANSFER) %}
-            {# TODO : traduire #}
-                <h2>Je paye par virement</h2>
-                <div class="transfer-data">
-                    <h3>Effectue le virement comme suit :</h3>
 
-                    <p>Liège Rebels Baseball & Softball Club</p>
-                    <p>IBAN : BE22 3601 0058 3447</p>
-                    <p>Communication : {{ license.user.lastName|upper }} {{ license.user.firstname }} - COTISATION {{ license.season }}
-                    <p>Montant : {{ license.price|format_currency('EUR') }}
+        {% elseif license.status == LICENSE_DOC_DOWNLOADED %}
+        
+        <a
+            class="btn"
+            href="{{ path('app_license_generate', { licenseId: license.id }) }}"
+            >{{ 'license.card.download' | trans }}</a
+        >
+        <a
+            class="btn cta"
+            href="{{ path('app_license_upload', { licenseId: license.id }) }}"
+            >{{ 'license.card.upload' | trans }}</a
+        >
+
+        {% elseif license.status == LICENSE_DOC_VALIDATED and license.payments|length <= 0 %}
+        
+        <a
+            class="btn"
+            href="{{ path('app_license_checkout', { licenseId: license.id }) }}"
+            >
+            <i class="fa-regular fa-credit-card icon"></i>
+            <i class="fa-brands fa-paypal icon"></i>
+            {{ 'license.card.pay_by_card' | trans }}</a
+        >
+        <a
+            class="btn"
+            href="{{ path('app_license_create_bank_transfer', { licenseId: license.id }) }}"
+            >
+            <i class="fa-solid fa-money-bill-transfer icon"></i>
+            {{ 'license.card.pay_by_bank_transfer' | trans }}</a
+        >
+        <a
+            class="btn"
+            href="{{ path('app_license_request_payment_plan', { licenseId: license.id }) }}"
+            >
+            <i class="fas fa-calendar-alt icon"></i>
+            {{ 'license.card.ask_plan' | trans }}</a
+        >
+        
+        {% elseif license.status == LICENSE_DOC_VALIDATED and license.payments|length > 0 %}
+            <div class="payment-card">
+            {% if (license.payments[0].paymentType == BY_BANK_TRANSFER) %}
+                {# TODO : traduire #}
+                    <h2>Je paye par virement</h2>
+                    <div class="transfer-data">
+                        <h3>Effectue le virement comme suit :</h3>
+
+                        <p>Liège Rebels Baseball & Softball Club</p>
+                        <p>IBAN : BE22 3601 0058 3447</p>
+                        <p>Communication : {{ license.user.lastName|upper }} {{ license.user.firstname }} - COTISATION {{ license.season }}
+                        <p>Montant : {{ license.price|format_currency('EUR') }}
+                    </div>
+                    <a class="btn btn-cta" href="{{ path('app_license_delete_bank_transfer', { licenseId : license.id }) }}">Changer de moyen de paiement</a>
+                
+
+            {% elseif license.payments[0].paymentType == BY_PAYMENT_PLAN %}
+                <h2>Votre plan de paiement personnalisé</h2>
+                <div class="payment-plan-request-data">
+                {% if license.payments[0].status == PAYMENT_ACCEPTED %}
+                    <p>Voici mon plan de paiement :</p>
+                {% else %}
+                    <p class="alert alert-warning">Demande de plan de paiement en cours de validation</p>
+                {% endif %}
                 </div>
-                <a class="btn btn-cta" href="{{ path('app_license_delete_bank_transfer', { licenseId : license.id }) }}">Changer de moyen de paiement</a>
-            
-
-        {% elseif license.payments[0].paymentType == BY_PAYMENT_PLAN %}
-            <h2>Votre plan de paiement personnalisé</h2>
-            <div class="payment-plan-request-data">
-            {% if license.payments[0].status == PAYMENT_ACCEPTED %}
-                <p>Voici mon plan de paiement :</p>
-            {% else %}
-                <p class="alert alert-warning">Demande de plan de paiement en cours de validation</p>
             {% endif %}
             </div>
-        {% endif %}
-        </div>
 
-    {% endif %}
-</div>
+        {% endif %}
+    </div>
+{% endif %}

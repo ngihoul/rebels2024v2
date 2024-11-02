@@ -1,0 +1,20 @@
+@media screen and (min-width: $min-desktop) {
+    .container-payment-plan {
+        .actions {
+            display: flex;
+            width: 33.33%;
+
+            a {
+                width: 50%;
+
+                &:first-child {
+                    margin-right: 0.8rem;
+                }
+
+                &:last-child {
+                    margin-left: 0.8rem;
+                }
+            }
+        }
+    }
+}

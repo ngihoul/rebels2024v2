@@ -33,17 +33,17 @@
 
         {% if currentYearActiveLicense %}
             <h2>{{ "license.index.active"|trans }}</h2>
-            {{ include('/license/partial/_card.html.twig', {'license' : currentYearActiveLicense }) }}
+            {% include '/license/partial/_card.html.twig' with { 'license' : currentYearActiveLicense, 'isAdmin' : false } %}
         {% endif %}
 
         {% if currentYearPendingLicense %}
             <h2>{{ "license.index.pending"|trans }}</h2>
-            {{ include('/license/partial/_card.html.twig', {'license' : currentYearPendingLicense }) }}
+            {% include '/license/partial/_card.html.twig' with { 'license' : currentYearPendingLicense, 'isAdmin' : false } %}
         {% endif %}
 
         {% if pastYearsLicenses|length > 0 %}
             <h2>{{ "license.index.expired"|trans({'number' : pastYearsLicenses|length} ) }}</h2>
-            {{ include('/license/partial/_table.html.twig', {'licenses' : pastYearsLicenses }) }}
+            {{ include('/license/partial/_table.html.twig', { 'licenses' : pastYearsLicenses }) }}
         {% endif %}
     </div>
 {% endblock %}
