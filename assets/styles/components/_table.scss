@@ -5,6 +5,7 @@ table {
     border-spacing: 0;
     table-layout: fixed;
     font-family: $font-text;
+    @include boxShadow();
 }
 
 table th {
@@ -27,6 +28,7 @@ table tbody tr:nth-child(2n) {
 table td {
     padding: 8px;
     border: 1px solid #e0e0e0;
+    vertical-align: middle;
 }
 
 /* Specific table styles */
