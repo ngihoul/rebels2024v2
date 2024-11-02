@@ -52,8 +52,9 @@ class LicenseRepository extends ServiceEntityRepository
     public function getCurrentYearPendingLicense(User $user)
     {
         $queryBuilder = $this->createQueryBuilder('l')
-            ->select('l', 'p')
+            ->select('l', 'p', 'po')
             ->leftJoin('l.payments', 'p', 'WITH', 'p.status IS NULL OR p.status != :paymentStatus')
+            ->leftJoin('p.payment_orders', 'po')
             ->where('l.season = :currentYear')
             ->andWhere('l.status < :pendingStatus')
             ->andWhere('l.user = :user')
@@ -62,7 +63,8 @@ class LicenseRepository extends ServiceEntityRepository
                 'pendingStatus' => License::IN_ORDER,
                 'user' => $user,
                 'paymentStatus' => Payment::STATUS_REFUSED
-            ]);
+            ])
+            ->orderBy('po.due_date', 'ASC'); // Tri sur le champ due_date de PaymentOrder
 
         return $queryBuilder->getQuery()->getOneOrNullResult();
     }
