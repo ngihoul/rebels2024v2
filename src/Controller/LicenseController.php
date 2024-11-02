@@ -297,14 +297,13 @@ class LicenseController extends AbstractController
 
             // Update License status
             $license->setStatus(License::IN_ORDER);
-
             $this->entityManager->persist($license);
-
-            // Commit transaction
-            $this->entityManager->commit();
 
             // Save objects in DB
             $this->entityManager->flush();
+
+            // Commit transaction
+            $this->entityManager->commit();
 
             return $this->render('payment/success.html.twig', []);
         } catch (Exception $e) {
