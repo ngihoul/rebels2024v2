@@ -46,8 +46,7 @@ class UserController extends AbstractController
 
         $missingFields = $user->isProfileComplete();
 
-        $pendingLicenses = $licenseRepository->getCurrentYearPendingLicenses($user);
-        $pendingLicense = $pendingLicenses ? $pendingLicenses[0] : null;
+        $pendingLicense = $licenseRepository->getCurrentYearPendingLicense($user);
 
         return $this->render('home/index.html.twig', [
             'missingFields' => $missingFields,
