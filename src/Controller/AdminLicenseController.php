@@ -49,14 +49,14 @@ class AdminLicenseController extends AbstractController
 
     // Validate or refuse a licence request
     #[Route('/validate-license/{licenseId}', name: 'admin_validate_license')]
-    public function validateLicense(Request $request, EmailManager $emailManager, TranslatorInterface $translator): Response
+    public function validateLicense(Request $request, EmailManager $emailManager): Response
     {
         try {
             $licenseId = $request->get('licenseId');
             $license = $this->licenseRepository->find($licenseId);
 
             if (!$license) {
-                throw new EntityNotFoundException($translator->trans('error.license.not_found'));
+                throw new EntityNotFoundException($this->translator->trans('error.license.not_found'));
             }
 
             $form = $this->createForm(ValidateLicenseType::class);
@@ -75,7 +75,7 @@ class AdminLicenseController extends AbstractController
                     // TODO : Fetch locale from $license->getUser()
 
                     // Send a mail to player informing him his license has been validated
-                    $emailManager->sendEmail($license->getUser()->getEmail(), $translator->trans('license.approved.subject', [], 'emails'), 'license_approved');
+                    $emailManager->sendEmail($license->getUser()->getEmail(), $this->translator->trans('license.approved.subject', [], 'emails'), 'license_approved');
                 } elseif ($form->get('refusal')->isClicked()) {
                     // Change status to ON_DEMAND
                     $license->setStatus(License::ON_DEMAND);
@@ -86,7 +86,7 @@ class AdminLicenseController extends AbstractController
                     // TODO : Fetch locale from $license->getUser()
 
                     // Send a mail to player informing him his license has been refused
-                    $emailManager->sendEmail($license->getUser()->getEmail(), $translator->trans('license.refused.subject', [], 'emails'), 'license_refused', ['reason' => $license->getComment()]);
+                    $emailManager->sendEmail($license->getUser()->getEmail(), $this->translator->trans('license.refused.subject', [], 'emails'), 'license_refused', ['reason' => $license->getComment()]);
                 }
 
                 $this->entityManager->persist($license);
@@ -149,6 +149,8 @@ class AdminLicenseController extends AbstractController
             // Save payment
             $this->entityManager->persist($paymentPlan);
             $this->entityManager->flush();
+
+            // TODO : Send mail to user to confirm
 
             $this->addFlash('success', $this->translator->trans('success.payment_plan.validated'));
 
