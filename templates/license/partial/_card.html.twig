@@ -137,7 +137,40 @@
                 <h2>Votre plan de paiement personnalisé</h2>
                 <div class="payment-plan-request-data">
                 {% if license.payments[0].status == PAYMENT_ACCEPTED %}
-                    <p>Voici mon plan de paiement :</p>
+                    <table class="payment-orders-table">
+                        <thead>
+                            <tr>
+                                <th class="amount">Montant</th>
+                                <th class="deadline">Echéance</th>
+                                <th class="status"></th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for order in license.payments[0].paymentOrders %}
+                                {% set isLate = order.dueDate < date() ? true : false %}
+                                {% set isPaid = order.valueDate != NULL ? true : false %}
+                                <tr class="{{ isPaid ? 'paid' : 'to-be-paid' }} {{ isLate ? 'late' : '' }}">
+                                    <td class="amount">{{ order.amount|format_currency('EUR') }}</td>
+                                    <td class="deadline">{{ order.dueDate|date("m/Y") }}</td>
+                                    <td class="status">
+                                        {% if isLate == false and isPaid == false %}
+                                            <i class="fa-solid fa-hourglass-half"></i>
+                                        {% elseif isPaid == true %}
+                                            <i class="fa-regular fa-circle-check"></i>
+                                        {% elseif isLate == true and isPaid == false %}
+                                            <i class="fa-regular fa-circle-xmark"></i>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                    {% if order.valueDate == NULL %}
+                                        <a href="">Payer par carte</a>
+                                    {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 {% else %}
                     <p class="alert alert-warning">Demande de plan de paiement en cours de validation</p>
                 {% endif %}
