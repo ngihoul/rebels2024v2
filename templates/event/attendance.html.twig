@@ -16,17 +16,17 @@
 
         <div class="container-list">
 
-            {% include 'agenda/partial_list.html.twig' with {
+            {% include 'event/partial_list.html.twig' with {
                 'title': "agenda.attendees"|trans|capitalize,
                 'attendees': attending
             } %}
 
-            {% include 'agenda/partial_list.html.twig' with {
+            {% include 'event/partial_list.html.twig' with {
                 'title': "agenda.awaiting"|trans|capitalize,
                 'attendees': awaiting
             } %}
 
-            {% include 'agenda/partial_list.html.twig' with {
+            {% include 'event/partial_list.html.twig' with {
                 'title': "agenda.unavailable"|trans|capitalize,
                 'attendees': unavailable
             } %}

@@ -65,7 +65,7 @@ class EventController extends AbstractController
         // Fetch future events which the user is invited to (without reply)
         $pendingEvents = $this->eventRepository->findPendingEventsForThisUser($user);
 
-        return $this->render('agenda/index.html.twig', [
+        return $this->render('event/index.html.twig', [
             'futureEvents' => $futureEventsPaginated,
             'pendingEvents' => $pendingEvents,
         ]);
@@ -94,7 +94,7 @@ class EventController extends AbstractController
                 }
             }
 
-            return $this->render('agenda/detail.html.twig', [
+            return $this->render('event/detail.html.twig', [
                 'event' => $event,
                 'attendees' => $attendees,
                 'awaiting' => $awaiting,
@@ -115,7 +115,7 @@ class EventController extends AbstractController
             $eventId = $request->get('id');
             $event = $this->findEvent($eventId);
 
-            return $this->render('agenda/attendance.html.twig', [
+            return $this->render('event/attendance.html.twig', [
                 'event' => $event
             ]);
         } catch (Exception $e) {
@@ -180,7 +180,7 @@ class EventController extends AbstractController
             return $this->redirectToRoute('app_agenda');
         }
 
-        return $this->render('agenda/event_form.html.twig', [
+        return $this->render('event/event_form.html.twig', [
             'form' => $form->createView(),
             'action' => $action
         ]);
@@ -210,7 +210,7 @@ class EventController extends AbstractController
                 return $this->redirectToRoute('app_agenda');
             }
 
-            return $this->render('agenda/event_form.html.twig', [
+            return $this->render('event/event_form.html.twig', [
                 'form' => $form->createView(),
                 'action' => $action
             ]);
@@ -278,7 +278,7 @@ class EventController extends AbstractController
                 return $this->redirect($request->request->get('referer'));
             }
 
-            return $this->render('agenda/invitation_form.html.twig', [
+            return $this->render('event/invitation_form.html.twig', [
                 'event' => $event,
                 'form' => $form->createView(),
             ]);
@@ -351,7 +351,7 @@ class EventController extends AbstractController
                     $user = $attendee->getUser();
                     $userAge = $user->getAge();
 
-                    if($userAge < 16) {
+                    if ($userAge < 16) {
                         $this->sendEventCancellationMailToParents($user, $event);
                     } else if ($userAge >= 16 && $userAge < 18) {
                         $this->sendEventCancellationMailToUser($user, $event);
@@ -391,7 +391,7 @@ class EventController extends AbstractController
     // Send an event invitation email to user
     private function sendEventInvitationToUser($user, $event): void
     {
-        if($user->getEmail()) {
+        if ($user->getEmail()) {
             $this->emailManager->sendEmail($user->getEmail(), $this->translator->trans('event.invitation.user.subject', [], 'emails'), 'invitation_confirmation_user', ['event' => $event]);
         }
     }
@@ -413,7 +413,7 @@ class EventController extends AbstractController
     // Send an event cancellation email to parents
     private function sendEventCancellationMailToParents($user, $event): void
     {
-        foreach($user->getParents() as $parent) {
+        foreach ($user->getParents() as $parent) {
             $this->emailManager->sendEmail($parent->getEmail(), $this->translator->trans('event.cancellation.subject', [], 'emails'), 'event_cancellation', ['event' => $event]);
         }
     }
