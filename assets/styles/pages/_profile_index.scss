@@ -124,5 +124,21 @@
             min-width: 45%;
             margin-right: 0.8rem;
         }
+
+        .user-contact,
+        .user-address,
+        .user-agreements {
+            &:hover {
+                transform: none;
+                @include boxShadow();
+            }
+        }
+
+        .card.user-info {
+            &:hover {
+                transform: none;
+                @include boxShadow();
+            }
+        }
     }
 }
