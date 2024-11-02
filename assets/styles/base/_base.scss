@@ -1,6 +1,8 @@
 body {
     background-color: $color-background;
     box-sizing: border-box;
+
+    animation: fadeIn 0.5s ease;
 }
 
 h1,
@@ -99,6 +101,8 @@ label {
         width: calc(100vw - 220px);
         margin-left: 220px;
         overflow: hidden;
+
+        //transition: margin 0.5s ease;
     }
 
     .container.nav-closed {
@@ -117,5 +121,14 @@ label {
         h2 {
             width: auto;
         }
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
     }
 }
