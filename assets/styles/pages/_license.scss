@@ -93,6 +93,9 @@
             .btn,
             .btn-cta {
                 margin-top: 0;
+                // For payment buttons
+                // TODO : check side-effects
+                width: 33%;
                 min-width: 320px;
             }
         }
