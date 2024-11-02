@@ -283,16 +283,8 @@ license:
         request_btn: 'Demande une licence'
         none: "Tu n'as pas encore de licence chez les Rebels !"
         request_first: 'Demande ta première licence'
-        active: >-
-            {number, plural,
-              =1 {Active}
-              other {Actives}
-            }
-        pending: >-
-            {number, plural,
-              =1 {Demande en attente}
-              other {Demandes en attente}
-            }
+        active: 'Active'
+        pending: 'Demande en attente'
         expired: >-
             {number, plural, 
               =1 {Echue}

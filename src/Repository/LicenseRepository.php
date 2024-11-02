@@ -46,10 +46,10 @@ class LicenseRepository extends ServiceEntityRepository
                 'user' => $user,
             ]);
 
-        return $queryBuilder->getQuery()->getResult();
+        return $queryBuilder->getQuery()->getOneOrNullResult();
     }
 
-    public function getCurrentYearPendingLicenses(User $user)
+    public function getCurrentYearPendingLicense(User $user)
     {
         $queryBuilder = $this->createQueryBuilder('l')
             ->select('l', 'p')
@@ -64,7 +64,7 @@ class LicenseRepository extends ServiceEntityRepository
                 'paymentStatus' => Payment::STATUS_REFUSED
             ]);
 
-        return $queryBuilder->getQuery()->getResult();
+        return $queryBuilder->getQuery()->getOneOrNullResult();
     }
 
     public function getPastYearsLicenses(User $user)

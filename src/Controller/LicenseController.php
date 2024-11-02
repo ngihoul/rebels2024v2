@@ -54,15 +54,15 @@ class LicenseController extends AbstractController
     {
         $user = $this->getUser();
 
-        $currentYearActiveLicenses = $this->licenseRepository->getCurrentYearActiveLicense($user);
+        $currentYearActiveLicense = $this->licenseRepository->getCurrentYearActiveLicense($user);
 
-        $currentYearPendingLicenses = $this->licenseRepository->getCurrentYearPendingLicenses($user);
+        $currentYearPendingLicense = $this->licenseRepository->getCurrentYearPendingLicense($user);
 
         $pastYearsLicenses = $this->licenseRepository->getPastYearsLicenses($user);
 
         return $this->render('license/index.html.twig', [
-            'currentYearActiveLicenses' => $currentYearActiveLicenses,
-            'currentYearPendingLicenses' => $currentYearPendingLicenses,
+            'currentYearActiveLicense' => $currentYearActiveLicense,
+            'currentYearPendingLicense' => $currentYearPendingLicense,
             'pastYearsLicenses' => $pastYearsLicenses
         ]);
     }

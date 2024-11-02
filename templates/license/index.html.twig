@@ -8,7 +8,7 @@
 
         {{ parent() }}
 
-        {% if currentYearActiveLicenses|length == 0 and currentYearPendingLicenses|length == 0 and pastYearsLicenses|length > 0 %}
+        {% if currentYearActiveLicense and currentYearPendingLicense and pastYearsLicenses|length > 0 %}
             <div class="no-license-this-year">
                 <p class="alert alert-warning">
                     {{ "license.index.none_current_year"|trans }}
@@ -19,7 +19,7 @@
             </div>
         {% endif %}
 
-        {% if currentYearActiveLicenses|length == 0 and currentYearPendingLicenses|length == 0 and pastYearsLicenses|length == 0 %}
+        {% if currentYearActiveLicense and currentYearPendingLicense and pastYearsLicenses|length == 0 %}
             <div class="no-license">
                 <p class="alert alert-error">
                     {{ "license.index.none"|trans }}
@@ -31,14 +31,14 @@
             </div>
         {% endif %}
 
-        {% if currentYearActiveLicenses|length > 0 %}
-            <h2>{{ "license.index.active"|trans({'number' : currentYearActiveLicenses|length }) }}</h2>
-            {{ include('/license/partial/_card.html.twig', {'licenses' : currentYearActiveLicenses, 'include_actions' : false}) }}
+        {% if currentYearActiveLicense %}
+            <h2>{{ "license.index.active"|trans }}</h2>
+            {{ include('/license/partial/_card.html.twig', {'license' : currentYearActiveLicense, 'include_actions' : false}) }}
         {% endif %}
 
-        {% if currentYearPendingLicenses|length > 0 %}
-            <h2>{{ "license.index.pending"|trans({'number' : currentYearPendingLicenses|length} ) }}</h2>
-            {{ include('/license/partial/_card.html.twig', {'licenses' : currentYearPendingLicenses, 'include_actions' : true}) }}
+        {% if currentYearPendingLicense %}
+            <h2>{{ "license.index.pending"|trans }}</h2>
+            {{ include('/license/partial/_card.html.twig', {'license' : currentYearPendingLicense, 'include_actions' : true}) }}
         {% endif %}
 
         {% if pastYearsLicenses|length > 0 %}
