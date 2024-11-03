@@ -1,9 +1,9 @@
 <table class="payment-orders-table">
     <tr>
-        <th>Joueur</th>
-        <th>Echéance</th>
-        <th>Prix</th>
-        <th>Actions</th>
+        <th class="player">Joueur</th>
+        <th class="deadline">Echéance</th>
+        <th class="price">Prix</th>
+        <th class="actions"></th>
     </tr>
     {% for order in paymentOrders %}
 
@@ -11,11 +11,16 @@
         {% set isPaid = order.valueDate != NULL ? true : false %}
 
         <tr class="{{ isPaid ? 'paid' : 'to-be-paid' }} {{ isLate ? 'late' : '' }}">
-            <td>{{ order.payment.license.user.firstname }} {{ order.payment.license.user.lastname }}</td>
-            <td>{{ order.dueDate|date('d/m/Y') }}</td>
-            <td>{{ order.amount|format_currency('EUR') }}</td>
-            <td>
-
+            <td class="player">{{ order.payment.license.user.firstname }} {{ order.payment.license.user.lastname }}</td>
+            <td class="deadline">{{ order.dueDate|date('m/Y') }}</td>
+            <td class="price">{{ order.amount|format_currency('EUR') }}</td>
+            <td class="actions">
+                <a href="">
+                    <i class="fa-solid fa-circle-info"></i>
+                </a>
+                <a href="{{ path('admin_payment_order_quick_validate', { orderId : order.id }) }}">
+                    <i class="fa-regular fa-circle-check"></i>
+                </a>
             </td>
         </tr>
     {% endfor %}

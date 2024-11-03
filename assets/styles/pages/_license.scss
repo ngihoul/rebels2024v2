@@ -101,10 +101,18 @@
     .to-be-paid.late {
         background-color: $color-bg-danger;
         color: $color-danger;
+
+        .actions a {
+            color: $color-danger;
+        }
     }
     .paid {
         background-color: $color-bg-success;
         color: $color-success;
+    }
+
+    .actions a:first-child {
+        margin-right: 0.4rem;
     }
 }
 

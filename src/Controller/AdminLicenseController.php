@@ -197,6 +197,35 @@ class AdminLicenseController extends AbstractController
         ]);
     }
 
+    // Quick payment order validation
+    #[Route('/licenses/payment_order/{orderId}/quick_validate', name: 'admin_payment_order_quick_validate')]
+    public function paymentOrderQuickValidate(Request $request): Response
+    {
+        $orderId = $request->get('orderId');
+        $order = $this->paymentOrderRepository->find($orderId);
+
+        $order->setValueDate(new \DateTimeImmutable());
+        $order->setValidatedBy($this->getUser());
+
+        $license = $order->getPayment()->getLicense();
+
+        if ($this->isFullyPaid($license)) {
+            $license->setStatus(License::IN_ORDER);
+
+            // Delete remaining orders // SHouldn't be called !
+            $this->cleanRemainingOrders($license);
+
+            // TODO : Sent a mail to user
+        }
+
+        $this->entityManager->persist($order);
+        $this->entityManager->flush();
+
+        $this->addFlash('success', $this->translator->trans('success.payment_order.validated'));
+
+        return $this->redirectToRoute('admin_payments');
+    }
+
     // Find a payment
     private function findPayment($request): Payment
     {
@@ -204,5 +233,38 @@ class AdminLicenseController extends AbstractController
         $payment = $this->paymentRepository->find($planId);
 
         return $payment;
+    }
+
+    // Check if a license is fully paid
+    private function isFullyPaid(License $license): bool
+    {
+        $payment = $this->paymentRepository->findBy(['license' => $license, 'status' => Payment::STATUS_ACCEPTED]);
+        $payment = $payment[0] ? $payment[0] : null;
+
+        $actualyPaid = 0;
+
+        if ($payment) {
+
+            foreach ($payment->getPaymentOrders() as $order) {
+                if ($order->getValueDate()) {
+                    $actualyPaid += $order->getAmount();
+                }
+            }
+        }
+
+        return $actualyPaid >= $license->getPrice();
+    }
+
+    public function cleanRemainingOrders(License $license): void
+    {
+        foreach ($license->getPayments() as $payment) {
+            foreach ($payment->getPaymentOrders() as $order) {
+                if ($order->getValueDate() === null) {
+                    $this->entityManager->remove($order);
+                }
+            }
+        }
+
+        $this->entityManager->flush();
     }
 }
