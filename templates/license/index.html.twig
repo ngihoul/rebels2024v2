@@ -8,7 +8,7 @@
 
         {{ parent() }}
 
-        {% if currentYearActiveLicense and currentYearPendingLicense and pastYearsLicenses|length > 0 %}
+        {% if currentYearActiveLicense == NULL and currentYearPendingLicense == NULL and pastYearsLicenses|length > 0 %}
             <div class="no-license-this-year">
                 <p class="alert alert-warning">
                     {{ "license.index.none_current_year"|trans }}
@@ -19,7 +19,7 @@
             </div>
         {% endif %}
 
-        {% if currentYearActiveLicense and currentYearPendingLicense and pastYearsLicenses|length == 0 %}
+        {% if currentYearActiveLicense == NULL and currentYearPendingLicense == NULL and pastYearsLicenses|length == 0 %}
             <div class="no-license">
                 <p class="alert alert-error">
                     {{ "license.index.none"|trans }}

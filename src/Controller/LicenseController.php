@@ -83,9 +83,9 @@ class LicenseController extends AbstractController
 
         // Only one license can be asked for the current year
         $currentLicense = $this->licenseRepository->getCurrentYearActiveLicense($user);
-        $currentYearPendingLicenses = $this->licenseRepository->getCurrentYearPendingLicenses($user);
+        $currentYearPendingLicense = $this->licenseRepository->getCurrentYearPendingLicense($user);
 
-        if ($currentLicense || $currentYearPendingLicenses) {
+        if ($currentLicense || $currentYearPendingLicense) {
             $this->addFlash('error', $this->translator->trans('error.license.already_exist'));
             return $this->redirectToRoute('app_license');
         }
