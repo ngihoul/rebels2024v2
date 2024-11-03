@@ -18,7 +18,7 @@
 
         <div class="actions">
             <a class="btn" href="{{ path('admin_payment_plan_validate', { planId : paymentPlan.id }) }}">Accepter</a>
-            <a class="btn btn-danger" href="">Refuser</a>
+            <a class="btn btn-danger" href="{{ path('admin_payment_plan_refuse', { planId : paymentPlan.id }) }}">Refuser</a>
         </div>
     </div>
 {% endblock %}

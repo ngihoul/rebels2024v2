@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\License;
 use App\Entity\Payment;
+use App\Form\PaymentPlanRefuseType;
 use App\Form\PaymentPlanType;
 use App\Form\ValidateLicenseType;
 use App\Repository\LicenseRepository;
@@ -165,7 +166,33 @@ class AdminLicenseController extends AbstractController
 
     // Refuse a payment plan
     #[Route('/licenses/payment_plan/{planId}/refuse', name: 'admin_payment_plan_refuse')]
-    public function paymentPlanRefuse(Request $request): Response {}
+    public function paymentPlanRefuse(Request $request): Response
+    {
+        $payment = $this->findPayment($request);
+
+        $form = $this->createForm(PaymentPlanRefuseType::class, $payment);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $payment->setStatus(Payment::STATUS_REFUSED);
+
+            $this->entityManager->persist($payment);
+            $this->entityManager->flush();
+
+            // TODO : Send mail to user
+
+
+            $this->addFlash('success', $this->translator->trans('success.payment_plan.refused'));
+
+            return $this->redirectToRoute('admin_payments');
+        }
+
+        return $this->render('admin/payment/refuse.html.twig', [
+            'paymentPlan' => $payment,
+            'form' => $form->createView()
+        ]);
+    }
 
     // Find a payment
     private function findPayment($request): Payment
