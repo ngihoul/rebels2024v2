@@ -16,7 +16,7 @@ class PaymentRepository extends ServiceEntityRepository
         parent::__construct($registry, Payment::class);
     }
 
-    public function findPaymentPlanRequestToValidate(int $limit)
+    public function findPaymentPlanRequestsToValidate(int $limit)
     {
         $queryBuilder = $this->createQueryBuilder('p')
             ->select('p', 'l')

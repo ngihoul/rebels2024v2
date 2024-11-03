@@ -8,6 +8,7 @@ use App\Form\PaymentPlanRefuseType;
 use App\Form\PaymentPlanType;
 use App\Form\ValidateLicenseType;
 use App\Repository\LicenseRepository;
+use App\Repository\PaymentOrderRepository;
 use App\Repository\PaymentRepository;
 use App\Service\EmailManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -28,13 +29,15 @@ class AdminLicenseController extends AbstractController
     private EntityManagerInterface $entityManager;
     private PaymentRepository $paymentRepository;
     private TranslatorInterface $translator;
+    private PaymentOrderRepository $paymentOrderRepository;
 
-    public function __construct(LicenseRepository $licenseRepository, EntityManagerInterface $entityManager, PaymentRepository $paymentRepository, TranslatorInterface $translator)
+    public function __construct(LicenseRepository $licenseRepository, EntityManagerInterface $entityManager, PaymentRepository $paymentRepository, TranslatorInterface $translator, PaymentOrderRepository $paymentOrderRepository)
     {
         $this->licenseRepository = $licenseRepository;
         $this->entityManager = $entityManager;
         $this->paymentRepository = $paymentRepository;
         $this->translator = $translator;
+        $this->paymentOrderRepository = $paymentOrderRepository;
     }
 
     // Display all licences to validate
@@ -111,13 +114,13 @@ class AdminLicenseController extends AbstractController
     #[Route('/payments', name: 'admin_payments')]
     public function payments(): Response
     {
-        $paymentPlanRequests = $this->paymentRepository->findPaymentPlanRequestToValidate(10);
+        $paymentPlanRequests = $this->paymentRepository->findPaymentPlanRequestsToValidate(10);
 
-        // $paymentOrdersToValidate = $this->paymentRepository->findPaymentOrderToValidate(10);
+        $paymentOrdersToValidate = $this->paymentOrderRepository->findPaymentOrdersToValidate(10);
 
         return $this->render('admin/payment/index.html.twig', [
             'paymentPlanRequests' => $paymentPlanRequests,
-            // 'paymentOrdersToValidate' => $paymentOrdersToValidate
+            'paymentOrdersToValidate' => $paymentOrdersToValidate
         ]);
     }
 

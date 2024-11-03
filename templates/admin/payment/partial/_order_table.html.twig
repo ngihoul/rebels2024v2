@@ -1,4 +1,4 @@
-<table class="payment-order-table">
+<table class="payment-orders-table">
     <tr>
         <th>Joueur</th>
         <th>Echéance</th>
@@ -6,11 +6,17 @@
         <th>Actions</th>
     </tr>
     {% for order in paymentOrders %}
-        <tr>
-            <td>{{  }}</td>
-            <td>{{  }}</td>
-            <td>{{  }}</td>
-            <td>{{  }}</td>
+
+        {% set isLate = order.dueDate < date() ? true : false %}
+        {% set isPaid = order.valueDate != NULL ? true : false %}
+
+        <tr class="{{ isPaid ? 'paid' : 'to-be-paid' }} {{ isLate ? 'late' : '' }}">
+            <td>{{ order.payment.license.user.firstname }} {{ order.payment.license.user.lastname }}</td>
+            <td>{{ order.dueDate|date('d/m/Y') }}</td>
+            <td>{{ order.amount|format_currency('EUR') }}</td>
+            <td>
+
+            </td>
         </tr>
     {% endfor %}
 </table>

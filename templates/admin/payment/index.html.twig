@@ -17,7 +17,7 @@
         {% endif %}
 
         <h2>Ordres de paiement à valider</h2>
-        {{ include('/admin/partial/_order_table.html.twig', { 'paymentOrders' : paymentOrdersToValidate }) }}
+        {{ include('/admin/payment/partial/_order_table.html.twig', { 'paymentOrders' : paymentOrdersToValidate }) }}
         
     </div>
 {% endblock %}

@@ -78,33 +78,33 @@
             margin-bottom: 0.4rem;
         }
     }
+}
 
-    .payment-orders-table {
-        th,
-        td {
-            text-align: center;
-        }
+.payment-orders-table {
+    th,
+    td {
+        text-align: center;
+    }
 
-        .amount {
-            width: 85px;
-        }
+    .amount {
+        width: 85px;
+    }
 
-        .deadline {
-            width: 90px;
-        }
+    .deadline {
+        width: 90px;
+    }
 
-        .status {
-            width: 40px;
-        }
+    .status {
+        width: 40px;
+    }
 
-        .to-be-paid.late {
-            background-color: $color-bg-danger;
-            color: $color-danger;
-        }
-        .paid {
-            background-color: $color-bg-success;
-            color: $color-success;
-        }
+    .to-be-paid.late {
+        background-color: $color-bg-danger;
+        color: $color-danger;
+    }
+    .paid {
+        background-color: $color-bg-success;
+        color: $color-success;
     }
 }
 
