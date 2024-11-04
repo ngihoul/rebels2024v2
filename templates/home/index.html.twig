@@ -23,12 +23,12 @@
 
 			<div class="left-column">
 				<div class="todo-container">
-					<h2>To Do list</h2>
+					<h2><i class="fa-solid fa-list-check"></i> To Do list</h2>
 					{% if activeLicenses|length == 0 %}
-						<div class="card to-do-list">
+						<div class="to-do-list">
 							<ul>
 								{% if missingFields is not empty %}
-									<li>
+									<li class="alert alert-danger">
 										<a href="{{ path('app_profile_update') }}">
 											{{ "homepage.missing_fields"|trans }}
 											{{ missingFields|map(field => ("profile." ~ field)|trans)|join(', ') }}
@@ -37,33 +37,33 @@
 								{% endif %}
 
 								{% if pendingLicense is null %}
-									<li>
+									<li class="alert alert-warning">
 										<a href="{{ path('app_license_create') }}">{{ "homepage.ask_license"|trans }}</a>
 									</li>
 								{% elseif pendingLicense.status == 1 %}
-									<li>
+									<li class="alert alert-warning">
 										<a href="{{ path('app_license_generate', { 'licenseId' : pendingLicense.id }) }}">{{ "homepage.download_license"|trans }}</a>
 									</li>
 								{% elseif pendingLicense.status == 2 %}
-									<li>
+									<li class="alert alert-warning">
 										<a href="{{ path('app_license_upload', { 'licenseId' : pendingLicense.id }) }}">{{ "homepage.send_back_license"|trans }}</a>
 									</li>
 								{% elseif pendingLicense.status == 3 %}
-									<li>{{ "homepage.license_to_validate"|trans }}</li>
+									<li class="alert alert-warning">{{ "homepage.license_to_validate"|trans }}</li>
 								{% elseif pendingLicense.status == 4 %}
-									<li>
+									<li class="alert alert-warning">
 										<a href="{{ path('app_license', { 'licenseId' : pendingLicense.id }) }}">{{ "homepage.pay_license"|trans }}</a>
 									</li>
 								{% endif %}
 
 								{% if isUnreadMessage > 0 %}
-									<li>
+									<li class="alert alert-warning">
 										<a href="{{ path('app_messages') }}">{{ "homepage.read_messages"|trans }}</a>
 									</li>
 								{% endif %}
 
 								{% if app.user.children|length > 0 and awaiting_actions_children_count(app.user) > 0 %}
-									<li>
+									<li class="alert alert-warning">
 										<p>{{ "homepage.actions_children"|trans({ 'count' : awaiting_actions_children_count(app.user), 'children_count':app.user.children|length }) }}</p>
 									</li>
 								{% endif %}
@@ -76,7 +76,7 @@
 				</div>
 
 				<div class="message-container">
-					<h2>{{ "homepage.last_messages"|trans }}</h2>
+					<h2><i class="fa-regular fa-envelope"></i> {{ "homepage.last_messages"|trans }}</h2>
 
 					{% if messages|length > 0 %}
 					<div class="message-cards-container">
@@ -112,8 +112,8 @@
 								</a>
 								{% if not message.0.isArchived and is_granted('ROLE_ADMIN') %}
 									<div class="actions">
-										<a href="{{ path('app_message_update', { 'messageId' : message.0.id }) }}" class="btn">{{ 'message.index.btn.modify'|trans }}</a>
-										<a data-action-url=" {{ path('app_message_archive', { 'messageId' : message.0.id }) }}" class="btn btn-danger delete-button">{{ 'message.index.btn.archive'|trans }}</a>
+										<a href="{{ path('app_message_update', { 'messageId' : message.0.id }) }}" class="btn"><i class="fa-regular fa-pen-to-square"></i> {{ 'message.index.btn.modify'|trans }}</a>
+										<a data-action-url=" {{ path('app_message_archive', { 'messageId' : message.0.id }) }}" class="btn btn-danger delete-button"><i class="fa-regular fa-folder-open"></i> {{ 'message.index.btn.archive'|trans }}</a>
 									</div>
 								{% endif %}
 							</div>
@@ -128,7 +128,7 @@
 			<div class="right-column">
 				<div class="agenda-container">
 					{% if pendingEvents|length > 0 %}
-					<h2>{{ "agenda.waiting_reply"|trans }}</h2>
+					<h2><i class="fa-solid fa-clock-rotate-left"></i> {{ "agenda.waiting_reply"|trans }}</h2>
 					<div class="card-event-wrapper">
 						{% for pendingEvent in pendingEvents %}
 							<div class="card card-event-container">
@@ -144,8 +144,8 @@
 								</div>
 
 								<div class="response-event">
-									<a class="btn response-event-yes" href="{{ path('app_agenda_response', { 'id' : pendingEvent.id, 'result' : 'accept' }) }}" title="{{ "agenda.accept"|trans }}">V</a>
-									<a class="btn response-event-no" href="{{ path('app_agenda_response', { 'id' : pendingEvent.id, 'result' : 'decline' }) }}" title="{{ "agenda.decline"|trans }}">X</a>
+									<a class="btn response-event-yes" href="{{ path('app_agenda_response', { 'id' : pendingEvent.id, 'result' : 'accept' }) }}" title="{{ "agenda.accept"|trans }}"><i class="fa-solid fa-check"></i></a>
+									<a class="btn response-event-no" href="{{ path('app_agenda_response', { 'id' : pendingEvent.id, 'result' : 'decline' }) }}" title="{{ "agenda.decline"|trans }}"><i class="fa-solid fa-xmark"></i></a>
 								</div>
 							</div>
 						{% endfor %}
@@ -153,7 +153,7 @@
 					{% endif %}
 
 
-					<h2>{{ "homepage.next_event"|trans }}</h2>
+					<h2><i class="fa-regular fa-calendar"></i> {{ "homepage.next_event"|trans }}</h2>
 
 					{% if futureEvents|length > 0 %}
 					<div class="card-event-wrapper">
@@ -181,8 +181,8 @@
 								{% for attendee in futureEvent.attendees %}
 									{% if attendee.user == app.user and ( attendee.userResponse == '1' or attendee.userResponse == '0' ) %}
 										<div class="response-event">
-											<a class="btn response-event-yes {{ attendee.userResponse == true ? '' : 'disabled' }}" href="{{ path('app_agenda_response', { 'id' : futureEvent.id, 'result' : 'accept' }) }}">V</a>
-											<a class="btn response-event-no {{ attendee.userResponse == false ? '' : 'disabled' }}" href="{{ path('app_agenda_response', { 'id' : futureEvent.id, 'result' : 'decline' }) }}">X</a>
+											<a class="btn response-event-yes {{ attendee.userResponse == true ? '' : 'disabled' }}" href="{{ path('app_agenda_response', { 'id' : futureEvent.id, 'result' : 'accept' }) }}"><i class="fa-solid fa-check"></i></a>
+											<a class="btn response-event-no {{ attendee.userResponse == false ? '' : 'disabled' }}" href="{{ path('app_agenda_response', { 'id' : futureEvent.id, 'result' : 'decline' }) }}"><i class="fa-solid fa-xmark"></i></a>
 										</div>
 									{% endif %}
 								{% endfor %}
