@@ -53,7 +53,7 @@ class UserController extends AbstractController
             'pendingLicense' => $pendingLicense,
             'activeLicenses' => $licenseRepository->getCurrentYearActiveLicense($user),
             'futureEvents' => $eventRepository->findFutureEventsForThisUser($user),
-            'messages' => $messageRepository->findThreeLatest($user),
+            'messages' => $messageRepository->findLatest($user, 4),
             'isUnreadMessage' => $messageRepository->countUnreadMessagesForThisUser($user),
             'pendingEvents' => $eventRepository->findPendingEventsForThisUser($user)
         ]);
