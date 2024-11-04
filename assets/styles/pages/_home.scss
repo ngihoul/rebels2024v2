@@ -1,20 +1,62 @@
 .container-home {
-  .section-container {
-    margin-bottom: 1.6rem;
-  }
-
-  h2 {
-    &:not(:first-of-type) {
-      margin-top: 2.4rem;
+    .section-container {
+        margin-bottom: 1.6rem;
     }
-  }
 
-  .to-do-list ul li {
-    margin: 0.8rem 0;
-  }
+    h2 {
+        &:not(:first-of-type) {
+            margin-top: 2.4rem;
+        }
+    }
 
-  .card-content ul li {
-    list-style-type: disc;
-    margin: 0.8rem 1.8rem;
-  }
+    .to-do-list ul li {
+        margin: 0.8rem 0;
+    }
+
+    .card-content ul li {
+        list-style-type: disc;
+        margin: 0.8rem 1.8rem;
+    }
+
+    .todo-container,
+    .message-container {
+        margin-bottom: 2.4rem;
+    }
+}
+
+@media screen and (min-width: $min-desktop) {
+    .container-home {
+        .section-container {
+            display: flex;
+            flex-wrap: wrap;
+
+            .left-column,
+            .right-column {
+                width: 50%;
+            }
+
+            .left-column {
+                padding-right: 1.6rem;
+            }
+
+            .right-column {
+                padding-left: 1.6rem;
+            }
+        }
+
+        .card-event-container {
+            margin-right: 1.6rem;
+
+            &:not(:nth-child(3n)) {
+                margin-right: 1.6rem;
+            }
+        }
+
+        .message-container {
+            .message-card {
+                width: calc(50% - 0.8rem);
+                min-width: 350px;
+            }
+        }
+    }
 }
