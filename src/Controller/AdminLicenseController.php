@@ -130,7 +130,7 @@ class AdminLicenseController extends AbstractController
     {
         $paymentPlan = $this->findPayment($request);
 
-        return $this->render('admin/payment/detail.html.twig', [
+        return $this->render('admin/payment/plan_detail.html.twig', [
             'paymentPlan' => $paymentPlan
         ]);
     }
@@ -197,12 +197,22 @@ class AdminLicenseController extends AbstractController
         ]);
     }
 
+    #[Route('/licenses/payment_order/{orderId}', name: 'admin_payment_order_detail')]
+    public function paymentOrderDetail(Request $request): Response
+    {
+        $order = $this->findPaymentOrder($request);
+
+        return $this->render('admin/payment/order_detail.html.twig', [
+            'paymentPlan' => $order->getPayment(),
+            'order' => $order
+        ]);
+    }
+
     // Quick payment order validation
     #[Route('/licenses/payment_order/{orderId}/quick_validate', name: 'admin_payment_order_quick_validate')]
     public function paymentOrderQuickValidate(Request $request): Response
     {
-        $orderId = $request->get('orderId');
-        $order = $this->paymentOrderRepository->find($orderId);
+        $order = $this->findPaymentOrder($request);
 
         $order->setValueDate(new \DateTimeImmutable());
         $order->setValidatedBy($this->getUser());
@@ -233,6 +243,15 @@ class AdminLicenseController extends AbstractController
         $payment = $this->paymentRepository->find($planId);
 
         return $payment;
+    }
+
+    // Find a payment order
+    private function findPaymentOrder($request): PaymentOrder
+    {
+        $orderId = $request->get('orderId');
+        $order = $this->paymentOrderRepository->find($orderId);
+
+        return $order;
     }
 
     // Check if a license is fully paid

@@ -1,0 +1,24 @@
+{# TODO : Traduire #}
+{% extends 'base.html.twig' %}
+
+{% block title %}{{  parent() }} | Validation du plan de paiement {% endblock %}
+
+{% block body %}
+    <div class="container container-payment-plan">
+        <h1>Validation du plan de paiement</h1>
+
+        {{ parent() }}
+        <div class="license-container">
+        <h2>Licence de {{ paymentPlan.license.user.firstname }} {{  paymentPlan.license.user.lastname }}</h2>
+            {{ include('/license/partial/_card.html.twig', { 'license' : paymentPlan.license, 'isAdmin' : true }) }}
+        </div>
+
+        <h2>Plan de paiement proposé</h2>
+        <p>{{ paymentPlan.userComment }}
+
+        <div class="actions">
+            <a class="btn" href="{{ path('admin_payment_plan_validate', { planId : paymentPlan.id }) }}">Accepter</a>
+            <a class="btn btn-danger" href="{{ path('admin_payment_plan_refuse', { planId : paymentPlan.id }) }}">Refuser</a>
+        </div>
+    </div>
+{% endblock %}
