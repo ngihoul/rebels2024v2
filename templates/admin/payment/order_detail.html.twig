@@ -14,12 +14,19 @@
         </div>
 
         <h2>Ordre de paiement</h2>
-
-        {# TODO : detailler ordre + formulaire #}
+        <div class="payment-order-container">
+            <p>Montant : {{ order.amount }}</p>
+            <p>Echéance : {{ order.dueDate|date('d/m/Y') }}</p>
+        </div>
+        
+        <h2>Acceptation de l'ordre de paiement</h2>
+        {{ form_start(form) }}
+            {{ form_row(form.value_date) }}
+            {{ form_row(form.comment) }}
+            <button class="btn btn-cta" type="submit">Valider</button>
+        {{ form_end(form) }}
 
         <div class="actions">
-            <a class="btn" href="{{ path('admin_payment_plan_validate', { planId : paymentPlan.id }) }}">Accepter</a>
-            <a class="btn btn-danger" href="{{ path('admin_payment_plan_refuse', { planId : paymentPlan.id }) }}">Refuser</a>
         </div>
     </div>
 {% endblock %}

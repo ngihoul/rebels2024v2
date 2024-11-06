@@ -10,14 +10,18 @@
         {{ parent() }}
 
         <h2>Demande de plan de paiement</h2>
-        {% if paymentPlanRequests|length > 0 %}
-            {{ include('/admin/payment/partial/_plan_table.html.twig', { 'paymentPlans' : paymentPlanRequests }) }}
+        {% if paymentPlans|length > 0 %}
+            {{ include('/admin/payment/partial/_plan_table.html.twig', { 'paymentPlans' : paymentPlans }) }}
         {% else %}
-            <p class="alert alert-warning">Il n'y a aucun demande de plan de paiement</p>
+            <p class="alert alert-warning">Il n'y a aucune demande de plan de paiement en attente.</p>
         {% endif %}
 
         <h2>Ordres de paiement à valider</h2>
-        {{ include('/admin/payment/partial/_order_table.html.twig', { 'paymentOrders' : paymentOrdersToValidate }) }}
+        {% if paymentOrders|length > 0 %}
+            {{ include('/admin/payment/partial/_order_table.html.twig', { 'paymentOrders' : paymentOrders }) }}
+        {% else %}
+            <p class="alert alert-warning">Il n'y a aucun ordre de paiement à valider.</p>
+        {% endif %}
         
     </div>
 {% endblock %}

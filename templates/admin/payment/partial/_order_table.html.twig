@@ -15,7 +15,7 @@
             <td class="deadline">{{ order.dueDate|date('m/Y') }}</td>
             <td class="price">{{ order.amount|format_currency('EUR') }}</td>
             <td class="actions">
-                <a href="">
+                <a href="{{ path('admin_payment_order_detail', { orderId : order.id}) }}">
                     <i class="fa-solid fa-circle-info"></i>
                 </a>
                 <a href="{{ path('admin_payment_order_quick_validate', { orderId : order.id }) }}">

@@ -28,7 +28,7 @@
 						<div class="to-do-list">
 							<ul>
 								{% if missingFields is not empty %}
-									<li class="alert alert-danger">
+									<li class="alert alert-error">
 										<a href="{{ path('app_profile_update') }}">
 											{{ "homepage.missing_fields"|trans }}
 											{{ missingFields|map(field => ("profile." ~ field)|trans)|join(', ') }}

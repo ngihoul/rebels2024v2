@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\License;
 use App\Entity\Payment;
+use App\Entity\PaymentOrder;
+use App\Form\PaymentOrderValidationType;
 use App\Form\PaymentPlanRefuseType;
 use App\Form\PaymentPlanType;
 use App\Form\ValidateLicenseType;
@@ -119,8 +121,8 @@ class AdminLicenseController extends AbstractController
         $paymentOrdersToValidate = $this->paymentOrderRepository->findPaymentOrdersToValidate(10);
 
         return $this->render('admin/payment/index.html.twig', [
-            'paymentPlanRequests' => $paymentPlanRequests,
-            'paymentOrdersToValidate' => $paymentOrdersToValidate
+            'paymentPlans' => $paymentPlanRequests,
+            'paymentOrders' => $paymentOrdersToValidate
         ]);
     }
 
@@ -202,9 +204,18 @@ class AdminLicenseController extends AbstractController
     {
         $order = $this->findPaymentOrder($request);
 
+        $form = $this->createForm(PaymentOrderValidationType::class, $order, ['paymentOrder' => $order]);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            return $this->validatePaymentOrder($request, $order);
+        }
+
         return $this->render('admin/payment/order_detail.html.twig', [
             'paymentPlan' => $order->getPayment(),
-            'order' => $order
+            'order' => $order,
+            'form' => $form->createView(),
         ]);
     }
 
@@ -214,26 +225,7 @@ class AdminLicenseController extends AbstractController
     {
         $order = $this->findPaymentOrder($request);
 
-        $order->setValueDate(new \DateTimeImmutable());
-        $order->setValidatedBy($this->getUser());
-
-        $license = $order->getPayment()->getLicense();
-
-        if ($this->isFullyPaid($license)) {
-            $license->setStatus(License::IN_ORDER);
-
-            // Delete remaining orders // SHouldn't be called !
-            $this->cleanRemainingOrders($license);
-
-            // TODO : Sent a mail to user
-        }
-
-        $this->entityManager->persist($order);
-        $this->entityManager->flush();
-
-        $this->addFlash('success', $this->translator->trans('success.payment_order.validated'));
-
-        return $this->redirectToRoute('admin_payments');
+        return $this->validatePaymentOrder($request, $order);
     }
 
     // Find a payment
@@ -274,7 +266,23 @@ class AdminLicenseController extends AbstractController
         return $actualyPaid >= $license->getPrice();
     }
 
-    public function cleanRemainingOrders(License $license): void
+    private function validateOrder(PaymentOrder $order): void
+    {
+        $order->setValueDate(new \DateTimeImmutable());
+        $order->setValidatedBy($this->getUser());
+    }
+
+    private function setLicenseInOrder(License $license): void
+    {
+        $license->setStatus(License::IN_ORDER);
+
+        // Delete remaining orders // Shouldn't be called !
+        $this->cleanRemainingOrders($license);
+
+        // TODO : Sent a mail to user
+    }
+
+    private function cleanRemainingOrders(License $license): void
     {
         foreach ($license->getPayments() as $payment) {
             foreach ($payment->getPaymentOrders() as $order) {
@@ -285,5 +293,23 @@ class AdminLicenseController extends AbstractController
         }
 
         $this->entityManager->flush();
+    }
+
+    private function validatePaymentOrder(Request $request, PaymentOrder $order): Response
+    {
+        $this->validateOrder($order);
+
+        $license = $order->getPayment()->getLicense();
+
+        if ($this->isFullyPaid($license)) {
+            $this->setLicenseInOrder($license);
+        }
+
+        $this->entityManager->persist($order);
+        $this->entityManager->flush();
+
+        $this->addFlash('success', $this->translator->trans('success.payment_order.validated'));
+
+        return $this->redirectToRoute('admin_payments');
     }
 }
