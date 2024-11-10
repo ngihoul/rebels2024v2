@@ -95,6 +95,7 @@ success:
         recevrez un email avec la réponse définitive.'
     payment_plan:
         validated: 'Le plan de paiement a été validé.'
+        refused: 'Le plan de paiement a été refusé.'
     payment_order:
         validated: "L'ordre a été validé."
 
