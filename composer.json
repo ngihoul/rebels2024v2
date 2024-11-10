@@ -53,8 +53,11 @@
     "symfony/yaml": "6.4.*",
     "symfonycasts/reset-password-bundle": "^1.14",
     "symfonycasts/verify-email-bundle": "^1.14",
+    "twig/cssinliner-extra": "^3.12",
     "twig/extra-bundle": "^2.12|^3.0",
+    "twig/inky-extra": "^3.12",
     "twig/intl-extra": "^3.8",
+    "twig/markdown-extra": "^3.12",
     "twig/twig": "^2.12|^3.0"
   },
   "config": {
