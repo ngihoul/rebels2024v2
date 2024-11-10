@@ -305,7 +305,8 @@ class AdminLicenseController extends AbstractController
         // Delete remaining orders // Shouldn't be called !
         $this->cleanRemainingOrders($license);
 
-        // TODO : Sent a mail to user
+        // Send message to user
+        $this->emailManager->sendEmail($license->getUser()->getEmail(), $this->translator->trans('license.in_order.subject', [], 'emails'), 'license_in_order');
     }
 
     private function cleanRemainingOrders(License $license): void

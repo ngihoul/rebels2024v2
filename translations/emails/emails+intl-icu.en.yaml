@@ -14,6 +14,12 @@ license:
             reset your license application. Correct it and send it back to us!
             </br></br> If you have any questions, don't hesitate to contact an
             administrator or your coach.
+    in_order:
+        subject: 'Your license is in order'
+        title: 'Your license is in order!'
+        text:
+            'Your license is now fully paid.</br></br>You can now participate in
+            our trainings and matches.'
 
 event:
     invitation:
