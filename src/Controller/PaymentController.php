@@ -196,7 +196,6 @@ class PaymentController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function paymentOrderuccessUrl(Request $request): Response
     {
-        // TODO : redirect to another route
         return $this->render('payment/success_order.html.twig', []);
     }
 
