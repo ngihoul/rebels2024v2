@@ -112,6 +112,7 @@ nav:
     my_agenda: 'Mon agenda'
     my_licenses: 'Mes licences'
     to_validate: 'A valider'
+    payments: 'Paiements'
     statistics: 'Mes stats'
     my_profile: 'Mon profil'
     my_teams: 'Mes équipes'
@@ -132,6 +133,9 @@ modal:
     team: 'Etes-vous sûr de vouloir supprimer cette équipe ?'
     event: 'Etes-vous sûr de vouloir annuler cet évènement ?'
     message: 'Etes-vous sûr de vouloir archiver ce message ?'
+    switch_account:
+        sure: "Tu t'apprêtes à changer de compte. Es-tu sûr ?"
+        btn: 'Changer'
 
 # Pages
 homepage:
@@ -150,6 +154,7 @@ homepage:
         '{count, plural, one {Il y a 1 action pour {children_count, plural, one
         {votre enfant} other {vos enfants}}} other {Il y a # actions pour
         {children_count, plural, one {votre enfant} other {vos enfants}}} }'
+    no_task: 'Aucune tâche : tout est en ordre !'
 
 # Login
 login:
@@ -314,6 +319,17 @@ license:
         waiting_validation:
             "Ta licence est en cours de validation. Tu recevras un mail
             lorsqu'elle sera validée (ou pas)."
+        pay_by_transfer: 'Je paye par virement'
+        transfer_instructions: 'Effectue le virement comme suit :'
+        change_payment_method: 'Changer de moyen de paiement'
+        custom_payment_plan: 'Votre plan de paiement personnalisé'
+        amount: 'Montant'
+        deadline: 'Echéance'
+        actions: 'Actions'
+        pay_by_card_btn: 'Payer par carte'
+        payment_plan_awaiting:
+            'Demande de plan de paiement en cours de validation'
+
     request:
         title: 'Demander une licence'
         text: >-
@@ -427,6 +443,45 @@ payment:
         title: 'Paiement accepté'
         welcome: 'Votre ordre de paiement a bien été payé.'
         text: 'Merci pour ton paiement.'
+    plan_detail:
+        title: 'Validation du plan de paiement'
+        license_of: 'Licence de '
+        proposed_plan: 'Plan de paiement proposé'
+        accepted: 'Accepter'
+        refused: 'Refuser'
+    order_detail:
+        title: 'Validation du plan de paiement'
+        license_of: 'Licence de '
+        order: 'Ordre de paiement'
+        amount: 'Montant :'
+        deadline: 'Echéance :'
+        acceptance: "Acceptation de l'ordre de paiement"
+        validate: 'Valider'
+    accept:
+        title: 'Accepter le plan de paiement'
+        license_of: 'Licence de '
+        proposed_plan: 'Plan de paiement proposé'
+        order_creation: 'Création des ordres de paiement'
+        alert_amount: 'Le montant ne correspond pas au prix de la licence.'
+        success_amount: 'Le montant correspond au prix de la license.'
+        first_amount: 'Le premier montant doit être égal ou supérieur à 80,00€.'
+        alert_date: 'Chaque date doit être postérieure à la date précédente.'
+        add_order: 'Ajouter un ordre'
+        delete_order: 'Supprimer le dernier ordre'
+        validate: 'Valider le plan de paiement'
+    refuse:
+        title: 'Refuser le plan de paiement'
+        license_of: 'Licence de '
+        proposed_plan: 'Plan de paiement proposé'
+        reason: 'raison du refus'
+        refuse: 'Refuser le plan de paiement'
+    index:
+        title: 'Paiements'
+        payment_plan_request: 'Demande de plan de paiement'
+        no_payment_plan_request:
+            "Il n'y a aucune demande de plan de paiement en attente."
+        payment_order: 'Ordres de paiement à valider'
+        no_payment_order: "Il n'y a aucun ordre de paiement à valider."
 
 members:
     list:

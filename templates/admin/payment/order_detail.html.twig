@@ -1,32 +1,28 @@
-{# TODO : Traduire #}
 {% extends 'base.html.twig' %}
 
-{% block title %}{{  parent() }} | Validation du plan de paiement {% endblock %}
+{% block title %}{{  parent() }} | {{ 'payment.order_detail.title'|trans }} {% endblock %}
 
 {% block body %}
     <div class="container container-payment-plan">
-        <h1>Validation du plan de paiement</h1>
+        <h1>{{ 'payment.order_detail.title'|trans }}</h1>
 
         {{ parent() }}
         <div class="license-container">
-        <h2>Licence de {{ paymentPlan.license.user.firstname }} {{  paymentPlan.license.user.lastname }}</h2>
+        <h2>{{ 'payment.order_detail.license_of'|trans }} {{ paymentPlan.license.user.firstname }} {{  paymentPlan.license.user.lastname }}</h2>
             {{ include('/license/partial/_card.html.twig', { 'license' : paymentPlan.license, 'isAdmin' : true }) }}
         </div>
 
-        <h2>Ordre de paiement</h2>
+        <h2>{{ 'payment.order_detail.order'|trans }}</h2>
         <div class="payment-order-container">
-            <p>Montant : {{ order.amount }}</p>
-            <p>Echéance : {{ order.dueDate|date('d/m/Y') }}</p>
+            <p>{{ 'payment.order_detail.amount'|trans }} {{ order.amount }}</p>
+            <p>{{ 'payment.order_detail.deadline'|trans }} {{ order.dueDate|date('d/m/Y') }}</p>
         </div>
         
-        <h2>Acceptation de l'ordre de paiement</h2>
+        <h2>{{ 'payment.order_detail.acceptance'|trans }}</h2>
         {{ form_start(form) }}
             {{ form_row(form.value_date) }}
             {{ form_row(form.comment) }}
-            <button class="btn btn-cta" type="submit">Valider</button>
+            <button class="btn btn-cta" type="submit">{{ 'payment.order_detail.validate'|trans }}</button>
         {{ form_end(form) }}
-
-        <div class="actions">
-        </div>
     </div>
 {% endblock %}

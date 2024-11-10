@@ -32,8 +32,7 @@
 
 		<div id="spinner" class="spinner"></div>
 
-		{# TODO : Traduire ! #}
-		{% include 'shared/modal_confirmation.html.twig' with { 'id' : 'switch-account-modal', 'message' : "Tu t'apprêtes à changer de compte. Es-tu sûr ?", 'confirmButtonText' : "Changer" } %}
+		{% include 'shared/modal_confirmation.html.twig' with { 'id' : 'switch-account-modal', 'message' : 'modal.switch_account.sure'|trans, 'confirmButtonText' : 'modal.switch_account.btn'|trans } %}
 
 		<header>
 			{% if app.user %}
@@ -131,7 +130,7 @@
 						<li class="menu-item sub-menu-item">
 							<a href="{{ path('admin_payments') }}">
 								<i class="fa-solid fa-dollar-sign"></i>
-								Paiements</a>
+								{{ 'nav.payments'|trans }}</a>
 						</li>
 					{% endif %}
 					<li class="menu-item">

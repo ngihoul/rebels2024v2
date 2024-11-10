@@ -2,32 +2,29 @@
 
 {% block body %}
     <div class="container container-payment-plan">
-        <h1>Refuser le plan de paiement</h1>
+        <h1>{{ 'payment.refuse.title'|trans }}</h1>
         {{ parent() }}
 
         <div class="license-container">
-            <h2>Licence de {{ paymentPlan.license.user.firstname }} {{ paymentPlan.license.user.lastname }}</h2>
+            <h2>{{ 'payment.refuse.license_of'|trans }} {{ paymentPlan.license.user.firstname }} {{ paymentPlan.license.user.lastname }}</h2>
             {{ include('/license/partial/_card.html.twig', { 'license' : paymentPlan.license, 'isAdmin' : true }) }}
         </div>
 
-        <h2>Plan de paiement proposé</h2>
+        <h2>{{ 'payment.refuse.proposed_plan'|trans }}</h2>
         <p>{{ paymentPlan.userComment }}</p>
 
         <div class="form-payment-plan">
-        <h2>Raison du refus</h2>
+        <h2>{{ 'payment.refuse.reason'|trans }}</h2>
         
-
         <div class="payment-plan-refuse-form">
             {{ form_start(form) }}
 
                 {{ form_widget(form.refusal_comment) }}
 
-                <button type="submit" class="btn btn-success">Refuser le plan de paiement</button>
+                <button type="submit" class="btn btn-success">{{ 'payment.refuse.refuse'|trans }}</button>
 
             {{ form_end(form) }}
         </div>
-
-        
 
     </div>
 </div>

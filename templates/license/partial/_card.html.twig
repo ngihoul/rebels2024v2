@@ -120,30 +120,29 @@
         {% elseif license.status == LICENSE_DOC_VALIDATED and license.payments|length > 0 %}
             <div class="payment-card">
             {% if (license.payments[0].paymentType == BY_BANK_TRANSFER) %}
-                {# TODO : traduire #}
-                    <h2>Je paye par virement</h2>
+                    <h2>{{ 'license.card.pay_by_transfer'|trans }}</h2>
                     <div class="transfer-data">
-                        <h3>Effectue le virement comme suit :</h3>
+                        <h3>{{ 'license.card.transfer_instructions'|trans }}</h3>
 
                         <p>Liège Rebels Baseball & Softball Club</p>
                         <p>IBAN : BE22 3601 0058 3447</p>
                         <p>Communication : {{ license.user.lastName|upper }} {{ license.user.firstname }} - COTISATION {{ license.season }}
-                        <p>Montant : {{ license.price|format_currency('EUR') }}
+                        <p>{{ 'license.card.amount'|trans }} : {{ license.price|format_currency('EUR') }}
                     </div>
-                    <a class="btn btn-cta" href="{{ path('app_license_delete_bank_transfer', { licenseId : license.id }) }}">Changer de moyen de paiement</a>
+                    <a class="btn btn-cta" href="{{ path('app_license_delete_bank_transfer', { licenseId : license.id }) }}">{{ 'license.card.change_payment_method'|trans }}</a>
                 
 
             {% elseif license.payments[0].paymentType == BY_PAYMENT_PLAN %}
-                <h2>Votre plan de paiement personnalisé</h2>
+                <h2>{{ 'license.card.custom_payment_plan'|trans }}</h2>
                 <div class="payment-plan-request-data">
                 {% if license.payments[0].status == PAYMENT_ACCEPTED %}
                     <table class="payment-orders-table">
                         <thead>
                             <tr>
-                                <th class="amount">Montant</th>
-                                <th class="deadline">Echéance</th>
+                                <th class="amount">{{ 'license.card.amount'|trans }}</th>
+                                <th class="deadline">{{ 'license.card.deadline'|trans }}</th>
                                 <th class="status"></th>
-                                <th clas="actions">Actions</th>
+                                <th clas="actions">{{ 'license.card.actions'|trans }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -164,7 +163,7 @@
                                     </td>
                                     <td class="actions">
                                     {% if order.valueDate == NULL %}
-                                        <a class="pay-by-card" href="{{ path('app_payment_order_checkout', { orderId : order.id }) }}">Payer par carte</a>
+                                        <a class="pay-by-card" href="{{ path('app_payment_order_checkout', { orderId : order.id }) }}">{{ 'license.card.pay_by_card_btn'|trans }}</a>
                                     {% endif %}
                                     </td>
                                 </tr>
@@ -172,12 +171,11 @@
                         </tbody>
                     </table>
                 {% else %}
-                    <p class="alert alert-warning">Demande de plan de paiement en cours de validation</p>
+                    <p class="alert alert-warning">{{ 'license.card.payment_plan_awaiting'|trans }}</p>
                 {% endif %}
                 </div>
             {% endif %}
             </div>
-
         {% endif %}
     </div>
 {% endif %}

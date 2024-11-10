@@ -1,26 +1,25 @@
-{# TODO : Traduire #}
 {% extends 'base.html.twig' %}
 
-{% block title %}{{  parent() }} | Paiements {% endblock %}
+{% block title %}{{  parent() }} | {{ 'payment.index.title'|trans }} {% endblock %}
 
 {% block body %}
     <div class="container container-payments">
-        <h1>Paiements</h1>
+        <h1>{{ 'payment.index.title'|trans }}</h1>
 
         {{ parent() }}
 
-        <h2>Demande de plan de paiement</h2>
+        <h2>{{ 'payment.index.payment_plan_request'|trans }}</h2>
         {% if paymentPlans|length > 0 %}
             {{ include('/admin/payment/partial/_plan_table.html.twig', { 'paymentPlans' : paymentPlans }) }}
         {% else %}
-            <p class="alert alert-warning">Il n'y a aucune demande de plan de paiement en attente.</p>
+            <p class="alert alert-warning">{{ 'payment.index.no_payment_plan_request'|trans }}</p>
         {% endif %}
 
-        <h2>Ordres de paiement à valider</h2>
+        <h2>{{ 'payment.index.payment_order'|trans }}</h2>
         {% if paymentOrders|length > 0 %}
             {{ include('/admin/payment/partial/_order_table.html.twig', { 'paymentOrders' : paymentOrders }) }}
         {% else %}
-            <p class="alert alert-warning">Il n'y a aucun ordre de paiement à valider.</p>
+            <p class="alert alert-warning">{{ 'payment.index.no_payment_order'|trans }}</p>
         {% endif %}
         
     </div>
