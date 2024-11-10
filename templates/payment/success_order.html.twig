@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} | {{ "payment.order.approved.title"|trans }}{% endblock %}
+
+{% block body %}
+<div class="container success-container">
+    <h1>{{ "payment.order.approved.title"|trans }}</h1>
+
+    <h2>{{ "payment.order.approved.welcome"|trans }}</h2>
+
+    <p>{{ "payment.order.approved.text"|trans|raw }}<p>
+    
+    <a href="{{ path('app_license') }}" class="btn">{{ "payment.back"|trans }}</a>
+</div>
+{% endblock %}

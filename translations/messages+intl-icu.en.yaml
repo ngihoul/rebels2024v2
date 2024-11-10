@@ -407,6 +407,10 @@ payment:
               If the problem persists, contact an administrator or your coach to
             find a solution. <p>
     back: 'Back to my license list'
+    order:
+        title: 'Payment accepted'
+        welcome: 'Your payment order has been successfully paid.'
+        text: 'Thank you for your payment.'
 
 members:
     list:

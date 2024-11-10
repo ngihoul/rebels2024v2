@@ -109,7 +109,7 @@ class PaymentController extends AbstractController
                     'quantity' => 1,
                 ]],
                 'mode' => 'payment',
-                'success_url' => $this->generateUrl('app_payment_order_success_payment', ['orderId' => $order->getId()], UrlGeneratorInterface::ABSOLUTE_URL),
+                'success_url' => $this->generateUrl('app_order_success_payment', ['orderId' => $order->getId()], UrlGeneratorInterface::ABSOLUTE_URL),
                 'cancel_url' => $this->generateUrl('app_cancel_payment', [], UrlGeneratorInterface::ABSOLUTE_URL),
                 'client_reference_id' => $order->getId(),
                 'metadata' => [
@@ -188,16 +188,16 @@ class PaymentController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function licenseSuccessUrl(Request $request): Response
     {
-        return $this->render('payment/success.html.twig', []);
+        return $this->render('payment/success_license.html.twig', []);
     }
 
     // Stripe payment success
-    #[Route('/payment_order/success-url/{orderId}', name: 'app_payment_order_success_payment')]
+    #[Route('/payment_order/success-url/{orderId}', name: 'app_order_success_payment')]
     #[IsGranted('ROLE_USER')]
     public function paymentOrderuccessUrl(Request $request): Response
     {
         // TODO : redirect to another route
-        return $this->render('payment/success.html.twig', []);
+        return $this->render('payment/success_order.html.twig', []);
     }
 
     // Stripe payement refused or cancelled

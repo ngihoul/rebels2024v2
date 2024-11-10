@@ -423,6 +423,10 @@ payment:
               Si le problème persiste, contacte un administrateur ou ton coach
             pour trouver une solution. <p>
     back: 'Revenir à la liste de mes licences'
+    order:
+        title: 'Paiement accepté'
+        welcome: 'Votre ordre de paiement a bien été payé.'
+        text: 'Merci pour ton paiement.'
 
 members:
     list:
