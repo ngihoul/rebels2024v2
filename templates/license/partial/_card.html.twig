@@ -143,7 +143,7 @@
                                 <th class="amount">Montant</th>
                                 <th class="deadline">Echéance</th>
                                 <th class="status"></th>
-                                <th>Actions</th>
+                                <th clas="actions">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -162,9 +162,9 @@
                                             <i class="fa-regular fa-circle-xmark"></i>
                                         {% endif %}
                                     </td>
-                                    <td>
+                                    <td class="actions">
                                     {% if order.valueDate == NULL %}
-                                        <a href="">Payer par carte</a>
+                                        <a class="pay-by-card" href="{{ path('app_payment_order_checkout', { orderId : order.id }) }}">Payer par carte</a>
                                     {% endif %}
                                     </td>
                                 </tr>

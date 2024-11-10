@@ -1,6 +1,6 @@
-{# Mail always sent in French -- no need to translate #}
+{# Mail can remain in French, as it is sent to administrators only. #}
 
-{% include 'emails/header.html.twig' with { 'email_subject': 'Licence à valider' } %}
+{% include 'emails/header.html.twig' with { 'email_subject': 'Nouvelle demande de plan de paiement' } %}
 
 <!-- 1 Column Text + Button : BEGIN -->
     <tr>
@@ -8,10 +8,9 @@
             <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
                 <tr>
                     <td style="padding: 20px; font-family: sans-serif; font-size: 15px; line-height: 20px; color: #555555;">
-                        <h1 style="margin: 0 0 10px; font-size: 25px; line-height: 30px; color: #333333; font-weight: normal;">Bonjour ! Il y a une nouvelle licence à valider.</h1>
+                        <h1 style="margin: 0 0 10px; font-size: 25px; line-height: 30px; color: #333333; font-weight: normal;">Un membre a demandé un plan de paiement</h1>
                         <p style="margin: 0 0 10px;">
-                            Le joueur {{ user.firstname }} {{ user.lastname }} a envoyé une demande de licence. </br>
-                            Tu peux la valider à partir de <a href="{{ url('admin_license_to_validate') }}">ton panneau d'administration</a>.
+                            {{ payment.license.user.firstname }} {{ payment.license.user.lastname }} a demandé un plan de paiement personnalisé.</br></br>Sa demande : {{ payment.userComment }}
                         </p>
                     </td>
                 </tr>

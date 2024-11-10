@@ -209,7 +209,7 @@ class AdminLicenseController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            return $this->validatePaymentOrder($request, $order);
+            return $this->validatePaymentOrder($order);
         }
 
         return $this->render('admin/payment/order_detail.html.twig', [
@@ -225,8 +225,10 @@ class AdminLicenseController extends AbstractController
     {
         $order = $this->findPaymentOrder($request);
 
-        return $this->validatePaymentOrder($request, $order);
+        return $this->validatePaymentOrder($order);
     }
+
+    // TODO : Create a service with these private functions
 
     // Find a payment
     private function findPayment($request): Payment
@@ -295,7 +297,7 @@ class AdminLicenseController extends AbstractController
         $this->entityManager->flush();
     }
 
-    private function validatePaymentOrder(Request $request, PaymentOrder $order): Response
+    private function validatePaymentOrder(PaymentOrder $order): Response
     {
         $this->validateOrder($order);
 

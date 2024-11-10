@@ -275,7 +275,6 @@ license:
         none: "You don't yet have a license with the Rebels!"
         request_first: 'Request your first license'
         active: 'Active'
-            }
         pending: 'Pending demand'
         expired: >-
             {number, plural, 

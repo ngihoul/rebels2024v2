@@ -111,8 +111,14 @@
         color: $color-success;
     }
 
-    .actions a:first-child {
-        margin-right: 0.4rem;
+    .actions {
+        a:first-child {
+            margin-right: 0.4rem;
+        }
+
+        .pay-by-card {
+            color: $color-primary;
+        }
     }
 }
 
@@ -133,6 +139,10 @@
                 // TODO : check side-effects
                 width: 33%;
                 min-width: 320px;
+            }
+
+            .pay-by-card:hover {
+                color: darken($color-primary, 15%);
             }
         }
     }

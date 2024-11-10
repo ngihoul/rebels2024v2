@@ -20,7 +20,7 @@
     "setasign/fpdf": "^1.8",
     "setasign/fpdi": "^2.5",
     "stof/doctrine-extensions-bundle": "*",
-    "stripe/stripe-php": "^13.4",
+    "stripe/stripe-php": "^16.2",
     "symfony/asset": "6.4.*",
     "symfony/console": "6.4.*",
     "symfony/doctrine-messenger": "6.4.*",
