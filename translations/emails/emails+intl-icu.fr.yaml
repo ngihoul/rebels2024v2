@@ -26,16 +26,17 @@ event:
                 Tu es invité pour le prochain évènement : {event_name} le
                 {event_date} à {event_time_from}. Le rendez-vous est fixé à
                 {event_time_meeting}. </br> </br> Confirme ta présence dès
-                maintenant dans <a href="{agenda_url}">ton espace personnel</a> !
+                maintenant dans <a href="{agenda_url}">ton espace personnel</a>
+                !
         parent:
             subject: 'Ton enfant a été invité à un évènement'
             title: 'Bonjour !'
             text: >-
                 Ton enfant {child_firstname} a été invité pour le prochain
-                évènement : {event_name} le {event_date} à {event_time_from}.
-                Le rendez-vous est fixé à {event_time_meeting}. </br> </br>
-                Confirme sa présence dès maintenant dans <a href="{agenda_url}">ton
-                espace personnel</a> !
+                évènement : {event_name} le {event_date} à {event_time_from}. Le
+                rendez-vous est fixé à {event_time_meeting}. </br> </br>
+                Confirme sa présence dès maintenant dans <a
+                href="{agenda_url}">ton espace personnel</a> !
     cancellation:
         subject: 'Evènement annulé'
         title: "L'évènement {event_name} a été annulé!"
@@ -105,3 +106,21 @@ children:
                 Clubhouse. <br/><br/>Pour donner accès à votre enfant, veuillez
                 mettre à jour son profil en ajoutant son adresse e-mail et en
                 cochant "J'accepte que mon enfant utilise l'application seul."
+payment_plan:
+    accepted:
+        subject: 'Votre plan de paiement a été accepté'
+        title: 'Votre plan de paiement a été accepté'
+        text: >-
+            Nous avons accepté votre plan de paiement.</br></br>Vous pouvez
+            consulter le tableau des paiements dans votre espace personnel, dans
+            la rubrique "Mes licences".</br></br>Nous vous conseillons de
+            pré-encoder les virements dans votre application
+            bancaire.</br></br>Si vous avez des questions, n'hésitez pas à nous
+            contacter.
+    refused:
+        subject: 'Votre plan de paiement a échoué'
+        title: 'Votre plan de paiement a échoué'
+        text: >-
+            Nous avons refusé votre plan de paiement.</br>La raison du refus :
+            {reason}</br></br>Si vous avez des questions, n'hésitez pas à nous
+            contacter.

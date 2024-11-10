@@ -21,10 +21,10 @@ event:
             subject: 'Invitation to an event'
             title: 'Hello !'
             text: >-
-                You are invited to the next event: {event_name} on {event_date} at
-                {event_time_from}. </br> The appointment is set for
-                {event_time_meeting}. </br> </br> Confirm your presence now in <a
-                href="{agenda_url}">your personal area</a> !
+                You are invited to the next event: {event_name} on {event_date}
+                at {event_time_from}. </br> The appointment is set for
+                {event_time_meeting}. </br> </br> Confirm your presence now in
+                <a href="{agenda_url}">your personal area</a> !
         parent:
             subject: 'Your child has been invited to an event'
             title: 'Hello !'
@@ -32,7 +32,8 @@ event:
                 Your child {child_firstname} has been invited to the next event:
                 {event_name} on {event_date} at {event_time_from}. </br> The
                 appointment is set for {event_time_meeting}. </br> </br> Confirm
-                their presence now in <a href="{agenda_url}">your personal area</a> !
+                their presence now in <a href="{agenda_url}">your personal
+                area</a> !
     cancellation:
         subject: 'Event cancelled'
         title: 'The event {event_name} has been cancelled!'
@@ -101,3 +102,21 @@ children:
                 <br/><br/>To give your child access, please update their profile
                 by adding their email address and checking "I agree that my
                 child uses the app alone."
+
+payment_plan:
+    accepted:
+        subject: 'Your payment plan has been accepted'
+        title: 'Your payment plan has been accepted'
+        text: >-
+            We have accepted your payment plan.</br></br>You can view the
+            payment schedule in your personal area, in the "My licenses"
+            section.</br></br>We recommend that you set up automatic transfers
+            in your online banking application.</br></br>If you have any
+            questions, do not hesitate to contact us.
+    refused:
+        subject: 'Your payment plan has been refused'
+        title: 'Your payment plan has been refused'
+        text: >-
+            We have refused your payment plan.</br>The reason for the refusal is
+            as follows: {reason}</br></br>If you have any questions, do not
+            hesitate to contact us.

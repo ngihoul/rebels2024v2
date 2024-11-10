@@ -16,6 +16,7 @@ use App\Service\EmailManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityNotFoundException;
 use Exception;
+use PharIo\Manifest\Email;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,19 +28,21 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 #[IsGranted('ROLE_ADMIN')]
 class AdminLicenseController extends AbstractController
 {
-    private LicenseRepository $licenseRepository;
     private EntityManagerInterface $entityManager;
+    private LicenseRepository $licenseRepository;
+    private PaymentOrderRepository $paymentOrderRepository;
     private PaymentRepository $paymentRepository;
     private TranslatorInterface $translator;
-    private PaymentOrderRepository $paymentOrderRepository;
+    private EmailManager $emailManager;
 
-    public function __construct(LicenseRepository $licenseRepository, EntityManagerInterface $entityManager, PaymentRepository $paymentRepository, TranslatorInterface $translator, PaymentOrderRepository $paymentOrderRepository)
+    public function __construct(LicenseRepository $licenseRepository, EntityManagerInterface $entityManager, PaymentRepository $paymentRepository, TranslatorInterface $translator, PaymentOrderRepository $paymentOrderRepository, EmailManager $emailManager)
     {
         $this->licenseRepository = $licenseRepository;
         $this->entityManager = $entityManager;
         $this->paymentRepository = $paymentRepository;
         $this->translator = $translator;
         $this->paymentOrderRepository = $paymentOrderRepository;
+        $this->emailManager = $emailManager;
     }
 
     // Display all licences to validate
@@ -141,82 +144,103 @@ class AdminLicenseController extends AbstractController
     #[Route('/licenses/payment_plan/{planId}/validate', name: 'admin_payment_plan_validate')]
     public function paymentPlanValidate(Request $request): Response
     {
-        // TODO : try .. catch ...
-        $paymentPlan = $this->findPayment($request);
+        try {
+            $payment = $this->findPayment($request);
 
-        $form = $this->createForm(PaymentPlanType::class, $paymentPlan);
+            $form = $this->createForm(PaymentPlanType::class, $payment);
 
-        $form->handleRequest($request);
+            $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            // Update status payment
-            $paymentPlan->setStatus(Payment::STATUS_ACCEPTED);
+            if ($form->isSubmitted() && $form->isValid()) {
+                // Update status payment
+                $payment->setStatus(Payment::STATUS_ACCEPTED);
 
-            // Save payment
-            $this->entityManager->persist($paymentPlan);
-            $this->entityManager->flush();
+                // Save payment
+                $this->entityManager->persist($payment);
+                $this->entityManager->flush();
 
-            // TODO : Send mail to user to confirm
+                // Send mail to user to confirm
+                $userEmail = $payment->getLicense()->getUser()->getEmail();
+                $this->emailManager->sendEmail($userEmail, $this->translator->trans('payment_plan.accepted.subject', [], 'emails'), 'payment_plan_accepted', [
+                    'paymentPlan' => $payment
+                ]);
 
-            $this->addFlash('success', $this->translator->trans('success.payment_plan.validated'));
+                $this->addFlash('success', $this->translator->trans('success.payment_plan.validated'));
 
+                return $this->redirectToRoute('admin_payments');
+            }
+
+            return $this->render('admin/payment/accept.html.twig', [
+                'paymentPlan' => $payment,
+                'form' => $form->createView()
+            ]);
+        } catch (Exception $e) {
+            $this->addFlash('error', $e->getMessage());
             return $this->redirectToRoute('admin_payments');
         }
-
-        return $this->render('admin/payment/accept.html.twig', [
-            'paymentPlan' => $paymentPlan,
-            'form' => $form->createView()
-        ]);
     }
 
     // Refuse a payment plan
     #[Route('/licenses/payment_plan/{planId}/refuse', name: 'admin_payment_plan_refuse')]
     public function paymentPlanRefuse(Request $request): Response
     {
-        $payment = $this->findPayment($request);
+        try {
+            $payment = $this->findPayment($request);
 
-        $form = $this->createForm(PaymentPlanRefuseType::class, $payment);
+            $form = $this->createForm(PaymentPlanRefuseType::class, $payment);
 
-        $form->handleRequest($request);
+            $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $payment->setStatus(Payment::STATUS_REFUSED);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $payment->setStatus(Payment::STATUS_REFUSED);
 
-            $this->entityManager->persist($payment);
-            $this->entityManager->flush();
+                $this->entityManager->persist($payment);
+                $this->entityManager->flush();
 
-            // TODO : Send mail to user
+                // Send mail to user
+                $userEmail = $payment->getLicense()->getUser()->getEmail();
+                $this->emailManager->sendEmail($userEmail, $this->translator->trans('payment_plan.refused.subject', [], 'emails'), 'payment_plan_refused', [
+                    'paymentPlan' => $payment
+                ]);
 
+                $this->addFlash('success', $this->translator->trans('success.payment_plan.refused'));
 
-            $this->addFlash('success', $this->translator->trans('success.payment_plan.refused'));
+                return $this->redirectToRoute('admin_payments');
+            }
 
+            return $this->render('admin/payment/refuse.html.twig', [
+                'paymentPlan' => $payment,
+                'form' => $form->createView()
+            ]);
+        } catch (Exception $e) {
+            $this->addFlash('error', $e->getMessage());
             return $this->redirectToRoute('admin_payments');
         }
-
-        return $this->render('admin/payment/refuse.html.twig', [
-            'paymentPlan' => $payment,
-            'form' => $form->createView()
-        ]);
     }
 
     #[Route('/licenses/payment_order/{orderId}', name: 'admin_payment_order_detail')]
     public function paymentOrderDetail(Request $request): Response
     {
-        $order = $this->findPaymentOrder($request);
+        try {
+            $order = $this->findPaymentOrder($request);
 
-        $form = $this->createForm(PaymentOrderValidationType::class, $order, ['paymentOrder' => $order]);
+            $form = $this->createForm(PaymentOrderValidationType::class, $order, ['paymentOrder' => $order]);
 
-        $form->handleRequest($request);
+            $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            return $this->validatePaymentOrder($order);
+            if ($form->isSubmitted() && $form->isValid()) {
+                return $this->validatePaymentOrder($order);
+            }
+
+            return $this->render('admin/payment/order_detail.html.twig', [
+                'paymentPlan' => $order->getPayment(),
+                'order' => $order,
+                'form' => $form->createView(),
+            ]);
+        } catch (Exception $e) {
+            $this->addFlash('error', $e->getMessage());
+            return $this->redirectToRoute('admin_payments');
         }
-
-        return $this->render('admin/payment/order_detail.html.twig', [
-            'paymentPlan' => $order->getPayment(),
-            'order' => $order,
-            'form' => $form->createView(),
-        ]);
     }
 
     // Quick payment order validation
