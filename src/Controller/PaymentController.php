@@ -102,7 +102,7 @@ class PaymentController extends AbstractController
                     'price_data' => [
                         'currency' => 'eur',
                         'product_data' => [
-                            'name' => 'License annuelle',
+                            'name' => 'Ordre de paiement',
                         ],
                         'unit_amount' => $order->getAmount() * 100,
                     ],
@@ -127,8 +127,6 @@ class PaymentController extends AbstractController
     #[Route('/webhook/stripe', name: 'app_webhook_stripe')]
     public function webhook(Request $request): Response
     {
-        $endpointSecret = 'whsec_c0eadec4bda04aef9862254e9bb47d83b23545def3024b20431a335a2841a91d';
-
         $endpointSecret = $_ENV['STRIPE_WEBHOOK_SECRET'];
 
         $payload = $request->getContent();
