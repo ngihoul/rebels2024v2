@@ -121,3 +121,9 @@ place:
     zipcode: 'Code postal'
     locality: 'Localité'
     country: 'Pays'
+
+payment:
+    order:
+        amount: 'Montant'
+        due_date: 'Date de paiement'
+        comment: 'Commentaire'

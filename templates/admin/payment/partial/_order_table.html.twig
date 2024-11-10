@@ -1,8 +1,8 @@
 <table class="payment-orders-table">
     <tr>
-        <th class="player">Joueur</th>
-        <th class="deadline">Echéance</th>
-        <th class="price">Prix</th>
+        <th class="player">{{ 'payment.table.player'|trans }}</th>
+        <th class="deadline">{{ 'payment.table.deadline'|trans }}</th>
+        <th class="price">{{ 'payment.table.price'|trans }}</th>
         <th class="actions"></th>
     </tr>
     {% for order in paymentOrders %}

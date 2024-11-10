@@ -482,6 +482,12 @@ payment:
             "Il n'y a aucune demande de plan de paiement en attente."
         payment_order: 'Ordres de paiement à valider'
         no_payment_order: "Il n'y a aucun ordre de paiement à valider."
+    table:
+        player: 'Joueur'
+        deadline: 'Echéance'
+        price: 'Prix'
+        year: 'Année'
+        actions: 'Actions'
 
 members:
     list:

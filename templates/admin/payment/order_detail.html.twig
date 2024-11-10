@@ -14,14 +14,14 @@
 
         <h2>{{ 'payment.order_detail.order'|trans }}</h2>
         <div class="payment-order-container">
-            <p>{{ 'payment.order_detail.amount'|trans }} {{ order.amount }}</p>
+            <p>{{ 'payment.order_detail.amount'|trans }} {{ order.amount|format_currency('EUR') }}</p>
             <p>{{ 'payment.order_detail.deadline'|trans }} {{ order.dueDate|date('d/m/Y') }}</p>
         </div>
         
         <h2>{{ 'payment.order_detail.acceptance'|trans }}</h2>
         {{ form_start(form) }}
-            {{ form_row(form.value_date) }}
-            {{ form_row(form.comment) }}
+            {{ form_row(form.value_date, { 'label' : 'payment.order.due_date' }) }}
+            {{ form_row(form.comment, { 'label' : 'payment.order.comment' }) }}
             <button class="btn btn-cta" type="submit">{{ 'payment.order_detail.validate'|trans }}</button>
         {{ form_end(form) }}
     </div>

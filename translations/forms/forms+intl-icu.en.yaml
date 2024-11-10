@@ -119,3 +119,9 @@ place:
     zipcode: 'Zipcode'
     locality: 'Locality'
     country: 'Country'
+
+payment:
+    order:
+        amount: 'Amount'
+        due_date: 'Due date'
+        comment: 'Comment'

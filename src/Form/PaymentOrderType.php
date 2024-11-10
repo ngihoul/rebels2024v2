@@ -1,7 +1,5 @@
 <?php
 
-// TODO : à traduire
-
 namespace App\Form;
 
 use App\Entity\PaymentOrder;
@@ -24,9 +22,10 @@ class PaymentOrderType extends AbstractType
                     'class' => 'amount'
                 ],
                 'constraints' => [
-                    new NotBlank(['message' => 'Le champ est obligatoire']),
-                    new GreaterThan(['value' => 0, 'message' => 'Le montant doit être positif'])
-                ]
+                    new NotBlank(['message' => 'validators.payment.amount.not_blank']),
+                    new GreaterThan(['value' => 0, 'message' => 'validators.payment.amount.positive'])
+                ],
+                'label' => 'payment.order.amount'
             ])
             ->add('due_date', DateType::class, [
                 'row_attr' => [
@@ -34,14 +33,16 @@ class PaymentOrderType extends AbstractType
                 ],
                 'widget' => 'single_text',
                 'constraints' => [
-                    new NotBlank(['message' => 'Le champ est obligatoire']),
+                    new NotBlank(['message' => 'validators.payment.due_date.not_blank']),
                 ],
+                'label' => 'payment.order.due_date'
             ])
             ->add('comment', TextareaType::class, [
                 'row_attr' => [
                     'class' => 'comment'
                 ],
-                'required' => false
+                'required' => false,
+                'label' => 'payment.order.comment'
             ]);
     }
 
@@ -49,6 +50,7 @@ class PaymentOrderType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => PaymentOrder::class,
+            'translation_domain' => 'forms'
         ]);
     }
 }

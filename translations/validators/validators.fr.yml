@@ -86,3 +86,14 @@ validators:
             not_blank: 'Entre un contenu'
     relation:
         not_blank: 'Entre une relation.'
+    payment:
+        amount:
+            not_blank: 'Entre un montant.'
+            positive: 'Le montant doit etre positif.'
+        due_date:
+            not_blank: 'Choisis une date.'
+        value_date:
+            not_blank: 'Choisis une date.'
+            less_than: 'La date doit être égale ou inférieure à la date du jour'
+        refusal_comment:
+            not_blank: 'Entre un commentaire.'

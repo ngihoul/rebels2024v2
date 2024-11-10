@@ -224,7 +224,7 @@ class AdminLicenseController extends AbstractController
         try {
             $order = $this->findPaymentOrder($request);
 
-            $form = $this->createForm(PaymentOrderValidationType::class, $order, ['paymentOrder' => $order]);
+            $form = $this->createForm(PaymentOrderValidationType::class, $order);
 
             $form->handleRequest($request);
 

@@ -80,3 +80,14 @@ validators:
             not_blank: 'Enter a content'
     relation:
         not_blank: 'Choose a relation'
+    payment:
+        amount:
+            not_blank: 'Enter an amount.'
+            positive: 'The amount must be positive.'
+        due_date:
+            not_blank: 'Please choose a date.'
+        value_date:
+            not_blank: 'Please choose a date.'
+            less_than: 'The date must be equal to or earlier than today'
+        refusal_comment:
+            not_blank: 'Please enter a comment.'

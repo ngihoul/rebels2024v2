@@ -1,11 +1,8 @@
 <?php
 
-// TODO : A traduire
-
 namespace App\Form;
 
 use App\Entity\Payment;
-use App\Entity\PaymentOrder;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;

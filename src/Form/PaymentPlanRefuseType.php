@@ -1,7 +1,5 @@
 <?php
 
-// TODO : A traduire
-
 namespace App\Form;
 
 use App\Entity\Payment;
@@ -20,7 +18,7 @@ class PaymentPlanRefuseType extends AbstractType
                 'required' => true,
                 'attr' => ['class' => 'refusal-comment'],
                 'constraints' => [
-                    new NotBlank(['message' => 'Le champ est obligatoire'])
+                    new NotBlank(['message' => 'validators.payment.refusal_comment.not_blank'])
                 ]
             ]);
     }

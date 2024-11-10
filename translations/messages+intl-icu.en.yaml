@@ -465,6 +465,12 @@ payment:
         no_payment_plan_request: 'There are no pending payment plan requests.'
         payment_order: 'Payment orders to validate'
         no_payment_order: 'There are no payment orders to validate.'
+    table:
+        player: 'Player'
+        deadline: 'Deadline'
+        price: 'Price'
+        year: 'Year'
+        actions: 'Actions'
 
 members:
     list:
