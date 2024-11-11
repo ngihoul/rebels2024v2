@@ -323,6 +323,7 @@ class AdminLicenseController extends AbstractController
         $license = $order->getPayment()->getLicense();
 
         if ($this->isFullyPaid($license)) {
+            $order->getPayment()->setStatus(Payment::STATUS_COMPLETED);
             $this->setLicenseInOrder($license);
         }
 
