@@ -247,9 +247,9 @@ reprenant :
 
 L'administrateur peut ensuite accepter ou refuser la demande de paiement :
 
--   S'il refuse, il indique la raison du refus (placé dans le champ `comment` de
-    l'objet `Payment`). Un message (avec mail) est envoyé au membre pour
-    l'informer du refus et de la raison.  
+-   S'il refuse, il indique la raison du refus (placé dans le champ
+    `refusal_comment` de l'objet `Payment`). Un message (avec mail) est envoyé
+    au membre pour l'informer du refus et de la raison.  
     Le `status` de l'objet `Payment` est passé à `REFUSED ( = 2 )`.
 -   S'il accepte, il est redirigé vers le formulaire `PaymentOrderType` d'ajout
     manuel de `PaymentOrder`.  
