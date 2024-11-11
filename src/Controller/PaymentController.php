@@ -72,9 +72,9 @@ class PaymentController extends AbstractController
                 'mode' => 'payment',
                 'success_url' => $this->generateUrl('app_license_success_payment', ['licenseId' => $license->getId()], UrlGeneratorInterface::ABSOLUTE_URL),
                 'cancel_url' => $this->generateUrl('app_cancel_payment', [], UrlGeneratorInterface::ABSOLUTE_URL),
-                'client_reference_id' => $license->getId(),
                 'metadata' => [
-                    'payment_type' => 'license'
+                    'payment_type' => 'license',
+                    'client_reference_id' => $license->getId(),
                 ],
             ]);
 
@@ -111,9 +111,9 @@ class PaymentController extends AbstractController
                 'mode' => 'payment',
                 'success_url' => $this->generateUrl('app_order_success_payment', ['orderId' => $order->getId()], UrlGeneratorInterface::ABSOLUTE_URL),
                 'cancel_url' => $this->generateUrl('app_cancel_payment', [], UrlGeneratorInterface::ABSOLUTE_URL),
-                'client_reference_id' => $order->getId(),
                 'metadata' => [
-                    'payment_type' => 'order'
+                    'payment_type' => 'order',
+                    'client_reference_id' => $order->getId(),
                 ],
             ]);
 
@@ -142,7 +142,7 @@ class PaymentController extends AbstractController
             $session = $event->data->object;
             $paymentType = $session->metadata->payment_type ?? null;
             // LicenseId or OrderId
-            $objectId = $session->client_reference_id;
+            $objectId = $session->metadata->client_reference_id;
 
             if ($paymentType === 'license') {
                 $license = $this->licenseRepository->find($objectId);
