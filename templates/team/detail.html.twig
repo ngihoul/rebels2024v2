@@ -15,8 +15,10 @@
 		{# Confirmation modal when deleting player from team #}
 		{% include 'shared/modal_confirmation.html.twig' with { 'id': 'confirmation-modal', 'message' : "modal.player.add"|trans } %}
 
-		<h1>{{ "team.detail.title"|trans }}
-			{{ team.name }}</h1>
+		<div class="heading-container">
+			<h1>{{ "team.detail.title"|trans }} {{ team.name }}</h1>
+		</div>
+		
 		{{ parent() }}
 
 		{% if is_granted('ROLE_COACH') %}

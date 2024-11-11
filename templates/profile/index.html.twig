@@ -9,15 +9,12 @@
 {% block body %}
 	<div class="container profile-container">
 		<div class="heading-container">
-
 			<h1>{{ pageTitle }}</h1>
-
 			{% if app.user == user %}
 				<a class="btn-update" href=" {{ path('app_profile_update') }}">
 					<i class="fa-regular fa-pen-to-square"></i>
 				</a>
 			{% endif %}
-
 		</div>
 
 		{{ parent() }}

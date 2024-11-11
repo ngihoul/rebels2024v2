@@ -4,7 +4,10 @@
 
 {% block body %}
 <div class="container success-container">
-    <h1>{{ "payment.cancel.title"|trans }}</h1>
+    <div class="heading-container">
+        <h1>{{ "payment.cancel.title"|trans }}</h1>
+    </div>
+    
     {{ "payment.cancel.text"|trans|raw }}
     <a href="{{ path('app_license') }}" class="btn">{{ "payment.back"|trans }}</a>
 </div>

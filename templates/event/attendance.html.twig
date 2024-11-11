@@ -4,7 +4,9 @@
 
 {% block body %}
 <div class="container container-attendance-event">
-    <h1>[{{ event.team.name }}] {{ event.name }} @ {{ event.date|date('d/m/Y') }}</h1>
+    <div class="heading-container">
+        <h1>[{{ event.team.name }}] {{ event.name }} @ {{ event.date|date('d/m/Y') }}</h1>
+    </div>
 
     {{ parent() }}
 

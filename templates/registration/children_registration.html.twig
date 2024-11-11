@@ -8,7 +8,9 @@
 
 {% block body %}
 	<div class="children-nb container container-register" data-children-nb="{{ form.children|length }}">
-		<h1>{{ "register.title"|trans }}</h1>
+		<div class="heading-container">
+			<h1>{{ "register.title"|trans }}</h1>
+		</div>
 
 		{{ form_start(form) }}
 

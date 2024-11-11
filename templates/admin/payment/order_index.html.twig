@@ -4,7 +4,9 @@
 
 {% block body %}
     <div class="container container-payments">
-        <h1>{{ 'payment.index.payment_order'|trans }} ({{ paymentOrdersToValidate }})</h1>
+        <div class="heading-container">
+            <h1>{{ 'payment.index.payment_order'|trans }} ({{ paymentOrdersToValidate }})</h1>
+        </div>
 
         {{ parent() }}
 

@@ -4,8 +4,10 @@
 
 {% block body %}
     <div class="container license-container">
-        <h1>{{ "license.index.title"|trans }}</h1>
-
+        <div class="heading-container">
+            <h1>{{ "license.index.title"|trans }}</h1>
+        </div>
+        
         {{ parent() }}
 
         {% if currentYearActiveLicense == NULL and currentYearPendingLicense == NULL and pastYearsLicenses|length > 0 %}

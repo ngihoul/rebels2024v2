@@ -4,7 +4,9 @@
 
 {% block body %}
 <div class="container container-invitation">
-    <h1>{{ "agenda.invite_to"|trans }} {{ event.name }}</h1>
+    <div class="heading-container">
+        <h1>{{ "agenda.invite_to"|trans }} {{ event.name }}</h1>
+    </div>
 
     {% if form.invitedUsers is not empty %}
         {{ form_start(form, { 'attr' : { 'class': 'form-event-invitation' }}) }}

@@ -4,8 +4,10 @@
 
 {% block body %}
 <div class="container container-add-license">
-    <h1>{{ "license.request.title"|trans }}</h1>
-
+    <div class="heading-container">
+        <h1>{{ "license.request.title"|trans }}</h1>
+    </div>
+    
     {{ "license.request.text"|trans|raw }}
 
     {{ form_start(form) }}

@@ -2,8 +2,10 @@
 'message.form.title.create'|trans : 'message.form.title.update'|trans %} {%
 block title %}{{ parent() }} | {{ pageTitle }}{% endblock %} {% block body %}
 <div class="container container-message">
-    <h1>{{ pageTitle }}</h1>
-
+    <div class="heading-container">
+        <h1>{{ pageTitle }}</h1>
+    </div>
+    
     {{ parent() }}
 
     {{ form_start(form, { 'attr' : { 'class' : 'message-form' }})}}

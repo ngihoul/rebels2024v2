@@ -4,7 +4,9 @@
 {{ 'profile.update.title' | trans }}
 {% endblock %} {% block body %}
 <div class="container container-register">
-    <h1>{{ 'profile.update.title' | trans }}</h1>
+    <div class="heading-container">
+        <h1>{{ 'profile.update.title' | trans }}</h1>
+    </div>
 
     {# Display flash messages #}
     {{ parent() }}

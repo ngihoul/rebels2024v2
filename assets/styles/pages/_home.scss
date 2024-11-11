@@ -61,7 +61,7 @@
         .agenda-container {
             border: 1px solid $color-border;
             padding: 1.6rem;
-            background-color: #fff;
+            background-color: $color-background-section;
             border-radius: $border-radius;
             min-width: calc(350px + 2 * 1.6rem);
             margin-bottom: 3.2rem;

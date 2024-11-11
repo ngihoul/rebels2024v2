@@ -8,12 +8,14 @@
     {# Confirmation modal when deleting an event #}
     {% include 'shared/modal_confirmation.html.twig' with { 'id': 'confirmation-modal', 'message' : "modal.event"|trans } %}
 
-    <h1>
-        {% if event.isCancelled %}
-        <span class="cancelled-label">[{{ 'agenda.cancelled'|trans }}] </span>
-        {% endif %}
-        [{{ event.team.name }}] {{ event.name }} @ {{ event.date|date('d/m/Y') }}
-    </h1>
+    <div class="heading-container">
+        <h1>
+            {% if event.isCancelled %}
+            <span class="cancelled-label">[{{ 'agenda.cancelled'|trans }}] </span>
+            {% endif %}
+            [{{ event.team.name }}] {{ event.name }} @ {{ event.date|date('d/m/Y') }}
+        </h1>
+    </div>
 
     {{ parent() }}
 

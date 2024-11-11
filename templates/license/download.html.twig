@@ -4,7 +4,9 @@
 
 {% block body %}
 <div class="container container-download-license">
-    <h1>{{ "license.download.title"|trans }}</h1>
+    <div class="heading-container">
+        <h1>{{ "license.download.title"|trans }}</h1>
+    </div>
 
     <h2>{{ "license.download.title_here"|trans }}</h2>
     <a href="{{ path('app_license_download', { 'licenseId' : licenseId, 'type' : 'demand' }) }}" target="_blank"><button class="cta">{{ "license.download.btn"|trans }}</button></a>

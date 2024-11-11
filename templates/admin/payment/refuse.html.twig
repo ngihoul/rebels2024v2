@@ -2,7 +2,10 @@
 
 {% block body %}
     <div class="container container-payment-plan">
-        <h1>{{ 'payment.refuse.title'|trans }}</h1>
+        <div class="heading-container">
+            <h1>{{ 'payment.refuse.title'|trans }}</h1>
+        </div>
+
         {{ parent() }}
 
         <div class="license-container">
