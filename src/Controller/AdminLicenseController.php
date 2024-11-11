@@ -18,6 +18,7 @@ use Doctrine\ORM\EntityNotFoundException;
 use Exception;
 use PharIo\Manifest\Email;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -150,6 +151,22 @@ class AdminLicenseController extends AbstractController
             $form = $this->createForm(PaymentPlanType::class, $payment);
 
             $form->handleRequest($request);
+
+            // Check if first order >= 80€ et all orders = license.price
+            if ($form->getData()->getPaymentOrders()[0] && $form->getData()->getPaymentOrders()[0]->getAmount() < 80) {
+                $form->addError(new FormError('Le premier ordre doit être supérieur ou égal à 80€'));
+            }
+
+            if ($form->getData()->getPaymentOrders()[0]) {
+                $totalOrders = 0;
+                foreach ($form->getData()->getPaymentOrders() as $order) {
+                    $totalOrders += $order->getAmount();
+                }
+
+                if ($totalOrders != $payment->getLicense()->getPrice()) {
+                    $form->addError(new FormError('Le total des ordres doit être égal au prix de la licence'));
+                }
+            }
 
             if ($form->isSubmitted() && $form->isValid()) {
                 // Update status payment
