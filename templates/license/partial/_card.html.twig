@@ -52,15 +52,12 @@
     <div class="price">
         <p class="label-price">{{ 'license.card.price' | trans }}</p>
         {% if license.price is not null %}
-        <p class="data-price">{{ license.price|format_currency('EUR') }}</p>
+            <p class="data-price">{{ license.price|format_currency('EUR') }}</p>
         {% else %}
-        <p class="data-price">{{ 'license.card.tbd' | trans }}</p>
-        <p class="price-helper" title="{{
-            'license.card.price-helper' | trans
-        }}">?
-        <p>{% endif %}</p>
+            <p class="data-price">{{ 'license.card.tbd' | trans }}</p>
+            <p class="price-helper" title="{{ 'license.card.price-helper' | trans }}">?</p>
+        {% endif %}
     </div>
-
     <div class="created-date">
         <p class="label-created-date">{{ 'license.card.asked' | trans }}</p>
         <p class="data-created-date">{{ license.createdAt|date("d/m/Y") }}</p>
@@ -131,7 +128,6 @@
                     </div>
                     <a class="btn btn-cta" href="{{ path('app_license_delete_bank_transfer', { licenseId : license.id }) }}">{{ 'license.card.change_payment_method'|trans }}</a>
                 
-
             {% elseif license.payments[0].paymentType == BY_PAYMENT_PLAN %}
                 <h2>{{ 'license.card.custom_payment_plan'|trans }}</h2>
                 <div class="payment-plan-request-data">
