@@ -14,7 +14,7 @@ final class Version20241101095415 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return '';
+        return 'Creating Payment & PaymentOrder Entity for #4-add-other-payment-methods';
     }
 
     public function up(Schema $schema): void
