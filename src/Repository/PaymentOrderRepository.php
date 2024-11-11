@@ -26,4 +26,17 @@ class PaymentOrderRepository extends ServiceEntityRepository
 
         return $queryBuilder->getQuery()->getResult();
     }
+
+    public function getPaymentsOverdue()
+    {
+        $today = new \DateTime();
+
+        $queryBuilder = $this->createQueryBuilder('po')
+            ->andWhere('po.value_date is NULL')
+            ->andWhere('po.due_date < :date')
+            ->setParameter('date', $today)
+            ->orderBy('po.due_date', 'ASC');
+
+        return $queryBuilder->getQuery()->getResult();
+    }
 }
