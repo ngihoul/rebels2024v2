@@ -195,12 +195,6 @@ Dans le menu administrateur, un sous-item `Paiements` se trouve sous `Licence` -
 au même niveau que `A valider`. Ce lien permet d'accéder à un tableau composé de
 tous les ordres de paiement.
 
-Les administrateurs peuvent créer des `PaymentOrder` manuellement. Par exemple,
-lorsqu'un membre arbitre ou score un match, il peut bénéficier d'une réduction
-de 10€ sur sa licence (actuelle si pas encore complètement payée ou suivante).
-Il faut donc laisser la possibilité d'introduire cette "réduction" => ajouter un
-nouvel ordre avec en commentaire "Arbitrage" ou "Scoring".
-
 ### Paiements par carte en ligne
 
 Aucune action nécessaire. L'ordre est ajouté à la liste au paiement de la
