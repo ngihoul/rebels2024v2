@@ -109,6 +109,18 @@ children:
                 by adding their email address and checking "I agree that my
                 child uses the app alone."
 
+payment:
+    reminder:
+        subject: 'Payment Reminder'
+        title: 'Payment Reminder'
+        text: >
+            Oops! </br></br>We have not yet received the payment for {firstname}
+            {lastname}'s license amounting to {amount}€ for the {season}
+            season.</br></br>An oversight can happen!</br></br>Please make a
+            transfer or pay online directly through your personal
+            area.</br></br>If you have any questions, do not hesitate to contact
+            an administrator or your coach.
+
 payment_plan:
     accepted:
         subject: 'Your payment plan has been accepted'

@@ -110,6 +110,19 @@ children:
                 Clubhouse. <br/><br/>Pour donner accès à votre enfant, veuillez
                 mettre à jour son profil en ajoutant son adresse e-mail et en
                 cochant "J'accepte que mon enfant utilise l'application seul."
+
+payment:
+    reminder:
+        subject: 'Rappel de paiement'
+        title: 'Rappel de paiement'
+        text:
+            "Oups ! </br></br>Nous n'avons pas encore reçu le paiement pour la
+            license de {firstname} {lastname} d'un montant de {amount}€ pour la
+            saison {season}.</br></br>Un oubli peut arriver !</br></br>Effectue
+            un virement ou paye directement en ligne via ton espace
+            personnel.</br></br>Si tu as des questions, n'hésite pas à contacter
+            un administrateur ou ton coach."
+
 payment_plan:
     accepted:
         subject: 'Votre plan de paiement a été accepté'
