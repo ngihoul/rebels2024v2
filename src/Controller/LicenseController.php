@@ -161,7 +161,7 @@ class LicenseController extends AbstractController
             $license = $this->findLicense($request);
 
             if (!$this->isGranted('ROLE_ADMIN') && $this->getUser() !== $license->getUser()) {
-                $this->addFlash('error', 'Vous n\'avez pas accès à ce fichier');
+                $this->addFlash('error', 'Tu n\'as pas accès à ce fichier');
                 return $this->redirectToRoute('app_license');
             }
 

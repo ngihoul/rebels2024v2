@@ -27,7 +27,7 @@ error:
             'Tu as déjà une licence active ou en cours de demande pour cette
             année. tu ne peux pas en demander une nouvelle.'
         file_not_found: "Le fichier n'a pas pu être généré car {message}"
-        not_authorized: "Vous n'êtes pas autorisé à accéder à cette licence."
+        not_authorized: "Tu n'êtes pas autorisé à accéder à cette licence."
     team:
         not_found: "L'équipe n'existe pas."
         logo: "Une erreur est survenue lors de l'upload du logo."
@@ -48,13 +48,13 @@ error:
         not_found: "Le lieu n'existe pas."
     page:
         not_found: "Cette page n'existe pas."
-    invalid_csrf_token: 'Le jeton CSRF est invalide. Veuillez réessayer.'
+    invalid_csrf_token: 'Le jeton CSRF est invalide. Réessaye.'
     relation_type_not_found: "Le type de relation n'a pas été trouvé."
     profile_picture:
         "Une erreur est survenue lors de l'upload de la photo de profil."
 
 success:
-    profile_updated: 'Votre profil a été mis à jour.'
+    profile_updated: 'Ton profil a été mis à jour.'
     account_created:
         'Ton compte a bien été créé. Merci de confirmer ton adresse mail en
         consultant ta boîte mail.'
@@ -90,9 +90,9 @@ success:
         created: 'Le lieu a été créé.'
         updated: 'Le lieu a été mis à jour.'
     payment_plan_request:
-        'Votre demande de plan de paiement personnalisé a bien été envoyée. Un
-        administrateur va analyser votre demande incessament sous peu. Vous
-        recevrez un email avec la réponse définitive.'
+        'Ta demande de plan de paiement personnalisé a bien été envoyée. Un
+        administrateur va analyser ta demande incessament sous peu. Tu recevras
+        un email avec la réponse définitive.'
     payment_plan:
         validated: 'Le plan de paiement a été validé.'
         refused: 'Le plan de paiement a été refusé.'
@@ -123,16 +123,16 @@ nav:
 
 # Modals
 modal:
-    title: 'Etes-vous sûr ?'
+    title: 'Es-tu sûr ?'
     btn:
         delete: 'Supprimer'
         cancel: 'Annuler'
         archive: 'Archiver'
     player:
-        add: 'Etes-vous sûr de vouloir retirer ce joueur de cette équipe ?'
-    team: 'Etes-vous sûr de vouloir supprimer cette équipe ?'
-    event: 'Etes-vous sûr de vouloir annuler cet évènement ?'
-    message: 'Etes-vous sûr de vouloir archiver ce message ?'
+        add: 'Es-tu sûr de vouloir retirer ce joueur de cette équipe ?'
+    team: 'Es-tu sûr de vouloir supprimer cette équipe ?'
+    event: 'Es-tu sûr de vouloir annuler cet évènement ?'
+    message: 'Es-tu sûr de vouloir archiver ce message ?'
     switch_account:
         sure: "Tu t'apprêtes à changer de compte. Es-tu sûr ?"
         btn: 'Changer'
@@ -152,8 +152,8 @@ homepage:
     missing_fields: 'Pour compléter ton profil, ajoute les champs suivants :'
     actions_children:
         '{count, plural, one {Il y a 1 action pour {children_count, plural, one
-        {votre enfant} other {vos enfants}}} other {Il y a # actions pour
-        {children_count, plural, one {votre enfant} other {vos enfants}}} }'
+        {ton enfant} other {tes enfants}}} other {Il y a # actions pour
+        {children_count, plural, one {ton enfant} other {tes enfants}}} }'
     no_task: 'Aucune tâche : tout est en ordre !'
 
 # Login
@@ -171,8 +171,8 @@ register:
     user_choice:
         player: "Je m'inscris en tant que joueur"
         parent: "J'inscris mon ou mes enfants"
-    your_data: 'Vos informations'
-    children_data: 'Les données de votre enfant'
+    your_data: 'Tes informations'
+    children_data: 'Les données de ton enfant'
     disclaimer:
         password: >-
             Le mot de passe doit contenir au moins/et : <ul
@@ -221,7 +221,7 @@ profile:
             mines: 'Mes enfants'
             of: 'Ses enfants'
         add: 'Ajouter un enfant'
-        no_children: "Vous n'avez pas encore d'enfant ajouté."
+        no_children: "Tu n'as pas encore d'enfant ajouté."
 
 # Team
 team:
@@ -244,7 +244,7 @@ team:
     see_members: 'Voir les membres'
     edit: 'Modifier'
     delete: 'Supprimer'
-    no_team: "Vous n'avez pas encore d'équipe !"
+    no_team: "Tu n'as pas encore d'équipe !"
 
 # Agenda
 agenda:
@@ -322,7 +322,7 @@ license:
         pay_by_transfer: 'Je paye par virement'
         transfer_instructions: 'Effectue le virement comme suit :'
         change_payment_method: 'Changer de moyen de paiement'
-        custom_payment_plan: 'Votre plan de paiement personnalisé'
+        custom_payment_plan: 'Ton plan de paiement personnalisé'
         amount: 'Montant'
         deadline: 'Echéance'
         actions: 'Actions'
@@ -393,19 +393,19 @@ license:
         no_document: "Il n'y a pas de document à vérifier. Demande à refuser."
         check:
             sub_title:
-                '1. Vérifiez la demande de licence de {firstname} {lastname}'
+                '1. Vérifie la demande de licence de {firstname} {lastname}'
             btn: 'Voir la demande'
         price:
-            '2. Si la demande est complète et correcte, introduisez le prix
+            '2. Si la demande est complète et correcte, introduis le prix
             demandé pour cette licence :'
         validate:
-            sub_title: '3. Validez la licence en cliquant sur ce bouton :'
+            sub_title: '3. Valide la licence en cliquant sur ce bouton :'
             btn: 'Valider'
         incomplete:
-            '2b. Si la demande est incomplête ou incorrecte, veuillez introduire
-            la raison :'
+            '2b. Si la demande est incomplête ou incorrecte, introduis la raison
+            :'
         decline:
-            sub_title: '3. Refusez la licence en cliquant sur ce bouton :'
+            sub_title: '3. Refuse la licence en cliquant sur ce bouton :'
             btn: 'Refuser'
     payment_plan:
         title: 'Tu souhaites payer en plusieurs fois ?'
@@ -442,7 +442,7 @@ payment:
     order:
         approved:
             title: 'Paiement accepté'
-            welcome: 'Votre ordre de paiement a bien été payé.'
+            welcome: 'Ton ordre de paiement a bien été payé.'
             text: 'Merci pour ton paiement.'
     plan_detail:
         title: 'Validation du plan de paiement'

@@ -17,8 +17,8 @@ license:
             et renvoie-la nous ! </br></br> Si tu as des questions, n'hésite pas
             à contacter un administrateur ou ton coach.
     in_order:
-        subject: 'Votre licence est en ordre'
-        title: 'Votre licence est en ordre !'
+        subject: 'Ta licence est en ordre'
+        title: 'Ta licence est en ordre !'
         text: 'Pour information : ta licence est entièrement payée.'
 
 event:
@@ -63,7 +63,7 @@ reset_password:
 
 message:
     subject: 'Nouveau message reçu'
-    title: 'Vous avez reçu un nouveau message !'
+    title: 'Tu as reçu un nouveau message !'
 
 signature: 'Sportivement'
 
@@ -107,9 +107,9 @@ children:
             text: >
                 <br/><br/>Félicitations ! {child_firstname} vient d'avoir 16 ans
                 et peut désormais gérer son compte via l'application Rebels'
-                Clubhouse. <br/><br/>Pour donner accès à votre enfant, veuillez
-                mettre à jour son profil en ajoutant son adresse e-mail et en
-                cochant "J'accepte que mon enfant utilise l'application seul."
+                Clubhouse. <br/><br/>Pour donner accès à ton enfant, mets à jour
+                son profil en ajoutant son adresse e-mail et en cochant
+                "J'accepte que mon enfant utilise l'application seul."
 
 payment:
     reminder:
@@ -125,19 +125,18 @@ payment:
 
 payment_plan:
     accepted:
-        subject: 'Votre plan de paiement a été accepté'
-        title: 'Votre plan de paiement a été accepté'
+        subject: 'Ton plan de paiement a été accepté'
+        title: 'Ton plan de paiement a été accepté'
         text: >-
-            Nous avons accepté votre plan de paiement.</br></br>Vous pouvez
-            consulter le tableau des paiements dans votre espace personnel, dans
-            la rubrique "Mes licences".</br></br>Nous vous conseillons de
-            pré-encoder les virements dans votre application
-            bancaire.</br></br>Si vous avez des questions, n'hésitez pas à nous
-            contacter.
+            Nous avons accepté ton plan de paiement.</br></br>Tu peux consulter
+            le tableau des paiements dans ton espace personnel, dans la rubrique
+            "Mes licences".</br></br>Nous te conseillons de pré-encoder les
+            virements dans ton application bancaire.</br></br>Si tu as des
+            questions, n'hésite pas à nous contacter.
     refused:
-        subject: 'Votre plan de paiement a échoué'
-        title: 'Votre plan de paiement a échoué'
+        subject: 'Ton plan de paiement a échoué'
+        title: 'Ton plan de paiement a échoué'
         text: >-
-            Nous avons refusé votre plan de paiement.</br>La raison du refus :
-            {reason}</br></br>Si vous avez des questions, n'hésitez pas à nous
+            Nous avons refusé ton plan de paiement.</br>La raison du refus :
+            {reason}</br></br>Si tu as des questions, n'hésite pas à nous
             contacter.

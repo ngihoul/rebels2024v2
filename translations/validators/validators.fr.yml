@@ -14,12 +14,12 @@ validators:
     jersey_number:
         type: 'Le numéro de maillot doit être un nombre.'
     date_of_birth:
-        not_blank: 'Veuillez sélectionner ta date de naissance.'
-        too_young: 'Vous devez avoir plus de 18 ans pour vous inscrire.'
+        not_blank: 'Selectionne ta date de naissance.'
+        too_young: 'Tu dois avoir plus de 18 ans pour t'inscrire.'
         too_old:
             "Les enfants majeurs doivent s'inscrire seul en tant que joueur."
     gender:
-        choice: 'Veuillez sélectionner un genre valide.'
+        choice: 'Sélectionne un genre valide.'
     address_street:
         not_blank: 'Entre ton adresse.'
         length: "L'adresse ne doit pas dépasser {{ limit }} caractères."
@@ -55,7 +55,7 @@ validators:
         length:
             'Ton mot de passe doit contenir au moins {{ limit }} caractères.'
         regex:
-            'Votre mot de passe doit contenir au moins une majuscule, une
+            'Ton mot de passe doit contenir au moins une majuscule, une
             minuscule, un chiffre et un caractère spécial parmi ! ? # @ , . :;'
     logo:
         size: 'La taille du logo ne doit pas dépasser 1Mo.'
@@ -66,10 +66,10 @@ validators:
         date: "Sélectionne la date de l'évènement"
         start_time: "Sélectionne l'heure de début"
         end_time: "Sélectionne l'heure de fin"
-    season: 'Veuillez sélectionner une saison'
+    season: 'Sélectionne une saison'
     license:
         sub_category:
-            not_blank: 'Veuillez sélectionner au moins une sous-catégorie'
+            not_blank: 'Sélectionne au moins une sous-catégorie'
         upload:
             size: 'La taille de la demande de licence ne doit pas dépasser 2Mo'
             mime_types:

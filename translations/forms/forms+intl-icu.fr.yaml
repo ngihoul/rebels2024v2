@@ -43,7 +43,7 @@ user_choice:
 
 children:
     email: 'Email'
-    relation_type: 'Quel est votre lien de parenté avec le joueur ?'
+    relation_type: 'Quel est ton lien de parenté avec le joueur ?'
     same_address_as_parent:
         "L'adresse de l'enfant est-elle la même que celle du parent ?"
     add_child: 'Ajouter un enfant'
@@ -93,7 +93,7 @@ license:
     season:
         label: 'Saison'
     sub_category:
-        label: 'Choisissez une ou plusieurs licences :'
+        label: 'Choisis une ou plusieurs licences :'
     request:
         btn: 'Demander une license'
     upload:
@@ -101,7 +101,7 @@ license:
         confirm_data:
             'Je confirme que toutes mes données sont correctes et que tous les
             champs sont complètés'
-        btn: 'Renvoyez ma demande de licence'
+        btn: 'Renvoyer ma demande de licence'
 # Message
 message:
     title: 'Titre'
