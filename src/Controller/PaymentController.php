@@ -142,7 +142,7 @@ class PaymentController extends AbstractController
             $session = $event->data->object;
             $paymentType = $session->metadata->payment_type ?? null;
             // LicenseId or OrderId
-            $objectId = $session->metadata->client_reference_id;
+            $objectId = $session->client_reference_id;
 
             if ($paymentType === 'license') {
                 $license = $this->licenseRepository->find($objectId);
