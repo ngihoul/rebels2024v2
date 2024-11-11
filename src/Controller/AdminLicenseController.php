@@ -292,12 +292,6 @@ class AdminLicenseController extends AbstractController
         return $actualyPaid >= $license->getPrice();
     }
 
-    private function validateOrder(PaymentOrder $order): void
-    {
-        $order->setValueDate(new \DateTimeImmutable());
-        $order->setValidatedBy($this->getUser());
-    }
-
     private function setLicenseInOrder(License $license): void
     {
         $license->setStatus(License::IN_ORDER);
@@ -338,5 +332,11 @@ class AdminLicenseController extends AbstractController
         $this->addFlash('success', $this->translator->trans('success.payment_order.validated'));
 
         return $this->redirectToRoute('admin_payments');
+    }
+
+    private function validateOrder(PaymentOrder $order): void
+    {
+        $order->setValueDate(new \DateTimeImmutable());
+        $order->setValidatedBy($this->getUser());
     }
 }
