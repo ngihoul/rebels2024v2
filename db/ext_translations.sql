@@ -184,7 +184,9 @@ INSERT INTO `ext_translations` (`id`, `locale`, `object_class`, `field`, `foreig
 (149, 'en', 'App\\Entity\\LicenseSubCategory', 'name', '10', 'Federal referee'),
 (150, 'en', 'App\\Entity\\LicenseSubCategory', 'name', '11', 'Regional referee'),
 (151, 'en', 'App\\Entity\\LicenseSubCategory', 'name', '12', 'Federal scorer'),
-(152, 'en', 'App\\Entity\\LicenseSubCategory', 'name', '13', 'Regional scorer');
+(152, 'en', 'App\\Entity\\LicenseSubCategory', 'name', '13', 'Regional scorer'),
+(153, 'en', 'App\\Entity\\RelationType', 'name', '2', 'Legal representative'),
+(154, 'en', 'App\\Entity\\RelationType', 'name', '3', 'Brother/Sister');
 
 --
 -- Index pour les tables déchargées

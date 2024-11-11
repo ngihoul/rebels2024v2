@@ -112,6 +112,7 @@ mysql -u votre_utilisateur -p votre_base_de_donnees < /chemin/vers/votre_projet/
 mysql -u votre_utilisateur -p votre_base_de_donnees < /chemin/vers/votre_projet/db/license_category.sql
 mysql -u votre_utilisateur -p votre_base_de_donnees < /chemin/vers/votre_projet/db/place.sql
 mysql -u votre_utilisateur -p votre_base_de_donnees < /chemin/vers/votre_projet/db/user.sql
+mysql -u votre_utilisateur -p votre_base_de_donnees < /chemin/vers/votre_projet/db/relation_type.sql
 ```
 
 7. Installez les assets
