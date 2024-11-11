@@ -423,9 +423,10 @@ payment:
             find a solution. <p>
     back: 'Back to my license list'
     order:
-        title: 'Payment accepted'
-        welcome: 'Your payment order has been successfully paid.'
-        text: 'Thank you for your payment.'
+        approved:
+            title: 'Payment accepted'
+            welcome: 'Your payment order has been successfully paid.'
+            text: 'Thank you for your payment.'
     plan_detail:
         title: 'Validation of the payment plan'
         license_of: 'License of '

@@ -440,9 +440,10 @@ payment:
             pour trouver une solution. <p>
     back: 'Revenir à la liste de mes licences'
     order:
-        title: 'Paiement accepté'
-        welcome: 'Votre ordre de paiement a bien été payé.'
-        text: 'Merci pour ton paiement.'
+        approved:
+            title: 'Paiement accepté'
+            welcome: 'Votre ordre de paiement a bien été payé.'
+            text: 'Merci pour ton paiement.'
     plan_detail:
         title: 'Validation du plan de paiement'
         license_of: 'Licence de '
