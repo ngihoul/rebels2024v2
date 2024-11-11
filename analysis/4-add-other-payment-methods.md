@@ -274,6 +274,6 @@ La validation des ordres individuels se fait comme pour les virements (cf.
 ## Cron jobs
 
 -   Etant donné que les échéances des paiements sont toujours en fin de mois, on
-    exécute un job, tous les cinqs de chaque mois, qui vérifie si des
-    `PaymentOrder` sont impayés ( `value_date` = NULL). Pour tous les impayés,
-    un message de rappel (avec mail) est envoyé aux membres concernés.
+    exécute un job, tous les 7 de chaque mois, qui vérifie si des `PaymentOrder`
+    sont impayés ( `value_date` = NULL). Pour tous les impayés, un message de
+    rappel par mail est envoyé aux membres concernés.
