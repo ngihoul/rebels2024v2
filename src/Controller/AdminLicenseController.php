@@ -121,12 +121,42 @@ class AdminLicenseController extends AbstractController
     public function payments(): Response
     {
         $paymentPlanRequests = $this->paymentRepository->findPaymentPlanRequestsToValidate(10);
+        $nbPaymentPlanRequestsToValidate = $this->paymentRepository->countPaymentPlanRequestsToValidate();
 
         $paymentOrdersToValidate = $this->paymentOrderRepository->findPaymentOrdersToValidate(10);
+        $nbPaymentOrdersToValidate = $this->paymentOrderRepository->countPaymentOrdersToValidate();
 
         return $this->render('admin/payment/index.html.twig', [
             'paymentPlans' => $paymentPlanRequests,
-            'paymentOrders' => $paymentOrdersToValidate
+            'paymentOrders' => $paymentOrdersToValidate,
+            'paymentPlansToValidate' => $nbPaymentPlanRequestsToValidate,
+            'paymentOrdersToValidate' => $nbPaymentOrdersToValidate
+        ]);
+    }
+
+    // Display payment plan to validate
+    #[Route('/payment_plans', name: 'admin_payment_plans')]
+    public function paymentPlans(): Response
+    {
+        $paymentPlanRequests = $this->paymentRepository->findPaymentPlanRequestsToValidate();
+        $nbPaymentPlanRequestsToValidate = $this->paymentRepository->countPaymentPlanRequestsToValidate();
+
+        return $this->render('admin/payment/plan_index.html.twig', [
+            'paymentPlans' => $paymentPlanRequests,
+            'paymentPlansToValidate' => $nbPaymentPlanRequestsToValidate,
+        ]);
+    }
+
+    // Display payment orders to validate
+    #[Route('/payment_orders', name: 'admin_payment_orders')]
+    public function paymentOrders(): Response
+    {
+        $paymentOrdersToValidate = $this->paymentOrderRepository->findPaymentOrdersToValidate();
+        $nbPaymentOrdersToValidate = $this->paymentOrderRepository->countPaymentOrdersToValidate();
+
+        return $this->render('admin/payment/order_index.html.twig', [
+            'paymentOrders' => $paymentOrdersToValidate,
+            'paymentOrdersToValidate' => $nbPaymentOrdersToValidate
         ]);
     }
 

@@ -8,16 +8,18 @@
 
         {{ parent() }}
 
-        <h2>{{ 'payment.index.payment_plan_request'|trans }}</h2>
+        <h2>{{ 'payment.index.payment_plan_request'|trans }} ({{ paymentPlansToValidate }})</h2>
         {% if paymentPlans|length > 0 %}
             {{ include('/admin/payment/partial/_plan_table.html.twig', { 'paymentPlans' : paymentPlans }) }}
+            {% if paymentPlansToValidate > 10 %} <a class="link-all" href="">Voir toutes les demandes ({{ paymentPlansToValidate }})</a>{% endif %}
         {% else %}
             <p class="alert alert-warning">{{ 'payment.index.no_payment_plan_request'|trans }}</p>
         {% endif %}
 
-        <h2>{{ 'payment.index.payment_order'|trans }}</h2>
+        <h2>{{ 'payment.index.payment_order'|trans }} ({{ paymentOrdersToValidate }})</h2>
         {% if paymentOrders|length > 0 %}
             {{ include('/admin/payment/partial/_order_table.html.twig', { 'paymentOrders' : paymentOrders }) }}
+            {% if paymentOrdersToValidate > 10 %}<a class="link-all" href="">Voir tous les ordres ({{ paymentOrdersToValidate }})</a>{% endif %}
         {% else %}
             <p class="alert alert-warning">{{ 'payment.index.no_payment_order'|trans }}</p>
         {% endif %}

@@ -15,7 +15,7 @@ validators:
         type: 'Le numéro de maillot doit être un nombre.'
     date_of_birth:
         not_blank: 'Selectionne ta date de naissance.'
-        too_young: 'Tu dois avoir plus de 18 ans pour t'inscrire.'
+        too_young: "Tu dois avoir plus de 18 ans pour t'inscrire."
         too_old:
             "Les enfants majeurs doivent s'inscrire seul en tant que joueur."
     gender:

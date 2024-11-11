@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{  parent() }} | {{ 'payment.index.payment_plan_request'|trans }} {% endblock %}
+
+{% block body %}
+    <div class="container container-payments">
+        <h1>{{ 'payment.index.payment_plan_request'|trans }} ({{ paymentPlansToValidate }})</h1>
+
+        {{ parent() }}
+
+        {% if paymentPlans|length > 0 %}
+            {{ include('/admin/payment/partial/_plan_table.html.twig', { 'paymentPlans' : paymentPlans }) }}
+        {% else %}
+            <p class="alert alert-warning">{{ 'payment.index.no_payment_plan_request'|trans }}</p>
+        {% endif %}
+    </div>
+{% endblock %}

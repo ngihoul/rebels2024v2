@@ -17,12 +17,15 @@ class PaymentOrderRepository extends ServiceEntityRepository
         parent::__construct($registry, PaymentOrder::class);
     }
 
-    public function findPaymentOrdersToValidate(int $limit)
+    public function findPaymentOrdersToValidate(int $limit = null)
     {
         $queryBuilder = $this->createQueryBuilder('po')
             ->andWhere('po.value_date is NULL')
-            ->setMaxResults($limit)
             ->orderBy('po.due_date', 'ASC');
+
+        if ($limit) {
+            $queryBuilder->setMaxResults($limit);
+        }
 
         return $queryBuilder->getQuery()->getResult();
     }
@@ -38,5 +41,14 @@ class PaymentOrderRepository extends ServiceEntityRepository
             ->orderBy('po.due_date', 'ASC');
 
         return $queryBuilder->getQuery()->getResult();
+    }
+
+    public function countPaymentOrdersToValidate()
+    {
+        $queryBuilder = $this->createQueryBuilder('po')
+            ->select('COUNT(po.id)')
+            ->andWhere('po.value_date is NULL');
+
+        return $queryBuilder->getQuery()->getSingleScalarResult();
     }
 }
