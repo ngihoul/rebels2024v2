@@ -322,7 +322,7 @@ license:
         pay_by_transfer: 'Je paye par virement'
         transfer_instructions: 'Effectue le virement comme suit :'
         change_payment_method: 'Changer de moyen de paiement'
-        custom_payment_plan: 'Ton plan de paiement personnalisé'
+        custom_payment_plan: 'Ton plan de paiement'
         amount: 'Montant'
         deadline: 'Echéance'
         actions: 'Actions'
@@ -478,10 +478,10 @@ payment:
         refuse: 'Refuser le plan de paiement'
     index:
         title: 'Paiements'
-        payment_plan_request: 'Demande de plan de paiement'
+        payment_plan_request: 'Plans de paiement'
         no_payment_plan_request:
             "Il n'y a aucune demande de plan de paiement en attente."
-        payment_order: 'Ordres de paiement à valider'
+        payment_order: 'Ordres de paiement'
         no_payment_order: "Il n'y a aucun ordre de paiement à valider."
     table:
         player: 'Joueur'

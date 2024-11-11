@@ -24,7 +24,7 @@
 		{{ parent() }}
 
 		{% if pendingEvents|length > 0 %}
-			<h2>{{ "agenda.waiting_reply"|trans }}</h2>
+			<h2><i class="fa-solid fa-clock-rotate-left"></i> {{ "agenda.waiting_reply"|trans }}</h2>
 			<div class="card-event-wrapper">
 				{% for pendingEvent in pendingEvents %}
 					<div class="card card-event-container">
@@ -48,7 +48,7 @@
 			</div>
 		{% endif %}
 
-		<h2>{{ "agenda.next_events"|trans }}</h2>
+		<h2><i class="fa-regular fa-calendar"></i> {{ "agenda.next_events"|trans }}</h2>
 
 		{% if futureEvents|length > 0 %}
 			<div class="card-event-wrapper">

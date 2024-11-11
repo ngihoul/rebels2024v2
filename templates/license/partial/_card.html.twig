@@ -117,7 +117,7 @@
         {% elseif license.status == LICENSE_DOC_VALIDATED and license.payments|length > 0 %}
             <div class="payment-card">
             {% if (license.payments[0].paymentType == BY_BANK_TRANSFER) %}
-                    <h2>{{ 'license.card.pay_by_transfer'|trans }}</h2>
+                    <h2><i class="fas fa-exchange-alt"></i> {{ 'license.card.pay_by_transfer'|trans }}</h2>
                     <div class="transfer-data">
                         <h3>{{ 'license.card.transfer_instructions'|trans }}</h3>
 
@@ -129,7 +129,7 @@
                     <a class="btn btn-cta" href="{{ path('app_license_delete_bank_transfer', { licenseId : license.id }) }}">{{ 'license.card.change_payment_method'|trans }}</a>
                 
             {% elseif license.payments[0].paymentType == BY_PAYMENT_PLAN %}
-                <h2>{{ 'license.card.custom_payment_plan'|trans }}</h2>
+                <h2><i class="fas fa-hand-holding-usd"></i> {{ 'license.card.custom_payment_plan'|trans }}</h2>
                 <div class="payment-plan-request-data">
                 {% if license.payments[0].status == PAYMENT_ACCEPTED %}
                     <table class="payment-orders-table">

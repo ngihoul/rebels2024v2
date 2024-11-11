@@ -7,7 +7,7 @@
     <h1>{{ 'stat.title'|trans }}</h1>
     <div class="training-container">
         <div class="heading-container">
-            <h2>{{ 'stat.presence_training'|trans }}</h2>
+            <h2><i class="fas fa-running"></i> {{ 'stat.presence_training'|trans }}</h2>
             {% if yearsForTrainingStats|length > 0 %}
                 <select id="yearTrainingSelect">
                 {% for year in yearsForTrainingStats %}
@@ -23,7 +23,7 @@
 
     <div class="game-container">
         <div class="heading-container">
-            <h2>{{ 'stat.presence_game'|trans }}</h2>
+            <h2><i class="fas fa-trophy"></i> {{ 'stat.presence_game'|trans }}</h2>
             {% if yearsForGameStats|length > 0 %}
                 <select id="yearGameSelect">
                 {% for year in yearsForGameStats %}

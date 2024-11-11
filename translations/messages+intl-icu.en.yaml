@@ -309,7 +309,7 @@ license:
         pay_by_transfer: 'Pay by bank transfer'
         transfer_instructions: 'Make the transfer as follows:'
         change_payment_method: 'Change payment method'
-        custom_payment_plan: 'Your customized payment plan'
+        custom_payment_plan: 'Your payment plan'
         amount: 'Amount'
         deadline: 'Deadline'
         actions: 'Actions'
@@ -464,7 +464,7 @@ payment:
         title: 'Payments'
         payment_plan_request: 'Payment plan request'
         no_payment_plan_request: 'There are no pending payment plan requests.'
-        payment_order: 'Payment orders to validate'
+        payment_order: 'Payment orders'
         no_payment_order: 'There are no payment orders to validate.'
     table:
         player: 'Player'

@@ -69,6 +69,7 @@ button,
     border-radius: 50%;
     background-color: $color-primary;
     color: $color-background;
+    margin-left: 1.6rem;
     @include btnBoxShadow();
 
     transition: all 0.2s ease-in-out;

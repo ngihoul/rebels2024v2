@@ -1,8 +1,7 @@
 @media screen and (min-width: $min-desktop) {
-  .message-cards-container {
-    display: flex;
-    flex-wrap: wrap;
-    margin-right: -1.6rem;
-    margin-top: 1.6rem;
-  }
+    .message-cards-container {
+        display: flex;
+        flex-wrap: wrap;
+        margin-right: -1.6rem;
+    }
 }
