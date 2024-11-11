@@ -1,4 +1,4 @@
-{% include 'emails/header.html.twig' with { 'email_subject': "children.turn_16.parent.subject"|trans({}, "emails") } %}
+{% include 'emails/header_cron.html.twig' with { 'email_subject': "children.turn_16.parent.subject"|trans({}, "emails") } %}
 
 <!-- 1 Column Text + Button : BEGIN -->
 <tr>
@@ -27,4 +27,4 @@
 		</table>
 	</td>
 </tr>
-<!-- 1 Column Text + Button : END --></table><!-- Email Body : END -->{% include 'emails/footer.html.twig' %}
+<!-- 1 Column Text + Button : END --></table><!-- Email Body : END -->{% include 'emails/footer_cron.html.twig' %}
