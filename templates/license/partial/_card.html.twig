@@ -170,6 +170,14 @@
                             {% endfor %}
                         </tbody>
                     </table>
+                    <div class="transfer-data">
+                        <h3>{{ 'license.card.transfer_instructions'|trans }}</h3>
+
+                        <p>Liège Rebels Baseball & Softball Club</p>
+                        <p>IBAN : BE22 3601 0058 3447</p>
+                        <p>Communication : {{ license.user.lastName|upper }} {{ license.user.firstname }} - COTISATION {{ license.season }}
+                        <p>{{ 'license.card.amount'|trans }} : {{ license.price|format_currency('EUR') }}
+                    </div>
                 {% else %}
                     <p class="alert alert-warning">{{ 'license.card.payment_plan_awaiting'|trans }}</p>
                 {% endif %}
