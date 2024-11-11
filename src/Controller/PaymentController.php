@@ -152,7 +152,7 @@ class PaymentController extends AbstractController
                 $this->entityManager->persist($payment);
 
                 // Create PaymentOrder
-                $paymentOrder = $this->createPaymentOrder($payment, $license);
+                $paymentOrder = $this->createPaymentOrder($payment, $license, new \DateTimeImmutable(), new \DateTimeImmutable());
                 $this->entityManager->persist($paymentOrder);
 
                 // Update License status
@@ -169,6 +169,7 @@ class PaymentController extends AbstractController
                 $this->validateOrder($order);
 
                 if ($this->isFullyPaid($license)) {
+                    $order->getPayment()->setStatus(Payment::STATUS_COMPLETED);
                     $this->setLicenseInOrder($license);
                 }
                 $this->entityManager->persist($order);
@@ -219,7 +220,11 @@ class PaymentController extends AbstractController
         $this->entityManager->persist($payment);
 
         // Create PaymentOrder
-        $paymentOrder = $this->createPaymentOrder($payment, $license, new \DateTimeImmutable('+1 month'));
+        // Create a date for the last day of the next month
+        $nextMonth = new \DateTimeImmutable('first day of next month');
+        $lastDayNextMonth = $nextMonth->modify('last day of this month');
+
+        $paymentOrder = $this->createPaymentOrder($payment, $license, $lastDayNextMonth);
         $this->entityManager->persist($paymentOrder);
 
         $this->entityManager->flush();
@@ -348,7 +353,7 @@ class PaymentController extends AbstractController
     }
 
     // Create PaymentOrder object
-    private function createPaymentOrder(Payment $payment, License $license, DateTimeImmutable $dueDate = new \DateTimeImmutable(), DateTimeImmutable $valueDate = new \DateTimeImmutable()): PaymentOrder
+    private function createPaymentOrder(Payment $payment, License $license, DateTimeImmutable $dueDate = new \DateTimeImmutable(), DateTimeImmutable $valueDate = NULL): PaymentOrder
     {
         $paymentOrder = new PaymentOrder();
         $paymentOrder->setPayment($payment);
