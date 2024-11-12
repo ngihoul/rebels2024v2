@@ -1,0 +1,48 @@
+<div class="card-event-wrapper">
+
+    {% for event in events %}
+
+        {% if isFutureEvent %}
+            {% set customClass = '' %}
+            {% for attendee in event.attendees %}
+                {% if attendee.user == app.user and attendee.userResponse == '1' %}
+                    {% set customClass = 'present' %}
+                {% elseif attendee.user == app.user and attendee.userResponse == '0' %}
+                    {% set customClass = 'absent' %}
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+
+        <div class="card card-event-container {{ isFutureEvent ? customClass : '' }}">
+            <div class="info-event">
+                <a href="{{ path('app_agenda_detail', { 'id' : event.id }) }}">
+                    <p class="event-date">{{ event.date|date("d/m/Y") }}
+                        -
+                        {{ event.timeFrom|format_datetime('none', 'short') }}</p>
+                    <p class="event-type">[{{ event.team.name }}]
+                        {{ event.name }}</p>
+                </a>
+            </div>
+
+            {% if isFutureEvent %}
+                {% for attendee in event.attendees %}
+                    {% if attendee.user == app.user and ( attendee.userResponse == '1' or attendee.userResponse == '0' ) %}
+                        <div class="response-event">
+                            <a class="btn response-event-yes {{ attendee.userResponse == true ? '' : 'disabled' }}" href="{{ path('app_agenda_response', { 'id' : event.id, 'result' : 'accept' }) }}"><i class="fa-solid fa-check"></i></a>
+                            <a class="btn response-event-no {{ attendee.userResponse == false ? '' : 'disabled' }}" href="{{ path('app_agenda_response', { 'id' : event.id, 'result' : 'decline' }) }}"><i class="fa-solid fa-xmark"></i></a>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+
+            {% else %}
+
+                <div class="response-event">
+                    <a class="btn response-event-yes" href="{{ path('app_agenda_response', { 'id' : event.id, 'result' : 'accept' }) }}" title="{{ "agenda.accept"|trans }}"><i class="fa-solid fa-check"></i></a>
+                    <a class="btn response-event-no" href="{{ path('app_agenda_response', { 'id' : event.id, 'result' : 'decline' }) }}" title="{{ "agenda.decline"|trans }}"><i class="fa-solid fa-xmark"></i></a>
+                </div>
+
+            {% endif %}
+
+        </div>
+    {% endfor %}
+</div>

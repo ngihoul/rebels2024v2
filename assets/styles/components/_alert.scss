@@ -11,7 +11,9 @@
         background-color: $color-bg-danger;
         border-color: $color-border-danger;
 
-        & > p {
+        & > p,
+        & > a {
+            display: block;
             color: $color-danger;
             background-color: $color-bg-danger;
             border-color: $color-border-danger;
@@ -19,9 +21,14 @@
     }
 
     &-warning {
-        color: #856404;
-        background-color: #fff3cd;
-        border-color: #ffeeba;
+        color: $color-warning;
+        background-color: $color-bg-warning;
+        border-color: $color-border-warning;
+
+        & > a {
+            display: block;
+            color: #856404;
+        }
     }
 
     &-success {

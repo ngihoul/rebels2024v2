@@ -3,9 +3,8 @@
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    padding-bottom: 0.8rem;
     border-top: 0.5rem solid $color-border;
-    margin-bottom: 2.4rem;
+    margin-bottom: 1.6rem;
 
     &.present {
         border-top-color: $color-border-success;
@@ -103,18 +102,14 @@
     .card-event-wrapper {
         display: flex;
         flex-wrap: wrap;
-        margin-right: -0.8rem;
+        gap: 1.6rem;
     }
 
     .card-event-container {
-        width: calc(33% - 0.8rem);
         min-width: 350px;
         min-height: 155px;
-        margin-bottom: 0.8rem;
-
-        &:not(:nth-child(3n)) {
-            margin-right: 0.8rem;
-        }
+        margin-bottom: 0;
+        flex-grow: 1;
 
         .info-event {
             width: 80%;

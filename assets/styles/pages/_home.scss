@@ -1,8 +1,4 @@
 .container-home {
-    .section-container {
-        margin-bottom: 1.6rem;
-    }
-
     .to-do-list ul li {
         margin: 0.8rem 0;
     }
@@ -11,16 +7,11 @@
         list-style-type: disc;
         margin: 0.8rem 1.8rem;
     }
-
-    .todo-container,
-    .message-container {
-        margin-bottom: 2.4rem;
-    }
 }
 
 @media screen and (min-width: $min-desktop) {
     .container-home {
-        .section-container {
+        .flex-container {
             display: flex;
             flex-wrap: wrap;
 
@@ -30,24 +21,12 @@
             }
 
             .left-column {
-                padding-right: 1.6rem;
+                padding-right: 0.8rem;
             }
 
             .right-column {
-                padding-left: 1.6rem;
+                padding-left: 0.8rem;
             }
-        }
-
-        .card-event-container {
-            margin-right: 0.8rem;
-
-            &:not(:nth-child(3n)) {
-                margin-right: 0.8rem;
-            }
-        }
-
-        .message-card {
-            margin-right: 0.8rem;
         }
 
         .todo-container,
@@ -61,9 +40,12 @@
             margin-bottom: 3.2rem;
         }
 
+        .todo-container {
+            margin-bottom: 1.6rem;
+        }
+
         .message-container {
             .message-card {
-                width: calc(50% - 0.8rem);
                 min-width: 350px;
             }
         }

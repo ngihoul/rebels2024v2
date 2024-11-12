@@ -24,7 +24,7 @@ h2 {
     font-size: 1.3rem;
     font-weight: 600;
     padding-bottom: 1.6rem;
-    margin-bottom: 1.6rem;
+    margin-bottom: 0.8rem;
 
     // Line under heading
     &:before {
@@ -68,7 +68,7 @@ label {
 }
 
 .container {
-    padding: 2.4rem 1.2rem;
+    padding: 3.2rem 1.2rem;
 }
 
 .heading-container {
@@ -85,19 +85,17 @@ label {
     }
 }
 
+section,
+.pending-events {
+    margin-bottom: 3.2rem;
+}
+
 .card {
     border: 1px solid $color-border;
     border-radius: $border-radius;
-    margin: 0 0.8rem 1.6rem 0;
+    margin-bottom: 1.6rem;
     padding: 0.8rem;
     @include boxShadow();
-
-    &:hover {
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-        transform: translateY(-2px);
-
-        transition: all 0.2s ease;
-    }
 }
 
 @media screen and (min-width: $min-desktop) {
@@ -120,6 +118,10 @@ label {
         h2 {
             width: auto;
         }
+    }
+
+    .card {
+        margin-bottom: 0;
     }
 }
 

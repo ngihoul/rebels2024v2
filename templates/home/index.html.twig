@@ -9,200 +9,111 @@
 {% endblock %}
 
 {% block body %}
-	<div class="container container-home">
+<div class="container container-home">
 
-		<div class="heading-container">
-			<h1>Clubhouse</h1>
-		</div>
+	<div class="heading-container">
+		<h1>Clubhouse</h1>
+	</div>
 
-		{# Display flash messages #}
-		{{ parent() }}
+	{# Display flash messages #}
+	{{ parent() }}
 
-		<div class="section-container">
+	<div class="flex-container">
 
-			{# Confirmation modal when archiving a message #}
-			{% include 'shared/modal_confirmation.html.twig' with { 'id': 'confirmation-modal', 'message' : "modal.message"|trans, "confirmButtonText" : "modal.btn.archive"|trans } %}
+		{# Confirmation modal when archiving a message #}
+		{% include 'shared/modal_confirmation.html.twig' with { 'id': 'confirmation-modal', 'message' : "modal.message"|trans, "confirmButtonText" : "modal.btn.archive"|trans } %}
 
-			<div class="left-column">
-				<div class="todo-container">
-					<h2><i class="fa-solid fa-list-check"></i> To Do list</h2>
-					{% if activeLicenses|length == 0 %}
-						<div class="to-do-list">
-							<ul>
-								{% if missingFields is not empty %}
-									<li class="alert alert-error">
-										<a href="{{ path('app_profile_update') }}">
-											{{ "homepage.missing_fields"|trans }}
-											{{ missingFields|map(field => ("profile." ~ field)|trans)|join(', ') }}
-										</a>
-									</li>
-								{% endif %}
+		<div class="left-column">
+			<section class="todo-container">
+				<h2><i class="fa-solid fa-list-check"></i> To Do list</h2>
+				{% if activeLicenses|length == 0 %}
+					<div class="to-do-list">
+						<ul>
+							{% if missingFields is not empty %}
+								<li class="alert alert-error">
+									<a href="{{ path('app_profile_update') }}">
+										{{ "homepage.missing_fields"|trans }}
+										{{ missingFields|map(field => ("profile." ~ field)|trans)|join(', ') }}
+									</a>
+								</li>
+							{% endif %}
 
-								{% if pendingLicense is null %}
-									<li class="alert alert-warning">
-										<a href="{{ path('app_license_create') }}">{{ "homepage.ask_license"|trans }}</a>
-									</li>
-								{% elseif pendingLicense.status == 1 %}
-									<li class="alert alert-warning">
-										<a href="{{ path('app_license_generate', { 'licenseId' : pendingLicense.id }) }}">{{ "homepage.download_license"|trans }}</a>
-									</li>
-								{% elseif pendingLicense.status == 2 %}
-									<li class="alert alert-warning">
-										<a href="{{ path('app_license_upload', { 'licenseId' : pendingLicense.id }) }}">{{ "homepage.send_back_license"|trans }}</a>
-									</li>
-								{% elseif pendingLicense.status == 3 %}
-									<li class="alert alert-warning">{{ "homepage.license_to_validate"|trans }}</li>
-								{% elseif pendingLicense.status == 4 %}
-									<li class="alert alert-warning">
-										<a href="{{ path('app_license', { 'licenseId' : pendingLicense.id }) }}">{{ "homepage.pay_license"|trans }}</a>
-									</li>
-								{% endif %}
+							{% if pendingLicense is null %}
+								<li class="alert alert-warning">
+									<a href="{{ path('app_license_create') }}">{{ "homepage.ask_license"|trans }}</a>
+								</li>
+							{% elseif pendingLicense.status == 1 %}
+								<li class="alert alert-warning">
+									<a href="{{ path('app_license_generate', { 'licenseId' : pendingLicense.id }) }}">{{ "homepage.download_license"|trans }}</a>
+								</li>
+							{% elseif pendingLicense.status == 2 %}
+								<li class="alert alert-warning">
+									<a href="{{ path('app_license_upload', { 'licenseId' : pendingLicense.id }) }}">{{ "homepage.send_back_license"|trans }}</a>
+								</li>
+							{% elseif pendingLicense.status == 3 %}
+								<li class="alert alert-warning">{{ "homepage.license_to_validate"|trans }}</li>
+							{% elseif pendingLicense.status == 4 %}
+								<li class="alert alert-warning">
+									<a href="{{ path('app_license', { 'licenseId' : pendingLicense.id }) }}">{{ "homepage.pay_license"|trans }}</a>
+								</li>
+							{% endif %}
 
-								{% if isUnreadMessage > 0 %}
-									<li class="alert alert-warning">
-										<a href="{{ path('app_messages') }}">{{ "homepage.read_messages"|trans }}</a>
-									</li>
-								{% endif %}
+							{% if isUnreadMessage > 0 %}
+								<li class="alert alert-warning">
+									<a href="{{ path('app_messages') }}">{{ "homepage.read_messages"|trans }}</a>
+								</li>
+							{% endif %}
 
-								{% if app.user.children|length > 0 and awaiting_actions_children_count(app.user) > 0 %}
-									<li class="alert alert-warning">
-										<p>{{ "homepage.actions_children"|trans({ 'count' : awaiting_actions_children_count(app.user), 'children_count':app.user.children|length }) }}</p>
-									</li>
-								{% endif %}
-							</ul>
-						</div>
-					{% else %}
-						<p>{{ 'homepage.no_task'|trans }}</p>
-					{% endif %}
-				</div>
+							{% if app.user.children|length > 0 and awaiting_actions_children_count(app.user) > 0 %}
+								<li class="alert alert-warning">
+									<p>{{ "homepage.actions_children"|trans({ 'count' : awaiting_actions_children_count(app.user), 'children_count':app.user.children|length }) }}</p>
+								</li>
+							{% endif %}
+						</ul>
+					</div>
+				{% else %}
+					<p class="alert alert-success">{{ 'homepage.no_task'|trans }}</p>
+				{% endif %}
+			</section>
 
-				<div class="agenda-container">
-					{% if pendingEvents|length > 0 %}
+			<section class="agenda-container">
+				
+				<div class="pending-events">
 					<h2><i class="fa-solid fa-clock-rotate-left"></i> {{ "agenda.waiting_reply"|trans }}</h2>
-					<div class="card-event-wrapper">
-						{% for pendingEvent in pendingEvents %}
-							<div class="card card-event-container">
-
-								<div class="info-event">
-									<a href="{{ path('app_agenda_detail', { 'id' : pendingEvent.id }) }}">
-										<p class="event-date">{{ pendingEvent.date|date("d/m/Y") }}
-											-
-											{{ pendingEvent.timeFrom|format_datetime('none', 'short') }}</p>
-										<p class="event-type">[{{ pendingEvent.team.name }}]
-											{{ pendingEvent.name }}</p>
-									</a>
-								</div>
-
-								<div class="response-event">
-									<a class="btn response-event-yes" href="{{ path('app_agenda_response', { 'id' : pendingEvent.id, 'result' : 'accept' }) }}" title="{{ "agenda.accept"|trans }}"><i class="fa-solid fa-check"></i></a>
-									<a class="btn response-event-no" href="{{ path('app_agenda_response', { 'id' : pendingEvent.id, 'result' : 'decline' }) }}" title="{{ "agenda.decline"|trans }}"><i class="fa-solid fa-xmark"></i></a>
-								</div>
-							</div>
-						{% endfor %}
-					</div>
-					{% endif %}
-
-
-					<h2><i class="fa-regular fa-calendar"></i> {{ "homepage.next_event"|trans }}</h2>
-
-					{% if futureEvents|length > 0 %}
-					<div class="card-event-wrapper">
-						{% for futureEvent in futureEvents %}
-							{% set customClass = '' %}
-							{% for attendee in futureEvent.attendees %}
-								{% if attendee.user == app.user and attendee.userResponse == '1' %}
-									{% set customClass = 'present' %}
-								{% elseif attendee.user == app.user and attendee.userResponse == '0' %}
-									{% set customClass = 'absent' %}
-								{% endif %}
-							{% endfor %}
-
-							<div class="card card-event-container {{ customClass }}">
-								<div class="info-event">
-									<a href="{{ path('app_agenda_detail', { 'id' : futureEvent.id }) }}">
-										<p class="event-date">{{ futureEvent.date|date("d/m/Y") }}
-											-
-											{{ futureEvent.timeFrom|format_datetime('none', 'short') }}</p>
-										<p class="event-type">[{{ futureEvent.team.name }}]
-											{{ futureEvent.name }}</p>
-									</a>
-								</div>
-
-								{% for attendee in futureEvent.attendees %}
-									{% if attendee.user == app.user and ( attendee.userResponse == '1' or attendee.userResponse == '0' ) %}
-										<div class="response-event">
-											<a class="btn response-event-yes {{ attendee.userResponse == true ? '' : 'disabled' }}" href="{{ path('app_agenda_response', { 'id' : futureEvent.id, 'result' : 'accept' }) }}"><i class="fa-solid fa-check"></i></a>
-											<a class="btn response-event-no {{ attendee.userResponse == false ? '' : 'disabled' }}" href="{{ path('app_agenda_response', { 'id' : futureEvent.id, 'result' : 'decline' }) }}"><i class="fa-solid fa-xmark"></i></a>
-										</div>
-									{% endif %}
-								{% endfor %}
-
-							</div>
-						{% endfor %}
-					</div>
+					{% if pendingEvents|length > 0 %}
+						{% include 'shared/_card_event.html.twig' with { 'events': pendingEvents, 'isFutureEvent' : false } %}
 					{% else %}
 						<p class="alert alert-warning">{{ 'agenda.no_event'|trans }}</p>
 					{% endif %}
 				</div>
 				
-			</div>
-
-			<div class="right-column">
-				<div class="message-container">
-					<h2><i class="fa-regular fa-envelope"></i> {{ "homepage.last_messages"|trans }}</h2>
-
-					{% if messages|length > 0 %}
-					<div class="message-cards-container">
-						{% for message in messages %}
-							<div class="message-card">
-								<a href="{{ path('app_message_detail', { 'messageId' : message.0.id }) }}">
-									{% if message.status is same as(false) %}
-										<div class="badge badge-unread"></div>
-									{% endif %}
-									<div class="message-data">
-										<div class="author-container">
-											<i class="fa-solid fa-user"></i>
-											<p>{{  message.0.sender.firstname }}{{ message.0.sender.lastname }}</p>
-										</div>
-
-										<div class="date-container">
-											<i class="fa-solid fa-calendar-days"></i>
-											<p>{{ message.0.createdAt|format_datetime(locale=app.request.locale) }}</p>
-										</div>
-									</div>
-
-									<h2 class="title">
-										{% if message.0.isArchived %}
-											<span class="is_archived">[{{ 'message.index.archived'|trans }}]
-											</span>
-										{% endif %}
-										{{ message.0.title }}
-									</h2>
-
-									<p class="content">{{ message.0.content|slice(0,200)|striptags|raw }}
-										...</p>
-								</a>
-								{% if not message.0.isArchived and is_granted('ROLE_ADMIN') %}
-									<div class="actions">
-										<a href="{{ path('app_message_update', { 'messageId' : message.0.id }) }}" class="btn"><i class="fa-regular fa-pen-to-square"></i> {{ 'message.index.btn.modify'|trans }}</a>
-										<a data-action-url=" {{ path('app_message_archive', { 'messageId' : message.0.id }) }}" class="btn btn-danger delete-button"><i class="fa-regular fa-folder-open"></i> {{ 'message.index.btn.archive'|trans }}</a>
-									</div>
-								{% endif %}
-							</div>
-						{% endfor %}
-					</div>
+				<div class="future-events">
+					<h2><i class="fa-regular fa-calendar"></i> {{ "homepage.next_event"|trans }}</h2>
+					{% if futureEvents|length > 0 %}
+						{% include 'shared/_card_event.html.twig' with { 'events': futureEvents, 'isFutureEvent' : true } %}
 					{% else %}
-						<p class="alert alert-warning">{{ 'message.index.no_message'|trans }}</p>
+						<p class="alert alert-warning">{{ 'agenda.no_event'|trans }}</p>
 					{% endif %}
 				</div>
-			</div>
+				
+			</section>
+		</div>
 
-			
+		<div class="right-column">
+			<section class="message-container">
+				<h2><i class="fa-regular fa-envelope"></i> {{ "homepage.last_messages"|trans }}</h2>
+				{% if messages|length > 0 %}
+					{% include 'shared/_card_message.html.twig' with { 'messages': messages } %}
+				{% else %}
+					<p class="alert alert-warning">{{ 'message.index.no_message'|trans }}</p>
+				{% endif %}
+			</section>
 		</div>
 	</div>
+</div>
 
-	{% block javascript %}
-		{{ encore_entry_script_tags('modalConfirmation') }}
-	{% endblock %}
+{% block javascript %}
+	{{ encore_entry_script_tags('modalConfirmation') }}
+{% endblock %}
 
 {% endblock %}
