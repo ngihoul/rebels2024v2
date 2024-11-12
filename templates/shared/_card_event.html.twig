@@ -16,20 +16,25 @@
         <div class="card card-event-container {{ isFutureEvent ? customClass : '' }}">
             <div class="info-event">
                 <a href="{{ path('app_agenda_detail', { 'id' : event.id }) }}">
-                    <p class="event-date">{{ event.date|date("d/m/Y") }}
+                    <p class="event-date {% if event.isCancelled %}cancelled{% endif %}">
+                        {% if event.isCancelled %}
+                            <span class="cancelled-label">[{{ 'agenda.cancelled'|trans }}]
+                            </span>
+                        {% endif %}
+                        {{ event.date|date("d/m/Y") }}
                         -
                         {{ event.timeFrom|format_datetime('none', 'short') }}</p>
-                    <p class="event-type">[{{ event.team.name }}]
+                    <p class="event-type {% if event.isCancelled %}cancelled{% endif %}">[{{ event.team.name }}]
                         {{ event.name }}</p>
                 </a>
             </div>
 
             {% if isFutureEvent %}
                 {% for attendee in event.attendees %}
-                    {% if attendee.user == app.user and ( attendee.userResponse == '1' or attendee.userResponse == '0' ) %}
+                    {% if attendee.user == app.user and ( attendee.userResponse == '1' or attendee.userResponse == '0' ) and event.isCancelled == false %}
                         <div class="response-event">
-                            <a class="btn response-event-yes {{ attendee.userResponse == true ? '' : 'disabled' }}" href="{{ path('app_agenda_response', { 'id' : event.id, 'result' : 'accept' }) }}"><i class="fa-solid fa-check"></i></a>
-                            <a class="btn response-event-no {{ attendee.userResponse == false ? '' : 'disabled' }}" href="{{ path('app_agenda_response', { 'id' : event.id, 'result' : 'decline' }) }}"><i class="fa-solid fa-xmark"></i></a>
+                            <a class="btn response-event-yes {{ attendee.userResponse == true ? '' : 'disabled' }}" href="{{ path('app_agenda_response', { 'id' : event.id, 'result' : 'accept' }) }}">V</a>
+                            <a class="btn response-event-no {{ attendee.userResponse == false ? '' : 'disabled' }}" href="{{ path('app_agenda_response', { 'id' : event.id, 'result' : 'decline' }) }}">X</a>
                         </div>
                     {% endif %}
                 {% endfor %}
@@ -41,6 +46,20 @@
                     <a class="btn response-event-no" href="{{ path('app_agenda_response', { 'id' : event.id, 'result' : 'decline' }) }}" title="{{ "agenda.decline"|trans }}"><i class="fa-solid fa-xmark"></i></a>
                 </div>
 
+            {% endif %}
+
+            {% if isAdmin %}
+                {% if ( is_granted('ROLE_ADMIN') or is_granted('ROLE_COACH') ) and event.isCancelled == false %}
+                    <div class="admin-btn">
+                        <a class="btn btn-invite" href="{{ path('app_agenda_invitation', { 'id' : event.id } ) }}">{{ "agenda.invite"|trans }}</a>
+                        <a class="icon icon-edit" href="{{ path('app_agenda_update', { 'id' : event.id }) }}">
+                            <i class="fa-regular fa-pen-to-square"></i>
+                        </a>
+                        <a class="icon icon-delete delete-button" data-action-url="{{ path('app_agenda_delete', { 'id' : event.id }) }}">
+                            <i class="fa-solid fa-trash"></i>
+                        </a>
+                    </div>
+                {% endif %}
             {% endif %}
 
         </div>

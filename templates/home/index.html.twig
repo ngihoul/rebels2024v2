@@ -81,7 +81,7 @@
 				<div class="pending-events">
 					<h2><i class="fa-solid fa-clock-rotate-left"></i> {{ "agenda.waiting_reply"|trans }}</h2>
 					{% if pendingEvents|length > 0 %}
-						{% include 'shared/_card_event.html.twig' with { 'events': pendingEvents, 'isFutureEvent' : false } %}
+						{% include 'shared/_card_event.html.twig' with { 'events': pendingEvents, 'isFutureEvent' : false, 'isAdmin' : false } %}
 					{% else %}
 						<p class="alert alert-warning">{{ 'agenda.no_event'|trans }}</p>
 					{% endif %}
@@ -90,7 +90,7 @@
 				<div class="future-events">
 					<h2><i class="fa-regular fa-calendar"></i> {{ "homepage.next_event"|trans }}</h2>
 					{% if futureEvents|length > 0 %}
-						{% include 'shared/_card_event.html.twig' with { 'events': futureEvents, 'isFutureEvent' : true } %}
+						{% include 'shared/_card_event.html.twig' with { 'events': futureEvents, 'isFutureEvent' : true, 'isAdmin' : false } %}
 					{% else %}
 						<p class="alert alert-warning">{{ 'agenda.no_event'|trans }}</p>
 					{% endif %}

@@ -7,8 +7,7 @@
 {% endblock %}
 
 {% block body %}
-	<div
-		class="container container-agenda">
+	<div class="container container-agenda">
 
 		{# Confirmation modal when deleting an event #}
 		{% include 'shared/modal_confirmation.html.twig' with { 'id' : 'confirmation-modal', 'message' : "modal.event"|trans } %}
@@ -23,92 +22,28 @@
 		{# Flash messages #}
 		{{ parent() }}
 
-		{% if pendingEvents|length > 0 %}
-			<h2><i class="fa-solid fa-clock-rotate-left"></i> {{ "agenda.waiting_reply"|trans }}</h2>
-			<div class="card-event-wrapper">
-				{% for pendingEvent in pendingEvents %}
-					<div class="card card-event-container">
+		<section class="agenda-container">
+			<div class="pending-events">
+				<h2><i class="fa-solid fa-clock-rotate-left"></i> {{ "agenda.waiting_reply"|trans }}</h2>
+				{% if pendingEvents|length > 0 %}
+					{% include 'shared/_card_event.html.twig' with { 'events': pendingEvents, 'isFutureEvent' : false, 'isAdmin' : false } %}
+				{% else %}
+					<p class="alert alert-warning">{{ 'agenda.no_event'|trans }}
+				{% endif %}
+			</div>
 
-						<div class="info-event">
-							<a href="{{ path('app_agenda_detail', { 'id' : pendingEvent.id }) }}">
-								<p class="event-date">{{ pendingEvent.date|date("d/m/Y") }}
-									-
-									{{ pendingEvent.timeFrom|format_datetime('none', 'short') }}</p>
-								<p class="event-type">[{{ pendingEvent.team.name }}]
-									{{ pendingEvent.name }}</p>
-							</a>
-						</div>
-
-						<div class="response-event">
-							<a class="btn response-event-yes" href="{{ path('app_agenda_response', { 'id' : pendingEvent.id, 'result' : 'accept' }) }}" title="{{ "agenda.accept"|trans }}">V</a>
-							<a class="btn response-event-no" href="{{ path('app_agenda_response', { 'id' : pendingEvent.id, 'result' : 'decline' }) }}" title="{{ "agenda.decline"|trans }}">X</a>
-						</div>
+			<div class="future-events">
+				<h2><i class="fa-regular fa-calendar"></i> {{ "agenda.next_events"|trans }}</h2>
+				{% if futureEvents|length > 0 %}
+					{% include 'shared/_card_event.html.twig' with { 'events': futureEvents, 'isFutureEvent' : true, 'isAdmin' : true } %}
+					<div class="pagination">
+						{{ knp_pagination_render(futureEvents) }}
 					</div>
-				{% endfor %}
+				{% else %}
+					<p class="alert alert-warning">{{ "agenda.no_event"|trans }}</p>
+				{% endif %}
 			</div>
-		{% endif %}
-
-		<h2><i class="fa-regular fa-calendar"></i> {{ "agenda.next_events"|trans }}</h2>
-
-		{% if futureEvents|length > 0 %}
-			<div class="card-event-wrapper">
-				{% for futureEvent in futureEvents %}
-
-					{% set customClass = '' %}
-					{% for attendee in futureEvent.attendees %}
-						{% if attendee.user == app.user and attendee.userResponse == '1' %}
-							{% set customClass = 'present' %}
-						{% elseif attendee.user == app.user and attendee.userResponse == '0' %}
-							{% set customClass = 'absent' %}
-						{% endif %}
-					{% endfor %}
-
-					<div class="card card-event-container {{ customClass }}">
-						<div class="info-event">
-							<a href="{{ path('app_agenda_detail', { 'id' : futureEvent.id }) }}">
-								<p class="event-date {% if futureEvent.isCancelled %}cancelled{% endif %}">
-									{% if futureEvent.isCancelled %}
-										<span class="cancelled-label">[{{ 'agenda.cancelled'|trans }}]
-										</span>
-									{% endif %}
-									{{ futureEvent.date|date("d/m/Y") }}
-									-
-									{{ futureEvent.timeFrom|format_datetime('none', 'short') }}</p>
-								<p class="event-type {% if futureEvent.isCancelled %}cancelled{% endif %}">[{{ futureEvent.team.name }}]
-									{{ futureEvent.name }}</p>
-							</a>
-						</div>
-
-						{% for attendee in futureEvent.attendees %}
-							{% if attendee.user == app.user and ( attendee.userResponse == '1' or attendee.userResponse == '0' ) and futureEvent.isCancelled == false %}
-								<div class="response-event">
-									<a class="btn response-event-yes {{ attendee.userResponse == true ? '' : 'disabled' }}" href="{{ path('app_agenda_response', { 'id' : futureEvent.id, 'result' : 'accept' }) }}">V</a>
-									<a class="btn response-event-no {{ attendee.userResponse == false ? '' : 'disabled' }}" href="{{ path('app_agenda_response', { 'id' : futureEvent.id, 'result' : 'decline' }) }}">X</a>
-								</div>
-							{% endif %}
-						{% endfor %}
-
-						{% if ( is_granted('ROLE_ADMIN') or is_granted('ROLE_COACH') ) and futureEvent.isCancelled == false %}
-							<div class="admin-btn">
-								<a class="btn btn-invite" href="{{ path('app_agenda_invitation', { 'id' : futureEvent.id } ) }}">{{ "agenda.invite"|trans }}</a>
-								<a class="icon icon-edit" href="{{ path('app_agenda_update', { 'id' : futureEvent.id }) }}">
-									<i class="fa-regular fa-pen-to-square"></i>
-								</a>
-								<a class="icon icon-delete delete-button" data-action-url="{{ path('app_agenda_delete', { 'id' : futureEvent.id }) }}">
-									<i class="fa-solid fa-trash"></i>
-								</a>
-							</div>
-						{% endif %}
-
-					</div>
-				{% endfor %}
-			</div>
-			<div class="pagination">
-				{{ knp_pagination_render(futureEvents) }}
-			</div>
-		{% else %}
-			<p class="alert alert-warning">{{ "agenda.no_event"|trans }}</p>
-		{% endif %}
+		</section>
 	</div>
 
 	{% block javascript %}

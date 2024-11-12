@@ -1,24 +1,15 @@
-.pagination {
-  display: flex;
-  justify-content: center;
-  margin-top: 0.8rem;
+.container-agenda {
+    .pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 0.8rem;
 
-  & > span {
-    margin-right: 0.8rem;
-    font-size: 1.1rem;
-  }
-}
-
-.cancelled {
-  text-decoration: line-through;
-}
-
-.cancelled-label {
-  color: red;
+        & > span {
+            margin-right: 0.8rem;
+            font-size: 1.1rem;
+        }
+    }
 }
 
 @media screen and (min-width: $min-desktop) {
-  .card-event-container {
-    display: flex;
-  }
 }
