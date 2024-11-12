@@ -25,8 +25,12 @@
                     {{ message.0.title }}
                 </h2>
 
-                <p class="content">{{ message.0.content|slice(0,200)|striptags|raw }}
-                    ...</p>
+                {% set content = message.0.content|striptags %}
+                {% if content|length > 200 %}
+                    <p class="content">{{ content|slice(0,200)|raw }}...</p>
+                {% else %}
+                    <p class="content">{{ content|raw }}</p>
+                {% endif %}
             </a>
             {% if not message.0.isArchived and is_granted('ROLE_ADMIN') %}
                 <div class="actions">
