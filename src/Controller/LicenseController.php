@@ -3,8 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\License;
-use App\Entity\Payment;
-use App\Entity\PaymentOrder;
 use App\Form\LicenseType;
 use App\Form\UploadLicenseType;
 use App\Repository\LicenseRepository;
