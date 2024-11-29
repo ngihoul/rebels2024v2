@@ -8,10 +8,12 @@ use App\Repository\RelationTypeRepository;
 use App\Service\EmailManager;
 use App\Service\ProfilePictureManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -23,62 +25,69 @@ class ChildrenController extends AbstractController
     private TranslatorInterface $translator;
     private ProfilePictureManager $profilePictureManager;
     private EmailManager $emailManager;
+    private TokenStorageInterface $tokenStorage;
 
-    public function __construct(EntityManagerInterface $entityManager, RelationTypeRepository $relationTypeRepository, TranslatorInterface $translator, ProfilePictureManager $profilePictureManager, EmailManager $emailManager)
+    public function __construct(EntityManagerInterface $entityManager, RelationTypeRepository $relationTypeRepository, TranslatorInterface $translator, ProfilePictureManager $profilePictureManager, EmailManager $emailManager, TokenStorageInterface $tokenStorage)
     {
         $this->entityManager = $entityManager;
         $this->relationTypeRepository = $relationTypeRepository;
         $this->translator = $translator;
         $this->profilePictureManager = $profilePictureManager;
         $this->emailManager = $emailManager;
+        $this->tokenStorage = $tokenStorage;
     }
 
     #[Route('/create', name: 'app_children_create')]
     public function create(Request $request): Response
     {
-        $action = 'create';
+        try {
+            $action = 'create';
 
-        $child = new User();
-        $form = $this->createForm(ChildType::class, $child);
+            $child = new User();
+            $form = $this->createForm(ChildType::class, $child);
 
-        $form->handleRequest($request);
+            $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $relationType = $this->getRelationType($form);
-            if (!$relationType) {
-                return $this->redirectToRoute('app_register');
+            if ($form->isSubmitted() && $form->isValid()) {
+                $relationType = $this->getRelationType($form);
+                if (!$relationType) {
+                    return $this->redirectToRoute('app_register');
+                }
+
+                $user = $this->getUser();
+                $this->setChildAddressIfSameAsParent($form, $child, $user);
+                $child->setParent($user, $relationType);
+
+                $this->addParentRoleIfNeeded($user);
+
+                $child->setRoles(['ROLE_CHILD']);
+
+                if (!$this->handleProfilePicture($form, $child)) {
+                    return $this->redirectToRoute('app_children_create');
+                }
+
+                if ($child->canUseApp()) {
+                    $child->setCanUseAppBy($user);
+                    $child->setCanUseAppFromDate(new \DateTimeImmutable());
+
+                    $this->emailManager->inviteChildToChoosePassword($child);
+                }
+
+                $this->saveChild($child);
+
+                $this->addFlash('success', $this->translator->trans('success.children_created'));
+
+                return $this->redirectToRoute('app_profile');
             }
 
-            $user = $this->getUser();
-            $this->setChildAddressIfSameAsParent($form, $child, $user);
-            $child->setParent($user, $relationType);
-
-            $this->addParentRoleIfNeeded($user);
-
-            $child->setRoles(['ROLE_CHILD']);
-
-            if (!$this->handleProfilePicture($form, $child)) {
-                return $this->redirectToRoute('app_children_create');
-            }
-
-            if ($child->canUseApp()) {
-                $child->setCanUseAppBy($user);
-                $child->setCanUseAppFromDate(new \DateTimeImmutable());
-
-                $this->emailManager->inviteChildToChoosePassword($child);
-            }
-
-            $this->saveChild($child);
-
-            $this->addFlash('success', $this->translator->trans('success.children_created'));
-
-            return $this->redirectToRoute('app_profile');
+            return $this->render('children/form.html.twig', [
+                'form' => $form->createView(),
+                'action' => $action
+            ]);
+        } catch (Exception $e) {
+            $this->addFlash('error', $this->translator->trans('error.children_created'));
+            return $this->redirectToRoute('app_children_create');
         }
-
-        return $this->render('children/form.html.twig', [
-            'form' => $form->createView(),
-            'action' => $action
-        ]);
     }
 
     private function getRelationType($form)
@@ -114,10 +123,8 @@ class ChildrenController extends AbstractController
             $this->entityManager->persist($user);
             $this->entityManager->flush();
 
-            $this->container->get('session')->start();
-            $token = new UsernamePasswordToken($user, 'main', $userRoles);
-            $this->container->get('security.token_storage')->setToken($token);
-            $this->container->get('session')->set('_security_main', serialize($token));
+            $newToken = new UsernamePasswordToken($user, 'main', $userRoles);
+            $this->tokenStorage->setToken($newToken);
         }
     }
 
