@@ -23,15 +23,17 @@ class LoginController extends AbstractController
     #[Route('/login', name: 'app_login')]
     public function index(AuthenticationUtils $authenticationUtils, TranslatorInterface $translator, Request $request, SessionInterface $session): Response
     {
+        $user = $this->getUser();
+
         // Denied access if user is already logged in.
-        if ($this->getUser()) {
+        if ($user) {
             $this->addFlash('error', $translator->trans('error.already_logged'));
             return $this->redirectToRoute('app_home', ['_locale' => $request->getLocale()]);
         }
 
         // Clean session
-        $this->session->clear('step');
-        $this->session->clear('user_choice');
+        $this->session->remove('step');
+        $this->session->remove('user_choice');
 
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
@@ -39,8 +41,8 @@ class LoginController extends AbstractController
         $lastUsername = $authenticationUtils->getLastUsername();
 
         // Assuming the user is authenticated here, store the user ID in the session
-        if ($this->getUser()) {
-            $session->set('activeUser', $this->getUser()->getId());
+        if ($user) {
+            $session->set('activeUser', $user->getId());
         }
 
         return $this->render('login/index.html.twig', [
