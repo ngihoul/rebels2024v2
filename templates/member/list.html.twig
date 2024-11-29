@@ -130,7 +130,7 @@
                     <td class="license_document">
                     {% for license in member.licenses %}
                         {% if license.uploadedFile %}
-                            <a class="" href="{{ asset('uploads/licenses/' ~ license.uploadedFile) }}" target="_blank"><i class="fa-regular fa-file-pdf icon"></i></a>
+                            <a class="" href="{{ path('app_license_download', { 'licenseId' : license.id, 'type' : 'upload' }) }}" target="_blank"><i class="fa-regular fa-file-pdf icon"></i></a>
                         {% endif %}
                     {% endfor %}
                     </td>
