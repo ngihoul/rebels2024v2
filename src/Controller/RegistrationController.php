@@ -37,7 +37,7 @@ class RegistrationController extends AbstractController
     private UserRepository $userRepository;
     private EntityManagerInterface $entityManager;
     private ProfilePictureManager $profilePictureManager;
-    private SessionInterface $session;
+    private RequestStack $requestStack;
     private EmailManager $emailManager;
     private RelationTypeRepository $relationTypeRepository;
 
@@ -58,7 +58,7 @@ class RegistrationController extends AbstractController
         $this->userRepository = $userRepository;
         $this->entityManager = $entityManager;
         $this->profilePictureManager = $profilePictureManager;
-        $this->session = $requestStack->getSession();
+        $this->requestStack = $requestStack;
         $this->emailManager = $emailManager;
         $this->relationTypeRepository = $relationTypeRepository;
     }
@@ -72,8 +72,8 @@ class RegistrationController extends AbstractController
 
         $this->initializeStep();
 
-        $step = $this->session->get('step');
-        $userChoice = $this->session->get('user_choice');
+        $step = $this->requestStack->getSession()->get('step');
+        $userChoice = $this->requestStack->getSession()->get('user_choice');
 
         $user = new User();
 
@@ -95,8 +95,8 @@ class RegistrationController extends AbstractController
 
     private function initializeStep(): void
     {
-        if (!$this->session->has('step')) {
-            $this->session->set('step', $this::USER_CHOICE);
+        if (!$this->requestStack->getSession()->has('step')) {
+            $this->requestStack->getSession()->set('step', $this::USER_CHOICE);
         }
     }
 
@@ -122,15 +122,15 @@ class RegistrationController extends AbstractController
         } elseif ($userChoice === 'parent' && $step === $this::CHILDREN_REGISTRATION) {
             return $this->handleChildrenRegistrationStep($form);
         } elseif ($userChoice === 'player' && $step === $this::CHILDREN_REGISTRATION) {
-            $this->session->clear();
+            $this->requestStack->getSession()->clear();
             return $this->redirectToRoute('app_home');
         }
     }
 
     private function handleUserChoiceStep(FormInterface $form): Response
     {
-        $this->session->set('user_choice', $form->getData()['user_choice']);
-        $this->session->set('step', $this::USER_REGISTRATION);
+        $this->requestStack->getSession()->set('user_choice', $form->getData()['user_choice']);
+        $this->requestStack->getSession()->set('step', $this::USER_REGISTRATION);
 
         return $this->redirectToRoute('app_register');
     }
@@ -143,7 +143,7 @@ class RegistrationController extends AbstractController
         $this->hashPassword($form, $user);
         $this->profilePictureManager->handleProfilePicture($form, $user);
 
-        if ($this->session->get('user_choice') == 'parent') {
+        if ($this->requestStack->getSession()->get('user_choice') == 'parent') {
             $user->setRoles(['ROLE_PARENT']);
         }
 
@@ -154,8 +154,8 @@ class RegistrationController extends AbstractController
 
         $this->addFlash('success', $this->translator->trans('success.account_created'));
 
-        $this->session->set('step', $this::CHILDREN_REGISTRATION);
-        $this->session->set('user_id', $user->getId());
+        $this->requestStack->getSession()->set('step', $this::CHILDREN_REGISTRATION);
+        $this->requestStack->getSession()->set('user_id', $user->getId());
 
         return $this->redirectToRoute('app_register');
     }
@@ -172,9 +172,9 @@ class RegistrationController extends AbstractController
 
     private function handleChildrenRegistrationStep(FormInterface $form): Response
     {
-        $user = $this->userRepository->find($this->session->get('user_id'));
+        $user = $this->userRepository->find($this->requestStack->getSession()->get('user_id'));
         if (!$user) {
-            $this->session->clear();
+            $this->requestStack->getSession()->clear();
             $this->addFlash('error', $this->translator->trans('error.user_not_found'));
             return $this->redirectToRoute('app_register');
         }
@@ -188,7 +188,7 @@ class RegistrationController extends AbstractController
             $relationType = $this->relationTypeRepository->find($relationTypeId);
 
             if (!$relationType) {
-                $this->session->clear();
+                $this->requestStack->getSession()->clear();
                 $this->addFlash('error', $this->translator->trans('error.relation_type_not_found'));
                 return $this->redirectToRoute('app_register');
             }
@@ -217,7 +217,7 @@ class RegistrationController extends AbstractController
             try {
                 $this->profilePictureManager->handleProfilePicture($form->get('children')->get($index), $child);
             } catch (\Exception $e) {
-                $this->session->clear();
+                $this->requestStack->getSession()->clear();
                 $this->addFlash('error', $this->translator->trans('error.profile_picture'));
                 return $this->redirectToRoute('app_register');
             }
@@ -229,7 +229,7 @@ class RegistrationController extends AbstractController
 
         $this->addFlash('success', $this->translator->trans('success.children_created'));
 
-        $this->session->clear();
+        $this->requestStack->getSession()->clear();
 
         return $this->redirectToRoute('app_home');
     }
@@ -262,7 +262,7 @@ class RegistrationController extends AbstractController
                 'form' => $form->createView(),
             ]);
         } elseif ($userChoice === 'player' && $step === $this::CHILDREN_REGISTRATION) {
-            $this->session->clear();
+            $this->requestStack->getSession()->clear();
             return $this->redirectToRoute('app_home');
         }
     }
