@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{  parent() }} | {{ 'payment.index.payment_order'|trans }} {% endblock %}
+
+{% block body %}
+    <div class="container container-payments">
+        <h1>{{ 'payment.index.payment_order'|trans }} ({{ paymentOrdersToValidate }})</h1>
+
+        {{ parent() }}
+
+        {% if paymentOrders|length > 0 %}
+            {{ include('/admin/payment/partial/_order_table.html.twig', { 'paymentOrders' : paymentOrders }) }}
+        {% else %}
+            <p class="alert alert-warning">{{ 'payment.index.no_payment_order'|trans }}</p>
+        {% endif %}
+        
+    </div>
+{% endblock %}
