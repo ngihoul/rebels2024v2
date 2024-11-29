@@ -214,35 +214,101 @@ class MessageController extends AbstractController
         $sentToTeams = $form->get('sentToTeams')->getData();
         $sentToUsers = $form->get('sentToUsers')->getData();
 
+        // Consolidate players from teams into sentToUsers
         foreach ($sentToTeams as $team) {
             foreach ($team->getPlayers() as $player) {
-                // Only add player only if he doesn't belong to a team
                 if (!in_array($player, $sentToUsers->toArray(), true)) {
                     $sentToUsers[] = $player;
                 }
             }
         }
 
+        $isSentByMail = $form->get('sent_by_mail')->getData();
+
         foreach ($sentToUsers as $user) {
-            // Check if users has already received the message. If yes, don't send him again
-            $existingReceiver = $this->messageStatusRepository->findOneBy(['message' => $message, 'receiver' => $user]);
+            if ($this->messageStatusRepository->findOneBy(['message' => $message, 'receiver' => $user])) {
+                continue; // Skip if user already received the message
+            }
 
-            if (!$existingReceiver) {
-                $messageStatus = new MessageStatus();
-                $messageStatus->setReceiver($user);
-                $messageStatus->setMessage($message);
+            $this->handleUserMessage($message, $user);
 
-                $this->entityManager->persist($messageStatus);
-
-                // Send Mail if asked
-                $isSentByMail = $form->get('sent_by_mail')->getData();
-
-                if ($isSentByMail) {
-                    $this->emailManager->sendEmail($user->getEmail(), $this->translator->trans('message.subject', [], 'emails'), 'message', ['message' => $message]);
-                }
+            if ($isSentByMail) {
+                $this->sendAppropriateMail($user, $message);
             }
         }
 
         $this->entityManager->flush();
+    }
+
+    private function handleUserMessage(Message $message, $user)
+    {
+        if ($user->getAge() < 16) {
+            $this->createMessageForParents($message, $user);
+        } elseif ($user->getAge() < 18) {
+            $this->createMessageForParents($message, $user);
+            $this->persistMessageStatus($message, $user);
+        } else {
+            $this->persistMessageStatus($message, $user);
+        }
+    }
+
+    private function createMessageForParents(Message $message, $user)
+    {
+        foreach ($user->getParents() as $parent) {
+            $this->persistMessageStatus($message, $parent);
+        }
+    }
+
+    private function persistMessageStatus(Message $message, $receiver)
+    {
+        $messageStatus = $this->createMessageStatus($receiver, $message);
+        $this->entityManager->persist($messageStatus);
+    }
+
+    private function sendAppropriateMail($user, Message $message)
+    {
+        if ($user->getAge() < 16) {
+            // Send email only to parents
+            foreach ($user->getParents() as $parent) {
+                $this->sendMail($parent->getEmail(), $message);
+            }
+        } elseif ($user->getAge() < 18) {
+            // Send email to parents and optionally to the user (if eligible)
+            foreach ($user->getParents() as $parent) {
+                $this->sendMail($parent->getEmail(), $message);
+            }
+
+            if ($this->canSendEmailToUser($user)) {
+                $this->sendMail($user->getEmail(), $message);
+            }
+        } else {
+            // Send email only to the user
+            $this->sendMail($user->getEmail(), $message);
+        }
+    }
+
+    private function canSendEmailToUser($user): bool
+    {
+        // Check if email exists in the database and if the user can use the app
+        return !empty($user->getEmail()) && $user->canUseApp();
+    }
+
+    private function sendMail($email, Message $message)
+    {
+        $this->emailManager->sendEmail(
+            $email,
+            $this->translator->trans('message.subject', [], 'emails'),
+            'message',
+            ['message' => $message]
+        );
+    }
+
+    private function createMessageStatus($user, $message)
+    {
+        $messageStatus = new MessageStatus();
+        $messageStatus->setReceiver($user);
+        $messageStatus->setMessage($message);
+
+        return $messageStatus;
     }
 }
