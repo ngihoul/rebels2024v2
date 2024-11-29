@@ -48,6 +48,7 @@ error:
     invalid_csrf_token: 'The CSRF token is invalid. Please try again.'
     relation_type_not_found: 'The relation type does not exist.'
     profile_picture: 'An error occurred while uploading the profile picture.'
+    children_created: 'An error occurred while adding the child.'
 
 success:
     profile_updated: 'Your profile has been updated.'

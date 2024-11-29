@@ -52,6 +52,7 @@ error:
     relation_type_not_found: "Le type de relation n'a pas été trouvé."
     profile_picture:
         "Une erreur est survenue lors de l'upload de la photo de profil."
+    children_created: "Une erreur est survenue lors de l'ajout de l'enfant."
 
 success:
     profile_updated: 'Ton profil a été mis à jour.'
