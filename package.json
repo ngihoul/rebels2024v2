@@ -22,7 +22,7 @@
         "mailhog": "~/go/bin/MailHog"
     },
     "dependencies": {
-        "chart.js": "^4.4.2",
+        "chart.js": "^4.4.4",
         "ckeditor4": "4.21.0",
         "leaflet": "^1.9.4",
         "leaflet-control-geocoder": "^2.4.0"
