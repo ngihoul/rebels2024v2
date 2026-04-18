@@ -139,11 +139,4 @@ Votre application sera accessible à l'adresse http://localhost:8000.
 
 ---
 
-# Rebels' Clubhouse en production
-
-L'application Rebels' Clubhouse est accessible en production via ce lien
-https://clubhouse.liegebaseball.be
-
----
-
 Auteur : Nicolas Gihoul
